@@ -1,0 +1,2602 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PROJECT VERSION</title>
+  <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+  <style>
+
+
+/*
+Based on Minimal CSS (minimalcss.com) under the MIT license.
+*/
+
+/* Reset */
+* { margin: 0; padding: 0; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+
+/* Layout */
+body { font: 14px/20px -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+
+.container { position: relative; max-width: 90%; margin: 0 auto; }
+
+/* Typography */
+a { color: #105CB6; text-decoration: none; }
+a:hover, a:focus { color: #105CB6; text-decoration: underline; }
+a:active { color: #105CB6; }
+
+h1 { font-size: 24px; line-height: 20px; margin: 10px 0; }
+h2 { font-size: 20px; line-height: 20px; margin: 10px 0; }
+h3 { font-size: 16px; line-height: 20px; margin: 10px 0; }
+h4 { font-size: 14px; line-height: 20px; margin: 10px 0; }
+h5 { font-size: 12px; line-height: 20px; margin: 10px 0; }
+h5 { font-size: 10px; line-height: 20px; margin: 10px 0; }
+
+p { margin-bottom: 10px; }
+
+.float-left     { float: left; }
+.float-right    { float: right; }
+img.float-left  { float: left; margin: 0 20px 20px 0; }
+img.float-right { float: right; margin: 0 0 20px 20px; }
+img.center      { margin: 0 auto; display: block; }
+
+.text-left    { text-align: left; }
+.text-center  { text-align: center; }
+.text-right   { text-align: right; }
+.text-justify { text-align: justify; }
+
+/* List */
+ul { list-style-position:inside; }
+ol { list-style-position:inside; }
+
+/* Table */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+th { font-weight: bold; }
+tfoot { font-style: italic; }
+
+/* Metadata part */
+
+.metadata {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  font-size: 90%;
+}
+table.metadata td {
+  padding-right: 20px;
+}
+
+.stats {
+  padding-top: 5px;
+  padding-bottom: 20px;
+}
+.graph {
+  width: 100%;
+}
+.graph div { float: left; }
+.graph div:first-child { border-top-left-radius: 3px; border-bottom-left-radius: 3px; }
+.graph div:last-child { border-top-right-radius: 3px; border-bottom-right-radius: 3px; }
+.legend {
+  font-size: smaller;
+  padding-top: 12px;
+  text-align: center;
+}
+
+/* Translations */
+table.translations {
+  width: 100%;
+  table-layout: fixed;
+}
+table.translations th, table.translations td {
+  padding: 5px 10px;
+  vertical-align: top;
+  border-bottom: 1px solid #F1F1F1;
+}
+table.translations th {
+  text-align: left;
+}
+table.translations th:first-child, table.translations td:first-child { padding-left: 0; }
+table.translations th:last-child, table.translations td:last-child { padding-right: 0; }
+
+.with-comments td {
+  border-bottom: none !important;
+}
+tr.comments div {
+  float: left;
+  max-width: 90%;
+  font-size: smaller;
+}
+tr.comments div p:last-child { margin-bottom: 0; }
+tr.comments td { padding-top: 0; }
+
+.msgctxt {
+  font-size: smaller;
+  border-radius: 2px;
+  padding: 2px 4px;
+  margin-right: 4px;
+}
+
+
+/* Colors */
+
+body { background-color: #fff; color: #333; }
+
+.percent-done    { background-color: rgb(146, 236, 106); height: 10px; }
+.percent-fuzzy   { background-color: rgb(255, 149, 0); height: 10px; }
+.percent-untrans { background-color: #F1F1F1; height: 10px; }
+.legend          { color: #aaa; }
+tr.comments div  { color: #aaa; }
+.fuzzy .tra      { color: rgb(230, 134, 0); }
+
+.msgctxt         { color: rgb(70, 109, 137); background-color: rgb(217, 232, 242); }
+
+
+@media (prefers-color-scheme: dark) {
+    body             { background-color: rgb(45, 42, 41); color: #eee; }
+    .percent-untrans { background-color: rgba(255, 255, 255, 0.3); }
+    .legend          { color: rgba(255, 255, 255, 0.6); }
+    tr.comments div  { color: rgba(255, 255, 255, 0.6); }
+    .fuzzy .tra      { color: rgb(253, 178, 72); }
+    .msgctxt         { color: rgb(180, 222, 254); background-color: rgba(67, 94, 147, 0.6); }
+    table.translations th, table.translations td { border-bottom: 1px solid #333; }
+}
+
+
+  </style>
+</head>
+<body>
+<div class='container'>
+<table class='metadata'>
+<tr><td>Project:</td><td>PROJECT VERSION</td></tr>
+<tr><td>Language:</td><td>German</td></tr>
+</table>
+<div class='stats'>
+  <div class='graph'>
+    <div class='percent-done' style='width: 100%'>&nbsp;</div>
+  </div>
+  <div class='legend'>Translated: 387 of 387 (100 %)  </div>
+</div>
+<table class='translations'>
+  <thead>
+    <tr>
+      <th>Source text — English</th>
+      <th>Translation — German</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr class='i'>
+<td class='src'  lang='en'>
+Open invoices</td>
+<td class='tra'  lang='de'>
+Offene Rechnungen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Membership fee (paid/invoiced)</td>
+<td class='tra'  lang='de'>
+Mitgliedsbeitrag (bezahlt/in Rechnung gestellt)</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Invoiced this year (paid/total)</td>
+<td class='tra'  lang='de'>
+In diesem Jahr in Rechnung gestellt (bezahlt/gesamt)</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+No. of members</td>
+<td class='tra'  lang='de'>
+Mitgliederanzahl</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Not registered</td>
+<td class='tra'  lang='de'>
+Nicht registriert</td>
+</tr>
+<tr class='i with-comments'>
+<td class='src'  lang='en'>
+Children / Adults</td>
+<td class='tra'  lang='de'>
+Kinder/Erwachsene</td>
+</tr>
+<tr class='comments'>
+  <td colspan='2'><div><p>
+# should be "children"
+<br></p>
+</div></td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Membership fee paid</td>
+<td class='tra'  lang='de'>
+Mitgliedsbeitrag bezahlt</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+First day of the season</td>
+<td class='tra'  lang='de'>
+Erster Tag der Saison</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Club name</td>
+<td class='tra'  lang='de'>
+Club-Name</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Wrong validation code</td>
+<td class='tra'  lang='de'>
+Falscher Validierungscode</td>
+</tr>
+<tr class='i with-comments'>
+<td class='src'  lang='en'>
+Registrations have been reset</td>
+<td class='tra'  lang='de'>
+Registrierungen wurden zurückgesetzt</td>
+</tr>
+<tr class='comments'>
+  <td colspan='2'><div><p>
+# should be "have"
+<br></p>
+</div></td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Membership fee created for </td>
+<td class='tra'  lang='de'>
+Mitgliedsbeitrag erstellt für </td>
+</tr>
+<tr class='i with-comments'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>Some values were put back to default settings</span>Memberships have been reset</td>
+<td class='tra'  lang='de'>
+Mitgliedschaften wurden zurückgesetzt</td>
+</tr>
+<tr class='comments'>
+  <td colspan='2'><div><p>
+# should be "have"
+<br></p>
+</div></td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The invoice template has been saved.</td>
+<td class='tra'  lang='de'>
+Die Rechnungsvorlage wurde gespeichert.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The invoice template could not be saved.</td>
+<td class='tra'  lang='de'>
+Die Rechnungsvorlage konnte nicht gespeichert werden.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The invoice template has been deleted.</td>
+<td class='tra'  lang='de'>
+Die Rechnungsvorlage wurde gelöscht.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The invoice template could not be deleted.</td>
+<td class='tra'  lang='de'>
+Die Rechnungsvorlage konnte nicht gelöscht werden.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The invoice has been saved.</td>
+<td class='tra'  lang='de'>
+Die Rechnung wurde gespeichert.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The invoice could not be saved.</td>
+<td class='tra'  lang='de'>
+Die Rechnung konnte nicht gespeichert werden.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The invoice is already paid and can't be edited anymore</td>
+<td class='tra'  lang='de'>
+Die Rechnung wurde bereits bezahlt und kann nicht mehr bearbeitet werden</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Invoices have been updated</td>
+<td class='tra'  lang='de'>
+Rechnungen wurden aktualisiert</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Invoices has been validated</td>
+<td class='tra'  lang='de'>
+Rechnungen wurden validiert</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Invoices has been created</td>
+<td class='tra'  lang='de'>
+Rechnungen wurden erstellt</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Send checkbox has not been checked</td>
+<td class='tra'  lang='de'>
+Das Formularfeld „Senden“ wurde nicht markiert</td>
+</tr>
+<tr class='i with-comments'>
+<td class='src'  lang='en'>
+The PDF file doesn't exist</td>
+<td class='tra'  lang='de'>
+Die PDF-Datei existiert nicht</td>
+</tr>
+<tr class='comments'>
+  <td colspan='2'><div><p>
+# should be "doesn't exist"
+<br></p>
+</div></td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+No token for the member</td>
+<td class='tra'  lang='de'>
+Kein Token für das Mitglied</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+No email for the member</td>
+<td class='tra'  lang='de'>
+E-Mail-Adresse für Mitglied fehlt</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+New Invoice</td>
+<td class='tra'  lang='de'>
+Neue Rechnung</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Invoices have been sent</td>
+<td class='tra'  lang='de'>
+Rechnungen wurden gesendet</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Dear</td>
+<td class='tra'  lang='de'>
+Liebe(r)</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The configuration has been saved.</td>
+<td class='tra'  lang='de'>
+Die Konfiguration wurde gespeichert.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The configuration could not be saved.</td>
+<td class='tra'  lang='de'>
+Die Konfiguration konnte nicht gespeichert werden.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The configuration has been deleted.</td>
+<td class='tra'  lang='de'>
+Die Konfiguration wurde gelöscht.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The configuration could not be deleted.</td>
+<td class='tra'  lang='de'>
+Die Konfiguration konnte nicht gelöscht werden.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The content has been saved.</td>
+<td class='tra'  lang='de'>
+Der Inhalt wurde gespeichert.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The content could not be saved.</td>
+<td class='tra'  lang='de'>
+Der Inhalt konnte nicht gespeichert werden.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The content has been deleted.</td>
+<td class='tra'  lang='de'>
+Der Inhalt wurde gelöscht.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The content could not be deleted.</td>
+<td class='tra'  lang='de'>
+Der Inhalt konnte nicht gelöscht werden.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The field has been saved.</td>
+<td class='tra'  lang='de'>
+Das Feld wurde gespeichert.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The field could not be saved.</td>
+<td class='tra'  lang='de'>
+Das Feld konnte nicht gespeichert werden.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The field has been deleted.</td>
+<td class='tra'  lang='de'>
+Das Feld wurde gelöscht.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The field could not be deleted.</td>
+<td class='tra'  lang='de'>
+Das Feld konnte nicht gelöscht werden.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The team has been saved.</td>
+<td class='tra'  lang='de'>
+Die Gruppe wurde gespeichert.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The team could not be saved.</td>
+<td class='tra'  lang='de'>
+Die Gruppe konnte nicht gespeichert werden.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The meeting has been saved.</td>
+<td class='tra'  lang='de'>
+Der Termin wurde gespeichert.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The meeting could not be saved.</td>
+<td class='tra'  lang='de'>
+Der Termin konnte nicht gespeichert werden.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The meeting has been deleted.</td>
+<td class='tra'  lang='de'>
+Der Termin wurde gelöscht.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The meeting could not be deleted.</td>
+<td class='tra'  lang='de'>
+Der Termin konnte nicht gelöscht werden.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Failed to send picture</td>
+<td class='tra'  lang='de'>
+Bild konnte nicht gesendet werden</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+JPEG pictures only</td>
+<td class='tra'  lang='de'>
+Nur JPEG-Bilder</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The picture has been saved.</td>
+<td class='tra'  lang='de'>
+Das Bild wurde gespeichert.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The member already exists</td>
+<td class='tra'  lang='de'>
+Das Mitglied existiert bereits</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The member has been saved.</td>
+<td class='tra'  lang='de'>
+Das Mitglied wurde gespeichert.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The member could not be saved.</td>
+<td class='tra'  lang='de'>
+Das Mitglied konnte nicht gespeichert werden.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The member has been deleted.</td>
+<td class='tra'  lang='de'>
+Das Mitglied wurde gelöscht.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The member could not be deleted.</td>
+<td class='tra'  lang='de'>
+Das Mitglied konnte nicht gelöscht werden.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+You are already registered, we sent you a mail to get your login</td>
+<td class='tra'  lang='de'>
+Sie sind bereits registriert. Wir haben Ihnen eine E-Mail mit Login-Anweisungen geschickt</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+You have been registered. Check your mailbox for next step</td>
+<td class='tra'  lang='de'>
+Sie haben sich registriert. Prüfen Sie Ihren Posteingang für den nächsten Schritt</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+We were not able to save your registration. Please check all fields or contact us</td>
+<td class='tra'  lang='de'>
+Wir konnten Ihre Registrierung nicht speichern. Bitte überprüfen Sie alle Felder oder kontaktieren Sie uns</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Please sign the document</td>
+<td class='tra'  lang='de'>
+Bitte unterschreiben Sie das Dokument</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+You are now registered, it will be validated by a coach</td>
+<td class='tra'  lang='de'>
+Sie sind jetzt registriert. Ihre Registrierung muss noch von einem Trainer validiert werden</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+New member registered</td>
+<td class='tra'  lang='de'>
+Neues Mitglied registriert</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The member has just registred. You need to validate the signature.</td>
+<td class='tra'  lang='de'>
+Das Mitglied hat sich gerade erst angemeldet. Sie müssen die Unterschrift validieren.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The PDF cant't be created</td>
+<td class='tra'  lang='de'>
+PDF kann nicht erstellt werden</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+This language doesn't exists</td>
+<td class='tra'  lang='de'>
+Diese Sprache existiert nicht</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Signature approved</td>
+<td class='tra'  lang='de'>
+Unterschrift geprüft</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Your signature has been approved</td>
+<td class='tra'  lang='de'>
+Ihre Unterschrift wurde geprüft</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Signature not approved</td>
+<td class='tra'  lang='de'>
+Unterschrift nicht geprüft</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Your signature has not been approved, please do it again</td>
+<td class='tra'  lang='de'>
+Ihre Unterschrift wurde nicht zugelassen. Bitte wiederholen Sie den Vorgang</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Join our platform</td>
+<td class='tra'  lang='de'>
+Mitglied werden</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Invitation has been sent to </td>
+<td class='tra'  lang='de'>
+Die Einladung wurde gesendet an </td>
+</tr>
+<tr class='i with-comments'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>{0} is the club name</span>Your personal page at {0}</td>
+<td class='tra'  lang='de'>
+Ihre persönliche Seite bei {0}</td>
+</tr>
+<tr class='comments'>
+  <td colspan='2'><div><p>
+# should be "at", not "to"
+<br></p>
+</div></td>
+</tr>
+<tr class='i with-comments'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>{0} is the name of the club you join</span>Welcome to {0}</td>
+<td class='tra'  lang='de'>
+Willkommen bei {0}</td>
+</tr>
+<tr class='comments'>
+  <td colspan='2'><div><p>
+# should be "welcome"
+<br></p>
+</div></td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The role has been saved.</td>
+<td class='tra'  lang='de'>
+Die Rolle wurde gespeichert.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The role could not be saved.</td>
+<td class='tra'  lang='de'>
+Die Rolle konnte nicht gespeichert werden.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The site has been saved.</td>
+<td class='tra'  lang='de'>
+Die Website wurde gespeichert.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The site could not be saved.</td>
+<td class='tra'  lang='de'>
+Die Website konnte nicht gespeichert werden.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The site has been deleted.</td>
+<td class='tra'  lang='de'>
+Die Website wurde gelöscht.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The site could not be deleted.</td>
+<td class='tra'  lang='de'>
+Die Website konnte nicht gelöscht werden.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Invalid username or password</td>
+<td class='tra'  lang='de'>
+Benutzername oder Passwort ungültig</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Wrong password entered for {0}</td>
+<td class='tra'  lang='de'>
+Falsches Passwort für {0} eingegeben</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The user has been saved.</td>
+<td class='tra'  lang='de'>
+Der Benutzer wurde gespeichert.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The user could not be saved.</td>
+<td class='tra'  lang='de'>
+Der Benutzer konnte nicht gespeichert werden.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Please enter twice the same passowrd</td>
+<td class='tra'  lang='de'>
+Bitte geben Sie zweimal dasselbe Passwort ein</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+You have been successfully registered, now you can login</td>
+<td class='tra'  lang='de'>
+Sie haben sich erfolgreich registriert. Sie können sich jetzt einloggen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Reset your password</td>
+<td class='tra'  lang='de'>
+Passwort zurücksetzen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+If this email exists, a reset link has been sent to this one</td>
+<td class='tra'  lang='de'>
+Wenn diese E-Mail-Adresse existiert, wurde ein Link zum Zurücksetzen Ihres Passwortes dorthin gesendet</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Missing token</td>
+<td class='tra'  lang='de'>
+Token fehlt</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Your password has been updated</td>
+<td class='tra'  lang='de'>
+Ihr Passwort wurde aktualisiert</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Canceled</td>
+<td class='tra'  lang='de'>
+Storniert</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Paid</td>
+<td class='tra'  lang='de'>
+Bezahlt</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Late</td>
+<td class='tra'  lang='de'>
+Überfällig</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Sent</td>
+<td class='tra'  lang='de'>
+Gesendet</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Draft</td>
+<td class='tra'  lang='de'>
+Entwurf</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>In the way, it has been read</span>Read</td>
+<td class='tra'  lang='de'>
+Gelesen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Email</td>
+<td class='tra'  lang='de'>
+E-Mail</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Phone</td>
+<td class='tra'  lang='de'>
+Telefon</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Number</td>
+<td class='tra'  lang='de'>
+Nummer</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Checkbox</td>
+<td class='tra'  lang='de'>
+Checkbox</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Date</td>
+<td class='tra'  lang='de'>
+Datum</td>
+</tr>
+<tr class='i with-comments'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>Value type of a field</span>Text</td>
+<td class='tra'  lang='de'>
+Text</td>
+</tr>
+<tr class='comments'>
+  <td colspan='2'><div><p>
+# This means "text message", right?
+<br></p>
+</div></td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+{0}/{1}/{2}/{3}</td>
+<td class='tra'  lang='de'>
+{0}/{1}/{2}/{3}</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+No team</td>
+<td class='tra'  lang='de'>
+Keine Gruppe</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Unknown</td>
+<td class='tra'  lang='de'>
+Unbekannt</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Female</td>
+<td class='tra'  lang='de'>
+Weiblich</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Male</td>
+<td class='tra'  lang='de'>
+Männlich</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+-</td>
+<td class='tra'  lang='de'>
+-</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Letter</td>
+<td class='tra'  lang='de'>
+Buchstaben</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+{0}-{1}</td>
+<td class='tra'  lang='de'>
+{0}-{1}</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+French</td>
+<td class='tra'  lang='de'>
+Französisch</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+German</td>
+<td class='tra'  lang='de'>
+Deutsch</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+English</td>
+<td class='tra'  lang='de'>
+Englisch</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Spanish</td>
+<td class='tra'  lang='de'>
+Spanisch</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Italian</td>
+<td class='tra'  lang='de'>
+Italienisch</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Main configuration</td>
+<td class='tra'  lang='de'>
+Hauptkonfiguration</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Locations</td>
+<td class='tra'  lang='de'>
+Standorte</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Custom fields</td>
+<td class='tra'  lang='de'>
+Benutzerdefinierte Felder</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Teams</td>
+<td class='tra'  lang='de'>
+Gruppen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Members</td>
+<td class='tra'  lang='de'>
+Mitglieder</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Finances</td>
+<td class='tra'  lang='de'>
+Finanzen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Configuration</td>
+<td class='tra'  lang='de'>
+Konfiguration</td>
+</tr>
+<tr class='i with-comments'>
+<td class='src'  lang='en'>
+Generate membership fees for year {0}-{1}</td>
+<td class='tra'  lang='de'>
+Generierung von Mitgliedsbeiträgen für das Jahr {0}/{1}</td>
+</tr>
+<tr class='comments'>
+  <td colspan='2'><div><p>
+# Ist this a period of several years or a "school year"/"sports season" type of thing where two calender years count as one?
+<br></p>
+</div></td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Name</td>
+<td class='tra'  lang='de'>
+Name</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Age</td>
+<td class='tra'  lang='de'>
+Alter</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Team</td>
+<td class='tra'  lang='de'>
+Gruppe</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Membership fee</td>
+<td class='tra'  lang='de'>
+Mitgliedsbeitrag</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Coach</td>
+<td class='tra'  lang='de'>
+Trainer</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Create</td>
+<td class='tra'  lang='de'>
+Erstellen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Submit</td>
+<td class='tra'  lang='de'>
+Senden</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Check all</td>
+<td class='tra'  lang='de'>
+Alle markieren</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Check none</td>
+<td class='tra'  lang='de'>
+Nichts markieren</td>
+</tr>
+<tr class='i with-comments'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>Payment splited in multiple installments</span>Split payment</td>
+<td class='tra'  lang='de'>
+Ratenzahlung</td>
+</tr>
+<tr class='comments'>
+  <td colspan='2'><div><p>
+# Does this mean "a payment that is split", and if yes: between several people or into several installments?
+<br></p>
+</div></td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+New year</td>
+<td class='tra'  lang='de'>
+Neues Jahr</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+First day of this season</td>
+<td class='tra'  lang='de'>
+Erster Tag der Saison</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Update first day of the season</td>
+<td class='tra'  lang='de'>
+Ersten Tag der Saison aktualisieren</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Update current year</td>
+<td class='tra'  lang='de'>
+Laufendes Jahr aktualisieren</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Actions</td>
+<td class='tra'  lang='de'>
+Aktionen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Reset membership fees</td>
+<td class='tra'  lang='de'>
+Mitgliedsbeiträge zurücksetzen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Generate membership fees</td>
+<td class='tra'  lang='de'>
+Mitgliedsbeiträge generieren</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Reset registration</td>
+<td class='tra'  lang='de'>
+Registrierung zurücksetzen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+List invoice Templates</td>
+<td class='tra'  lang='de'>
+Rechnungsvorlagen anzeigen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Add invoice Template</td>
+<td class='tra'  lang='de'>
+Rechnungsvorlagen hinzufügen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Delete</td>
+<td class='tra'  lang='de'>
+Löschen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Are you sure you want to delete # {0}?</td>
+<td class='tra'  lang='de'>
+Wollen Sie {0} wirklich löschen?</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Edit invoice Template</td>
+<td class='tra'  lang='de'>
+Rechnungsvorlage bearbeiten</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+New invoice Template</td>
+<td class='tra'  lang='de'>
+Neue Rechnungsvorlage</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Invoice Templates</td>
+<td class='tra'  lang='de'>
+Rechnungsvorlagen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+View</td>
+<td class='tra'  lang='de'>
+Anzeigen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Edit</td>
+<td class='tra'  lang='de'>
+Bearbeiten</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+first</td>
+<td class='tra'  lang='de'>
+erste</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+previous</td>
+<td class='tra'  lang='de'>
+zurück</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+next</td>
+<td class='tra'  lang='de'>
+weiter</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+last</td>
+<td class='tra'  lang='de'>
+letzte</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total</td>
+<td class='tra'  lang='de'>
+Seite {{page}} von {{pages}} mit {{current}} von insgesamt {{count}} Datensätzen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Delete invoice Template</td>
+<td class='tra'  lang='de'>
+Rechnungsvorlage löschen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Id</td>
+<td class='tra'  lang='de'>
+ID</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Amount</td>
+<td class='tra'  lang='de'>
+Menge</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Membership Fee</td>
+<td class='tra'  lang='de'>
+Mitgliedsbeitrag</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Yes</td>
+<td class='tra'  lang='de'>
+Ja</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+No</td>
+<td class='tra'  lang='de'>
+Nein</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>Label on the invoice</span>Denomination</td>
+<td class='tra'  lang='de'>
+Benennung</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>Physical location</span>Site</td>
+<td class='tra'  lang='de'>
+Standort</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Add invoice to {0}</td>
+<td class='tra'  lang='de'>
+Rechnung hinzufügen zu {0}</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Printed</td>
+<td class='tra'  lang='de'>
+Gedruckt</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Due date</td>
+<td class='tra'  lang='de'>
+Fälligkeitsdatum</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Linked to a membership</td>
+<td class='tra'  lang='de'>
+Verknüpft mit einer Mitgliedschaft</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Templates</td>
+<td class='tra'  lang='de'>
+Vorlagen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Clear</td>
+<td class='tra'  lang='de'>
+Zurücksetzen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Active</td>
+<td class='tra'  lang='de'>
+Aktiv</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Passive</td>
+<td class='tra'  lang='de'>
+Passiv</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Invoice detail</td>
+<td class='tra'  lang='de'>
+Rechnungsinformationen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Batch validation</td>
+<td class='tra'  lang='de'>
+Gesammelt validieren</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Edit invoice</td>
+<td class='tra'  lang='de'>
+Rechnung bearbeiten</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+No. of reminders</td>
+<td class='tra'  lang='de'>
+Anzahl von Erinnerungen</td>
+</tr>
+<tr class='i with-comments'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>Status of the invoice (send, draft,...)</span>State</td>
+<td class='tra'  lang='de'>
+Status</td>
+</tr>
+<tr class='comments'>
+  <td colspan='2'><div><p>
+# In the sense of "country" or "federal state"?
+<br></p>
+</div></td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Generate reminders</td>
+<td class='tra'  lang='de'>
+Erinnerungen generieren</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Update PDF invoices</td>
+<td class='tra'  lang='de'>
+PDF-Rechnungen aktualisieren</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Add penalty fee</td>
+<td class='tra'  lang='de'>
+Mahngebühr hinzufügen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Open</td>
+<td class='tra'  lang='de'>
+Offen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Invoices</td>
+<td class='tra'  lang='de'>
+Rechnungen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Ref.</td>
+<td class='tra'  lang='de'>
+Ref.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Status</td>
+<td class='tra'  lang='de'>
+Status</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>Elements in a list</span>items</td>
+<td class='tra'  lang='de'>
+Objekte</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Draft invoices</td>
+<td class='tra'  lang='de'>
+Rechnungsentwürfe</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Send</td>
+<td class='tra'  lang='de'>
+Senden</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Member</td>
+<td class='tra'  lang='de'>
+Mitglied</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Valid</td>
+<td class='tra'  lang='de'>
+Gültig</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+I am sending emails to all checked members above</td>
+<td class='tra'  lang='de'>
+Ich sende E-Mails an alle markierten Mitglieder</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Send all emails</td>
+<td class='tra'  lang='de'>
+Alle E-Mails senden</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+This year</td>
+<td class='tra'  lang='de'>
+Dieses Jahr</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Two years</td>
+<td class='tra'  lang='de'>
+Zwei Jahre</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Three years</td>
+<td class='tra'  lang='de'>
+Drei Jahre</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Invoice overview</td>
+<td class='tra'  lang='de'>
+Rechnungsübersicht</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Add {0}CHF</td>
+<td class='tra'  lang='de'>
+{0} CHF hinzufügen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Invoice</td>
+<td class='tra'  lang='de'>
+Rechnung</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Invoice No {0} - {1}</td>
+<td class='tra'  lang='de'>
+Rechnungsnummer {0} - {1}</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+First reminder</td>
+<td class='tra'  lang='de'>
+Erste Zahlungserinnerung</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Reminder N°{0}</td>
+<td class='tra'  lang='de'>
+Zahlungserinnerung Nr. {0}</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+If you already paid this invoice, please contact us.</td>
+<td class='tra'  lang='de'>
+Wenn Sie diese Rechnung bereits bezahlt haben, kontaktieren Sie uns bitte.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Member No</td>
+<td class='tra'  lang='de'>
+Mitgliedsnummer</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Late payments will result in a reminder fee of {0} CHF</td>
+<td class='tra'  lang='de'>
+Verspätete Zahlungen führen zu einer Mahngebühr von {0} CHF</td>
+</tr>
+<tr class='i with-comments'>
+<td class='src'  lang='en'>
+In case of difficulty in payment, you can contact me for a payment in several installments</td>
+<td class='tra'  lang='de'>
+Im Falle von Zahlungsschwierigkeiten können Sie mich für eine Ratenzahlung kontaktieren</td>
+</tr>
+<tr class='comments'>
+  <td colspan='2'><div><p>
+# should be "installments", not "times"
+<br></p>
+</div></td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Payments via e-banking save us the cost of processing the inpayment slip.</td>
+<td class='tra'  lang='de'>
+Zahlungen per Onlinebanking ersparen uns die Bearbeitungskosten für den Zahlschein.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Beneficiary</td>
+<td class='tra'  lang='de'>
+Begünstigter</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Address</td>
+<td class='tra'  lang='de'>
+Adresse</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+IBAN</td>
+<td class='tra'  lang='de'>
+IBAN</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+BIC</td>
+<td class='tra'  lang='de'>
+BIC</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Description</td>
+<td class='tra'  lang='de'>
+Beschreibung</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>{0} is a date</span>To date, we have not received the {0} payment.</td>
+<td class='tra'  lang='de'>
+Bisher haben wir die Zahlung zum {0} noch nicht erhalten.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Location</td>
+<td class='tra'  lang='de'>
+Standort</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Original due date</td>
+<td class='tra'  lang='de'>
+Ursprüngliches Fälligkeitsdatum</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Created</td>
+<td class='tra'  lang='de'>
+Erstellt</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Modified</td>
+<td class='tra'  lang='de'>
+Geändert</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Confirmation</td>
+<td class='tra'  lang='de'>
+Bestätigung</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+List Configurations</td>
+<td class='tra'  lang='de'>
+Konfigurationen anzeigen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Edit Configuration</td>
+<td class='tra'  lang='de'>
+Konfiguration bearbeiten</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Configurations</td>
+<td class='tra'  lang='de'>
+Konfigurationen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Value</td>
+<td class='tra'  lang='de'>
+Wert</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>noun</span>Label</td>
+<td class='tra'  lang='de'>
+Beschriftung</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+List</td>
+<td class='tra'  lang='de'>
+Liste</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Add Content</td>
+<td class='tra'  lang='de'>
+Inhalt hinzufügen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Edit Content</td>
+<td class='tra'  lang='de'>
+Inhalt bearbeiten</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+New Content</td>
+<td class='tra'  lang='de'>
+Neuer Inhalt</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Contents</td>
+<td class='tra'  lang='de'>
+Inhalte</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Fees: {0}CHF, Size: {1}</td>
+<td class='tra'  lang='de'>
+Gebühren: {0} CHF, Größe: {1}</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Delete Content</td>
+<td class='tra'  lang='de'>
+Inhalt löschen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Url</td>
+<td class='tra'  lang='de'>
+URL</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+You are not authorized to go here</td>
+<td class='tra'  lang='de'>
+Sie haben keine Zugriffsberechtigung</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+List Fields</td>
+<td class='tra'  lang='de'>
+Felder auflisten</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Add Field</td>
+<td class='tra'  lang='de'>
+Feld hinzufügen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Style</td>
+<td class='tra'  lang='de'>
+Stil</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Allow member to edit</td>
+<td class='tra'  lang='de'>
+Bearbeitung durch Mitglied erlauben</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>Like alphabetical order</span>Order</td>
+<td class='tra'  lang='de'>
+Reihenfolge</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Edit Field</td>
+<td class='tra'  lang='de'>
+Feld bearbeiten</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+New Field</td>
+<td class='tra'  lang='de'>
+Neues Feld</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Fields</td>
+<td class='tra'  lang='de'>
+Felder</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Member can edit</td>
+<td class='tra'  lang='de'>
+Mitglied kann bearbeiten</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Delete Field</td>
+<td class='tra'  lang='de'>
+Feld löschen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Field Type</td>
+<td class='tra'  lang='de'>
+Feldtyp</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Add Team</td>
+<td class='tra'  lang='de'>
+Gruppe hinzufügen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Edit Team</td>
+<td class='tra'  lang='de'>
+Gruppe bearbeiten</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+New Team</td>
+<td class='tra'  lang='de'>
+Neue Gruppe</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Fees</td>
+<td class='tra'  lang='de'>
+Gebühren</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Meetings</td>
+<td class='tra'  lang='de'>
+Treffen</td>
+</tr>
+<tr class='i with-comments'>
+<td class='src'  lang='en'>
+Pre/Abs/Exc/Late</td>
+<td class='tra'  lang='de'>
+Anw/Abw/Ent/Versp</td>
+</tr>
+<tr class='comments'>
+  <td colspan='2'><div><p>
+# Not sure if regular abbreviations. Full words needed.
+<br></p>
+</div></td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Add Meeting</td>
+<td class='tra'  lang='de'>
+Treffen hinzufügen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Edit Meeting</td>
+<td class='tra'  lang='de'>
+Treffen bearbeiten</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Past</td>
+<td class='tra'  lang='de'>
+Früher</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Today</td>
+<td class='tra'  lang='de'>
+Heute</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Future</td>
+<td class='tra'  lang='de'>
+Demnächst</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Attendance</td>
+<td class='tra'  lang='de'>
+Anwesenheit</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Add Member</td>
+<td class='tra'  lang='de'>
+Mitglied hinzufügen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+First name</td>
+<td class='tra'  lang='de'>
+Vorname</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Last name</td>
+<td class='tra'  lang='de'>
+Nachname</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Date of birth</td>
+<td class='tra'  lang='de'>
+Geburtsdatum</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Gender</td>
+<td class='tra'  lang='de'>
+Geschlecht</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Postal code</td>
+<td class='tra'  lang='de'>
+Postleitzahl</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+City</td>
+<td class='tra'  lang='de'>
+Stadt</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Mobile</td>
+<td class='tra'  lang='de'>
+Mobiltelefon</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Home phone</td>
+<td class='tra'  lang='de'>
+Festnetztelefon</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Nationality</td>
+<td class='tra'  lang='de'>
+Staatsangehörigkeit</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Family discount</td>
+<td class='tra'  lang='de'>
+Familienrabatt</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Communication Method</td>
+<td class='tra'  lang='de'>
+Kommunikationsmethode</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Is coach</td>
+<td class='tra'  lang='de'>
+Ist Trainer</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Payment slip</td>
+<td class='tra'  lang='de'>
+Zahlschein</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Add a picture</td>
+<td class='tra'  lang='de'>
+Bild hinzufügen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Signature of</td>
+<td class='tra'  lang='de'>
+Unterschrift von</td>
+</tr>
+<tr class='i with-comments'>
+<td class='src'  lang='en'>
+Signature of legal guardian/parent</td>
+<td class='tra'  lang='de'>
+Unterschrift eines Erziehungsberechtigten</td>
+</tr>
+<tr class='comments'>
+  <td colspan='2'><div><p>
+# Actually "legal representative" or "legal guardian/parent"?
+<br># -&gt; I set "legal guardian/parent", this is the person responsible for a child
+<br></p>
+</div></td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+of</td>
+<td class='tra'  lang='de'>
+von</td>
+</tr>
+<tr class='i with-comments'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>Title for signing the membership for this season</span>Registration agreement</td>
+<td class='tra'  lang='de'>
+Mitgliedschaftsvertrag</td>
+</tr>
+<tr class='comments'>
+  <td colspan='2'><div><p>
+# "Agreement" in the sense of "contract" or "consent"?
+<br></p>
+</div></td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>{} are years of the season</span>Season {0}-{1}</td>
+<td class='tra'  lang='de'>
+Saison {0}/{1}</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Registration</td>
+<td class='tra'  lang='de'>
+Registrierung</td>
+</tr>
+<tr class='i with-comments'>
+<td class='src'  lang='en'>
+Registration of {0} for year {1}-{2}</td>
+<td class='tra'  lang='de'>
+Registrierung von {0} für das Jahr {1}/{2}</td>
+</tr>
+<tr class='comments'>
+  <td colspan='2'><div><p>
+# Ist this a period of several years or a "school year"/"sports season" type of thing where two calender years count as one?
+<br></p>
+</div></td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+January</td>
+<td class='tra'  lang='de'>
+Januar</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+February</td>
+<td class='tra'  lang='de'>
+Februar</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+March</td>
+<td class='tra'  lang='de'>
+März</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+April</td>
+<td class='tra'  lang='de'>
+April</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+May</td>
+<td class='tra'  lang='de'>
+Mai</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+June</td>
+<td class='tra'  lang='de'>
+Juni</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+July</td>
+<td class='tra'  lang='de'>
+Juli</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+August</td>
+<td class='tra'  lang='de'>
+August</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+October</td>
+<td class='tra'  lang='de'>
+Oktober</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+September</td>
+<td class='tra'  lang='de'>
+September</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+November</td>
+<td class='tra'  lang='de'>
+November</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+December</td>
+<td class='tra'  lang='de'>
+Dezember</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Birthday</td>
+<td class='tra'  lang='de'>
+Geburtstag</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Quit membership</td>
+<td class='tra'  lang='de'>
+Mitgliedschaft kündigen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Comments</td>
+<td class='tra'  lang='de'>
+Kommentare</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+All open invoices are still due after leaving</td>
+<td class='tra'  lang='de'>
+Offene Rechnungen sind auch nach Austritt weiterhin fällig</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Leave the club</td>
+<td class='tra'  lang='de'>
+Aus dem Club austreten</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Remin.</td>
+<td class='tra'  lang='de'>
+Erinnerung</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Edit Member</td>
+<td class='tra'  lang='de'>
+Mitglied bearbeiten</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Date of joining</td>
+<td class='tra'  lang='de'>
+Eintrittsdatum</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Membership paid</td>
+<td class='tra'  lang='de'>
+Mitgliedschaft bezahlt</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Date of leaving</td>
+<td class='tra'  lang='de'>
+Austrittsdatum</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Registered</td>
+<td class='tra'  lang='de'>
+Registriert</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Membership not paid</td>
+<td class='tra'  lang='de'>
+Mitgliedschaft nicht bezahlt</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Missing info</td>
+<td class='tra'  lang='de'>
+Fehlende Informationen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Invite</td>
+<td class='tra'  lang='de'>
+Einladen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Username</td>
+<td class='tra'  lang='de'>
+Benutzername</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Last login</td>
+<td class='tra'  lang='de'>
+Letzter Login</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Role</td>
+<td class='tra'  lang='de'>
+Rolle</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Login</td>
+<td class='tra'  lang='de'>
+Einloggen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Create account</td>
+<td class='tra'  lang='de'>
+Account erstellen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Adress</td>
+<td class='tra'  lang='de'>
+Adresse</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Communication</td>
+<td class='tra'  lang='de'>
+Kommunikation</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Total Invoices</td>
+<td class='tra'  lang='de'>
+Rechnungen insgesamt</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Options</td>
+<td class='tra'  lang='de'>
+Optionen</td>
+</tr>
+<tr class='i with-comments'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>No. as count</span>No. Open Invoices</td>
+<td class='tra'  lang='de'>
+Anzahl offener Rechnungen</td>
+</tr>
+<tr class='comments'>
+  <td colspan='2'><div><p>
+# should be "invoices"
+<br></p>
+</div></td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Members to sort</td>
+<td class='tra'  lang='de'>
+Zu sortierende Mitglieder</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Pictures</td>
+<td class='tra'  lang='de'>
+Bilder</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Register</td>
+<td class='tra'  lang='de'>
+Registrieren</td>
+</tr>
+<tr class='i with-comments'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>{0} is an email</span>The member already exists, please contact {0}</td>
+<td class='tra'  lang='de'>
+Das Mitglied existiert bereits, bitte kontaktieren Sie {0}</td>
+</tr>
+<tr class='comments'>
+  <td colspan='2'><div><p>
+# ending of sentence missing?
+<br></p>
+</div></td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Validate</td>
+<td class='tra'  lang='de'>
+Validieren</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Nothing to validate</td>
+<td class='tra'  lang='de'>
+Nichts zu validieren</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Not reviewed</td>
+<td class='tra'  lang='de'>
+Nicht geprüft</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Invoices (Open/Total)</td>
+<td class='tra'  lang='de'>
+Rechnungen (offen/gesamt)</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+{0}/{1}</td>
+<td class='tra'  lang='de'>
+{0}/{1}</td>
+</tr>
+<tr class='i with-comments'>
+<td class='src'  lang='en'>
+The information is correct</td>
+<td class='tra'  lang='de'>
+Die Informationen sind korrekt</td>
+</tr>
+<tr class='comments'>
+  <td colspan='2'><div><p>
+# should be "information is"
+<br></p>
+</div></td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Registration {0}-{1}</td>
+<td class='tra'  lang='de'>
+Registrierung {0}-{1}</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Registration steps</td>
+<td class='tra'  lang='de'>
+Registrierungsschritte</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Please check your contact information</td>
+<td class='tra'  lang='de'>
+Bitte überprüfen Sie Ihre Kontaktinformationen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+You are a past member, click here if you want to start again</td>
+<td class='tra'  lang='de'>
+Sie waren bereits Mitglied. Klicken Sie hier, wenn Sie neu einsteigen möchten</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+You are not registered for this season, please fill this form</td>
+<td class='tra'  lang='de'>
+Sie sind für diese Saison nicht registriert. Bitte füllen Sie dieses Formular aus</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Please use a mobile phone to be able to sign the registration</td>
+<td class='tra'  lang='de'>
+Bitte benutzen Sie ein Mobiltelefon, um die Registrierung zu unterschreiben</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+You have to be approved by a coach, please wait</td>
+<td class='tra'  lang='de'>
+Bitte haben Sie Geduld, bis Ihre Registrierung von einem Trainer geprüft wurde</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+You have no teams, wait a while or check with your coach</td>
+<td class='tra'  lang='de'>
+Sie haben keine Gruppen. Bitte haben Sie etwas Geduld oder sprechen Sie mit Ihrem Trainer</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+This should not append</td>
+<td class='tra'  lang='de'>
+Dies sollte nicht angehängt werden</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Next events</td>
+<td class='tra'  lang='de'>
+Nächste Veranstaltungen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+{0} - {1}</td>
+<td class='tra'  lang='de'>
+{0} - {1}</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Next big events</td>
+<td class='tra'  lang='de'>
+Nächste große Veranstaltungen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Link</td>
+<td class='tra'  lang='de'>
+Link</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+You are up to date with your invoices</td>
+<td class='tra'  lang='de'>
+Ihre Rechnungen sind auf dem neuesten Stand</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+{0} - {1} - {2}CHF</td>
+<td class='tra'  lang='de'>
+{0} - {1} - {2} CHF</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Add Role</td>
+<td class='tra'  lang='de'>
+Rolle hinzufügen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Edit Role</td>
+<td class='tra'  lang='de'>
+Rolle bearbeiten</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+New Role</td>
+<td class='tra'  lang='de'>
+Neue Rolle</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Roles</td>
+<td class='tra'  lang='de'>
+Rollen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Users</td>
+<td class='tra'  lang='de'>
+Benutzer</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>person</span>Editor</td>
+<td class='tra'  lang='de'>
+Bearbeitende Person</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+List Sites</td>
+<td class='tra'  lang='de'>
+Standorte auflisten</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Add Site</td>
+<td class='tra'  lang='de'>
+Standort hinzufügen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Edit Site</td>
+<td class='tra'  lang='de'>
+Standort bearbeiten</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+New Site</td>
+<td class='tra'  lang='de'>
+Neuer Standort</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>Physical location</span>Sites</td>
+<td class='tra'  lang='de'>
+Standorte</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Delete Site</td>
+<td class='tra'  lang='de'>
+Website löschen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Account Designation</td>
+<td class='tra'  lang='de'>
+Account-Bezeichnung</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Postcode</td>
+<td class='tra'  lang='de'>
+Postleitzahl</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Sender Email</td>
+<td class='tra'  lang='de'>
+E-Mail-Adresse Absender</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Sender</td>
+<td class='tra'  lang='de'>
+Absender</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Sender Phone</td>
+<td class='tra'  lang='de'>
+Telefonnummer Absender</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Max fees</td>
+<td class='tra'  lang='de'>
+Maximale Gebühren</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Reminder Penalty</td>
+<td class='tra'  lang='de'>
+Mahngebühr</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+ <span class='msgctxt'>Reference like "invoice number"</span>Add to invoice reference</td>
+<td class='tra'  lang='de'>
+Zur Rechnungsnummer hinzufügen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+List Users</td>
+<td class='tra'  lang='de'>
+Benutzer auflisten</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Add User</td>
+<td class='tra'  lang='de'>
+Benutzer hinzufügen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Edit User</td>
+<td class='tra'  lang='de'>
+Benutzer bearbeiten</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Password forgotten</td>
+<td class='tra'  lang='de'>
+Passwort vergessen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Please enter your email</td>
+<td class='tra'  lang='de'>
+Bitte geben Sie Ihre E-Mail-Adresse ein</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+New User</td>
+<td class='tra'  lang='de'>
+Neuer Benutzer</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Please enter your username and password</td>
+<td class='tra'  lang='de'>
+Bitte geben Sie Ihren Benutzernamen und Ihr Passwort ein</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Password</td>
+<td class='tra'  lang='de'>
+Passwort</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Create your login for</td>
+<td class='tra'  lang='de'>
+Erstellen Sie Ihr Login für</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+New username</td>
+<td class='tra'  lang='de'>
+Neuer Benutzername</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+New password</td>
+<td class='tra'  lang='de'>
+Neues Passwort</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Confirm password</td>
+<td class='tra'  lang='de'>
+Passwort bestätigen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Set new password</td>
+<td class='tra'  lang='de'>
+Neues Passwort festlegen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Pass Key</td>
+<td class='tra'  lang='de'>
+Pass Key</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Tokenhash</td>
+<td class='tra'  lang='de'>
+Tokenhash</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Hello {0},</td>
+<td class='tra'  lang='de'>
+Hallo {0},</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Please go on url below to get your login information</td>
+<td class='tra'  lang='de'>
+Bitte gehen Sie auf die untenstehende URL, um Ihre Login-Daten zu erhalten</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+You have asked for a new password. Here is a link to reset your password.</td>
+<td class='tra'  lang='de'>
+Sie haben um ein neues Passwort gebeten. Hier ist ein Link zum Zurücksetzen Ihres Passworts.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Thank you for registering. Please click on the url below to create your login</td>
+<td class='tra'  lang='de'>
+Vielen Dank für Ihre Anmeldung. Bitte klicken Sie auf die untenstehende URL, um Ihr Login zu erstellen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Hello {0},\r\nYou have asked for a new password. Here is a link to reset your password.\r\n{1}</td>
+<td class='tra'  lang='de'>
+Hallo {0},\r\nSie haben um ein neues Passwort gebeten. Hier ist ein Link zum Zurücksetzen Ihres Passworts.\r\n{1}</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+New members</td>
+<td class='tra'  lang='de'>
+Neue Mitglieder</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Birthdays</td>
+<td class='tra'  lang='de'>
+Geburtstage</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Signatures validation</td>
+<td class='tra'  lang='de'>
+Validierung von Unterschriften</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Year Overview</td>
+<td class='tra'  lang='de'>
+Jahresübersicht</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Batch add</td>
+<td class='tra'  lang='de'>
+Gesammelt hinzufügen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Send email</td>
+<td class='tra'  lang='de'>
+E-Mail senden</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Admin</td>
+<td class='tra'  lang='de'>
+Admin</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+External links</td>
+<td class='tra'  lang='de'>
+Externe Links</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Info</td>
+<td class='tra'  lang='de'>
+Info</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Language</td>
+<td class='tra'  lang='de'>
+Sprache</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+My account</td>
+<td class='tra'  lang='de'>
+Mein Account</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Logout</td>
+<td class='tra'  lang='de'>
+Ausloggen</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Back</td>
+<td class='tra'  lang='de'>
+Zurück</td>
+</tr>
+</tbody>
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,2 @@
+composer self-update
+PAUSE

@@ -1,0 +1,2909 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Angel 2\n"
+"POT-Creation-Date: 2025-09-20 16:01+0200\n"
+"PO-Revision-Date: 2025-09-20 16:49+0200\n"
+"Last-Translator: Florian Glardon <bot@grinwald.net>\n"
+"Language-Team: Florian <florian@lausanneangels.ch>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.7\n"
+
+#: src/Controller/AdminController.php:31 templates/Pages/home.php:143
+msgid "Open invoices"
+msgstr "Factures ouvertes"
+
+#: src/Controller/AdminController.php:32
+msgid "Membership fee (paid/invoiced)"
+msgstr "Cotisations (payées/facturées)"
+
+#: src/Controller/AdminController.php:33
+msgid "Invoiced this year (paid/total)"
+msgstr "Facturé cette année (payé/total)"
+
+#: src/Controller/AdminController.php:36
+msgid "No. of members"
+msgstr "Nb. de membres"
+
+#: src/Controller/AdminController.php:37 templates/Members/view.php:156
+msgid "Not registered"
+msgstr "Non enregistré"
+
+#: src/Controller/AdminController.php:38
+msgid "Children / Adults"
+msgstr "Enfants / Adultes"
+
+#: src/Controller/AdminController.php:39
+msgid "Membership fee paid"
+msgstr "Cotisation payée"
+
+#: src/Controller/AdminController.php:42
+msgid "First day of the season"
+msgstr "Premier jour de la saison"
+
+#: src/Controller/AdminController.php:43
+msgid "Club name"
+msgstr "Nom du club"
+
+#: src/Controller/AdminController.php:65 src/Controller/AdminController.php:86
+msgid "Wrong validation code"
+msgstr "Code de validation erroné"
+
+#: src/Controller/AdminController.php:84
+msgid "Registrations have been reset"
+msgstr "Les inscriptions ont été réinitialisées"
+
+#: src/Controller/AdminController.php:123
+msgid "Membership fee created for "
+msgstr "Cotisations créées pour "
+
+#: src/Controller/AdminController.php:158
+msgid "Both log files have been deleted."
+msgstr "Les fichiers de log ont été supprimés."
+
+#: src/Controller/AdminController.php:63
+msgctxt "Some values were put back to default settings"
+msgid "Memberships have been reset"
+msgstr "Les adhésions ont été réinitialisées"
+
+#: src/Controller/BillTemplatesController.php:61
+#: src/Controller/BillTemplatesController.php:86
+msgid "The invoice template has been saved."
+msgstr "Le modèle de facture a été enregistré."
+
+#: src/Controller/BillTemplatesController.php:65
+#: src/Controller/BillTemplatesController.php:90
+msgid "The invoice template could not be saved."
+msgstr "Le modèle de facture n'a pas pu être enregistré."
+
+#: src/Controller/BillTemplatesController.php:110
+msgid "The invoice template has been deleted."
+msgstr "Le modèle de facture a été supprimé."
+
+#: src/Controller/BillTemplatesController.php:112
+msgid "The invoice template could not be deleted."
+msgstr "Le modèle de facture n'a pas pu être supprimé."
+
+#: src/Controller/BillsController.php:134
+#: src/Controller/BillsController.php:166
+msgid "The invoice has been saved."
+msgstr "La facture a été enregistrée."
+
+#: src/Controller/BillsController.php:139
+#: src/Controller/BillsController.php:171
+msgid "The invoice could not be saved."
+msgstr "La facture n'a pas pu être enregistrée."
+
+#: src/Controller/BillsController.php:158
+msgid "The invoice is already paid and can't be edited anymore"
+msgstr "La facture est déjà payée et ne peut plus être modifiée"
+
+#: src/Controller/BillsController.php:293
+#: src/Controller/BillsController.php:393
+msgid "Invoices have been updated"
+msgstr "Les factures ont été mises à jour"
+
+#: src/Controller/BillsController.php:353
+msgid "Invoices has been validated"
+msgstr "Les factures ont été validées"
+
+#: src/Controller/BillsController.php:444
+msgid "Late bills Reminder"
+msgstr "Rappel - factures en retard"
+
+#: src/Controller/BillsController.php:474
+msgid "Remiders have been sent"
+msgstr "Les rappels ont été envoyés"
+
+#: src/Controller/BillsController.php:510
+#: src/Controller/BillsController.php:696
+msgid "Invoices has been created"
+msgstr "Les factures ont été créées"
+
+#: src/Controller/BillsController.php:541
+msgid "Send checkbox has not been checked"
+msgstr "La case \"Envoyer\" n'a pas été cochée"
+
+#: src/Controller/BillsController.php:550
+msgid "The PDF file doesn't exist"
+msgstr "Le fichier PDF n'existe pas"
+
+#: src/Controller/BillsController.php:552
+msgid "No token for the member"
+msgstr "Pas de jeton pour le membre"
+
+#: src/Controller/BillsController.php:554
+msgid "No email for the member"
+msgstr "Pas d'e-mail pour le membre"
+
+#: src/Controller/BillsController.php:563
+msgid "New Invoice"
+msgstr "Nouvelle facture"
+
+#: src/Controller/BillsController.php:565
+msgid "Invoice Reminder"
+msgstr "Rappel de facture"
+
+#: src/Controller/BillsController.php:585
+msgid "Invoices have been sent"
+msgstr "Les factures ont été envoyées"
+
+#: src/Controller/Component/ImageSupportComponent.php:66
+msgid "JPEG and HEIC pictures only"
+msgstr "Images JPEG et HEIC uniquement"
+
+#: src/Controller/Component/ImageSupportComponent.php:68
+msgid "JPEG pictures only"
+msgstr "Images JPEG uniquement"
+
+#: src/Controller/Component/MailComponent.php:56
+msgid "Dear"
+msgstr "Cher·e"
+
+#: src/Controller/Component/MemberDocumentComponent.php:52
+msgid "HEIC format is not supported on this server"
+msgstr "Le format HEIC n'est pas supporté par le serveur"
+
+#: src/Controller/Component/MemberDocumentComponent.php:63
+msgid "Failed to convert HEIC image"
+msgstr "Échec de la conversion de l'image HEIC"
+
+#: src/Controller/Component/MemberDocumentComponent.php:98
+#: src/Controller/Component/MemberDocumentComponent.php:141
+msgid "Failed to send picture"
+msgstr "Échec d'envoi de la photo"
+
+#: src/Controller/Component/MemberDocumentComponent.php:118
+#: src/Controller/Component/MemberDocumentComponent.php:161
+msgid "The picture has been saved."
+msgstr "L'image a été enregistrée."
+
+#: src/Controller/Component/MemberDocumentComponent.php:180
+msgid "Failed to send document"
+msgstr "Échec d'envoi du document"
+
+#: src/Controller/Component/MemberDocumentComponent.php:185
+msgid "PDF only"
+msgstr "Fichiers PDF uniquement"
+
+#: src/Controller/Component/MemberDocumentComponent.php:195
+msgid "{0} is registed"
+msgstr "{0} est enregistré"
+
+#: src/Controller/Component/MemberDocumentComponent.php:198
+msgid "Failed to register member"
+msgstr "Échec d'enregistrement du membre"
+
+#: src/Controller/Component/MemberManagementComponent.php:31
+msgid "You do not have permission to create new members."
+msgstr "Tu n’as pas l’autorisation de créer de nouveaux membres."
+
+#: src/Controller/Component/MemberManagementComponent.php:51
+msgid "The member already exists"
+msgstr "Le membre existe déjà"
+
+#: src/Controller/Component/MemberManagementComponent.php:54
+#: src/Controller/Component/MemberManagementComponent.php:89
+#: src/Controller/Component/MemberManagementComponent.php:114
+#: src/Controller/Component/MemberManagementComponent.php:137
+#: src/Controller/Component/MemberManagementComponent.php:167
+msgid "The member has been saved."
+msgstr "Le membre a été enregistré."
+
+#: src/Controller/Component/MemberManagementComponent.php:58
+#: src/Controller/Component/MemberManagementComponent.php:92
+#: src/Controller/Component/MemberManagementComponent.php:117
+#: src/Controller/Component/MemberManagementComponent.php:140
+#: src/Controller/Component/MemberManagementComponent.php:170
+#: src/Controller/Component/MemberRegistrationComponent.php:137
+msgid "The member could not be saved."
+msgstr "Le membre n'a pas pu être enregistré."
+
+#: src/Controller/Component/MemberManagementComponent.php:186
+msgid "The member has been deleted."
+msgstr "Le membre a été supprimé."
+
+#: src/Controller/Component/MemberManagementComponent.php:189
+msgid "The member could not be deleted."
+msgstr "Le membre n'a pas pu être supprimé."
+
+#: src/Controller/Component/MemberManagementComponent.php:202
+#: src/Controller/UsersController.php:284
+msgid "This language doesn't exists"
+msgstr "Cette langue n'existe pas"
+
+#: src/Controller/Component/MemberRegistrationComponent.php:50
+msgid "You are already registered, we sent you a mail to get your login"
+msgstr ""
+"Tu es déjà inscrit·e, nous t'avons envoyé un e-mail pour obtenir tes "
+"identifiants"
+
+#: src/Controller/Component/MemberRegistrationComponent.php:57
+msgid "You have been registered. Check your mailbox for next step"
+msgstr ""
+"Tu as été enregistré·e. Vérifie ta boîte aux lettres pour la prochaine étape"
+
+#: src/Controller/Component/MemberRegistrationComponent.php:63
+msgid ""
+"We were not able to save your registration. Please check all fields or "
+"contact us"
+msgstr ""
+"Nous n'avons pas pu enregistrer ton inscription. Vérifie tous les champs ou "
+"contacte-nous"
+
+#: src/Controller/Component/MemberRegistrationComponent.php:125
+msgid "Please sign the document"
+msgstr "Merci de signer le document"
+
+#: src/Controller/Component/MemberRegistrationComponent.php:132
+msgid "You are now registered, it will be validated by a coach"
+msgstr "Tu es maintenant inscrit·e, cela sera validé par un coach"
+
+#: src/Controller/Component/MemberRegistrationComponent.php:133
+#: src/Controller/MembersController.php:707
+msgid "New member registered"
+msgstr "Nouveau membre enregistré"
+
+#: src/Controller/Component/MemberRegistrationComponent.php:133
+#: src/Controller/MembersController.php:707
+msgid "The member has just registred. You need to validate the signature."
+msgstr "Le membre vient de s'inscrire. Tu dois valider la signature."
+
+#: src/Controller/Component/MemberRegistrationComponent.php:165
+msgid "Signature approved"
+msgstr "Signature approuvée"
+
+#: src/Controller/Component/MemberRegistrationComponent.php:165
+msgid "Your signature has been approved"
+msgstr "Ta signature a été approuvée"
+
+#: src/Controller/Component/MemberRegistrationComponent.php:168
+msgid "Signature not approved"
+msgstr "Signature non approuvée"
+
+#: src/Controller/Component/MemberRegistrationComponent.php:168
+msgid "Your signature has not been approved, please do it again"
+msgstr "Ta signature n'a pas été approuvée, merci de recommencer"
+
+#: src/Controller/Component/MemberRegistrationComponent.php:189
+msgid "Invitation has been sent to "
+msgstr "L'invitation a été envoyée à "
+
+#: src/Controller/Component/MemberRegistrationComponent.php:200
+#: src/Controller/Component/MemberRegistrationComponent.php:204
+msgid "Your personal page"
+msgstr "Ta page personnelle"
+
+#: src/Controller/Component/MemberRegistrationComponent.php:208
+msgid "Action needed, registrer for the year (or leave the club)"
+msgstr "Action requise, inscrit-toi pour cette année (ou quitte le club)"
+
+#: src/Controller/Component/MemberRegistrationComponent.php:212
+msgid "Want to come back ?"
+msgstr "Revenir ?"
+
+#: src/Controller/Component/MemberRegistrationComponent.php:215
+msgid ""
+"Click here to visit: {0}\n"
+"On your personal page, you can:\n"
+"- View and manage your bills\n"
+"- Update your personal information\n"
+"- Register for the upcoming year\n"
+"- Cancel your membership if you wish\n"
+"We look forward to seeing you soon!"
+msgstr ""
+"Clique ici : {0}\n"
+"Sur ta page, tu peux :\n"
+"- Consulter tes factures\n"
+"- Mettre à jour tes informations personnelles\n"
+"- T’inscrire pour l’année prochaine\n"
+"- Quitter le club si tu le souhaites\n"
+"On a hâte de te revoir !"
+
+#: src/Controller/Component/MemberRegistrationComponent.php:99
+msgctxt "{0} is the name of the club you join"
+msgid "Welcome to {0}"
+msgstr "Bienvenue sur {0}"
+
+#: src/Controller/ConfigurationsController.php:63
+#: src/Controller/ConfigurationsController.php:89
+msgid "The configuration has been saved."
+msgstr "La configuration a été enregistrée."
+
+#: src/Controller/ConfigurationsController.php:67
+#: src/Controller/ConfigurationsController.php:93
+msgid "The configuration could not be saved."
+msgstr "La configuration n'a pas pu être enregistrée."
+
+#: src/Controller/ConfigurationsController.php:113
+msgid "The configuration has been deleted."
+msgstr "La configuration a été supprimée."
+
+#: src/Controller/ConfigurationsController.php:117
+msgid "The configuration could not be deleted."
+msgstr "La configuration n'a pas pu être supprimée."
+
+#: src/Controller/ContentsController.php:64
+#: src/Controller/ContentsController.php:93
+msgid "The content has been saved."
+msgstr "Le contenu a été enregistré."
+
+#: src/Controller/ContentsController.php:68
+#: src/Controller/ContentsController.php:97
+msgid "The content could not be saved."
+msgstr "Le contenu n'a pas pu être enregistré."
+
+#: src/Controller/ContentsController.php:118
+msgid "The content has been deleted."
+msgstr "Le contenu a été supprimé."
+
+#: src/Controller/ContentsController.php:122
+msgid "The content could not be deleted."
+msgstr "Le contenu n'a pas pu être supprimé."
+
+#: src/Controller/FieldTypesController.php:63
+#: src/Controller/FieldTypesController.php:89
+msgid "The field has been saved."
+msgstr "Le champ a été enregistré."
+
+#: src/Controller/FieldTypesController.php:67
+#: src/Controller/FieldTypesController.php:93
+msgid "The field could not be saved."
+msgstr "Le champ n'a pas pu être enregistré."
+
+#: src/Controller/FieldTypesController.php:113
+msgid "The field has been deleted."
+msgstr "Le champ a été supprimé."
+
+#: src/Controller/FieldTypesController.php:117
+msgid "The field could not be deleted."
+msgstr "Le champ n'a pas pu être supprimé."
+
+#: src/Controller/MeetingsController.php:101
+#: src/Controller/MeetingsController.php:184
+msgid "The meeting has been saved."
+msgstr "La réunion a été enregistrée."
+
+#: src/Controller/MeetingsController.php:105
+#: src/Controller/MeetingsController.php:142
+#: src/Controller/MeetingsController.php:188
+msgid "The meeting could not be saved."
+msgstr "La réunion n'a pas pu être enregistrée."
+
+#: src/Controller/MeetingsController.php:149
+msgid "{0} meeting has been saved."
+msgstr "{0} réunions ont été enregistrées."
+
+#: src/Controller/MeetingsController.php:153
+msgid "No meeting has been saved."
+msgstr "Aucune réunion n'a été enregistrée."
+
+#: src/Controller/MeetingsController.php:208
+msgid "The meeting has been deleted."
+msgstr "La réunion a été supprimée."
+
+#: src/Controller/MeetingsController.php:212
+msgid "The meeting could not be deleted."
+msgstr "La réunion n'a pas pu être supprimée."
+
+#: src/Controller/MeetingsController.php:238
+msgid "You are now registered"
+msgstr "Tu es maintenant inscrit·e"
+
+#: src/Controller/MemberOrdersController.php:97
+msgid "The order has been marked as delivered."
+msgstr "La commande a été marquée comme livré."
+
+#: src/Controller/MemberOrdersController.php:99
+#: src/Controller/MemberOrdersController.php:121
+msgid "The order could not be updated. Please, try again."
+msgstr "La commande n'a pas pu être mise à jour. Essaie à nouveau."
+
+#: src/Controller/MemberOrdersController.php:119
+msgid "The order has been marked as not delivered."
+msgstr "La commande a été marquée comme non livré."
+
+#: src/Controller/MemberOrdersController.php:141
+msgid "The member order has been deleted."
+msgstr "La commande a été supprimée."
+
+#: src/Controller/MemberOrdersController.php:143
+msgid "The member order could not be deleted. Please, try again."
+msgstr "La commande du membre n’a pas pu être supprimée. Essaie à nouveau."
+
+#: src/Controller/MembersController.php:223
+#: src/Controller/MembersController.php:233
+msgid "Invalid access link."
+msgstr "Lien d'accès non valide."
+
+#: src/Controller/MembersController.php:306
+msgid "No items were selected for the order."
+msgstr "Pas d'articles séléctionnés pour cette commande."
+
+#: src/Controller/MembersController.php:318
+msgid "There was an error processing your order. Please try again."
+msgstr ""
+"Une erreur est survenue lors du traitement de ta commande. Merci d’essayer à "
+"nouveau."
+
+#: src/Controller/MembersController.php:331
+msgid "Your order has been placed successfully! Total amount: {0}"
+msgstr "Ta commande a été passée avec succès ! Montant total : {0}"
+
+#: src/Controller/MembersController.php:334
+msgid ""
+"There was an error creating the invoice for your order. Please try again."
+msgstr ""
+"Une erreur est survenue lors de la création de la facture pour ta commande. "
+"Essaie à nouveau, s’il te plaît."
+
+#: src/Controller/MembersController.php:464
+msgid "You can only view your own information."
+msgstr "Tu ne peux voir que tes propres informations."
+
+#: src/Controller/MembersController.php:600
+#: src/Controller/MembersController.php:608
+msgid ""
+"There where an issue with the connection. Please try again or ask Florian. "
+"Cookies has to be allowed."
+msgstr ""
+"Il y a eu un problème de connexion. Veuillez réessayer ou demander à "
+"Florian. Les cookies doivent être autorisés."
+
+#: src/Controller/MembersController.php:640
+msgid "The PDF cant't be created"
+msgstr "Le PDF ne peut pas être créé"
+
+#: src/Controller/RolesController.php:56 src/Controller/RolesController.php:81
+msgid "The role has been saved."
+msgstr "Le rôle a été enregistré."
+
+#: src/Controller/RolesController.php:60 src/Controller/RolesController.php:85
+msgid "The role could not be saved."
+msgstr "Le rôle n'a pas pu être enregistré."
+
+#: src/Controller/ShopItemsController.php:56
+#: src/Controller/ShopItemsController.php:82
+msgid "The shop item has been saved."
+msgstr "L'article a été sauvé."
+
+#: src/Controller/ShopItemsController.php:60
+#: src/Controller/ShopItemsController.php:86
+msgid "The shop item could not be saved. Please, try again."
+msgstr "L'article n'a pas pu être sauvé."
+
+#: src/Controller/ShopItemsController.php:107
+msgid "The shop item has been deleted."
+msgstr "L'articée a été supprimé."
+
+#: src/Controller/ShopItemsController.php:109
+msgid "The shop item could not be deleted. Please, try again."
+msgstr "L'article n'a pas pu être supprimé."
+
+#: src/Controller/SitesController.php:55 src/Controller/SitesController.php:80
+msgid "The site has been saved."
+msgstr "Le site a été enregistré."
+
+#: src/Controller/SitesController.php:59 src/Controller/SitesController.php:84
+msgid "The site could not be saved."
+msgstr "Le site n'a pas pu être enregistré."
+
+#: src/Controller/SitesController.php:103
+msgid "The site has been deleted."
+msgstr "Le site a été supprimé."
+
+#: src/Controller/SitesController.php:107
+msgid "The site could not be deleted."
+msgstr "Le site n'a pas pu être supprimé."
+
+#: src/Controller/TeamsController.php:94 src/Controller/TeamsController.php:128
+msgid "The team has been saved."
+msgstr "L'équipe a été enregistrée."
+
+#: src/Controller/TeamsController.php:98 src/Controller/TeamsController.php:132
+msgid "The team could not be saved."
+msgstr "L'équipe n'a pas pu être enregistrée."
+
+#: src/Controller/UsersController.php:61
+msgid "Invalid username or password"
+msgstr "Nom d'utilisateur ou mot de passe invalide"
+
+#: src/Controller/UsersController.php:62
+msgid "Wrong password entered for {0}"
+msgstr "Mauvais mot de passe saisi pour {0}"
+
+#: src/Controller/UsersController.php:67
+msgid "You were redirected from an external service. Please login to continue."
+msgstr ""
+"Tu as été redirigé depuis un service externe. Connecte-toi pour continuer."
+
+#: src/Controller/UsersController.php:108
+#: src/Controller/UsersController.php:129
+msgid "The user has been saved."
+msgstr "L'utilisateur a été enregistré."
+
+#: src/Controller/UsersController.php:112
+#: src/Controller/UsersController.php:133
+#: src/Controller/UsersController.php:165
+#: src/Controller/UsersController.php:235
+msgid "The user could not be saved."
+msgstr "L'utilisateur n'a pas pu être enregistré."
+
+#: src/Controller/UsersController.php:160
+msgid "Please enter twice the same passowrd"
+msgstr "Merci de saisir deux fois le même mot de passe"
+
+#: src/Controller/UsersController.php:162
+msgid "You have been successfully registered, now you can login"
+msgstr "Tu as été enregistré·e avec succès, tu peux maintenant te connecter"
+
+#: src/Controller/UsersController.php:196
+msgid "Reset your password"
+msgstr "Réinitialise ton mot de passe"
+
+#: src/Controller/UsersController.php:212
+msgid ""
+"If this email or username exists, a reset link has been sent to the "
+"associated email"
+msgstr ""
+"Si cet e-mail ou nom d'utilisateur existe, un lien de réinitialisation a été "
+"envoyé à cette adresse"
+
+#: src/Controller/UsersController.php:222
+msgid "Missing token"
+msgstr "Jeton manquant"
+
+#: src/Controller/UsersController.php:231
+msgid "Your password has been updated"
+msgstr "Ton mot de passe a été mis à jour"
+
+#: src/Controller/UsersController.php:301
+msgid "Please enter your full name"
+msgstr "Entre ton nom complet"
+
+#: src/Controller/UsersController.php:319
+msgid "Wrong name entered for {0}"
+msgstr "Mauvais nom entré pour {0}"
+
+#: src/Controller/UsersController.php:321
+msgid "If the member exists, a login link has been sent to the member {0}"
+msgstr "Si le membre existe, un lien de connexion a été envoyé à {0}."
+
+#: src/Model/Entity/Bill.php:72 templates/Bills/edit.php:27
+#: templates/Bills/view.php:69
+msgid "Canceled"
+msgstr "Annulé"
+
+#: src/Model/Entity/Bill.php:76 templates/Admin/generate_membership.php:29
+#: templates/Bills/add.php:21 templates/Bills/edit.php:25
+#: templates/Bills/index.php:21 templates/Bills/view.php:61
+#: templates/MemberOrders/index.php:35
+msgid "Paid"
+msgstr "Payé"
+
+#: src/Model/Entity/Bill.php:81 templates/Bills/index.php:20
+msgid "Late"
+msgstr "En retard"
+
+#: src/Model/Entity/Bill.php:83 src/Model/Entity/Bill.php:135
+msgid "Sent"
+msgstr "Envoyé"
+
+#: src/Model/Entity/Bill.php:85 src/Model/Entity/Bill.php:135
+#: templates/Bills/index.php:22
+msgid "Draft"
+msgstr "Brouillon"
+
+#: src/Model/Entity/Bill.php:135
+msgctxt "In the way, it has been read"
+msgid "Read"
+msgstr "Lu"
+
+#: src/Model/Entity/FieldType.php:49 src/Model/Entity/Member.php:364
+#: templates/Bills/mail_print.php:30 templates/Bills/mail_send.php:30
+#: templates/Members/add.php:28 templates/Members/edit.php:30
+#: templates/Members/list.php:36 templates/Members/list_email.php:35
+#: templates/Members/list_email.php:36 templates/Members/list_email.php:37
+#: templates/Members/register.php:46 templates/Members/view.php:178
+#: templates/Members/view.php:180
+msgid "Email"
+msgstr "E-mail"
+
+#: src/Model/Entity/FieldType.php:49
+msgid "Phone"
+msgstr "Téléphone"
+
+#: src/Model/Entity/FieldType.php:49 templates/Bills/send_reminder.php:32
+msgid "Number"
+msgstr "Nombre"
+
+#: src/Model/Entity/FieldType.php:49
+msgid "Checkbox"
+msgstr "Case à cocher"
+
+#: src/Model/Entity/FieldType.php:49
+msgid "Date"
+msgstr "Date"
+
+#: src/Model/Entity/FieldType.php:49
+msgid "Picture"
+msgstr "Photo"
+
+#: src/Model/Entity/FieldType.php:49
+msgid "Cloth Size"
+msgstr "Taille de vêtement"
+
+#: src/Model/Entity/FieldType.php:49
+msgctxt "Value type of a field"
+msgid "Text"
+msgstr "Texte"
+
+#: src/Model/Entity/Meeting.php:54
+msgid "{0}/{1}/{2}/{3}"
+msgstr "{0}/{1}/{2}/{3}"
+
+#: src/Model/Entity/Member.php:137 templates/Members/index.php:25
+#: templates/Members/invite.php:24
+msgid "No team"
+msgstr "Aucune équipe"
+
+#: src/Model/Entity/Member.php:152
+msgid "No site"
+msgstr "Pas de site"
+
+#: src/Model/Entity/Member.php:354 src/Model/Table/ShopItemsTable.php:116
+msgid "Unknown"
+msgstr "Inconnu"
+
+#: src/Model/Entity/Member.php:354
+msgid "Female"
+msgstr "Femme"
+
+#: src/Model/Entity/Member.php:354
+msgid "Male"
+msgstr "Homme"
+
+#: src/Model/Entity/Member.php:364
+msgid "-"
+msgstr "-"
+
+#: src/Model/Entity/Member.php:364
+msgid "Letter"
+msgstr "Lettre"
+
+#: src/Model/Table/BillsTable.php:272
+msgid "{0}-{1}"
+msgstr "{0}-{1}"
+
+#: src/Model/Table/BillsTable.php:327
+msgid "Shop Order: {0}"
+msgstr "Commande: {0}"
+
+#: src/Model/Table/ShopItemsTable.php:84
+msgid "Please select a valid category."
+msgstr "Sélectionne une catégorie valide."
+
+#: src/Model/Table/ShopItemsTable.php:101
+msgid "Other"
+msgstr "Autre"
+
+#: src/Model/Table/ShopItemsTable.php:102
+msgid "Travel"
+msgstr "Trajet"
+
+#: src/Model/Table/ShopItemsTable.php:103
+msgid "Equipment"
+msgstr "Equipement"
+
+#: src/Utility/ImageHelper.php:162
+msgid ""
+"You can upload HEIC images from iOS devices. They will be automatically "
+"converted to JPEG."
+msgstr ""
+"Tu peux envoyer des photos HEIC, elles seront automatiquement converties."
+
+#: src/Utility/ImageHelper.php:164
+msgid "HEIC images are not supported. Please convert to JPEG before uploading."
+msgstr ""
+"Les images HEIC ne sont pas prises en charge. Convertis en JPEG avant de les "
+"télécharger."
+
+#: src/View/Helper/MyHelper.php:45
+msgid "French"
+msgstr "Français"
+
+#: src/View/Helper/MyHelper.php:47
+msgid "German"
+msgstr "Allemand"
+
+#: src/View/Helper/MyHelper.php:49
+msgid "English"
+msgstr "Anglais"
+
+#: src/View/Helper/MyHelper.php:51
+msgid "Spanish"
+msgstr "Espagnol"
+
+#: src/View/Helper/MyHelper.php:53
+msgid "Italian"
+msgstr "Italien"
+
+#: src/View/Helper/MyHelper.php:98
+msgid "Main configuration"
+msgstr "Configuration principale"
+
+#: src/View/Helper/MyHelper.php:99
+msgid "Locations"
+msgstr "Emplacements"
+
+#: src/View/Helper/MyHelper.php:100
+msgid "Custom fields"
+msgstr "Champs personnalisés"
+
+#: src/View/Helper/MyHelper.php:198 src/View/Helper/MyHelper.php:200
+msgid "{0} - {1}"
+msgstr "{0} - {1}"
+
+#: src/View/Helper/MyHelper.php:204
+msgid "Link"
+msgstr "Lien"
+
+#: src/View/Helper/MyHelper.php:207
+msgid "Join"
+msgstr "S'inscrire"
+
+#: src/View/Helper/MyHelper.php:207
+msgid "Are you sure you want to join the event ?"
+msgstr "Es-tu sûr·e de vouloir participer à l'événement ?"
+
+#: src/View/Helper/MyHelper.php:210 templates/Members/edit.php:41
+#: templates/Members/invite.php:41 templates/Members/view.php:154
+msgid "Registered"
+msgstr "Inscrit"
+
+#: src/View/Helper/MyHelper.php:242
+msgid "MISSING"
+msgstr "MANQUANT"
+
+#: src/View/Helper/PdfHelper.php:186
+msgid "Subject: Request for Sports Funding"
+msgstr "Objet : Demande de subventions sportives"
+
+#: src/View/Helper/PdfHelper.php:226 src/View/Helper/PdfHelper.php:286
+msgid "Beneficiary"
+msgstr "Bénéficiaire"
+
+#: src/View/Helper/PdfHelper.php:227 src/View/Helper/PdfHelper.php:288
+#: templates/Members/add.php:23 templates/Members/edit.php:25
+#: templates/Members/family_reduction.php:17 templates/Members/list.php:37
+#: templates/Members/register.php:41 templates/Sites/view.php:26
+msgid "Address"
+msgstr "Adresse"
+
+#: src/View/Helper/PdfHelper.php:228 src/View/Helper/PdfHelper.php:291
+#: templates/Sites/view.php:38
+msgid "IBAN"
+msgstr "IBAN"
+
+#: src/View/Helper/PdfHelper.php:229 src/View/Helper/PdfHelper.php:293
+#: templates/Sites/view.php:42
+msgid "BIC"
+msgstr "BIC"
+
+#: src/View/Helper/PdfHelper.php:245
+msgid "Invoice No {0} - {1}"
+msgstr "Facture N° {0} - {1}"
+
+#: src/View/Helper/PdfHelper.php:252
+msgid "First reminder"
+msgstr "Premier rappel"
+
+#: src/View/Helper/PdfHelper.php:254
+msgid "Reminder N°{0}"
+msgstr "Rappel N°{0}"
+
+#: src/View/Helper/PdfHelper.php:257
+msgid "If you already paid this invoice, please contact us."
+msgstr "Si tu as déjà payé cette facture, merci de nous contacter."
+
+#: src/View/Helper/PdfHelper.php:266
+msgid "Member No"
+msgstr "N° de membre"
+
+#: src/View/Helper/PdfHelper.php:268 src/View/Helper/PdfHelper.php:295
+#: templates/BillTemplates/view.php:34 templates/Bills/add.php:19
+#: templates/Bills/batch_add.php:35 templates/Bills/edit.php:17
+#: templates/Bills/index.php:44 templates/Bills/mail_print.php:27
+#: templates/Bills/mail_send.php:27 templates/Bills/send_reminder.php:31
+#: templates/Bills/view.php:29 templates/Members/cancel_registration.php:34
+#: templates/Members/view.php:385 templates/Members/view.php:441
+msgid "Amount"
+msgstr "Montant"
+
+#: src/View/Helper/PdfHelper.php:270 templates/Bills/add.php:23
+#: templates/Bills/batch_add.php:37 templates/Bills/edit.php:18
+#: templates/Bills/mail_print.php:29 templates/Bills/mail_send.php:29
+#: templates/Bills/view.php:37 templates/Members/cancel_registration.php:37
+#: templates/Members/view.php:388 templates/Members/view.php:445
+msgid "Due date"
+msgstr "Date d'échéance"
+
+#: src/View/Helper/PdfHelper.php:275
+msgid "Late payments will result in a reminder fee of {0} CHF"
+msgstr "Les retards de paiement entraînent des frais de rappel de {0} CHF"
+
+#: src/View/Helper/PdfHelper.php:276
+msgid ""
+"In case of difficulty in payment, you can contact me for a payment in "
+"several installments"
+msgstr ""
+"En cas de difficulté de paiement, tu peux me contacter pour un paiement en "
+"plusieurs fois"
+
+#: src/View/Helper/PdfHelper.php:284
+msgid ""
+"Payments via e-banking save us the cost of processing the inpayment slip."
+msgstr ""
+"Les paiements par e-banking nous permettent d'économiser les frais de "
+"traitement du bulletin de versement."
+
+#: src/View/Helper/PdfHelper.php:297 templates/Teams/view.php:27
+msgid "Description"
+msgstr "Description"
+
+#: src/View/Helper/PdfHelper.php:256
+msgctxt "{0} is a date"
+msgid "To date, we have not received the {0} payment."
+msgstr "À ce jour, nous n'avons pas reçu le paiement du {0}."
+
+#: templates/Admin/dashboard.php:7 templates/Contents/info.php:7
+#: templates/Teams/index.php:9 templates/layout/default.php:186
+msgid "Teams"
+msgstr "Équipes"
+
+#: templates/Admin/dashboard.php:10 templates/Admin/dashboard.php:23
+#: templates/Bills/batch_add.php:47 templates/Members/batch_register.php:24
+#: templates/Members/birthdays.php:24 templates/Members/index.php:38
+#: templates/Teams/view.php:88 templates/layout/default.php:148
+msgid "Members"
+msgstr "Membres"
+
+#: templates/Admin/dashboard.php:19
+msgid "Finances"
+msgstr "Finances"
+
+#: templates/Admin/dashboard.php:27 templates/layout/default.php:192
+msgid "Configuration"
+msgstr "Configuration"
+
+#: templates/Admin/generate_membership.php:19
+msgid "Generate membership fees for year {0}-{1}"
+msgstr "Générer les cotisations pour l'année {0}-{1}"
+
+#: templates/Admin/generate_membership.php:24
+#: templates/Admin/reset_membership.php:9
+#: templates/Admin/reset_registration.php:9
+#: templates/Members/batch_register.php:28 templates/Members/birthdays.php:28
+#: templates/Members/family_reduction.php:13 templates/Members/invite.php:40
+#: templates/Members/new_members.php:15 templates/Members/subventions.php:12
+#: templates/Members/subventions.php:57 templates/Roles/view.php:17
+#: templates/Teams/index.php:14 templates/Teams/view.php:129
+#: templates/Teams/view.php:132
+msgid "Name"
+msgstr "Nom"
+
+#: templates/Admin/generate_membership.php:25
+#: templates/Members/birthdays.php:30 templates/Members/family_reduction.php:15
+#: templates/Members/invite.php:42 templates/Members/new_members.php:16
+#: templates/Members/subventions.php:14 templates/Members/subventions.php:59
+msgid "Age"
+msgstr "Âge"
+
+#: templates/Admin/generate_membership.php:26 templates/Contents/view.php:26
+#: templates/Members/add.php:42 templates/Members/batch_register.php:29
+#: templates/Members/birthdays.php:31 templates/Members/edit.php:43
+#: templates/Members/family_reduction.php:14 templates/Members/index.php:56
+#: templates/Members/invite.php:43 templates/Members/list.php:34
+#: templates/Members/list_email.php:34 templates/Members/register.php:60
+msgid "Team"
+msgstr "Équipe"
+
+#: templates/Admin/generate_membership.php:28
+#: templates/Admin/reset_membership.php:10 templates/Bills/add.php:40
+#: templates/Bills/add.php:41 templates/Bills/add.php:42
+#: templates/Teams/view.php:19
+msgid "Membership fee"
+msgstr "Cotisation"
+
+#: templates/Admin/generate_membership.php:41
+#: templates/Members/agreement.php:51 templates/Members/view.php:86
+#: templates/Pages/home.php:74
+msgid "Coach"
+msgstr "Coach"
+
+#: templates/Admin/generate_membership.php:51
+msgid "Create"
+msgstr "Créer"
+
+#: templates/Admin/generate_membership.php:59
+#: templates/BillTemplates/add.php:26 templates/BillTemplates/edit.php:31
+#: templates/Bills/add.php:34 templates/Bills/batch_add.php:58
+#: templates/Bills/batch_validation.php:59 templates/Bills/edit.php:35
+#: templates/Bills/generate_reminder.php:38
+#: templates/Configurations/edit.php:24 templates/Contents/add.php:41
+#: templates/Contents/edit.php:48 templates/FieldTypes/add.php:28
+#: templates/FieldTypes/edit.php:35 templates/Fields/add.php:23
+#: templates/Fields/edit.php:28 templates/Meetings/add.php:24
+#: templates/Meetings/add_multiple.php:43 templates/Meetings/edit.php:25
+#: templates/Members/add.php:45 templates/Members/agreement.php:79
+#: templates/Members/edit.php:46 templates/Members/invite.php:79
+#: templates/Members/register.php:63 templates/Roles/add.php:25
+#: templates/Roles/edit.php:28 templates/ShopItems/add.php:32
+#: templates/ShopItems/edit.php:33 templates/Sites/add.php:34
+#: templates/Sites/edit.php:39 templates/Teams/add.php:21
+#: templates/Teams/edit.php:26 templates/Users/add.php:28
+#: templates/Users/edit.php:20 templates/Users/register.php:20
+#: templates/Users/reset.php:14
+msgid "Submit"
+msgstr "Envoyer"
+
+#: templates/Admin/generate_membership.php:60 templates/Bills/batch_add.php:59
+#: templates/Bills/mail_send.php:55 templates/Bills/send_reminder.php:56
+#: templates/Members/invite.php:80
+msgid "Check all"
+msgstr "Tout cocher"
+
+#: templates/Admin/generate_membership.php:60 templates/Bills/batch_add.php:59
+#: templates/Bills/mail_send.php:55 templates/Bills/send_reminder.php:56
+#: templates/Members/invite.php:80
+msgid "Check none"
+msgstr "Ne rien cocher"
+
+#: templates/Admin/generate_membership.php:27 templates/Members/add.php:33
+#: templates/Members/edit.php:34 templates/Members/register.php:51
+#: templates/Members/view.php:193
+msgctxt "Payment splited in multiple installments"
+msgid "Split payment"
+msgstr "Paiement fractionné"
+
+#: templates/Admin/new_year.php:10 templates/layout/default.php:193
+msgid "New year"
+msgstr "Nouvelle année"
+
+#: templates/Admin/new_year.php:13
+msgid "First day of this season"
+msgstr "Premier jour de cette saison"
+
+#: templates/Admin/new_year.php:16
+msgid "Update first day of the season"
+msgstr "Mettre à jour le premier jour de la saison"
+
+#: templates/Admin/new_year.php:18
+msgid "Update current year"
+msgstr "Mettre à jour l'année en cours"
+
+#: templates/Admin/new_year.php:22 templates/BillTemplates/add.php:10
+#: templates/BillTemplates/edit.php:10 templates/BillTemplates/index.php:18
+#: templates/BillTemplates/view.php:10 templates/Bills/index.php:55
+#: templates/Configurations/edit.php:10 templates/Configurations/index.php:16
+#: templates/Configurations/view.php:10 templates/Contents/add.php:23
+#: templates/Contents/edit.php:23 templates/Contents/index.php:18
+#: templates/Contents/view.php:10 templates/FieldTypes/add.php:10
+#: templates/FieldTypes/edit.php:10 templates/FieldTypes/index.php:21
+#: templates/FieldTypes/view.php:10 templates/Fields/add.php:10
+#: templates/Fields/edit.php:10 templates/Fields/index.php:16
+#: templates/Fields/view.php:10 templates/MemberOrders/index.php:58
+#: templates/MemberOrders/view.php:10 templates/Members/birthdays.php:33
+#: templates/Members/cancel_registration.php:38
+#: templates/Members/new_members.php:18 templates/Members/view.php:389
+#: templates/ShopItems/add.php:11 templates/ShopItems/edit.php:11
+#: templates/ShopItems/index.php:20 templates/ShopItems/view.php:10
+#: templates/Sites/add.php:10 templates/Sites/edit.php:10
+#: templates/Sites/index.php:19 templates/Sites/view.php:10
+#: templates/Teams/index.php:18 templates/Users/add.php:10
+#: templates/Users/index.php:17
+msgid "Actions"
+msgstr "Actions"
+
+#: templates/Admin/new_year.php:24 templates/Admin/reset_membership.php:5
+#: templates/Admin/reset_membership.php:22
+#: templates/Admin/reset_registration.php:5
+msgid "Reset membership fees"
+msgstr "Réinitialiser les cotisations"
+
+#: templates/Admin/new_year.php:25
+msgid "Generate membership fees"
+msgstr "Générer les cotisations"
+
+#: templates/Admin/new_year.php:26 templates/Admin/reset_registration.php:20
+msgid "Reset registration"
+msgstr "Réinitialiser les inscriptions"
+
+#: templates/BillTemplates/add.php:11 templates/BillTemplates/edit.php:16
+#: templates/BillTemplates/view.php:13
+msgid "List invoice Templates"
+msgstr "Liste des modèles de factures"
+
+#: templates/BillTemplates/add.php:18
+msgid "Add invoice Template"
+msgstr "Ajouter un modèle de facture"
+
+#: templates/BillTemplates/edit.php:12 templates/BillTemplates/index.php:32
+#: templates/Contents/edit.php:26 templates/Contents/index.php:32
+#: templates/FieldTypes/edit.php:13 templates/FieldTypes/index.php:36
+#: templates/Fields/edit.php:12 templates/Fields/index.php:28
+#: templates/Members/signatures.php:18 templates/ShopItems/edit.php:12
+#: templates/Sites/edit.php:12 templates/Sites/index.php:33
+msgid "Delete"
+msgstr "Supprimer"
+
+#: templates/BillTemplates/edit.php:14 templates/BillTemplates/index.php:32
+#: templates/BillTemplates/view.php:12 templates/Contents/edit.php:28
+#: templates/Contents/index.php:32 templates/Contents/view.php:12
+#: templates/FieldTypes/edit.php:15 templates/FieldTypes/index.php:36
+#: templates/FieldTypes/view.php:12 templates/Fields/edit.php:14
+#: templates/Fields/index.php:28 templates/Fields/view.php:12
+#: templates/Meetings/view.php:24 templates/MemberOrders/index.php:107
+#: templates/MemberOrders/view.php:16 templates/ShopItems/edit.php:12
+#: templates/ShopItems/index.php:35 templates/ShopItems/view.php:12
+#: templates/Sites/edit.php:14 templates/Sites/index.php:33
+#: templates/Sites/view.php:12
+msgid "Are you sure you want to delete # {0}?"
+msgstr "Es-tu sûr·e de vouloir supprimer # {0} ?"
+
+#: templates/BillTemplates/edit.php:23 templates/BillTemplates/view.php:11
+msgid "Edit invoice Template"
+msgstr "Modifier le modèle de facture"
+
+#: templates/BillTemplates/index.php:8 templates/BillTemplates/view.php:14
+msgid "New invoice Template"
+msgstr "Nouveau modèle de facture"
+
+#: templates/BillTemplates/index.php:9 templates/layout/default.php:194
+msgid "Invoice Templates"
+msgstr "Modèles de factures"
+
+#: templates/BillTemplates/index.php:30 templates/Configurations/index.php:26
+#: templates/Contents/index.php:30 templates/FieldTypes/index.php:34
+#: templates/Fields/index.php:26 templates/Sites/index.php:31
+#: vendor/cakephp/cakephp/src/View/Helper/PaginatorHelper.php:1178
+msgid "View"
+msgstr "Voir"
+
+#: templates/BillTemplates/index.php:31 templates/Configurations/index.php:27
+#: templates/Contents/index.php:31 templates/FieldTypes/index.php:35
+#: templates/Fields/index.php:27 templates/Members/birthdays.php:52
+#: templates/Members/new_members.php:29 templates/Members/view.php:206
+#: templates/Sites/index.php:32 templates/Users/index.php:28
+msgid "Edit"
+msgstr "Modifier"
+
+#: templates/BillTemplates/index.php:40 templates/Bills/index.php:100
+#: templates/Configurations/index.php:35 templates/Contents/index.php:40
+#: templates/FieldTypes/index.php:44 templates/Fields/index.php:36
+#: templates/Meetings/index.php:45 templates/MemberOrders/index.php:117
+#: templates/Members/batch_register.php:56 templates/Members/index.php:111
+#: templates/Roles/index.php:44 templates/ShopItems/index.php:44
+#: templates/Sites/index.php:41 templates/Users/index.php:36
+msgid "first"
+msgstr "premier"
+
+#: templates/BillTemplates/index.php:41 templates/Bills/index.php:101
+#: templates/Configurations/index.php:36 templates/Contents/index.php:41
+#: templates/FieldTypes/index.php:45 templates/Fields/index.php:37
+#: templates/Meetings/index.php:46 templates/MemberOrders/index.php:118
+#: templates/Members/batch_register.php:57 templates/Members/index.php:112
+#: templates/Roles/index.php:45 templates/ShopItems/index.php:45
+#: templates/Sites/index.php:42 templates/Users/index.php:37
+msgid "previous"
+msgstr "précédent"
+
+#: templates/BillTemplates/index.php:43 templates/Bills/index.php:103
+#: templates/Configurations/index.php:38 templates/Contents/index.php:43
+#: templates/FieldTypes/index.php:47 templates/Fields/index.php:39
+#: templates/Meetings/index.php:48 templates/MemberOrders/index.php:120
+#: templates/Members/batch_register.php:59 templates/Members/index.php:114
+#: templates/Roles/index.php:47 templates/ShopItems/index.php:47
+#: templates/Sites/index.php:44 templates/Users/index.php:39
+msgid "next"
+msgstr "suivant"
+
+#: templates/BillTemplates/index.php:44 templates/Bills/index.php:104
+#: templates/Configurations/index.php:39 templates/Contents/index.php:44
+#: templates/FieldTypes/index.php:48 templates/Fields/index.php:40
+#: templates/Meetings/index.php:49 templates/MemberOrders/index.php:121
+#: templates/Members/batch_register.php:60 templates/Members/index.php:115
+#: templates/Roles/index.php:48 templates/ShopItems/index.php:48
+#: templates/Sites/index.php:45 templates/Users/index.php:40
+msgid "last"
+msgstr "dernier"
+
+#: templates/BillTemplates/index.php:46 templates/Bills/index.php:106
+#: templates/Configurations/index.php:41 templates/Contents/index.php:46
+#: templates/FieldTypes/index.php:50 templates/Fields/index.php:42
+#: templates/Meetings/index.php:51 templates/MemberOrders/index.php:123
+#: templates/Members/batch_register.php:63 templates/Members/index.php:118
+#: templates/Roles/index.php:50 templates/ShopItems/index.php:50
+#: templates/Sites/index.php:47 templates/Users/index.php:42
+msgid ""
+"Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} "
+"total"
+msgstr ""
+"Page {{page}} sur {{pages}}, affichage de {{current}} enregistrement(s) sur "
+"{{count}} au total"
+
+#: templates/BillTemplates/view.php:12
+msgid "Delete invoice Template"
+msgstr "Supprimer le modèle de facture"
+
+#: templates/BillTemplates/view.php:30 templates/Configurations/view.php:28
+#: templates/Contents/view.php:30 templates/FieldTypes/view.php:30
+#: templates/Members/cancel_registration.php:32 templates/Roles/view.php:21
+#: templates/Roles/view.php:66 templates/Sites/view.php:58
+#: templates/Users/view.php:39
+msgid "Id"
+msgstr "Id"
+
+#: templates/BillTemplates/view.php:38
+msgid "Membership Fee"
+msgstr "Frais de cotisation"
+
+#: templates/BillTemplates/view.php:39 templates/Bills/view.php:58
+#: templates/Bills/view.php:62 templates/Bills/view.php:66
+#: templates/Bills/view.php:70 templates/MemberOrders/index.php:80
+#: templates/MemberOrders/view.php:48 templates/Members/invite.php:53
+#: templates/Roles/view.php:26 templates/Roles/view.php:30
+#: templates/Roles/view.php:34 templates/Roles/view.php:38
+#: templates/Roles/view.php:42 templates/Roles/view.php:46
+#: templates/Roles/view.php:50 templates/Roles/view.php:54
+#: templates/Roles/view.php:58 templates/ShopItems/index.php:30
+#: templates/ShopItems/view.php:35 templates/ShopItems/view.php:61
+#: templates/Teams/view.php:24
+msgid "Yes"
+msgstr "Oui"
+
+#: templates/BillTemplates/view.php:39 templates/Bills/view.php:58
+#: templates/Bills/view.php:62 templates/Bills/view.php:66
+#: templates/Bills/view.php:70 templates/MemberOrders/index.php:82
+#: templates/MemberOrders/view.php:50 templates/Roles/view.php:26
+#: templates/Roles/view.php:30 templates/Roles/view.php:34
+#: templates/Roles/view.php:38 templates/Roles/view.php:42
+#: templates/Roles/view.php:46 templates/Roles/view.php:50
+#: templates/Roles/view.php:54 templates/Roles/view.php:58
+#: templates/ShopItems/index.php:30 templates/ShopItems/view.php:35
+#: templates/ShopItems/view.php:61 templates/Teams/view.php:24
+msgid "No"
+msgstr "Non"
+
+#: templates/BillTemplates/view.php:22 templates/Bills/add.php:18
+#: templates/Bills/batch_add.php:34 templates/Bills/edit.php:16
+#: templates/Bills/index.php:41 templates/Bills/mail_print.php:26
+#: templates/Bills/mail_send.php:26 templates/Bills/view.php:21
+#: templates/Members/cancel_registration.php:33 templates/Members/view.php:384
+#: templates/Members/view.php:435
+msgctxt "Label on the invoice"
+msgid "Denomination"
+msgstr "Dénomination"
+
+#: templates/BillTemplates/view.php:26
+msgctxt "Physical location"
+msgid "Site"
+msgstr "Site"
+
+#: templates/Bills/add.php:15
+msgid "Add invoice to {0}"
+msgstr "Ajouter une facture à {0}"
+
+#: templates/Bills/add.php:20 templates/Bills/edit.php:24
+#: templates/Bills/view.php:57
+msgid "Printed"
+msgstr "Imprimé"
+
+#: templates/Bills/add.php:25 templates/Bills/batch_add.php:36
+#: templates/Bills/edit.php:20 templates/Bills/view.php:65
+msgid "Linked to a membership"
+msgstr "Lié à une cotisation"
+
+#: templates/Bills/add.php:37 templates/Bills/batch_add.php:23
+msgid "Templates"
+msgstr "Modèles"
+
+#: templates/Bills/add.php:39 templates/Bills/batch_add.php:25
+#: templates/Members/agreement.php:66 templates/Members/agreement.php:73
+msgid "Clear"
+msgstr "Effacer"
+
+#: templates/Bills/batch_add.php:10 templates/Bills/generate_reminder.php:8
+#: templates/Bills/index.php:16 templates/Bills/mail_print.php:8
+#: templates/Bills/mail_send.php:8 templates/Bills/overview.php:11
+#: templates/Bills/send_reminder.php:19 templates/Members/birthdays.php:12
+#: templates/Members/edit.php:39 templates/Members/index.php:21
+#: templates/Members/invite.php:20 templates/Members/list.php:14
+#: templates/Members/list_email.php:10 templates/Members/pictures.php:10
+#: templates/Members/view.php:149 templates/ShopItems/view.php:34
+#: templates/Teams/index.php:16 templates/Teams/view.php:23
+msgid "Active"
+msgstr "Actif"
+
+#: templates/Bills/batch_add.php:11 templates/Bills/generate_reminder.php:9
+#: templates/Bills/index.php:17 templates/Bills/mail_print.php:9
+#: templates/Bills/mail_send.php:9 templates/Bills/overview.php:12
+#: templates/Bills/send_reminder.php:20 templates/Members/birthdays.php:13
+#: templates/Members/index.php:22 templates/Members/invite.php:21
+#: templates/Members/list.php:15 templates/Members/list_email.php:11
+#: templates/Members/pictures.php:11
+msgid "Alumni"
+msgstr "Alumni"
+
+#: templates/Bills/batch_add.php:32
+msgid "Invoice detail"
+msgstr "Détail de la facture"
+
+#: templates/Bills/batch_validation.php:11 templates/layout/default.php:172
+msgid "Batch validation"
+msgstr "Validation par lots"
+
+#: templates/Bills/edit.php:13
+msgid "Edit invoice"
+msgstr "Modifier la facture"
+
+#: templates/Bills/edit.php:26 templates/Bills/mail_print.php:28
+#: templates/Bills/mail_send.php:28 templates/Bills/view.php:33
+msgid "No. of reminders"
+msgstr "Nb. de rappels"
+
+#: templates/Bills/edit.php:28 templates/Bills/view.php:25
+msgctxt "Status of the invoice (send, draft,...)"
+msgid "State"
+msgstr "État"
+
+#: templates/Bills/generate_reminder.php:18
+msgid "Generate reminders"
+msgstr "Générer des rappels"
+
+#: templates/Bills/generate_reminder.php:20
+msgid "Update PDF invoices"
+msgstr "Mettre à jour les factures PDF"
+
+#: templates/Bills/generate_reminder.php:37
+msgid "Add penalty fee"
+msgstr "Ajouter des frais de pénalité"
+
+#: templates/Bills/index.php:19
+msgid "Open"
+msgstr "Ouverte"
+
+#: templates/Bills/index.php:31 templates/Members/view.php:376
+#: templates/layout/default.php:166
+msgid "Invoices"
+msgstr "Factures"
+
+#: templates/Bills/index.php:35 templates/Members/view.php:383
+msgid "Ref."
+msgstr "Réf."
+
+#: templates/Bills/index.php:47 templates/Members/cancel_registration.php:36
+#: templates/Members/view.php:387
+msgid "Status"
+msgstr "Statut"
+
+#: templates/Bills/index.php:31 templates/Bills/mail_print.php:19
+#: templates/Bills/mail_send.php:19
+msgctxt "Elements in a list"
+msgid "items"
+msgstr "éléments"
+
+#: templates/Bills/mail_print.php:19 templates/Bills/mail_send.php:19
+msgid "Draft invoices"
+msgstr "Factures brouillon"
+
+#: templates/Bills/mail_print.php:25 templates/Bills/mail_send.php:25
+#: templates/Bills/overview.php:33 templates/Bills/overview.php:43
+#: templates/Bills/send_reminder.php:30 templates/Bills/view.php:13
+#: templates/Fields/view.php:22 templates/MemberOrders/index.php:50
+#: templates/MemberOrders/view.php:25 templates/ShopItems/view.php:52
+#: templates/Users/view.php:27
+msgid "Member"
+msgstr "Membre"
+
+#: templates/Bills/mail_print.php:44 templates/Bills/mail_send.php:44
+#: templates/Members/view.php:178
+msgid "Valid"
+msgstr "Valide"
+
+#: templates/Bills/mail_print.php:57
+msgid "Mark invoices as sent"
+msgstr "Marquer les factures comme envoyées"
+
+#: templates/Bills/mail_print.php:58 templates/Members/view.php:404
+#: templates/Members/view.php:429
+msgid "Download PDF"
+msgstr "Télécharger le PDF"
+
+#: templates/Bills/mail_send.php:23 templates/Members/add_photo.php:24
+#: templates/Members/add_photo_id.php:24
+#: templates/Members/batch_register.php:44
+#: templates/Users/forgot_password.php:13
+msgid "Send"
+msgstr "Envoyer"
+
+#: templates/Bills/mail_send.php:53 templates/Bills/send_reminder.php:54
+msgid "I am sending emails to all checked members above"
+msgstr "J'envoie un e-mail à tous les membres cochés ci-dessus"
+
+#: templates/Bills/mail_send.php:54 templates/Bills/send_reminder.php:55
+msgid "Send all emails"
+msgstr "Envoyer tous les e-mails"
+
+#: templates/Bills/overview.php:14
+msgid "This year"
+msgstr "Cette année"
+
+#: templates/Bills/overview.php:15
+msgid "Two years"
+msgstr "Deux ans"
+
+#: templates/Bills/overview.php:16
+msgid "Three years"
+msgstr "Trois ans"
+
+#: templates/Bills/overview.php:29
+msgid "Invoice overview"
+msgstr "Aperçu des factures"
+
+#: templates/Bills/overview.php:60
+msgid "Add {0}CHF"
+msgstr "Ajouter {0} CHF"
+
+#: templates/Bills/pdf.php:12 templates/Bills/pdf.php:13
+#: templates/Bills/pdfs.php:13 templates/Bills/pdfs.php:14
+msgid "Invoice"
+msgstr "Facture"
+
+#: templates/Bills/send_reminder.php:33 templates/ShopItems/view.php:22
+msgid "Label"
+msgstr "Libellé"
+
+#: templates/Configurations/view.php:20 templates/FieldTypes/add.php:21
+#: templates/FieldTypes/edit.php:28 templates/FieldTypes/view.php:22
+msgctxt "noun"
+msgid "Label"
+msgstr "Label"
+
+#: templates/Bills/send_reminder.php:34
+msgid "Last sent"
+msgstr "Dernier envoi"
+
+#: templates/Bills/send_reminder.php:67
+msgid "Summary"
+msgstr "Résumé"
+
+#: templates/Bills/send_reminder.php:70
+msgid "Total Members"
+msgstr "Nombre total de membres"
+
+#: templates/Bills/send_reminder.php:73
+msgid "Total Bills"
+msgstr "Nb. Total de la factures"
+
+#: templates/Bills/send_reminder.php:76 templates/MemberOrders/view.php:41
+msgid "Total Amount"
+msgstr "Montant total"
+
+#: templates/Bills/view.php:17 templates/Contents/view.php:34
+#: templates/Members/list.php:40 templates/Teams/index.php:17
+msgid "Location"
+msgstr "Emplacement"
+
+#: templates/Bills/view.php:41
+msgid "Original due date"
+msgstr "Date d'échéance originale"
+
+#: templates/Bills/view.php:45 templates/MemberOrders/view.php:67
+#: templates/ShopItems/view.php:38 templates/ShopItems/view.php:55
+#: templates/Users/view.php:43
+msgid "Created"
+msgstr "Créé"
+
+#: templates/Bills/view.php:49 templates/MemberOrders/view.php:71
+#: templates/ShopItems/view.php:42 templates/Users/view.php:47
+msgid "Modified"
+msgstr "Modifié"
+
+#: templates/Bills/view.php:53
+msgid "Confirmation"
+msgstr "Confirmation"
+
+#: templates/Configurations/edit.php:11 templates/Configurations/view.php:12
+msgid "List Configurations"
+msgstr "Lister les configurations"
+
+#: templates/Configurations/edit.php:18 templates/Configurations/view.php:11
+msgid "Edit Configuration"
+msgstr "Modifier la configuration"
+
+#: templates/Configurations/index.php:9
+msgid "Configurations"
+msgstr "Configurations"
+
+#: templates/Configurations/view.php:24 templates/Fields/view.php:30
+msgid "Value"
+msgstr "Valeur"
+
+#: templates/Contents/add.php:24 templates/Contents/edit.php:31
+#: templates/Contents/view.php:13 templates/Members/family_reduction.php:9
+#: templates/Members/list.php:28 templates/layout/default.php:151
+#: templates/layout/default.php:169 templates/layout/default.php:196
+msgid "List"
+msgstr "Liste"
+
+#: templates/Contents/add.php:31
+msgid "Add Content"
+msgstr "Ajouter du contenu"
+
+#: templates/Contents/edit.php:38 templates/Contents/view.php:11
+msgid "Edit Content"
+msgstr "Modifier le contenu"
+
+#: templates/Contents/index.php:8 templates/Contents/view.php:14
+msgid "New Content"
+msgstr "Nouveau contenu"
+
+#: templates/Contents/index.php:9 templates/layout/default.php:191
+msgid "Contents"
+msgstr "Contenus"
+
+#: templates/Contents/info.php:16 templates/Contents/info.php:29
+msgid "Fees: {0}CHF, Size: {1}"
+msgstr "Frais : {0} CHF, Taille : {1}"
+
+#: templates/Contents/view.php:12
+msgid "Delete Content"
+msgstr "Supprimer le contenu"
+
+#: templates/Contents/view.php:22
+msgid "Url"
+msgstr "URL"
+
+#: templates/Error/error400.php:22
+msgid "Page Not Found"
+msgstr "Page non trouvée"
+
+#: templates/Error/error400.php:34
+msgid "Error 404 - Page Not Found"
+msgstr "Erreur 404 - Page non trouvée"
+
+#: templates/Error/error400.php:36
+msgid "The requested address {0} was not found on this server."
+msgstr "La page demandée {0} n'a pas été trouvée."
+
+#: templates/Error/error400.php:45
+msgid "Suggestions:"
+msgstr "Suggestions:"
+
+#: templates/Error/error400.php:50
+msgid "Check the URL in the address bar"
+msgstr "Contrôle l'URL dans la barre d'adresse"
+
+#: templates/Error/error400.php:54
+msgid "Return to the homepage and start over"
+msgstr "Retourne à la page d'accueil et recommence"
+
+#: templates/Error/error500.php:32
+msgid "Internal Server Error"
+msgstr "Erreur interne sur le serveur"
+
+#: templates/Error/error500.php:37
+msgid "An internal error has occurred"
+msgstr "Un erreur interne est arrivée"
+
+#: templates/Error/error500.php:44
+msgid "Error 500 - Server Problem"
+msgstr "Erreur 500 - Erreur sur le serveur"
+
+#: templates/Error/error500.php:46
+msgid "Details:"
+msgstr "Détails:"
+
+#: templates/Error/error500.php:56
+msgid "What to do now?"
+msgstr "Que peux-tu faire ?"
+
+#: templates/Error/error500.php:61
+msgid "Try refreshing the page in a few moments"
+msgstr "Essaie de rafraichir la page un peu plus tard"
+
+#: templates/Error/error500.php:65 templates/Error/errorXXX.php:78
+msgid "Return to the homepage"
+msgstr "Retourner à l'accueil"
+
+#: templates/Error/error500.php:69
+msgid "If the problem persists, contact our technical team"
+msgstr "Si le problème persiste, contacte notre équipe technique"
+
+#: templates/Error/error500.php:77 templates/Error/errorXXX.php:97
+msgid "Error automatically reported"
+msgstr "L'erreur a été reportée"
+
+#: templates/Error/errorXXX.php:38 templates/Error/errorXXX.php:48
+msgid "System Error"
+msgstr "Erreur système"
+
+#: templates/Error/errorXXX.php:44
+msgid "A system error has occurred"
+msgstr "Une erreur système est arrivée"
+
+#: templates/Error/errorXXX.php:55
+msgid "Technical error detected"
+msgstr "Erreur technique détéectée"
+
+#: templates/Error/errorXXX.php:57
+msgid "Error message:"
+msgstr "Message d'erreure:"
+
+#: templates/Error/errorXXX.php:69
+msgid "For users:"
+msgstr "Pour les utilisateurs:"
+
+#: templates/Error/errorXXX.php:74
+msgid "Wait a few minutes and try again"
+msgstr "Attends quelques minutes et essaie à nouveau"
+
+#: templates/Error/errorXXX.php:82
+msgid "Contact support if necessary"
+msgstr "Contacter le support"
+
+#: templates/Error/errorXXX.php:92
+msgid "Technical information:"
+msgstr "Informations techniques:"
+
+#: templates/Error/errorXXX.php:101
+msgid "Our team has been notified"
+msgstr "Notre équipe a été informée"
+
+#: templates/Error/errorXXX.php:105
+msgid "Resolution in progress..."
+msgstr "Résolution en cours..."
+
+#: templates/Error/errorXXX.php:115
+msgid "This error does not compromise the security of your data"
+msgstr "Cette erreur ne compromet pas tes données"
+
+#: templates/FieldTypes/add.php:11 templates/FieldTypes/edit.php:18
+#: templates/FieldTypes/view.php:13 templates/Fields/add.php:11
+#: templates/Fields/edit.php:16 templates/Fields/view.php:13
+msgid "List Fields"
+msgstr "Lister les champs"
+
+#: templates/FieldTypes/add.php:18 templates/Fields/add.php:18
+msgid "Add Field"
+msgstr "Ajouter un champ"
+
+#: templates/FieldTypes/add.php:22 templates/FieldTypes/edit.php:29
+#: templates/FieldTypes/view.php:34
+msgid "Style"
+msgstr "Style"
+
+#: templates/FieldTypes/add.php:23 templates/FieldTypes/edit.php:30
+msgid "Allow member to edit"
+msgstr "Autoriser le membre à modifier"
+
+#: templates/FieldTypes/add.php:24 templates/FieldTypes/edit.php:31
+#: templates/FieldTypes/view.php:42
+msgid "Hidden"
+msgstr "Masqué"
+
+#: templates/FieldTypes/add.php:25 templates/FieldTypes/edit.php:32
+#: templates/FieldTypes/view.php:46
+msgid "Mandatory"
+msgstr "Obligatoire"
+
+#: templates/FieldTypes/add.php:20 templates/FieldTypes/edit.php:27
+#: templates/FieldTypes/view.php:26
+msgctxt "Like alphabetical order"
+msgid "Order"
+msgstr "Ordre"
+
+#: templates/FieldTypes/edit.php:25 templates/FieldTypes/view.php:11
+#: templates/Fields/edit.php:23 templates/Fields/view.php:11
+msgid "Edit Field"
+msgstr "Modifier le champ"
+
+#: templates/FieldTypes/index.php:10 templates/FieldTypes/view.php:14
+#: templates/Fields/index.php:8 templates/Fields/view.php:14
+msgid "New Field"
+msgstr "Nouveau champ"
+
+#: templates/FieldTypes/index.php:11 templates/Fields/index.php:9
+msgid "Fields"
+msgstr "Champs"
+
+#: templates/FieldTypes/index.php:18 templates/FieldTypes/view.php:38
+msgid "Member can edit"
+msgstr "Le membre peut modifier"
+
+#: templates/FieldTypes/view.php:12 templates/Fields/view.php:12
+msgid "Delete Field"
+msgstr "Supprimer le champ"
+
+#: templates/Fields/view.php:26
+msgid "Field Type"
+msgstr "Type de champ"
+
+#: templates/Meetings/add.php:15 templates/Meetings/add_multiple.php:18
+msgid "Add Meeting"
+msgstr "Ajouter une réunion"
+
+#: templates/Meetings/add_multiple.php:20
+msgid "Start Date"
+msgstr "Date de début"
+
+#: templates/Meetings/add_multiple.php:22
+msgid "End Date"
+msgstr "Date de fin"
+
+#: templates/Meetings/add_multiple.php:27
+msgid "Mon"
+msgstr "Lun"
+
+#: templates/Meetings/add_multiple.php:27
+msgid "Tue"
+msgstr "Mar"
+
+#: templates/Meetings/add_multiple.php:27
+msgid "Wed"
+msgstr "Mer"
+
+#: templates/Meetings/add_multiple.php:27
+msgid "Thu"
+msgstr "Jeu"
+
+#: templates/Meetings/add_multiple.php:27
+msgid "Fri"
+msgstr "Ven"
+
+#: templates/Meetings/add_multiple.php:27
+msgid "Sat"
+msgstr "Sam"
+
+#: templates/Meetings/add_multiple.php:27
+msgid "Sun"
+msgstr "Dim"
+
+#: templates/Meetings/edit.php:15
+msgid "Edit Meeting"
+msgstr "Modifier la réunion"
+
+#: templates/Meetings/index.php:10 templates/Members/view.php:151
+msgid "Past"
+msgstr "Passé"
+
+#: templates/Meetings/index.php:11
+msgid "Today"
+msgstr "Aujourd'hui"
+
+#: templates/Meetings/index.php:12
+msgid "Future"
+msgstr "Futur"
+
+#: templates/Meetings/index.php:22 templates/Teams/view.php:123
+msgid "Meetings"
+msgstr "Réunions"
+
+#: templates/Meetings/index.php:29 templates/Teams/view.php:130
+#: templates/Teams/view.php:133
+msgid "Pre/Abs/Exc/Late"
+msgstr "Pré/Abs/Exc/Ret"
+
+#: templates/Meetings/view.php:29 templates/Members/view.php:465
+#: templates/layout/default.php:160
+msgid "Attendance"
+msgstr "Présences"
+
+#: templates/MemberOrders/index.php:16
+msgid "Category:"
+msgstr "Catégorie:"
+
+#: templates/MemberOrders/index.php:17 templates/MemberOrders/index.php:26
+#: templates/MemberOrders/index.php:34 templates/Members/subventions.php:40
+msgid "All"
+msgstr "Tout"
+
+#: templates/MemberOrders/index.php:25
+msgid "Delivery:"
+msgstr "Livraison:"
+
+#: templates/MemberOrders/index.php:27 templates/MemberOrders/view.php:45
+#: templates/ShopItems/view.php:54
+msgid "Delivered"
+msgstr "Reçu"
+
+#: templates/MemberOrders/index.php:28
+msgid "Not Delivered"
+msgstr "Non livré"
+
+#: templates/MemberOrders/index.php:33
+msgid "Payment:"
+msgstr "Paiement:"
+
+#: templates/MemberOrders/index.php:36
+msgid "Not Paid"
+msgstr "Non payé"
+
+#: templates/MemberOrders/index.php:43
+msgid "Member Orders"
+msgstr "Articles des membres"
+
+#: templates/MemberOrders/index.php:51
+msgid "Item"
+msgstr "Article"
+
+#: templates/MemberOrders/index.php:52 templates/ShopItems/view.php:30
+msgid "Category"
+msgstr "Catégorie"
+
+#: templates/MemberOrders/index.php:55 templates/MemberOrders/view.php:55
+msgid "Bill"
+msgstr "Facture"
+
+#: templates/MemberOrders/index.php:56
+msgid "Bill Status"
+msgstr "Statut"
+
+#: templates/MemberOrders/index.php:89
+msgid "No Bill"
+msgstr "Pas de facture"
+
+#: templates/MemberOrders/index.php:103 templates/MemberOrders/view.php:12
+msgid "Mark Delivered"
+msgstr "Marquer livré"
+
+#: templates/MemberOrders/index.php:103 templates/MemberOrders/view.php:12
+msgid "Mark this order as delivered?"
+msgstr "Marquer cette article comme livré ?"
+
+#: templates/MemberOrders/index.php:105 templates/MemberOrders/view.php:14
+msgid "Mark Not Delivered"
+msgstr "Marquer livré"
+
+#: templates/MemberOrders/index.php:105 templates/MemberOrders/view.php:14
+msgid "Mark this order as not delivered?"
+msgstr "Marquer cet article comme non livré ?"
+
+#: templates/MemberOrders/view.php:16
+msgid "Delete Member Order"
+msgstr "Supprimer une commande de membre"
+
+#: templates/MemberOrders/view.php:17
+msgid "List Member Orders"
+msgstr "Lister les articles des membres"
+
+#: templates/MemberOrders/view.php:22
+msgid "Member Order #{0}"
+msgstr "Article #{0}"
+
+#: templates/MemberOrders/view.php:29
+msgid "Shop Item"
+msgstr "Article"
+
+#: templates/MemberOrders/view.php:33
+msgid "Item Price"
+msgstr "Prix de l'article"
+
+#: templates/MemberOrders/view.php:37 templates/Members/view.php:257
+#: templates/ShopItems/view.php:53
+msgid "Quantity"
+msgstr "Quantité"
+
+#: templates/MemberOrders/view.php:62
+msgid "No associated bill"
+msgstr "Pas de facture associée"
+
+#: templates/Members/add.php:13
+msgid "Add Member"
+msgstr "Ajouter un membre"
+
+#: templates/Members/add.php:19 templates/Members/edit.php:21
+#: templates/Members/index.php:46 templates/Members/list.php:32
+#: templates/Members/list_email.php:32 templates/Members/register.php:37
+msgid "First name"
+msgstr "Prénom"
+
+#: templates/Members/add.php:20 templates/Members/edit.php:22
+#: templates/Members/index.php:51 templates/Members/list.php:33
+#: templates/Members/list_email.php:33 templates/Members/register.php:38
+msgid "Last name"
+msgstr "Nom"
+
+#: templates/Members/add.php:21 templates/Members/edit.php:23
+#: templates/Members/list.php:35 templates/Members/register.php:39
+#: templates/Members/subventions.php:13 templates/Members/subventions.php:58
+#: templates/Members/view.php:192
+msgid "Date of birth"
+msgstr "Date de naissance"
+
+#: templates/Members/add.php:22 templates/Members/edit.php:24
+#: templates/Members/register.php:40 templates/Members/view.php:166
+msgid "Gender"
+msgstr "Genre"
+
+#: templates/Members/add.php:24 templates/Members/edit.php:26
+#: templates/Members/list.php:38 templates/Members/register.php:42
+msgid "Postal code"
+msgstr "Code postal"
+
+#: templates/Members/add.php:25 templates/Members/edit.php:27
+#: templates/Members/list.php:39 templates/Members/register.php:43
+#: templates/Sites/view.php:22
+msgid "City"
+msgstr "Ville"
+
+#: templates/Members/add.php:26 templates/Members/edit.php:28
+#: templates/Members/register.php:44 templates/Members/view.php:173
+#: templates/Members/view.php:175
+msgid "Mobile"
+msgstr "Mobile"
+
+#: templates/Members/add.php:27 templates/Members/register.php:45
+msgid "Home phone"
+msgstr "Téléphone fixe"
+
+#: templates/Members/add.php:30 templates/Members/edit.php:31
+#: templates/Members/register.php:48 templates/Members/view.php:182
+msgid "Nationality"
+msgstr "Nationalité"
+
+#: templates/Members/add.php:35 templates/Members/edit.php:36
+#: templates/Members/register.php:53 templates/Members/view.php:190
+msgid "Family discount"
+msgstr "Réduction familiale"
+
+#: templates/Members/add.php:37 templates/Members/edit.php:38
+#: templates/Members/register.php:55
+msgid "Communication Method"
+msgstr "Méthode de communication"
+
+#: templates/Members/add.php:39 templates/Members/edit.php:40
+#: templates/Members/register.php:57
+msgid "Is coach"
+msgstr "Est coach"
+
+#: templates/Members/add.php:41 templates/Members/edit.php:42
+#: templates/Members/register.php:59 templates/Members/view.php:201
+msgid "Payment slip"
+msgstr "Bulletin de versement"
+
+#: templates/Members/add_photo.php:8
+msgid "Add a portrait picture"
+msgstr "Ajoute une photo de portrait"
+
+#: templates/Members/add_photo.php:31 templates/Members/add_photo.php:37
+#: templates/Members/add_photo_id.php:31 templates/Members/add_photo_id.php:37
+msgid "Supported formats:"
+msgstr "Formats supportés:"
+
+#: templates/Members/add_photo.php:32 templates/Members/add_photo_id.php:32
+msgid "JPEG (.jpg, .jpeg) and HEIC (.heic, .heif)"
+msgstr "JPEG (.jpg, .jpeg) et HEIC (.heic, .heif)"
+
+#: templates/Members/add_photo.php:34 templates/Members/add_photo_id.php:34
+msgid "HEIC images from iOS devices will be automatically converted to JPEG."
+msgstr ""
+"Les images HEIC provenant d'appareils iOS seront automatiquement converties "
+"en JPEG."
+
+#: templates/Members/add_photo.php:38 templates/Members/add_photo_id.php:38
+msgid "JPEG (.jpg, .jpeg) only"
+msgstr "JPEG (.jpg, .jpeg) uniquement"
+
+#: templates/Members/add_photo.php:40 templates/Members/add_photo_id.php:40
+msgid ""
+"If you have an iPhone, please convert HEIC pictures to JPEG before uploading."
+msgstr "Si tu as un iPhone, convertit ta photo en JPEG avant."
+
+#: templates/Members/add_photo_id.php:8
+msgid "Add your identity card"
+msgstr "Ajoute ta carte d'identité"
+
+#: templates/Members/agreement.php:37 templates/Members/view.php:92
+#: templates/Pages/home.php:26
+msgid "Registration for the year {0}-{1}"
+msgstr "Inscription pour l'année {0}-{1}"
+
+#: templates/Members/agreement.php:39
+msgid ""
+"Register for a new cheerleading season. Read carefully our club regulations. "
+"Given the number of members in the club, we are obliged to have a certain "
+"number of rules so that everything goes well. This way, you will be aware of "
+"all the important points for this year."
+msgstr ""
+"Inscris-toi pour une nouvelle saison de cheerleading. Lis attentivement "
+"notre règlement de club. Vu le nombre de membres dans le club, nous sommes "
+"obligés d'avoir un certain nombre de règles pour que tout se passe bien. "
+"Ainsi, tu seras au courant de tous les points importants pour cette année."
+
+#: templates/Members/agreement.php:167 templates/Members/agreement.php:179
+msgid "Signature of"
+msgstr "Signature de"
+
+#: templates/Members/agreement.php:215 templates/Members/agreement.php:228
+msgid "Signature of legal guardian/parent"
+msgstr "Signature du tuteur légal/parent"
+
+#: templates/Members/agreement.php:216 templates/Members/agreement.php:229
+msgid "of"
+msgstr "de"
+
+#: templates/Members/agreement.php:50
+msgctxt "Title for signing the membership for this season"
+msgid "Registration agreement"
+msgstr "Acceptation des conditions"
+
+#: templates/Members/agreement.php:168 templates/Members/agreement.php:180
+#: templates/Members/agreement.php:217 templates/Members/agreement.php:230
+msgctxt "{} are years of the season"
+msgid "Season {0}-{1}"
+msgstr "Saison {0}-{1}"
+
+#: templates/Members/agreement_pdf.php:10
+#: templates/Members/agreement_pdf.php:11
+msgid "Registration"
+msgstr "Inscription"
+
+#: templates/Members/agreement_pdf.php:38
+msgid "Registration of {0} for year {1}-{2}"
+msgstr "Inscription de {0} pour l'année {1}-{2}"
+
+#: templates/Members/batch_register.php:30
+msgid "Upload inscription"
+msgstr "Télécharger une inscription"
+
+#: templates/Members/birthdays.php:7
+msgid "January"
+msgstr "Janvier"
+
+#: templates/Members/birthdays.php:7
+msgid "February"
+msgstr "Février"
+
+#: templates/Members/birthdays.php:7
+msgid "March"
+msgstr "Mars"
+
+#: templates/Members/birthdays.php:7
+msgid "April"
+msgstr "Avril"
+
+#: templates/Members/birthdays.php:7
+msgid "May"
+msgstr "Mai"
+
+#: templates/Members/birthdays.php:7
+msgid "June"
+msgstr "Juin"
+
+#: templates/Members/birthdays.php:7
+msgid "July"
+msgstr "Juillet"
+
+#: templates/Members/birthdays.php:7
+msgid "August"
+msgstr "Août"
+
+#: templates/Members/birthdays.php:7
+msgid "October"
+msgstr "Octobre"
+
+#: templates/Members/birthdays.php:7
+msgid "September"
+msgstr "Septembre"
+
+#: templates/Members/birthdays.php:7
+msgid "November"
+msgstr "Novembre"
+
+#: templates/Members/birthdays.php:7
+msgid "December"
+msgstr "Décembre"
+
+#: templates/Members/birthdays.php:29
+msgid "Birthday"
+msgstr "Anniversaire"
+
+#: templates/Members/cancel_registration.php:8 templates/Members/view.php:126
+#: templates/Members/view.php:205 templates/Pages/home.php:58
+msgid "Quit membership"
+msgstr "Quitter le club"
+
+#: templates/Members/cancel_registration.php:14
+msgid "Comments"
+msgstr "Commentaires"
+
+#: templates/Members/cancel_registration.php:17
+msgid "All open invoices are still due after leaving"
+msgstr "Toutes les factures ouvertes restent dues après le départ"
+
+#: templates/Members/cancel_registration.php:21
+msgid "Leave the club"
+msgstr "Quitter le club"
+
+#: templates/Members/cancel_registration.php:35 templates/Members/view.php:386
+#: templates/Members/view.php:421
+msgid "Remin."
+msgstr "Rapp."
+
+#: templates/Members/edit.php:15
+msgid "Edit Member"
+msgstr "Modifier le membre"
+
+#: templates/Members/edit.php:33 templates/Members/view.php:194
+msgid "Date of joining"
+msgstr "Date d'adhésion"
+
+#: templates/Members/edit.php:35 templates/Members/view.php:188
+msgid "Membership paid"
+msgstr "Cotisation payée"
+
+#: templates/Members/edit.php:37 templates/Members/view.php:196
+msgid "Date of leaving"
+msgstr "Date de départ"
+
+#: templates/Members/family_reduction.php:16
+msgid "Discount"
+msgstr "Réduction"
+
+#: templates/Members/index.php:23 templates/Members/invite.php:22
+#: templates/Members/list.php:16 templates/Members/list_email.php:12
+#: templates/Members/pictures.php:12
+msgid "Membership not paid"
+msgstr "Cotisation non payée"
+
+#: templates/Members/index.php:24 templates/Members/invite.php:23
+msgid "Non inscrit"
+msgstr "Non inscrit"
+
+#: templates/Members/invite.php:35 templates/Members/invite.php:53
+#: templates/layout/default.php:153
+msgid "Invite"
+msgstr "Inviter"
+
+#: templates/Members/invite.php:44 templates/Members/view.php:200
+#: templates/Roles/view.php:67 templates/Users/login.php:95
+#: templates/Users/view.php:19
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+#: templates/Members/invite.php:45
+msgid "Last login"
+msgstr "Dernière connexion"
+
+#: templates/Members/invite.php:46 templates/Users/view.php:23
+msgid "Role"
+msgstr "Rôle"
+
+#: templates/Members/list.php:41
+msgid "Modification"
+msgstr "Modification"
+
+#: templates/Members/list_email.php:21
+msgid "Email list"
+msgstr "Liste e-mail"
+
+#: templates/Members/new_members.php:11
+msgid "Members to sort"
+msgstr "Membres à trier"
+
+#: templates/Members/pictures.php:22 templates/layout/default.php:199
+msgid "Pictures"
+msgstr "Photos"
+
+#: templates/Members/register.php:31 templates/Users/forgot_password.php:16
+msgid "Register"
+msgstr "S'inscrire"
+
+#: templates/Members/register.php:12
+msgctxt "{0} is an email"
+msgid "The member already exists, please contact {0}"
+msgstr "Le membre existe déjà, merci de contacter {0}"
+
+#: templates/Members/signatures.php:17
+msgid "Validate"
+msgstr "Valider"
+
+#: templates/Members/signatures.php:29
+msgid "Nothing to validate"
+msgstr "Rien à valider"
+
+#: templates/Members/subventions.php:43
+msgid "PDF"
+msgstr "PDF"
+
+#: templates/Members/subventions.php:44
+msgid "Grid"
+msgstr "Grille"
+
+#: templates/Members/view.php:35
+msgid "Access Denied"
+msgstr "Accès refusé"
+
+#: templates/Members/view.php:38
+msgid "Invalid or Expired Link"
+msgstr "Lien invalide ou expiré"
+
+#: templates/Members/view.php:39
+msgid "The link you used to access this page is either invalid or has expired."
+msgstr ""
+"Le lien que tu as utilisé pour accéder à cette page est soit invalide, soit "
+"expiré."
+
+#: templates/Members/view.php:40
+msgid "This could happen if:"
+msgstr "Cela peut se produire si :"
+
+#: templates/Members/view.php:42
+msgid "The link was copied incorrectly"
+msgstr "Le lien a été mal copié"
+
+#: templates/Members/view.php:43
+msgid "Your membership information has been updated"
+msgstr "Tes informations de membre ont été mises à jour"
+
+#: templates/Members/view.php:44
+msgid "The link has expired"
+msgstr "Le lien a expiré"
+
+#: templates/Members/view.php:49
+msgid "What can you do?"
+msgstr "Que peux-tu faire ?"
+
+#: templates/Members/view.php:51
+msgid "Go to Homepage"
+msgstr "Retourner à l'accueil"
+
+#: templates/Members/view.php:53
+msgid "Problem accessing personal page"
+msgstr "Problème d'accès à la page personnelle"
+
+#: templates/Members/view.php:54
+msgid "Contact Support"
+msgstr "Contacter le support"
+
+#: templates/Members/view.php:62
+msgid ""
+"If you believe this is an error, please contact the administrator with the "
+"details of how you accessed this page."
+msgstr ""
+"Si tu penses qu'il s'agit d'une erreur, merci de contacter l'administrateur "
+"en indiquant comment tu as accédé à cette page."
+
+#: templates/Members/view.php:76 templates/Users/forgot_password.php:18
+#: templates/Users/login.php:41 templates/Users/login.php:108
+msgid "Login"
+msgstr "Connexion"
+
+#: templates/Members/view.php:77
+msgid "Your user name is {0}"
+msgstr "Ton nom d'utilisateur est {0}"
+
+#: templates/Members/view.php:79
+msgid "Create account with this member"
+msgstr "Créer un compte avec ce membre"
+
+#: templates/Members/view.php:93 templates/Pages/home.php:27
+msgid ""
+"Each year you need to register for the current season, please follow the "
+"steps below:"
+msgstr ""
+"Chaque année, tu dois t'inscrire pour la saison en cours, suis les étapes ci-"
+"dessous :"
+
+#: templates/Members/view.php:97 templates/Pages/home.php:31
+msgid "Please check your contact information"
+msgstr "Merci de vérifier tes coordonnées"
+
+#: templates/Members/view.php:98 templates/Members/view.php:204
+#: templates/Pages/home.php:32
+msgid "The information is correct"
+msgstr "Les informations sont correctes"
+
+#: templates/Members/view.php:101 templates/Members/view.php:102
+#: templates/Pages/home.php:35 templates/Pages/home.php:36
+msgid "Ask for modifications"
+msgstr "Demander une modification"
+
+#: templates/Members/view.php:106
+msgid "You are a past member"
+msgstr "Tu es un ancien membre"
+
+#: templates/Members/view.php:107
+msgid "I want to start again !"
+msgstr "Je veux recommencer !"
+
+#: templates/Members/view.php:110 templates/Pages/home.php:43
+msgid ""
+"You will need to sign the aggreement for this year. A mobile phone is "
+"recomended"
+msgstr ""
+"Tu vas devoir signer le règlement de cette année, un smartphone est "
+"recommandé"
+
+#: templates/Members/view.php:113
+msgid "You are not registered for this season"
+msgstr "Tu n'es pas inscrit·e pour cette saison"
+
+#: templates/Members/view.php:114
+msgid "I register for the season"
+msgstr "Je m'inscrit pour la saison"
+
+#: templates/Members/view.php:116 templates/Pages/home.php:48
+msgid "You have to be approved by a coach, please wait"
+msgstr "Tu dois être approuvé·e par un coach, merci d'attendre"
+
+#: templates/Members/view.php:118 templates/Pages/home.php:50
+msgid "You have no teams, wait a while or check with your coach"
+msgstr "Tu n'as pas d'équipe, attends un peu ou vérifie avec ton coach"
+
+#: templates/Members/view.php:120 templates/Pages/home.php:52
+msgid "This should not append"
+msgstr "Cela ne devrait pas arriver"
+
+#: templates/Members/view.php:125 templates/Pages/home.php:57
+msgid "But if you would not like to continue"
+msgstr "Mais si tu veux quitter le club"
+
+#: templates/Members/view.php:141
+msgid "Identity card"
+msgstr "Carte d'identité"
+
+#: templates/Members/view.php:159
+msgid "Not reviewed"
+msgstr "Non vérifié"
+
+#: templates/Members/view.php:168 templates/Members/view.php:170
+msgid "Adress"
+msgstr "Adresse"
+
+#: templates/Members/view.php:186
+msgid "Communication"
+msgstr "Communication"
+
+#: templates/Members/view.php:191
+msgid "Invoices (Open/Total)"
+msgstr "Factures (Ouvertes/Total)"
+
+#: templates/Members/view.php:191
+msgid "{0}/{1}"
+msgstr "{0}/{1}"
+
+#: templates/Members/view.php:197
+msgid "Leaving comment"
+msgstr "Commentaire de départ"
+
+#: templates/Members/view.php:219
+msgid "Registration {0}-{1}"
+msgstr "Inscription {0}-{1}"
+
+#: templates/Members/view.php:278
+msgid "Total: {0}"
+msgstr "Total: {0}"
+
+#: templates/Members/view.php:282
+msgid "Place Order"
+msgstr "Commander"
+
+#: templates/Members/view.php:325
+msgid "Please select at least one item to order."
+msgstr "Sélectionne au moins un article à commander."
+
+#: templates/Members/view.php:330
+msgid "Please confirm your order:"
+msgstr "Confirme ta commande:"
+
+#: templates/Members/view.php:334
+msgid "Total amount: CHF {0}"
+msgstr "Total: CHF {0}"
+
+#: templates/Members/view.php:335
+msgid "Do you want to place this order?"
+msgstr "Veux-tu commander ?"
+
+#: templates/Pages/home.php:40
+msgid "You are a past member, click here if you want to start again"
+msgstr "Tu es un ancien membre, clique ici si tu veux recommencer"
+
+#: templates/Pages/home.php:46
+msgid "You are not registered for this season, please fill this form"
+msgstr ""
+"Tu n'es pas inscrit·e pour cette saison, merci de remplir ce formulaire"
+
+#: templates/Pages/home.php:146
+msgid "You are up to date with your invoices"
+msgstr "Tu es à jour avec tes factures"
+
+#: templates/Pages/home.php:149
+msgid "{0} - {1} - {2}CHF"
+msgstr "{0} - {1} - {2} CHF"
+
+#: templates/Roles/add.php:12
+msgid "Add Role"
+msgstr "Ajouter un rôle"
+
+#: templates/Roles/edit.php:15
+msgid "Edit Role"
+msgstr "Modifier le rôle"
+
+#: templates/Roles/index.php:8
+msgid "New Role"
+msgstr "Nouveau rôle"
+
+#: templates/Roles/index.php:9 templates/layout/default.php:190
+msgid "Roles"
+msgstr "Rôles"
+
+#: templates/Roles/view.php:62 templates/Users/index.php:9
+#: templates/layout/default.php:189
+msgid "Users"
+msgstr "Utilisateurs"
+
+#: templates/Roles/view.php:57
+msgctxt "person"
+msgid "Editor"
+msgstr "Éditeur"
+
+#: templates/ShopItems/add.php:12 templates/ShopItems/edit.php:13
+#: templates/ShopItems/view.php:13
+msgid "List Shop Items"
+msgstr "Lister les articles"
+
+#: templates/ShopItems/add.php:19
+msgid "Add Shop Item"
+msgstr "Ajouter un article"
+
+#: templates/ShopItems/add.php:26 templates/ShopItems/edit.php:27
+msgid "-- Select Category --"
+msgstr "— Sélectionne la catégorie —"
+
+#: templates/ShopItems/edit.php:20 templates/ShopItems/view.php:11
+msgid "Edit Shop Item"
+msgstr "Modifier un article"
+
+#: templates/ShopItems/index.php:9
+msgid "Shop Items"
+msgstr "Articles"
+
+#: templates/ShopItems/view.php:12
+msgid "Delete Shop Item"
+msgstr "Supprimer un article"
+
+#: templates/ShopItems/view.php:14
+msgid "New Shop Item"
+msgstr "Nouvel article"
+
+#: templates/ShopItems/view.php:26
+msgid "Price"
+msgstr "Prix"
+
+#: templates/ShopItems/view.php:48
+msgid "Related Member Orders"
+msgstr "Article lié au membre"
+
+#: templates/Sites/add.php:11 templates/Sites/edit.php:16
+#: templates/Sites/view.php:13
+msgid "List Sites"
+msgstr "Liste des sites"
+
+#: templates/Sites/add.php:18
+msgid "Add Site"
+msgstr "Ajouter un site"
+
+#: templates/Sites/edit.php:23 templates/Sites/view.php:11
+msgid "Edit Site"
+msgstr "Modifier le site"
+
+#: templates/Sites/index.php:9 templates/Sites/view.php:14
+msgid "New Site"
+msgstr "Nouveau site"
+
+#: templates/Sites/index.php:10
+msgctxt "Physical location"
+msgid "Sites"
+msgstr "Sites"
+
+#: templates/Sites/view.php:12
+msgid "Delete Site"
+msgstr "Supprimer le site"
+
+#: templates/Sites/view.php:30
+msgid "Account Designation"
+msgstr "Désignation du compte"
+
+#: templates/Sites/view.php:34
+msgid "Postcode"
+msgstr "Code postal"
+
+#: templates/Sites/view.php:46
+msgid "Sender Email"
+msgstr "E-mail de l'expéditeur"
+
+#: templates/Sites/view.php:50
+msgid "Sender"
+msgstr "Expéditeur"
+
+#: templates/Sites/view.php:54
+msgid "Sender Phone"
+msgstr "Téléphone de l'expéditeur"
+
+#: templates/Sites/view.php:62
+msgid "Max fees"
+msgstr "Frais maximum"
+
+#: templates/Sites/view.php:66
+msgid "Reminder Penalty"
+msgstr "Pénalité de rappel"
+
+#: templates/Sites/view.php:70
+msgctxt "Reference like \"invoice number\""
+msgid "Add to invoice reference"
+msgstr "Ajouter à la référence de facture"
+
+#: templates/Teams/add.php:12
+msgid "Add Team"
+msgstr "Ajouter une équipe"
+
+#: templates/Teams/edit.php:13
+msgid "Edit Team"
+msgstr "Modifier l'équipe"
+
+#: templates/Teams/index.php:8
+msgid "New Team"
+msgstr "Nouvelle équipe"
+
+#: templates/Teams/index.php:15
+msgid "Fees"
+msgstr "Frais"
+
+#: templates/Teams/view.php:97
+msgid "Remove member"
+msgstr "Retirer le membre"
+
+#: templates/Teams/view.php:105
+msgid "Add members"
+msgstr "Ajouter des membres"
+
+#: templates/Teams/view.php:114
+msgid "Add member"
+msgstr "Ajouter un membre"
+
+#: templates/Teams/view.php:128 templates/Teams/view.php:131
+msgid "Meeting date"
+msgstr "Date de réunion"
+
+#: templates/Users/add.php:11
+msgid "List Users"
+msgstr "Liste des utilisateurs"
+
+#: templates/Users/add.php:18
+msgid "Add User"
+msgstr "Ajouter un utilisateur"
+
+#: templates/Users/edit.php:12
+msgid "Edit User"
+msgstr "Modifier l'utilisateur"
+
+#: templates/Users/forgot_password.php:8 templates/Users/login.php:117
+msgid "Password forgotten"
+msgstr "Mot de passe oublié"
+
+#: templates/Users/forgot_password.php:11
+msgid "Please enter your email or username"
+msgstr "Merci de saisir ton e-mail ou nom d'utilisateur"
+
+#: templates/Users/index.php:8
+msgid "New User"
+msgstr "Nouvel utilisateur"
+
+#: templates/Users/login.php:14
+msgid "Welcome to the registration platform of"
+msgstr "Bienvenue sur la plateforme d'inscription de"
+
+#: templates/Users/login.php:23
+msgid "If this is your first year at the club, you need to start by "
+msgstr "Si c'est ta première année au club, tu dois commencer par "
+
+#: templates/Users/login.php:24
+msgid "creating an account"
+msgstr "créer un compte"
+
+#: templates/Users/login.php:26
+msgid "Once logged in, you will see a link to register for the current season."
+msgstr ""
+"Une fois connecté·e, tu verras un lien pour t'inscrire à la saison en cours."
+
+#: templates/Users/login.php:28
+msgid "Help on how to register"
+msgstr "Aide pour s'inscrire"
+
+#: templates/Users/login.php:30
+msgid ""
+"If you've been in the club before, use your account. If you have any issues, "
+"you can write to "
+msgstr ""
+"Si tu as déjà été dans le club auparavant, utilise ton compte. En cas de "
+"problème, tu peux écrire à "
+
+#: templates/Users/login.php:31
+msgid "Florian"
+msgstr "Florian"
+
+#: templates/Users/login.php:47
+msgid "With email"
+msgstr "Par email"
+
+#: templates/Users/login.php:52
+msgid "With login"
+msgstr "Par login"
+
+#: templates/Users/login.php:67
+msgid "Enter your full name to receive a login link by email"
+msgstr "Entre ton nom complet pour recevoir un lien par email"
+
+#: templates/Users/login.php:68
+msgid "We will send you a secure link to access your account"
+msgstr "On t’enverra un lien sécurisé pour accéder à ton compte"
+
+#: templates/Users/login.php:73
+msgid "Full Name (First Name Last Name)"
+msgstr "Nom complet (Prénom Nom)"
+
+#: templates/Users/login.php:79
+msgid "Send login link"
+msgstr "Envoyer un lien par email"
+
+#: templates/Users/login.php:90
+msgid "Please enter your username and password"
+msgstr "Merci de saisir ton nom d'utilisateur et ton mot de passe"
+
+#: templates/Users/login.php:91
+msgid "You need one account per athlete"
+msgstr "Tu as besoin d'un compte par athlète"
+
+#: templates/Users/login.php:102
+msgid "Password"
+msgstr "Mot de passe"
+
+#: templates/Users/login.php:115
+msgid "Create an account"
+msgstr "Créer un compte"
+
+#: templates/Users/register.php:12
+msgid "Create your login for"
+msgstr "Crée ton identifiant pour"
+
+#: templates/Users/register.php:14
+msgid "New username"
+msgstr "Nouveau nom d'utilisateur"
+
+#: templates/Users/register.php:15
+msgid "New password"
+msgstr "Nouveau mot de passe"
+
+#: templates/Users/register.php:16 templates/Users/register.php:17
+msgid "Confirm password"
+msgstr "Confirmer le mot de passe"
+
+#: templates/Users/reset.php:8
+msgid "Set new password"
+msgstr "Définir un nouveau mot de passe"
+
+#: templates/Users/view.php:31
+msgid "Pass Key"
+msgstr "Clé d'accès"
+
+#: templates/Users/view.php:35
+msgid "Tokenhash"
+msgstr "Hash du jeton"
+
+#: templates/email/html/personal_page.php:1 templates/email/html/resetpsw.php:3
+#: templates/email/html/welcome.php:1 templates/email/text/personal_page.php:1
+#: templates/email/text/welcome.php:1
+msgid "Hello {0},"
+msgstr "Bonjour {0},"
+
+#: templates/email/html/personal_page.php:3
+#: templates/email/text/personal_page.php:6
+msgid "Please go on url below to get your login information"
+msgstr ""
+"Merci de te rendre sur l'adresse ci-dessous pour obtenir tes informations de "
+"connexion"
+
+#: templates/email/html/resetpsw.php:5
+msgid ""
+"You have asked for a new password. Here is a link to reset your password."
+msgstr ""
+"Tu as demandé un nouveau mot de passe. Voici un lien pour réinitialiser ton "
+"mot de passe."
+
+#: templates/email/html/welcome.php:3 templates/email/text/welcome.php:3
+msgid ""
+"Thank you for registering. Please click on the url below to create your login"
+msgstr ""
+"Merci de t'être inscrit·e. Merci de cliquer sur l'URL ci-dessous pour créer "
+"ton identifiant"
+
+#: templates/email/text/resetpsw.php:6
+msgid ""
+"Hello {0},\\r\\nYou have asked for a new password. Here is a link to reset "
+"your password.\\r\\n{1}"
+msgstr ""
+"Bonjour {0},\\r\\nTu as demandé un nouveau mot de passe. Voici un lien pour "
+"réinitialiser ton mot de passe.\\r\\n{1}"
+
+#: templates/layout/default.php:114
+msgid "Maintenance Mode Enabled"
+msgstr "Mode maintenance activé"
+
+#: templates/layout/default.php:140
+msgid "Home"
+msgstr "Accueil"
+
+#: templates/layout/default.php:143
+msgid "My account"
+msgstr "Mon compte"
+
+#: templates/layout/default.php:152
+msgid "Signatures validation"
+msgstr "Validation des signatures"
+
+#: templates/layout/default.php:154
+msgid "Ordered items"
+msgstr "Articles commandés"
+
+#: templates/layout/default.php:170
+msgid "Simple"
+msgstr "Simple"
+
+#: templates/layout/default.php:171
+msgid "Year Overview"
+msgstr "Aperçu de l'année"
+
+#: templates/layout/default.php:173
+msgid "Send reminders"
+msgstr "Envoyer des rappels"
+
+#: templates/layout/default.php:174
+msgid "Batch add"
+msgstr "Ajout par lots"
+
+#: templates/layout/default.php:175
+msgid "Send email"
+msgstr "Envoyer un e-mail"
+
+#: templates/layout/default.php:176
+msgid "Print"
+msgstr "Imprimer"
+
+#: templates/layout/default.php:183
+msgid "Admin"
+msgstr "Administration"
+
+#: templates/layout/default.php:187
+msgid "Shop items"
+msgstr "Articles"
+
+#: templates/layout/default.php:188
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+#: templates/layout/default.php:195
+msgid "Subsidies"
+msgstr "Subventions"
+
+#: templates/layout/default.php:197
+msgid "Familly discount"
+msgstr "Réduction familiale"
+
+#: templates/layout/default.php:198
+msgid "Birthdays"
+msgstr "Anniversaires"
+
+#: templates/layout/default.php:200
+msgid "Log"
+msgstr "Journal"
+
+#: templates/layout/default.php:207
+msgid "External links"
+msgstr "Liens externes"
+
+#: templates/layout/default.php:217
+msgid "Info"
+msgstr "Informations"
+
+#: templates/layout/default.php:233
+msgid "Logout"
+msgstr "Déconnexion"
+
+#: templates/layout/error.php:48
+msgid "Error"
+msgstr "Erreure"
+
+#: templates/layout/error.php:452
+msgid "Oops! Something went wrong"
+msgstr "Oops! Quelque chose c'est mal passé"
+
+#: templates/layout/error.php:456
+msgid "Don't worry, it happens to the best of us!"
+msgstr "Ne t'inquiète pas, ça arrive aux meilleurs !"
+
+#: templates/layout/error.php:469
+msgid "Back to Home"
+msgstr "Retourner à l'accueil"
+
+#: templates/layout/error.php:478
+msgid "Previous Page"
+msgstr "Page précédente"
+
+#: templates/layout/error.php:484
+msgid "If the problem persists,"
+msgstr "Si le problème persiste,"
+
+#: templates/layout/error.php:486
+msgid "contact our support"
+msgstr "contacter le support"
+
+#, fuzzy
+#~| msgid "Page Not Found"
+#~ msgid "? File not found"
+#~ msgstr "Page non trouvée"
+
+#, fuzzy
+#~| msgid "Failed to send document"
+#~ msgid "? Failed to read EXIF data"
+#~ msgstr "Échec d'envoi du document"
+
+#~ msgid "You can only edit your own information."
+#~ msgstr "Tu ne peux modifier que tes propres informations."
+
+#~ msgid "Mark as Delivered"
+#~ msgstr "Marqué livré"
+
+#~ msgid "Mark as Not Delivered"
+#~ msgstr "Marquer non livré"
+
+#~ msgid "Login with username"
+#~ msgstr "Connexion par nom d'utilisateur"
+
+#~ msgid "e.g. John Doe"
+#~ msgstr "ex. John Doe"
+
+#~ msgid "Continue with {0} ? Your response is needed"
+#~ msgstr "Continuer avec {0} ? On a besoin de ta réponse"
+
+#~ msgid ""
+#~ "A new cheerleading season is starting and we need to know if you want to "
+#~ "continue with our team.\n"
+#~ "\n"
+#~ "Please let us know your decision by clicking on this link: {1}\n"
+#~ "\n"
+#~ "You have two options:\n"
+#~ "- Continue for another exciting season with us\n"
+#~ "- Stop your participation in the team\n"
+#~ "\n"
+#~ "Important: You must make a choice, otherwise we will contact you again "
+#~ "soon.\n"
+#~ "\n"
+#~ "Thank you for taking the time to respond!\n"
+#~ "\n"
+#~ "The cheerleading team"
+#~ msgstr ""
+#~ "Une nouvelle saison de cheerleading commence et on doit savoir si tu veux "
+#~ "continuer avec notre équipe.\n"
+#~ "\n"
+#~ "Merci de nous faire savoir ta décision en cliquant sur ce lien : {1}\n"
+#~ "\n"
+#~ "Tu as deux options :\n"
+#~ "- Continuer pour une autre saison passionnante avec nous\n"
+#~ "- Arrêter ta participation dans l'équipe\n"
+#~ "\n"
+#~ "Important : Tu dois faire un choix, sinon on te recontactera bientôt.\n"
+#~ "\n"
+#~ "Merci de prendre le temps de répondre !\n"
+#~ "\n"
+#~ "L'équipe de cheerleading"
+
+#~ msgctxt "{0} is the club name"
+#~ msgid "Your personal page at {0}"
+#~ msgstr "Ta page personnelle sur {0}"
+
+#~ msgid "Registration PDF"
+#~ msgstr "PDF d'inscription"
+
+#~ msgid "New members"
+#~ msgstr "Nouveaux membres"
+
+#~ msgid ""
+#~ "We have a new platform where you can view and modify your contact "
+#~ "information.\n"
+#~ "You can also see various information about the club such as upcoming "
+#~ "events.\n"
+#~ "Join us at {0}"
+#~ msgstr ""
+#~ "Nous avons une nouvelle plateforme où tu peux consulter et modifier tes "
+#~ "coordonnées.\n"
+#~ "Tu peux aussi voir diverses informations sur le club comme les prochains "
+#~ "événements.\n"
+#~ "Rejoins-nous sur {0}"
+
+#~ msgid "Join our platform"
+#~ msgstr "Rejoint notre platforme"
+
+#~ msgid "Error automatically reported to our team"
+#~ msgstr "Error automatically reported to our team"
+
+#~ msgid "Please use a mobile phone to be able to sign the registration"
+#~ msgstr ""
+#~ "Merci d'utiliser un téléphone portable pour pouvoir signer l'inscription"
+
+#~ msgid "Back"
+#~ msgstr "Retour"
+
+#~ msgid "Passive"
+#~ msgstr "Passif"
+
+#~ msgid "Registration steps"
+#~ msgstr "Étapes d'enregistrement"
+
+#~ msgid "Options"
+#~ msgstr "Options"
+
+#, fuzzy
+#~| msgid "Description"
+#~ msgid "Inscription PDF"
+#~ msgstr "Description"
+
+#~ msgid "You are not authorized to go here"
+#~ msgstr "Vous n'êtes pas autorisé à vous rendre ici"
+
+#~ msgid "Missing info"
+#~ msgstr "Informations manquantes"
+
+#~ msgid "Language"
+#~ msgstr "Langue"
+
+#~ msgid "Trainings"
+#~ msgstr "Entraînements"
+
+#~ msgid "Next events"
+#~ msgstr "Événements à venir"
+
+#~ msgid "Next big events"
+#~ msgstr "Prochains grands événements"
+
+#~ msgctxt "No. as count"
+#~ msgid "No. Open Invoices"
+#~ msgstr "Nb. Factures ouvertes"

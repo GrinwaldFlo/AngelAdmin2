@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CakePHP 4.0.7</title>
+  <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+  <style>
+
+
+/*
+Based on Minimal CSS (minimalcss.com) under the MIT license.
+*/
+
+/* Reset */
+* { margin: 0; padding: 0; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+
+/* Layout */
+body { font: 14px/20px -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+
+.container { position: relative; max-width: 90%; margin: 0 auto; }
+
+/* Typography */
+a { color: #105CB6; text-decoration: none; }
+a:hover, a:focus { color: #105CB6; text-decoration: underline; }
+a:active { color: #105CB6; }
+
+h1 { font-size: 24px; line-height: 20px; margin: 10px 0; }
+h2 { font-size: 20px; line-height: 20px; margin: 10px 0; }
+h3 { font-size: 16px; line-height: 20px; margin: 10px 0; }
+h4 { font-size: 14px; line-height: 20px; margin: 10px 0; }
+h5 { font-size: 12px; line-height: 20px; margin: 10px 0; }
+h5 { font-size: 10px; line-height: 20px; margin: 10px 0; }
+
+p { margin-bottom: 10px; }
+
+.float-left     { float: left; }
+.float-right    { float: right; }
+img.float-left  { float: left; margin: 0 20px 20px 0; }
+img.float-right { float: right; margin: 0 0 20px 20px; }
+img.center      { margin: 0 auto; display: block; }
+
+.text-left    { text-align: left; }
+.text-center  { text-align: center; }
+.text-right   { text-align: right; }
+.text-justify { text-align: justify; }
+
+/* List */
+ul { list-style-position:inside; }
+ol { list-style-position:inside; }
+
+/* Table */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+th { font-weight: bold; }
+tfoot { font-style: italic; }
+
+/* Metadata part */
+
+.metadata {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  font-size: 90%;
+}
+table.metadata td {
+  padding-right: 20px;
+}
+
+.stats {
+  padding-top: 5px;
+  padding-bottom: 20px;
+}
+.graph {
+  width: 100%;
+}
+.graph div { float: left; }
+.graph div:first-child { border-top-left-radius: 3px; border-bottom-left-radius: 3px; }
+.graph div:last-child { border-top-right-radius: 3px; border-bottom-right-radius: 3px; }
+.legend {
+  font-size: smaller;
+  padding-top: 12px;
+  text-align: center;
+}
+
+/* Translations */
+table.translations {
+  width: 100%;
+  table-layout: fixed;
+}
+table.translations th, table.translations td {
+  padding: 5px 10px;
+  vertical-align: top;
+  border-bottom: 1px solid #F1F1F1;
+}
+table.translations th {
+  text-align: left;
+}
+table.translations th:first-child, table.translations td:first-child { padding-left: 0; }
+table.translations th:last-child, table.translations td:last-child { padding-right: 0; }
+
+.with-comments td {
+  border-bottom: none !important;
+}
+tr.comments div {
+  float: left;
+  max-width: 90%;
+  font-size: smaller;
+}
+tr.comments div p:last-child { margin-bottom: 0; }
+tr.comments td { padding-top: 0; }
+
+.msgctxt {
+  font-size: smaller;
+  border-radius: 2px;
+  padding: 2px 4px;
+  margin-right: 4px;
+}
+
+
+/* Colors */
+
+body { background-color: #fff; color: #333; }
+
+.percent-done    { background-color: rgb(146, 236, 106); height: 10px; }
+.percent-fuzzy   { background-color: rgb(255, 149, 0); height: 10px; }
+.percent-untrans { background-color: #F1F1F1; height: 10px; }
+.legend          { color: #aaa; }
+tr.comments div  { color: #aaa; }
+.fuzzy .tra      { color: rgb(230, 134, 0); }
+
+.msgctxt         { color: rgb(70, 109, 137); background-color: rgb(217, 232, 242); }
+
+
+@media (prefers-color-scheme: dark) {
+    body             { background-color: rgb(45, 42, 41); color: #eee; }
+    .percent-untrans { background-color: rgba(255, 255, 255, 0.3); }
+    .legend          { color: rgba(255, 255, 255, 0.6); }
+    tr.comments div  { color: rgba(255, 255, 255, 0.6); }
+    .fuzzy .tra      { color: rgb(253, 178, 72); }
+    .msgctxt         { color: rgb(180, 222, 254); background-color: rgba(67, 94, 147, 0.6); }
+    table.translations th, table.translations td { border-bottom: 1px solid #333; }
+}
+
+
+  </style>
+</head>
+<body>
+<div class='container'>
+<table class='metadata'>
+<tr><td>Project:</td><td>CakePHP 4.0.7</td></tr>
+<tr><td>Language:</td><td>French</td></tr>
+</table>
+<div class='stats'>
+  <div class='graph'>
+    <div class='percent-done' style='width: 98.2143%'>&nbsp;</div>
+    <div class='percent-untrans' style='width: 1.78571%'>&nbsp;</div>
+  </div>
+  <div class='legend'>Translated: 55 of 56 (98 %)  •  Remaining: 1  </div>
+</div>
+<table class='translations'>
+  <thead>
+    <tr>
+      <th>Source text — English</th>
+      <th>Translation — French</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr class='i'>
+<td class='src'  lang='en'>
+Error</td>
+<td class='tra'  lang='fr'>
+Erreur</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The requested address {0} was not found on this server.</td>
+<td class='tra'  lang='fr'>
+L'adresse demandée {0} n'a pas été trouvée sur ce serveur.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+An Internal Error Has Occurred</td>
+<td class='tra'  lang='fr'>
+Une erreur interne s'est produite</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+You are not authorized to access that location.</td>
+<td class='tra'  lang='fr'>
+Vous n'êtes pas autorisé à accéder à cette adresse.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Not Found</td>
+<td class='tra'  lang='fr'>
+Non trouvé</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+An Internal Error Has Occurred.</td>
+<td class='tra'  lang='fr'>
+﻿Une erreur interne s’est produite.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Missing CSRF cookie.</td>
+<td class='tra'  lang='fr'>
+Il manque le cookie CSRF.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Missing or invalid CSRF cookie.</td>
+<td class='tra'  lang='fr'>
+Un cookie CSRF manquant ou non valide.</td>
+</tr>
+<tr class='i untrans'>
+<td class='src'  lang='en'>
+CSRF token from either the request body or request headers did not match or is missing.</td>
+<td class='tra'  lang='fr'>
+</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The requested file contains `..` and will not be read.</td>
+<td class='tra'  lang='fr'>
+Le fichier demandé contient `..` et ne sera pas lu.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The requested file was not found</td>
+<td class='tra'  lang='fr'>
+Le dossier demandé n'a pas été trouvé</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+{0,number,#,###.##} KB</td>
+<td class='tra'  lang='fr'>
+{0,number,#,###.##} KB</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+{0,number,#,###.##} MB</td>
+<td class='tra'  lang='fr'>
+{0,number,#,###.##} MB</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+{0,number,#,###.##} GB</td>
+<td class='tra'  lang='fr'>
+{0,number,#,###.##} GB</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+{0,number,#,###.##} TB</td>
+<td class='tra'  lang='fr'>
+{0,number,#,###.##} TB</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+<ol class='plurals'>
+  <li>{0,number,integer} Byte</li>
+  <li>{0,number,integer} Bytes</li>
+</ol>
+</td>
+<td class='tra'  lang='fr'>
+<ol class='plurals'>
+  <li>{0,number,integer} octet</li>
+  <li>{0,number,integer} octets</li>
+</ol>
+</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+{0} from now</td>
+<td class='tra'  lang='fr'>
+{0} à partir de maintenant</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+{0} ago</td>
+<td class='tra'  lang='fr'>
+Il y a {0}</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+{0} after</td>
+<td class='tra'  lang='fr'>
+après {0}</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+{0} before</td>
+<td class='tra'  lang='fr'>
+avant {0}</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+just now</td>
+<td class='tra'  lang='fr'>
+maintenant</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+about a second ago</td>
+<td class='tra'  lang='fr'>
+il y a environ une seconde</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+about a minute ago</td>
+<td class='tra'  lang='fr'>
+il y a environ une minute</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+about an hour ago</td>
+<td class='tra'  lang='fr'>
+il y a environ une heure</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+about a day ago</td>
+<td class='tra'  lang='fr'>
+il y a environ un jour</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+about a week ago</td>
+<td class='tra'  lang='fr'>
+il y a environ une semaine</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+about a month ago</td>
+<td class='tra'  lang='fr'>
+il y a environ un mois</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+about a year ago</td>
+<td class='tra'  lang='fr'>
+il y a environ un an</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+in about a second</td>
+<td class='tra'  lang='fr'>
+dans environ une seconde</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+in about a minute</td>
+<td class='tra'  lang='fr'>
+dans environ une minute</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+in about an hour</td>
+<td class='tra'  lang='fr'>
+dans environ une heure</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+in about a day</td>
+<td class='tra'  lang='fr'>
+dans environ un jour</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+in about a week</td>
+<td class='tra'  lang='fr'>
+dans environ une semaine</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+in about a month</td>
+<td class='tra'  lang='fr'>
+dans environ un mois</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+in about a year</td>
+<td class='tra'  lang='fr'>
+dans environ une année</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+today</td>
+<td class='tra'  lang='fr'>
+aujourd’hui</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+%s ago</td>
+<td class='tra'  lang='fr'>
+Il y a %s</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+on %s</td>
+<td class='tra'  lang='fr'>
+sur %s</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+<ol class='plurals'>
+  <li>{0} year</li>
+  <li>{0} years</li>
+</ol>
+</td>
+<td class='tra'  lang='fr'>
+<ol class='plurals'>
+  <li>{0} année</li>
+  <li>{0} années</li>
+</ol>
+</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+<ol class='plurals'>
+  <li>{0} month</li>
+  <li>{0} months</li>
+</ol>
+</td>
+<td class='tra'  lang='fr'>
+<ol class='plurals'>
+  <li>{0} mois</li>
+  <li>{0} mois</li>
+</ol>
+</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+<ol class='plurals'>
+  <li>{0} week</li>
+  <li>{0} weeks</li>
+</ol>
+</td>
+<td class='tra'  lang='fr'>
+<ol class='plurals'>
+  <li>{0} semaine·s</li>
+  <li>{0} semaines</li>
+</ol>
+</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+<ol class='plurals'>
+  <li>{0} day</li>
+  <li>{0} days</li>
+</ol>
+</td>
+<td class='tra'  lang='fr'>
+<ol class='plurals'>
+  <li>{0} jour·s</li>
+  <li>{0} jours</li>
+</ol>
+</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+<ol class='plurals'>
+  <li>{0} hour</li>
+  <li>{0} hours</li>
+</ol>
+</td>
+<td class='tra'  lang='fr'>
+<ol class='plurals'>
+  <li>{0} heure·s</li>
+  <li>{0} heures</li>
+</ol>
+</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+<ol class='plurals'>
+  <li>{0} minute</li>
+  <li>{0} minutes</li>
+</ol>
+</td>
+<td class='tra'  lang='fr'>
+<ol class='plurals'>
+  <li>{0} minute·s</li>
+  <li>{0} minutes</li>
+</ol>
+</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+<ol class='plurals'>
+  <li>{0} second</li>
+  <li>{0} seconds</li>
+</ol>
+</td>
+<td class='tra'  lang='fr'>
+<ol class='plurals'>
+  <li>{0} seconde·s</li>
+  <li>{0} secondes</li>
+</ol>
+</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+This value is already in use</td>
+<td class='tra'  lang='fr'>
+Cette valeur existe déjà</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+This value does not exist</td>
+<td class='tra'  lang='fr'>
+Cette valeur n’existe pas</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Cannot modify row: a constraint for the `{0}` association fails.</td>
+<td class='tra'  lang='fr'>
+Impossible de modifier la ligne : une contrainte pour l'association `{0}` a échoué.</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The count does not match {0}{1}</td>
+<td class='tra'  lang='fr'>
+Le comptage ne correspond pas {0}{1}</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+and</td>
+<td class='tra'  lang='fr'>
+et</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+This field is required</td>
+<td class='tra'  lang='fr'>
+Ce champ est requis</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+This field cannot be left empty</td>
+<td class='tra'  lang='fr'>
+Ce champ ne peut pas être vide</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+The provided value is invalid</td>
+<td class='tra'  lang='fr'>
+La valeur fournie est invalide</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Edit {0}</td>
+<td class='tra'  lang='fr'>
+Modifier {0}</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+New {0}</td>
+<td class='tra'  lang='fr'>
+Nouveau {0}</td>
+</tr>
+<tr class='i'>
+<td class='src'  lang='en'>
+Submit</td>
+<td class='tra'  lang='fr'>
+Envoyer</td>
+</tr>
+</tbody>
+</table>
+</div>
+</body>
+</html>

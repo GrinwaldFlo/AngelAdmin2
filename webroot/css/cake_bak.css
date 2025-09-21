@@ -1,0 +1,430 @@
+/* Miligram overrides 
+https://bulma.io/documentation/elements/tag/
+https://css.gg/app
+*/
+
+/* @FONT-FACE loads font into browser */
+@font-face {
+  font-family: 'typicons';
+  font-weight: normal;
+  font-style: normal;
+  src: url('../font/typicons.eot');
+  src: url('../font/typicons.eot?#iefix') format('embedded-opentype'),
+    url('../font/typicons.woff') format('woff'),
+    url('../font/typicons.ttf') format('truetype'),
+    url('../font/typicons.svg#typicons') format('svg');
+}
+
+ul {
+  margin: 0 0 30px 0;
+  padding-left: 25px;
+}
+
+ul ul {
+  margin-left: 5px;
+  padding-left: 25px;
+}
+
+hr {
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 50%;
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(120, 120, 120, 0), rgba(120, 120, 120, 0.75), rgba(120, 120, 120, 0));
+}
+
+
+.text-center {
+  text-align: center;
+}
+
+.release-name {
+  color: #D33C43;
+  font-weight: 400;
+  font-style: italic;
+}
+
+a {
+  font-family: "Raleway", sans-serif;
+  color: #500080;
+}
+
+/* Utility */
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Main */
+body {
+  background: #f5f7fa;
+  color: black;
+  line-height: 1.4;
+}
+.content {
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 0.4rem;
+  /* Thanks Stripe */
+  box-shadow: 0 7px 14px 0 rgba(60, 66, 87, 0.1),
+    0 3px 6px 0 rgba(0, 0, 0, 0.07);
+}
+.actions a {
+  font-weight: bold;
+  padding: 0 0.4rem;
+}
+th {
+  white-space: nowrap;
+}
+
+td,
+th {
+  padding: 0.5rem 0.5rem;
+}
+
+tr:nth-child(even) {background: #f5f5f5}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 300;
+  letter-spacing: -.1rem;
+  margin-bottom: 0.2rem;
+  margin-top: 1rem;
+}
+
+h1 {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+h2 {
+  font-size: 2.8rem;
+  line-height: 1;
+}
+
+h3 {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+h4 {
+  font-size: 2.2rem;
+  letter-spacing: -.08rem;
+  line-height: 1;
+}
+
+h5 {
+  font-size: 2rem;
+  letter-spacing: -.05rem;
+  line-height: 1;
+}
+
+h6 {
+  font-size: 1.8rem;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+
+
+/* Nav bar */
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 112rem;
+  padding: 2rem;
+  margin: 0 auto 0rem;
+}
+.top-nav-title a {
+  font-size: 2.0rem;
+
+}
+.top-nav-title span {
+  color: #404041;
+}
+.top-nav-links a {
+  margin: 0 0.5rem;
+}
+.top-nav-title a,
+.top-nav-links a {
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.side-nav-item {
+  display: block;
+  padding: 0.5rem 0;
+}
+
+/* View action */
+.view.content .text {
+  margin-top: 1.2rem;
+}
+.related {
+  margin-top: 2rem;
+}
+
+/* Flash messages */
+.message:before {
+  font-family: 'typicons', sans-serif;
+}
+
+.message {
+  padding: 1rem;
+
+  background: #eff8ff;
+  color: #2779bd;
+
+  border-color: #6cb2eb;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+  margin-bottom: 2rem;
+}
+.message.hidden {
+  display: none;
+}
+.message.success {
+  background: #e3fcec;
+  color: #1f9d55;
+  border-color: #51d88a;
+}
+.message.error {
+  background: #fcebea;
+  color: #cc1f1a;
+  border-color: #ef5753;
+}
+
+/* Forms */
+.input.radio,
+.input.checkbox {
+  margin-bottom: 0.0rem;
+}
+.input.radio input,
+.input.checkbox input {
+  margin: 0;
+}
+.input.radio label,
+.input.checkbox label {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+.input.radio label > input,
+.input.checkbox label > input {
+  margin-right: 1.0rem;
+}
+.input.radio label:first-of-type {
+  margin-bottom: 2.0rem;
+}
+.button
+{
+  margin-right: 1px;
+  margin-left: 1px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.pressed
+{
+  background-color: #45006f;
+  border-color: #45006f;
+}
+
+.collapsible {
+  color: white;
+  cursor: pointer;
+}
+
+.active, .collapsible:hover {
+
+}
+
+.contentCollapsible {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+}
+
+/* Paginator */
+.paginator {
+  text-align: right;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+.pagination li {
+  margin: 0 0.5rem;
+}
+.prev.disabled a,
+.next.disabled a {
+  cursor: not-allowed;
+  color: #606c76;
+}
+.asc:after {
+  content: " \2193";
+}
+.desc:after {
+  content: " \2191";
+}
+
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+
+/* Error */
+.error-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.bullet:before {
+  font-family: 'typicons', sans-serif;
+  font-size: 25px;
+  display: inline-block;
+  margin-left: -0.2em;
+  width: 0.9em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: -1px;
+}
+.success:before {
+  color: #88c671;
+  content: "\e11e";
+}
+
+.success {
+  list-style-type: none;
+}
+.problem:before {
+  color: #d33d44;
+  content: "\e122";
+}
+.problem {
+  list-style-type: none;
+}
+.error:before {
+  color: #d33d44;
+  content: "\e122";
+}
+.error {
+  list-style-type: none;
+}
+.star:before {
+  color: #45006f;
+  content: '\e105';
+}
+.star {
+  list-style-type: none;
+}
+
+.warn:before {
+  color: #45006f;
+  content: '\e137';
+}
+.warn {
+  list-style-type: none;
+}
+
+.arrowRight:before {
+  color: #45006f;
+  content: '\e01a';
+}
+.arrowRight {
+  list-style-type: none;
+}
+
+.photobox {
+  width: 150px;
+  display: inline-block;
+}
+
+.dateItem {
+  width: 120px;
+  display: inline-block;
+}
+
+form {
+  margin: 0px;
+}
+
+.containerWide {
+  margin: 0 auto;
+  padding: 0 2.0rem;
+  position: relative;
+  float: left;
+}
+
+.container100 {
+  margin: 0 auto;
+  padding: 0 2.0rem;
+  position: relative;
+  float: left;
+  width: 100%
+}
+
+td,
+th {
+  border-left: 0.1rem solid #e1e1e1;
+}
+
+input[type='button'],
+input[type='reset'],
+input[type='submit'] {
+  padding: 0 1.0rem;
+}
+
+.noIcon:before {
+  content: '';
+}
+
+li {
+  margin-bottom: 0.2rem;
+}

@@ -1,0 +1,312 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CakePHP 4.0.7\n"
+"POT-Creation-Date: 2020-05-03 11:20+0000\n"
+"PO-Revision-Date: 2020-05-03 16:37+0200\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.3\n"
+"Last-Translator: Florian Glardon <bot@grinwald.net>\n"
+"Language: es\n"
+
+#: Error/error400.php:36 Error/errorXXX.php:40
+#, fuzzy
+msgid "Error"
+msgstr "Error"
+
+#: Error/error400.php:37
+#, fuzzy
+msgid "The requested address {0} was not found on this server."
+msgstr "La dirección solicitada {0} no se encontró en este servidor."
+
+#: Error/errorXXX.php:38
+#, fuzzy
+msgid "An Internal Error Has Occurred"
+msgstr "Ha ocurrido un error interno"
+
+#: Controller/Component/AuthComponent.php:460
+#, fuzzy
+msgid "You are not authorized to access that location."
+msgstr "No está autorizado a acceder a esa ubicación."
+
+#: Error/ExceptionRenderer.php:304
+#, fuzzy
+msgid "Not Found"
+msgstr "No encontrado"
+
+#: Error/ExceptionRenderer.php:306
+#, fuzzy
+msgid "An Internal Error Has Occurred."
+msgstr "Se ha producido un error interno."
+
+#: Http/Middleware/CsrfProtectionMiddleware.php:250
+#: Http/Middleware/CsrfProtectionMiddleware.php:254
+#, fuzzy
+msgid "Missing CSRF token cookie"
+msgstr "Falta la cookie de token CSRF"
+
+#: Http/Middleware/CsrfProtectionMiddleware.php:275
+#, fuzzy
+msgid "Missing CSRF token body"
+msgstr "Falta el cuerpo de la ficha del CSRF"
+
+#: Http/Response.php:1484
+#, fuzzy
+msgid "The requested file contains `..` and will not be read."
+msgstr "El archivo solicitado contiene `..` y no se leerá."
+
+#: Http/Response.php:1492
+#, fuzzy
+msgid "The requested file was not found"
+msgstr "No se encontró el archivo solicitado"
+
+#: I18n/Number.php:108
+#, fuzzy
+msgid "{0,number,#,###.##} KB"
+msgstr "{0, número, #, ###. ##} KB"
+
+#: I18n/Number.php:110
+#, fuzzy
+msgid "{0,number,#,###.##} MB"
+msgstr "{0,número,#,###.##} MB"
+
+#: I18n/Number.php:112
+#, fuzzy
+msgid "{0,number,#,###.##} GB"
+msgstr "{0,número,#,###.##} GB"
+
+#: I18n/Number.php:114
+#, fuzzy
+msgid "{0,number,#,###.##} TB"
+msgstr "{0,número,#,###.##} TB"
+
+#: I18n/Number.php:106
+#, fuzzy
+msgid "{0,number,integer} Byte"
+msgid_plural "{0,number,integer} Bytes"
+msgstr[0] "{0, número, entero} Byte"
+msgstr[1] "{0, número, entero} Bytes"
+
+#: I18n/RelativeTimeFormatter.php:86
+#, fuzzy
+msgid "{0} from now"
+msgstr "{0} a partir de ahora"
+
+#: I18n/RelativeTimeFormatter.php:86
+#, fuzzy
+msgid "{0} ago"
+msgstr "{0} hace"
+
+#: I18n/RelativeTimeFormatter.php:89
+#, fuzzy
+msgid "{0} after"
+msgstr "{0} después"
+
+#: I18n/RelativeTimeFormatter.php:89
+#, fuzzy
+msgid "{0} before"
+msgstr "{0} antes"
+
+#: I18n/RelativeTimeFormatter.php:120
+#, fuzzy
+msgid "just now"
+msgstr "ahora mismo"
+
+#: I18n/RelativeTimeFormatter.php:157
+#, fuzzy
+msgid "about a second ago"
+msgstr "hace un segundo"
+
+#: I18n/RelativeTimeFormatter.php:158
+#, fuzzy
+msgid "about a minute ago"
+msgstr "hace alrededor de un minuto"
+
+#: I18n/RelativeTimeFormatter.php:159
+#, fuzzy
+msgid "about an hour ago"
+msgstr "hace al rededor de un hora"
+
+#: I18n/RelativeTimeFormatter.php:160 I18n/RelativeTimeFormatter.php:370
+#, fuzzy
+msgid "about a day ago"
+msgstr "hace al rededor de un día"
+
+#: I18n/RelativeTimeFormatter.php:161 I18n/RelativeTimeFormatter.php:371
+#, fuzzy
+msgid "about a week ago"
+msgstr "hace una semana"
+
+#: I18n/RelativeTimeFormatter.php:162 I18n/RelativeTimeFormatter.php:372
+#, fuzzy
+msgid "about a month ago"
+msgstr "hace un mes"
+
+#: I18n/RelativeTimeFormatter.php:163 I18n/RelativeTimeFormatter.php:373
+#, fuzzy
+msgid "about a year ago"
+msgstr "hace un año"
+
+#: I18n/RelativeTimeFormatter.php:174
+#, fuzzy
+msgid "in about a second"
+msgstr "en alrededor de un segundo"
+
+#: I18n/RelativeTimeFormatter.php:175
+#, fuzzy
+msgid "in about a minute"
+msgstr "en alrededor de un minuto"
+
+#: I18n/RelativeTimeFormatter.php:176
+#, fuzzy
+msgid "in about an hour"
+msgstr "en alrededor de una hora"
+
+#: I18n/RelativeTimeFormatter.php:177 I18n/RelativeTimeFormatter.php:384
+#, fuzzy
+msgid "in about a day"
+msgstr "en aproximadamente un día"
+
+#: I18n/RelativeTimeFormatter.php:178 I18n/RelativeTimeFormatter.php:385
+#, fuzzy
+msgid "in about a week"
+msgstr "en aroximadamente una semana"
+
+#: I18n/RelativeTimeFormatter.php:179 I18n/RelativeTimeFormatter.php:386
+#, fuzzy
+msgid "in about a month"
+msgstr "en aproximadamente un mes"
+
+#: I18n/RelativeTimeFormatter.php:180 I18n/RelativeTimeFormatter.php:387
+#, fuzzy
+msgid "in about a year"
+msgstr "en aproximadamente un año"
+
+#: I18n/RelativeTimeFormatter.php:342
+#, fuzzy
+msgid "today"
+msgstr "hoy"
+
+#: I18n/RelativeTimeFormatter.php:408
+#, fuzzy
+msgid "%s ago"
+msgstr "hace %s"
+
+#: I18n/RelativeTimeFormatter.php:409
+#, fuzzy
+msgid "on %s"
+msgstr "en %s"
+
+#: I18n/RelativeTimeFormatter.php:53 I18n/RelativeTimeFormatter.php:132
+#: I18n/RelativeTimeFormatter.php:354
+#, fuzzy
+msgid "{0} year"
+msgid_plural "{0} years"
+msgstr[0] "{0} año"
+msgstr[1] "{0} años"
+
+#: I18n/RelativeTimeFormatter.php:57 I18n/RelativeTimeFormatter.php:135
+#: I18n/RelativeTimeFormatter.php:357
+#, fuzzy
+msgid "{0} month"
+msgid_plural "{0} months"
+msgstr[0] "{0} mes"
+msgstr[1] "{0} meses"
+
+#: I18n/RelativeTimeFormatter.php:63 I18n/RelativeTimeFormatter.php:138
+#: I18n/RelativeTimeFormatter.php:360
+#, fuzzy
+msgid "{0} week"
+msgid_plural "{0} weeks"
+msgstr[0] "{0} semana"
+msgstr[1] "{0} semanas"
+
+#: I18n/RelativeTimeFormatter.php:65 I18n/RelativeTimeFormatter.php:141
+#: I18n/RelativeTimeFormatter.php:363
+#, fuzzy
+msgid "{0} day"
+msgid_plural "{0} days"
+msgstr[0] "{0} día"
+msgstr[1] "{0} días"
+
+#: I18n/RelativeTimeFormatter.php:70 I18n/RelativeTimeFormatter.php:144
+#, fuzzy
+msgid "{0} hour"
+msgid_plural "{0} hours"
+msgstr[0] "{0} hora"
+msgstr[1] "{0} horas"
+
+#: I18n/RelativeTimeFormatter.php:74 I18n/RelativeTimeFormatter.php:147
+#, fuzzy
+msgid "{0} minute"
+msgid_plural "{0} minutes"
+msgstr[0] "{0} minuto"
+msgstr[1] "{0} minutos"
+
+#: I18n/RelativeTimeFormatter.php:78 I18n/RelativeTimeFormatter.php:150
+#, fuzzy
+msgid "{0} second"
+msgid_plural "{0} seconds"
+msgstr[0] "{0} segundo"
+msgstr[1] "{0} segundos"
+
+#: ORM/RulesChecker.php:55
+#, fuzzy
+msgid "This value is already in use"
+msgstr "Este valor ya está en uso"
+
+#: ORM/RulesChecker.php:102
+#, fuzzy
+msgid "This value does not exist"
+msgstr "Este valor no existe"
+
+#: ORM/RulesChecker.php:224
+#, fuzzy
+msgid "Cannot modify row: a constraint for the `{0}` association fails."
+msgstr "No se puede modificar la fila: falla una restricción para la asociación `{0}`."
+
+#: ORM/RulesChecker.php:262
+#, fuzzy
+msgid "The count does not match {0}{1}"
+msgstr "El recuento no coincide con {0} {1}"
+
+#: Utility/Text.php:916
+#, fuzzy
+msgid "and"
+msgstr "y"
+
+#: Validation/Validator.php:2496
+#, fuzzy
+msgid "This field is required"
+msgstr "Este campo es requerido"
+
+#: Validation/Validator.php:2516 View/Form/ArrayContext.php:253
+#, fuzzy
+msgid "This field cannot be left empty"
+msgstr "Este campo no puede dejarse vacío"
+
+#: Validation/Validator.php:2668
+#, fuzzy
+msgid "The provided value is invalid"
+msgstr "El valor proporcionado no es válido"
+
+#: View/Helper/FormHelper.php:968
+#, fuzzy
+msgid "Edit {0}"
+msgstr "Editar {0}"
+
+#: View/Helper/FormHelper.php:970
+#, fuzzy
+msgid "New {0}"
+msgstr "Nuevo {0}"
+
+#: View/Helper/FormHelper.php:1877
+#, fuzzy
+msgid "Submit"
+msgstr "Enviar"

@@ -1,0 +1,110 @@
+/* Mobile Navigation Dropdown Fix */
+
+/* Ensure dropdown menus look good on mobile when navbar is collapsed */
+@media (max-width: 991.98px) {
+    /* When navbar is collapsed */
+    .navbar-collapse .dropdown-menu {
+        /* Remove default Bootstrap dropdown styling for mobile */
+        position: static !important;
+        float: none;
+        width: auto;
+        margin-top: 0;
+        background-color: transparent;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        /* Add visual separation */
+        border-left: 3px solid #9b4dca;
+        margin-left: 1rem;
+        padding-left: 0.5rem;
+    }
+    
+    /* Style dropdown items for mobile */
+    .navbar-collapse .dropdown-menu .dropdown-item {
+        color: rgba(0, 0, 0, 1);
+        padding: 0.5rem 1rem;
+        border-bottom: 1px solid #f8f9fa;
+        background-color: #f8f9fa;
+        margin-bottom: 1px;
+        
+        /* Add hover and focus states */
+        transition: all 0.15s ease-in-out;
+    }
+    
+    .navbar-collapse .dropdown-menu .dropdown-item:hover,
+    .navbar-collapse .dropdown-menu .dropdown-item:focus {
+        background-color: #e9ecef;
+        color: rgba(0, 0, 0, 0.7);
+    }
+    
+    .navbar-collapse .dropdown-menu .dropdown-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+    
+    /* Style dropdown toggle for mobile */
+    .navbar-collapse .dropdown-toggle {
+        border-bottom: 1px solid #dee2e6;
+        margin-bottom: 0.25rem;
+        padding-bottom: 0.5rem;
+    }
+    
+    /* Ensure proper spacing for nested dropdowns */
+    .navbar-collapse .dropdown {
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Fix for dropdown arrow/caret positioning */
+    .navbar-collapse .dropdown-toggle::after {
+        margin-left: 0.5rem;
+    }
+}
+
+/* Additional styling for better mobile UX */
+@media (max-width: 991.98px) {
+    /* Add some padding to the collapsed navbar */
+    .navbar-collapse {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+    
+    /* Style regular nav links for consistency */
+    .navbar-collapse .nav-link {
+        padding: 0.5rem 1rem;
+        border-bottom: 1px solid #f8f9fa;
+        margin-bottom: 1px;
+    }
+    
+    .navbar-collapse .nav-link:last-child {
+        border-bottom: none;
+    }
+    
+    /* Ensure dropdown menu is properly contained */
+    .navbar-collapse .dropdown-menu.show {
+        display: block;
+        margin-top: 0.25rem;
+    }
+}
+
+/* Dark theme support if needed */
+@media (max-width: 991.98px) {
+    .navbar-dark .navbar-collapse .dropdown-menu .dropdown-item {
+        color: rgba(255, 255, 255, 0.75);
+        background-color: rgba(255, 255, 255, 0.1);
+        border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .navbar-dark .navbar-collapse .dropdown-menu .dropdown-item:hover,
+    .navbar-dark .navbar-collapse .dropdown-menu .dropdown-item:focus {
+        background-color: rgba(255, 255, 255, 0.15);
+        color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .navbar-dark .navbar-collapse .nav-link {
+        border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .navbar-dark .navbar-collapse .dropdown-toggle {
+        border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+}
