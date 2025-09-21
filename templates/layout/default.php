@@ -66,7 +66,13 @@ if (!$this->fetch('tb_body_end')) {
 if (Configure::check('App.author')) {
     $this->prepend('meta', $this->Html->meta('author', null, ['name' => 'author', 'content' => Configure::read('App.author')]));
 }
+
+// Enhanced favicon setup for better browser support
 $this->prepend('meta', $this->Html->meta('favicon.ico', '/favicon.ico', ['type' => 'icon']));
+$this->prepend('meta', $this->Html->meta('icon', '/favicon-32x32.png', ['type' => 'image/png', 'sizes' => '32x32']));
+$this->prepend('meta', $this->Html->meta('icon', '/favicon-16x16.png', ['type' => 'image/png', 'sizes' => '16x16']));
+$this->prepend('meta', $this->Html->meta('apple-touch-icon', '/apple-touch-icon.png', ['type' => 'image/png', 'sizes' => '180x180']));
+$this->prepend('meta', '<link rel="manifest" href="/site.webmanifest">');
 
 /**
  * Prepend `css` block with Bootstrap stylesheets
