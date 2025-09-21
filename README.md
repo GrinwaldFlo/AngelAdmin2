@@ -6,9 +6,9 @@
 
 A comprehensive membership and team management system built with CakePHP 5.2, designed for sports clubs and organizations. AngelAdmin2 provides a complete solution for managing members, teams, meetings, billing, and administrative tasks.
 
-## ? Features
+## ✨ Features
 
-### ?? Member Management
+### 👥 Member Management
 - **Complete member profiles** with personal information, contact details, and photos
 - **Team assignments** and multi-team support
 - **Registration workflow** with digital signatures
@@ -16,12 +16,12 @@ A comprehensive membership and team management system built with CakePHP 5.2, de
 - **Member status tracking** (active, inactive, registered)
 - **Hash-based authentication** for secure member access without passwords
 
-### ?? Team & Site Management
+### ⚽ Team & Site Management
 - **Multi-site support** for organizations with multiple locations
 - **Team organization** with coaches and member assignments
 - **Hierarchical structure** with sites containing multiple teams
 
-### ?? Billing & Finance
+### 💰 Billing & Finance
 - **Automated billing system** with customizable templates
 - **Swiss QR-bill support** for seamless payments
 - **Multi-payment options** and installment plans
@@ -29,30 +29,30 @@ A comprehensive membership and team management system built with CakePHP 5.2, de
 - **Family discounts** and special pricing
 - **Payment status monitoring**
 
-### ?? Meeting & Event Management
+### 📅 Meeting & Event Management
 - **Meeting scheduling** with different types (small, big, doodle)
 - **Attendance tracking** and presence management
 - **Event notifications** and reminders
 
-### ??? Security & Authentication
+### 🔒 Security & Authentication
 - **Role-based access control** with granular permissions
 - **Dual authentication system**: traditional login and hash-based access
 - **Secure hash cookies** for member self-service
 - **Session management** with configurable timeouts
 
-### ?? Administrative Tools
+### 🛠️ Administrative Tools
 - **Comprehensive dashboards** with statistics
 - **Member data export** and reporting
 - **Configuration management** for system settings
 - **Content management** for announcements and information
 - **Email integration** for communications
 
-### ?? Internationalization
+### 🌍 Internationalization
 - **Multi-language support** (English/French)
 - **Localized date and currency formatting**
 - **Configurable default locale**
 
-## ?? Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
@@ -120,7 +120,7 @@ A comprehensive membership and team management system built with CakePHP 5.2, de
 
    Visit `http://localhost:8765` to access the application.
 
-## ?? Configuration
+## ⚙️ Configuration
 
 ### Environment Variables
 
@@ -164,25 +164,25 @@ The application uses a configuration system accessible through the admin panel:
 - Language preferences
 - Logo and branding customization
 
-## ?? Project Structure
+## 📁 Project Structure
 
 ```
 AngelAdmin2/
-??? config/              # Configuration files
-??? src/
-?   ??? Controller/      # Application controllers
-?   ??? Model/          # Database models and entities
-?   ??? View/           # View helpers and custom view classes
-?   ??? Console/        # Command-line tools
-??? templates/          # View templates
-??? webroot/           # Public web files (CSS, JS, images)
-??? tests/             # Unit and integration tests
-??? logs/              # Application logs
-??? tmp/               # Temporary files and cache
-??? vendor/            # Composer dependencies
+├── config/              # Configuration files
+├── src/
+│   ├── Controller/      # Application controllers
+│   ├── Model/          # Database models and entities
+│   ├── View/           # View helpers and custom view classes
+│   └── Console/        # Command-line tools
+├── templates/          # View templates
+├── webroot/           # Public web files (CSS, JS, images)
+├── tests/             # Unit and integration tests
+├── logs/              # Application logs
+├── tmp/               # Temporary files and cache
+└── vendor/            # Composer dependencies
 ```
 
-## ?? Key Components
+## 🔧 Key Components
 
 ### Authentication Methods
 
@@ -207,7 +207,7 @@ The system provides various endpoints for:
 - Meeting scheduling
 - Administrative functions
 
-## ?? Testing
+## 🧪 Testing
 
 Run the test suite:
 
@@ -226,7 +226,7 @@ composer cs-check
 composer cs-fix
 ```
 
-## ?? Dependencies
+## 📦 Dependencies
 
 ### Core Dependencies
 - **CakePHP 5.2**: Web framework
@@ -243,7 +243,7 @@ composer cs-fix
 - **Debug Kit**: Development debugging
 - **Code Sniffer**: Code quality
 
-## ?? Deployment
+## 🚢 Deployment
 
 ### Production Deployment
 
@@ -283,7 +283,7 @@ FROM php:8.1-apache
 # Set proper permissions
 ```
 
-## ?? Contributing
+## 🤝 Contributing
 
 We welcome contributions! Please follow these guidelines:
 
@@ -306,17 +306,17 @@ composer install
 # This ensures code quality before commits
 ```
 
-## ?? License
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## ?? Support
+## 💬 Support
 
 - **Documentation**: Check the `/docs` directory for detailed guides
 - **Issues**: Report bugs via [GitHub Issues](https://github.com/GrinwaldFlo/AngelAdmin2/issues)
 - **Community**: Join our discussions for questions and support
 
-## ?? Roadmap
+## 🗺️ Roadmap
 
 Future enhancements planned:
 - [ ] Mobile application companion
@@ -325,11 +325,11 @@ Future enhancements planned:
 - [ ] Enhanced notification system
 - [ ] API documentation and external integrations
 
-## ????? Authors
+## 👨‍💻 Authors
 
 - **Florian Grinwald** - *Initial work* - [@GrinwaldFlo](https://github.com/GrinwaldFlo)
 
-## ?? Acknowledgments
+## 🙏 Acknowledgments
 
 - Built with [CakePHP](https://cakephp.org/) framework
 - UI components from [Bootstrap](https://getbootstrap.com/)
