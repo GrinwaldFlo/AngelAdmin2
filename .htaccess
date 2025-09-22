@@ -3,8 +3,8 @@
     # Prevent MIME type sniffing
     Header always set X-Content-Type-Options nosniff
     
-    # Prevent clickjacking attacks
-    Header always set X-Frame-Options DENY
+    # Prevent clickjacking attacks (allow same-origin framing)
+    Header always set X-Frame-Options SAMEORIGIN
     
     # Enable XSS protection
     Header always set X-XSS-Protection "1; mode=block"
@@ -12,8 +12,8 @@
     # HTTP Strict Transport Security (enable for HTTPS sites)
     # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
     
-    # Content Security Policy (adjust based on your needs)
-    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'"
+    # Content Security Policy (adjusted to allow Google Fonts)
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'"
     
     # Referrer Policy
     Header always set Referrer-Policy "strict-origin-when-cross-origin"

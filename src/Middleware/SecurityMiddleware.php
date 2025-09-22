@@ -88,7 +88,7 @@ class SecurityMiddleware implements MiddlewareInterface
         
         // Log requests to sensitive paths
         $sensitivePaths = [
-            '/admin', '/config', '/.env', '/backup', 
+            '/config', '/.env', '/backup', 
             '/phpinfo', '/wp-admin', '/wp-login',
             '/phpmyadmin', '/.git', '/.svn'
         ];
