@@ -28,6 +28,7 @@ use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use App\Middleware\MaintenanceMiddleware;
+use App\Middleware\SecurityMiddleware;
 
 // Authentication
 use Authentication\AuthenticationService;
@@ -89,6 +90,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // Catch any exceptions in the lower layers,
             // and make an error page/response
             ->add(new ErrorHandlerMiddleware(Configure::read('Error'), $this))
+
+            // Add security middleware early in the stack
+            ->add(new SecurityMiddleware())
 
             // Handle plugin/theme assets like CakePHP normally does.
             ->add(new AssetMiddleware([

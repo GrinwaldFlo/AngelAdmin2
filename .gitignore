@@ -2,9 +2,22 @@
 ##########################
 /config/app_local.php
 /config/.env
+/.env
 /logs/*
 /tmp/*
 /vendor/*
+
+# Security sensitive files #
+############################
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+backup/
+*.sql
+*.dump
+*.backup
 
 # OS generated files #
 ######################

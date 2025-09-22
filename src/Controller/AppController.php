@@ -125,11 +125,13 @@ class AppController extends Controller
         $this->loadComponent('Authorization.Authorization');
         $this->loadComponent('Mail');
         $this->loadComponent('Get');
+        
         /*
          * Enable the following component for recommended CakePHP form protection settings.
-         * see https://book.cakephp.org/4/en/controllers/components/form-protection.html
+         * see https://book.cakephp.org/5/en/controllers/components/form-protection.html#formprotection
          */
         //$this->loadComponent('FormProtection');
+
         $this->loadConfig();
 
         $this->Session = $this->getRequest()->getSession();
@@ -209,7 +211,7 @@ class AppController extends Controller
         if (!$hash) {
             return false;
         }
-
+        
         $membersTable = TableRegistry::getTableLocator()->get('Members');
         $member = $membersTable->find()->where(['hash' => $hash])->first();
 
@@ -238,7 +240,7 @@ class AppController extends Controller
             '',
             $this->request->is('https'),
             true, // httpOnly
-            'Lax' // sameSite
+            'Lax' // Lax is needed so the link is validated by Google or Outlook
         );
 
         $this->response = $this->response->withCookie($cookie);
