@@ -166,25 +166,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             AbstractIdentifier::CREDENTIAL_USERNAME => 'username',
             AbstractIdentifier::CREDENTIAL_PASSWORD => 'password'
         ];
-        
-        // Load the authenticators. Session should be first.
-        $service->loadAuthenticator('Authentication.Session', [
-            'sessionKey' => 'Auth',
-            'identify' => true, // Re-verify identity on each request
-        ]);
-        
-        $service->loadAuthenticator('Authentication.Form', [
-            'fields' => $fields,
-            'loginUrl' => Router::url([
-                'prefix' => false,
-                'plugin' => null,
-                'controller' => 'Users',
-                'action' => 'login',
-            ]),
-        ]);
 
-        // Load identifiers
-        $service->loadIdentifier('Authentication.Password', [
+        // Identifier configuration to be shared by authenticators
+        $identifierConfig = [
             'fields' => $fields,
             'passwordHasher' => [
                 'className' => \Authentication\PasswordHasher\DefaultPasswordHasher::class,
@@ -195,6 +179,28 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
                 'userModel' => 'Users',
                 'finder' => 'withRoleMembers'
             ],
+        ];
+        
+        // Load the authenticators. Session should be first.
+        $service->loadAuthenticator('Authentication.Session', [
+            'sessionKey' => 'Auth',
+            'identify' => true, // Re-verify identity on each request
+            'identifier' => [
+                'Authentication.Password' => $identifierConfig
+            ]
+        ]);
+        
+        $service->loadAuthenticator('Authentication.Form', [
+            'fields' => $fields,
+            'loginUrl' => Router::url([
+                'prefix' => false,
+                'plugin' => null,
+                'controller' => 'Users',
+                'action' => 'login',
+            ]),
+            'identifier' => [
+                'Authentication.Password' => $identifierConfig
+            ]
         ]);
 
         return $service;
