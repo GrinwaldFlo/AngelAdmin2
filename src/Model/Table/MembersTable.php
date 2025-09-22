@@ -330,7 +330,7 @@ class MembersTable extends Table
                 'Bills.canceled' => false,
                 'Bills.due_date <' => \Cake\I18n\FrozenDate::today()
             ])
-            ->group('Bills.member_id');
+            ->groupBy('Bills.member_id');
 
         // Add the late bills sum as a virtual field using LEFT JOIN
         $query->leftJoin(
