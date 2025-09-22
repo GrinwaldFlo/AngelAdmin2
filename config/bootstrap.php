@@ -53,8 +53,8 @@ require CAKE . 'functions.php';
 /*
  * See https://github.com/josegonzalez/php-dotenv for API details.
  *
- * Uncomment block of code below if you want to use `.env` file during development.
- * You should copy `config/.env.example` to `config/.env` and set/modify the
+ * Load .env file during development and production.
+ * You should copy `.env.example` to `.env` and set/modify the
  * variables as required.
  *
  * The purpose of the .env file is to emulate the presence of the environment
@@ -64,13 +64,15 @@ require CAKE . 'functions.php';
  * security risks. See https://github.com/josegonzalez/php-dotenv#general-security-information
  * for more information for recommended practices.
 */
-// if (!env('APP_NAME') && file_exists(CONFIG . '.env')) {
-//     $dotenv = new \josegonzalez\Dotenv\Loader([CONFIG . '.env']);
-//     $dotenv->parse()
-//         ->putenv()
-//         ->toEnv()
-//         ->toServer();
-// }
+
+// Load .env file from the root directory (not config directory)
+if (!env('APP_NAME') && file_exists(ROOT . DS . '.env')) {
+    $dotenv = new \josegonzalez\Dotenv\Loader([ROOT . DS . '.env']);
+    $dotenv->parse()
+        ->putenv()
+        ->toEnv()
+        ->toServer();
+}
 
 /*
  * Initializes default Config store and loads the main configuration file (app.php)
@@ -233,7 +235,7 @@ ServerRequest::addDetector('tablet', function ($request) {
 // \Cake\I18n\Time::setToStringFormat('dd.MM.yyyy HH:mm');
 
 
-if (isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] == "144.2.101.100")
+if (isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] == env('APP_DEV_IP', '127.0.0.1'))
 {
   Configure::write('debug', TRUE);
   Configure::write('DebugKit.forceEnable', true);

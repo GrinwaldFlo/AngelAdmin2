@@ -1,8 +1,54 @@
+# Security Headers
+<IfModule mod_headers.c>
+    # Prevent MIME type sniffing
+    Header always set X-Content-Type-Options nosniff
+    
+    # Prevent clickjacking attacks (allow same-origin framing)
+    Header always set X-Frame-Options SAMEORIGIN
+    
+    # Enable XSS protection
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # HTTP Strict Transport Security (enable for HTTPS sites)
+    # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    
+    # Content Security Policy (adjusted to allow Google Fonts and CDN scripts)
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'"
+    
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Remove server information
+    Header unset Server
+    Header unset X-Powered-By
+    
+    # Prevent HTTPoxy vulnerability
+    RequestHeader unset Proxy
+</IfModule>
+
+# Security: Prevent access to sensitive files
+<FilesMatch "\.(env|ini|log|sh|sql|conf|bak|backup|old|tmp|temp)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Prevent access to version control files
+<FilesMatch "\.(git|svn|hg)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Prevent access to configuration files
+<Files ~ "^(app_local\.php|\.env)$">
+    Order allow,deny
+    Deny from all
+</Files>
+
 # Uncomment the following to prevent the httpoxy vulnerability
 # See: https://httpoxy.org/
-#<IfModule mod_headers.c>
-#    RequestHeader unset Proxy
-#</IfModule>
+<IfModule mod_headers.c>
+    RequestHeader unset Proxy
+</IfModule>
 
 <IfModule mod_rewrite.c>
     RewriteEngine on

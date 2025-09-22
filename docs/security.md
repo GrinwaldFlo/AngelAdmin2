@@ -237,10 +237,10 @@ Configure security logging in `config/app.php`:
 use Cake\Log\Log;
 
 // Failed login attempt
-Log::write('security', 'Failed login attempt for: ' . $username, ['scope' => ['security']]);
+Log::write('warning', 'Failed login attempt for: ' . $username, ['scope' => ['security']]);
 
 // Successful admin action
-Log::write('security', 'User ' . $user->username . ' deleted member ID: ' . $memberId, ['scope' => ['security']]);
+Log::write('info', 'User ' . $user->username . ' deleted member ID: ' . $memberId, ['scope' => ['security']]);
 ```
 
 ### Regular Security Tasks

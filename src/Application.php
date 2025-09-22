@@ -28,6 +28,7 @@ use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use App\Middleware\MaintenanceMiddleware;
+use App\Middleware\SecurityMiddleware;
 
 // Authentication
 use Authentication\AuthenticationService;
@@ -89,6 +90,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // Catch any exceptions in the lower layers,
             // and make an error page/response
             ->add(new ErrorHandlerMiddleware(Configure::read('Error'), $this))
+
+            // Add security middleware early in the stack
+            ->add(new SecurityMiddleware())
 
             // Handle plugin/theme assets like CakePHP normally does.
             ->add(new AssetMiddleware([
@@ -162,25 +166,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             AbstractIdentifier::CREDENTIAL_USERNAME => 'username',
             AbstractIdentifier::CREDENTIAL_PASSWORD => 'password'
         ];
-        
-        // Load the authenticators. Session should be first.
-        $service->loadAuthenticator('Authentication.Session', [
-            'sessionKey' => 'Auth',
-            'identify' => true, // Re-verify identity on each request
-        ]);
-        
-        $service->loadAuthenticator('Authentication.Form', [
-            'fields' => $fields,
-            'loginUrl' => Router::url([
-                'prefix' => false,
-                'plugin' => null,
-                'controller' => 'Users',
-                'action' => 'login',
-            ]),
-        ]);
 
-        // Load identifiers
-        $service->loadIdentifier('Authentication.Password', [
+        // Identifier configuration to be shared by authenticators
+        $identifierConfig = [
             'fields' => $fields,
             'passwordHasher' => [
                 'className' => \Authentication\PasswordHasher\DefaultPasswordHasher::class,
@@ -191,6 +179,28 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
                 'userModel' => 'Users',
                 'finder' => 'withRoleMembers'
             ],
+        ];
+        
+        // Load the authenticators. Session should be first.
+        $service->loadAuthenticator('Authentication.Session', [
+            'sessionKey' => 'Auth',
+            'identify' => true, // Re-verify identity on each request
+            'identifier' => [
+                'Authentication.Password' => $identifierConfig
+            ]
+        ]);
+        
+        $service->loadAuthenticator('Authentication.Form', [
+            'fields' => $fields,
+            'loginUrl' => Router::url([
+                'prefix' => false,
+                'plugin' => null,
+                'controller' => 'Users',
+                'action' => 'login',
+            ]),
+            'identifier' => [
+                'Authentication.Password' => $identifierConfig
+            ]
         ]);
 
         return $service;

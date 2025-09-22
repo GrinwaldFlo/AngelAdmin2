@@ -430,15 +430,16 @@ return [
      * To use database sessions, load the SQL file located at config/schema/sessions.sql
      */
     'Session' => [
-        'defaults' => 'cake',
+        'defaults' => 'database',
+        'cookie' => env('SESSION_COOKIE_NAME', 'CakePHP'),
         'timeout' => 30240, // 21 days in minutes (3 weeks)
         'cookieTimeout' => 1814400, // 21 days in seconds (3 weeks)
         'ini' => [
             'session.cookie_lifetime' => 1814400, // 21 days in seconds
             'session.gc_maxlifetime' => 1814400, // 21 days garbage collection
-            'session.cookie_secure' => false, // Set to true if using HTTPS
+            'session.cookie_secure' => false,
             'session.cookie_httponly' => true, // Prevent XSS attacks
-            'session.cookie_samesite' => 'Lax', // Changed from Strict to Lax for external links
+            'session.cookie_samesite' => 'Lax', // Use Lax in order to allows link check from Google / Outlook to work
             'session.use_strict_mode' => true, // Session security
             'session.use_only_cookies' => true, // Only use cookies for session ID
         ],
