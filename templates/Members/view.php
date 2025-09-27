@@ -207,295 +207,323 @@ if (isset($curUser)) {
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <hr />
-    <?php if (sizeof($files) > 0 || $member->RegExists($config['year'])): ?>
-        <div class="row px-0 mx-0">
-            <div class="col px-0 mx-0">
-                <div class="members view content">
-                    <?php
-                    if ($member->RegExists($config['year'])) {
-                        echo $this->Html->link(__('Registration {0}-{1}', $config['year'], $config['year'] + 1), $member->GetRegUrl($config['year']), ['target' => '_blank', 'class' => 'badge bg-dark']);
-                    }
-                    ?>
-                    <?php
-                    foreach ($files as $file) {
-                        echo $this->Html->link($file['title'], $file['url'], ['target' => '_blank', 'class' => 'badge bg-dark']);
-                        echo " ";
-                    }
-                    ?>
+        <hr />
+        <?php if (sizeof($files) > 0 || $member->RegExists($config['year'])): ?>
+            <div class="row px-0 mx-0">
+                <div class="col px-0 mx-0">
+                    <div class="members view content">
+                        <?php
+                        if ($member->RegExists($config['year'])) {
+                            echo $this->Html->link(__('Registration {0}-{1}', $config['year'], $config['year'] + 1), $member->GetRegUrl($config['year']), ['target' => '_blank', 'class' => 'badge bg-dark']);
+                        }
+                        ?>
+                        <?php
+                        foreach ($files as $file) {
+                            echo $this->Html->link($file['title'], $file['url'], ['target' => '_blank', 'class' => 'badge bg-dark']);
+                            echo " ";
+                        }
+                        ?>
+                    </div>
                 </div>
             </div>
-        </div>
-        <hr />
-    <?php endif; ?>
+            <hr />
+        <?php endif; ?>
 
-    <?php if (!empty($shopItems) && $isOwn && sizeof($shopItems) > 0 && $member->registered): ?>
-        <div class="row px-0 mx-0">
-            <div class="col px-0 mx-0">
-                <div class="members view content">
-                    <h4>
-                        <a class="btn btn-primary pt-1 px-1" data-bs-toggle="collapse" href="#shopSection" role="button" aria-expanded="false" aria-controls="shopSection">
-                            <?= $this->my->icon("shopping_cart") ?>
-                        </a>
-                    </h4>
-                    <div class="collapse" id="shopSection">
-                        <div class="card card-body">
-                            <?= $this->Form->create(null, ['url' => ['action' => 'my-page'], 'id' => 'shop-order-form']) ?>
-                            <div class="row">
-                                <?php foreach ($shopItems as $item): ?>
-                                    <div class="col-md-6 col-lg-3 m-0 p-0">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><?= h($item->label) ?></h5>
-                                                <p class="card-text">
-                                                    <span class="fw-bold" data-price="<?= $item->price ?>"><?= $this->Number->currency($item->price, 'CHF') ?></span>
-                                                </p>
-                                                <div class="m-0">
-                                                    <div class="input-group input-group-sm">
-                                                        <span class="input-group-text"><?= __('Quantity') ?></span>
-                                                        <input type="number"
-                                                            name="shop_order[<?= $item->id ?>]"
-                                                            min="0"
-                                                            max="10"
-                                                            value="0"
-                                                            class="form-control quantity-input"
-                                                            data-price="<?= $item->price ?>"
-                                                            data-label="<?= h($item->label) ?>"
-                                                            id="shop-order-<?= $item->id ?>" />
+        <?php if (!empty($shopItems) && $isOwn && sizeof($shopItems) > 0 && $member->registered): ?>
+            <div class="row px-0 mx-0">
+                <div class="col px-0 mx-0">
+                    <div class="members view content">
+                        <h4>
+                            <a class="btn btn-primary pt-1 px-1" data-bs-toggle="collapse" href="#shopSection" role="button" aria-expanded="false" aria-controls="shopSection">
+                                <?= $this->my->icon("shopping_cart") ?>
+                            </a>
+                        </h4>
+                        <div class="collapse" id="shopSection">
+                            <div class="card card-body">
+                                <?= $this->Form->create(null, ['url' => ['action' => 'my-page'], 'id' => 'shop-order-form']) ?>
+                                <div class="row">
+                                    <?php foreach ($shopItems as $item): ?>
+                                        <div class="col-md-6 col-lg-3 m-0 p-0">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title"><?= h($item->label) ?></h5>
+                                                    <p class="card-text">
+                                                        <span class="fw-bold" data-price="<?= $item->price ?>"><?= $this->Number->currency($item->price, 'CHF') ?></span>
+                                                    </p>
+                                                    <div class="m-0">
+                                                        <div class="input-group input-group-sm">
+                                                            <span class="input-group-text"><?= __('Quantity') ?></span>
+                                                            <input type="number"
+                                                                name="shop_order[<?= $item->id ?>]"
+                                                                min="0"
+                                                                max="10"
+                                                                value="0"
+                                                                class="form-control quantity-input"
+                                                                data-price="<?= $item->price ?>"
+                                                                data-label="<?= h($item->label) ?>"
+                                                                id="shop-order-<?= $item->id ?>" />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
-                            <div class="mt-3">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div id="order-total" class="h5 text-primary" style="display: none;">
-                                            <?= __('Total: {0}', '<span id="total-amount">CHF 0.00</span>') ?>
+                                    <?php endforeach; ?>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div id="order-total" class="h5 text-primary" style="display: none;">
+                                                <?= __('Total: {0}', '<span id="total-amount">CHF 0.00</span>') ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 text-end">
+                                            <?= $this->Form->button(__('Place Order'), ['class' => 'btn btn-primary', 'id' => 'place-order-btn', 'type' => 'button']) ?>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 text-end">
-                                        <?= $this->Form->button(__('Place Order'), ['class' => 'btn btn-primary', 'id' => 'place-order-btn', 'type' => 'button']) ?>
-                                    </div>
                                 </div>
+                                <?= $this->Form->end() ?>
                             </div>
-                            <?= $this->Form->end() ?>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <hr />
+            <hr />
 
-        <script>
-            $(document).ready(function() {
-                // Update total when quantity changes
-                $('.quantity-input').on('input change', function() {
+            <script>
+                $(document).ready(function() {
+                    // Update total when quantity changes
+                    $('.quantity-input').on('input change', function() {
+                        updateOrderTotal();
+                    });
+
+                    // Handle place order button click
+                    $('#place-order-btn').on('click', function() {
+                        var orderItems = [];
+                        var totalAmount = 0;
+
+                        $('.quantity-input').each(function() {
+                            var quantity = parseInt($(this).val()) || 0;
+                            if (quantity > 0) {
+                                var price = parseFloat($(this).data('price'));
+                                var label = $(this).data('label');
+                                var itemTotal = price * quantity;
+
+                                orderItems.push({
+                                    label: label,
+                                    quantity: quantity,
+                                    price: price,
+                                    total: itemTotal
+                                });
+
+                                totalAmount += itemTotal;
+                            }
+                        });
+
+                        if (orderItems.length === 0) {
+                            alert('<?= __('Please select at least one item to order.') ?>');
+                            return;
+                        }
+
+                        // Build confirmation message
+                        var confirmMessage = '<?= __('Please confirm your order:') ?>\n\n';
+                        orderItems.forEach(function(item) {
+                            confirmMessage += item.label + ' x' + item.quantity + ' = CHF ' + item.total.toFixed(2) + '\n';
+                        });
+                        confirmMessage += '\n<?= __('Total amount: CHF {0}', '') ?>' + totalAmount.toFixed(2);
+                        confirmMessage += '\n\n<?= __('Do you want to place this order?') ?>';
+
+                        if (confirm(confirmMessage)) {
+                            $('#shop-order-form').submit();
+                        }
+                    });
+
+                    function updateOrderTotal() {
+                        var total = 0;
+                        var hasItems = false;
+
+                        $('.quantity-input').each(function() {
+                            var quantity = parseInt($(this).val()) || 0;
+                            if (quantity > 0) {
+                                var price = parseFloat($(this).data('price'));
+                                total += price * quantity;
+                                hasItems = true;
+                            }
+                        });
+
+                        if (hasItems) {
+                            $('#total-amount').text('CHF ' + total.toFixed(2));
+                            $('#order-total').show();
+                        } else {
+                            $('#order-total').hide();
+                        }
+                    }
+
+                    // Initial calculation
                     updateOrderTotal();
                 });
+            </script>
+        <?php endif; ?>
 
-                // Handle place order button click
-                $('#place-order-btn').on('click', function() {
-                    var orderItems = [];
-                    var totalAmount = 0;
-
-                    $('.quantity-input').each(function() {
-                        var quantity = parseInt($(this).val()) || 0;
-                        if (quantity > 0) {
-                            var price = parseFloat($(this).data('price'));
-                            var label = $(this).data('label');
-                            var itemTotal = price * quantity;
-
-                            orderItems.push({
-                                label: label,
-                                quantity: quantity,
-                                price: price,
-                                total: itemTotal
-                            });
-
-                            totalAmount += itemTotal;
-                        }
-                    });
-
-                    if (orderItems.length === 0) {
-                        alert('<?= __('Please select at least one item to order.') ?>');
-                        return;
-                    }
-
-                    // Build confirmation message
-                    var confirmMessage = '<?= __('Please confirm your order:') ?>\n\n';
-                    orderItems.forEach(function(item) {
-                        confirmMessage += item.label + ' x' + item.quantity + ' = CHF ' + item.total.toFixed(2) + '\n';
-                    });
-                    confirmMessage += '\n<?= __('Total amount: CHF {0}', '') ?>' + totalAmount.toFixed(2);
-                    confirmMessage += '\n\n<?= __('Do you want to place this order?') ?>';
-
-                    if (confirm(confirmMessage)) {
-                        $('#shop-order-form').submit();
-                    }
-                });
-
-                function updateOrderTotal() {
-                    var total = 0;
-                    var hasItems = false;
-
-                    $('.quantity-input').each(function() {
-                        var quantity = parseInt($(this).val()) || 0;
-                        if (quantity > 0) {
-                            var price = parseFloat($(this).data('price'));
-                            total += price * quantity;
-                            hasItems = true;
-                        }
-                    });
-
-                    if (hasItems) {
-                        $('#total-amount').text('CHF ' + total.toFixed(2));
-                        $('#order-total').show();
-                    } else {
-                        $('#order-total').hide();
-                    }
-                }
-
-                // Initial calculation
-                updateOrderTotal();
-            });
-        </script>
-    <?php endif; ?>
-
-    <?php if ($allowViewBills): ?>
-        <div class="row px-0 mx-0">
-            <div class="col px-0 mx-0">
-                <div class="members view content">
-                    <?php if ($curRole->BillEditAll): ?>
-                        <?= $this->Html->link('', ['controller' => 'Bills', 'action' => 'add', $member->id], ['class' => 'float-end gg-add-r']) ?>
-                    <?php endif; ?>
-                    <h4><?= __('Invoices') ?></h4>
-                    <?php if (!empty($member->bills)): ?>
-                        <!-- Desktop view -->
-                        <div class="d-none d-md-block">
-                            <table class="table table-striped table-hover table-sm">
-                                <thead>
-                                    <tr>
-                                        <th><?= __('Ref.') ?></th>
-                                        <th><?= __x('Label on the invoice', 'Denomination') ?></th>
-                                        <th><?= __('Amount') ?></th>
-                                        <th><?= __('Remin.') ?></th>
-                                        <th><?= __('Status') ?></th>
-                                        <th><?= __('Due date') ?></th>
-                                        <th class="actions"><?= __('Actions') ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($member->bills as $bill): ?>
+        <?php if ($allowViewBills): ?>
+            <div class="row px-0 mx-0">
+                <div class="col px-0 mx-0">
+                    <div class="members view content">
+                        <?php if ($curRole->BillEditAll): ?>
+                            <?= $this->Html->link('', ['controller' => 'Bills', 'action' => 'add', $member->id], ['class' => 'float-end gg-add-r']) ?>
+                        <?php endif; ?>
+                        <h4><?= __('Invoices') ?></h4>
+                        <?php if (!empty($member->bills)): ?>
+                            <!-- Desktop view -->
+                            <div class="d-none d-md-block">
+                                <table class="table table-striped table-hover table-sm">
+                                    <thead>
                                         <tr>
-                                            <td><?= $curRole->BillEditAll ? $this->Html->link(h($bill->Reference), ['controller' => 'Bills', 'action' => 'view', $bill->id]) : h($bill->Reference) ?></td>
-                                            <td><?= h($bill->label) ?></td>
-                                            <td><?= $this->Number->currency($bill->amount, 'CHF') ?></td>
-                                            <td><?= h($bill->reminder) ?></td>
-                                            <td><span class="badge bg-<?= h($bill->statusHtml) ?>"><?= h($bill->statusString) ?></span></td>
-                                            <td><?= h($bill->due_date) ?></td>
-                                            <td class="actions">
+                                            <th><?= __('Ref.') ?></th>
+                                            <th><?= __x('Label on the invoice', 'Denomination') ?></th>
+                                            <th><?= __('Amount') ?></th>
+                                            <th><?= __('Remin.') ?></th>
+                                            <th><?= __('Status') ?></th>
+                                            <th><?= __('Due date') ?></th>
+                                            <th class="actions"><?= __('Actions') ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($member->bills as $bill): ?>
+                                            <tr>
+                                                <td><?= $curRole->BillEditAll ? $this->Html->link(h($bill->Reference), ['controller' => 'Bills', 'action' => 'view', $bill->id]) : h($bill->Reference) ?></td>
+                                                <td><?= h($bill->label) ?></td>
+                                                <td><?= $this->Number->currency($bill->amount, 'CHF') ?></td>
+                                                <td><?= h($bill->reminder) ?></td>
+                                                <td><span class="badge bg-<?= h($bill->statusHtml) ?>"><?= h($bill->statusString) ?></span></td>
+                                                <td><?= h($bill->due_date) ?></td>
+                                                <td class="actions">
+                                                    <div class="icon" style="width: 90px">
+                                                        <?= ($curRole->BillEditAll && !$bill->paid) || $curRole->Admin ? $this->Html->link('<i class="gg-pen"></i>', ['controller' => 'Bills', 'action' => 'edit', $bill->id], ['escape' => false]) : '' ?>
+                                                        <?= $this->Html->link('<i class="gg-file-document"></i>', $bill->BillUrl, ['target' => '_blank', 'escape' => false, 'title' => __('Download PDF')]) ?>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Mobile view -->
+                            <div class="d-md-none">
+                                <?php foreach ($member->bills as $bill): ?>
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <h6 class="card-title mb-0">
+                                                    <?= $curRole->BillEditAll ?
+                                                        ('#' . $this->Html->link(h($bill->Reference), ['controller' => 'Bills', 'action' => 'view', $bill->id]) . ($bill->reminder > 0 ? ' (' . __('Remin.') . ' ' . h($bill->reminder) . ')' : ''))
+                                                        :
+                                                        '#' . h($bill->Reference)
+                                                        ?>
+                                                </h6>
+                                                <span class="badge bg-<?= h($bill->statusHtml) ?>"><?= h($bill->statusString) ?></span>
                                                 <div class="icon" style="width: 90px">
                                                     <?= ($curRole->BillEditAll && !$bill->paid) || $curRole->Admin ? $this->Html->link('<i class="gg-pen"></i>', ['controller' => 'Bills', 'action' => 'edit', $bill->id], ['escape' => false]) : '' ?>
                                                     <?= $this->Html->link('<i class="gg-file-document"></i>', $bill->BillUrl, ['target' => '_blank', 'escape' => false, 'title' => __('Download PDF')]) ?>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
+                                            </div>
 
-                        <!-- Mobile view -->
-                        <div class="d-md-none">
-                            <?php foreach ($member->bills as $bill): ?>
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <h6 class="card-title mb-0">
-                                                <?= $curRole->BillEditAll ?
-                                                    ('#' . $this->Html->link(h($bill->Reference), ['controller' => 'Bills', 'action' => 'view', $bill->id]) . ($bill->reminder > 0 ? ' (' . __('Remin.') . ' ' . h($bill->reminder) . ')' : ''))
-                                                    :
-                                                    '#' . h($bill->Reference)
-                                                    ?>
-                                            </h6>
-                                            <span class="badge bg-<?= h($bill->statusHtml) ?>"><?= h($bill->statusString) ?></span>
-                                            <div class="icon" style="width: 90px">
-                                                <?= ($curRole->BillEditAll && !$bill->paid) || $curRole->Admin ? $this->Html->link('<i class="gg-pen"></i>', ['controller' => 'Bills', 'action' => 'edit', $bill->id], ['escape' => false]) : '' ?>
-                                                <?= $this->Html->link('<i class="gg-file-document"></i>', $bill->BillUrl, ['target' => '_blank', 'escape' => false, 'title' => __('Download PDF')]) ?>
+                                            <div class="row g-2 mb-2">
+                                                <div class="col-12">
+                                                    <small class="text-muted"><?= __x('Label on the invoice', 'Denomination') ?>:</small><br />
+                                                    <span><?= h($bill->label) ?></span>
+                                                </div>
                                             </div>
-                                        </div>
-
-                                        <div class="row g-2 mb-2">
-                                            <div class="col-12">
-                                                <small class="text-muted"><?= __x('Label on the invoice', 'Denomination') ?>:</small><br />
-                                                <span><?= h($bill->label) ?></span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-between mb-2">
-                                            <div>
-                                                <small class="text-muted"><?= __('Amount') ?>:</small><br />
-                                                <strong class="text-primary"><?= $this->Number->currency($bill->amount, 'CHF') ?></strong>
-                                            </div>
-                                            <div>
-                                                <small class="text-muted"><?= __('Due date') ?>:</small><br />
-                                                <span><?= h($bill->due_date) ?></span>
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <div>
+                                                    <small class="text-muted"><?= __('Amount') ?>:</small><br />
+                                                    <strong class="text-primary"><?= $this->Number->currency($bill->amount, 'CHF') ?></strong>
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted"><?= __('Due date') ?>:</small><br />
+                                                    <span><?= h($bill->due_date) ?></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-    <?php endif; ?>
-
-    <?php if (!empty($member->presences) && sizeof($member->presences) > 0): ?>
-        <hr />
-        <?php usort($member->presences, "cmp_obj"); ?>
-        <div class="row px-0 mx-0">
-            <div class="col px-0 mx-0">
-                <div class="members view content" style="min-height:300px">
-                    <h4><?= __('Attendance') ?></h4>
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <?php
-                        foreach ($attendance as $key => $value):
-                            $id = "Y" . str_replace("-", "", $key);
-                            ?>
-                            <?php if (strpos($key, $config['year']) === 0 || $config['showOldAttendance'] == 1): ?>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="<?= $id ?>-tab" data-toggle="tab" href="#<?= $id ?>" role="tab"
-                                        aria-controls="<?= $id ?>" aria-selected="false">
-                                        <?= $key ?>
-                                    </a>
-                                </li>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    </ul>
-                    <div class="tab-content" id="myTabContent">
-                        <?php
-                        foreach ($attendance as $key => $items):
-                            $id = "Y" . str_replace("-", "", $key);
-                            ?>
-                            <div class="tab-pane fade" id="<?= $id ?>" role="tabpanel" aria-labelledby="<?= $id ?>-tab">
-                                <?php foreach ($items as $key => $item): ?>
-                                    <span class="badge bg-<?= h($item->statusHtml) ?>" data-toggle="tooltip" data-placement="top"
-                                        title="<?= $item->meeting->name ?>">
-                                        <?= $item->meeting->meeting_date->i18nFormat('dd MMM YYYY') ?>
-                                    </span>
                                 <?php endforeach; ?>
                             </div>
-                        <?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
-        </div>
-    <?php endif; ?>
+        <?php endif; ?>
+
+        <?php if (!empty($member->presences) && sizeof($member->presences) > 0): ?>
+            <hr />
+            <?php usort($member->presences, "cmp_obj"); ?>
+            <div class="row px-0 mx-0">
+                <div class="col px-0 mx-0">
+                    <div class="members view content" style="min-height:300px">
+                        <h4><?= __('Attendance') ?></h4>
+                        <ul class="nav nav-tabs" id="attendanceTab" role="tablist">
+                            <?php
+                            // Sort attendance keys in descending order (newest first)
+                            $sortedAttendance = $attendance;
+                            krsort($sortedAttendance);
+                            
+                            $firstTab = true;
+                            foreach ($sortedAttendance as $key => $value):
+                                $id = "Y" . str_replace("-", "", $key);
+                                ?>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link<?= $firstTab ? ' active' : '' ?>" 
+                                            id="<?= $id ?>-tab" 
+                                            data-bs-toggle="tab" 
+                                            data-bs-target="#<?= $id ?>" 
+                                            type="button" 
+                                            role="tab"
+                                            aria-controls="<?= $id ?>" 
+                                            aria-selected="<?= $firstTab ? 'true' : 'false' ?>">
+                                        <?= h($key) ?>
+                                    </button>
+                                </li>
+                                <?php $firstTab = false; ?>
+                            <?php endforeach; ?>
+                        </ul>
+                        <div class="tab-content mt-3" id="attendanceTabContent">
+                            <?php
+                            $firstContent = true;
+                            foreach ($sortedAttendance as $key => $items):
+                                $id = "Y" . str_replace("-", "", $key);
+                                ?>
+                                <div class="tab-pane fade<?= $firstContent ? ' show active' : '' ?>" 
+                                     id="<?= $id ?>" 
+                                     role="tabpanel" 
+                                     aria-labelledby="<?= $id ?>-tab"
+                                     tabindex="0">
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <?php foreach ($items as $itemKey => $item): ?>
+                                            <span class="badge bg-<?= h($item->statusHtml) ?>" 
+                                                  data-bs-toggle="tooltip" 
+                                                  data-bs-placement="top"
+                                                  data-bs-title="<?= h($item->meeting->name) ?>">
+                                                <?= $item->meeting->meeting_date->i18nFormat('dd MMM YYYY') ?>
+                                            </span>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
+                                <?php $firstContent = false; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Initialize Bootstrap 5 tooltips
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                });
+            });
+            </script>
+        <?php endif; ?>
 <?php endif; ?>
 
