@@ -25,10 +25,10 @@ if (!$allowViewBills) {
                     <button class="btn btn-sm btn-primary bill-filter-btn" data-filter="open" type="button">
                         <?= __('Open') ?>
                     </button>
-                    <button class="btn btn-sm btn-outline-success bill-filter-btn" data-filter="paid" type="button" style="color: #198754;">
+                    <button class="btn btn-sm btn-outline-success bill-filter-btn" data-filter="paid" type="button" style="color: black;">
                         <?= __('Paid') ?>
                     </button>
-                    <button class="btn btn-sm btn-outline-secondary bill-filter-btn" data-filter="all" type="button" style="color: #6c757d;">
+                    <button class="btn btn-sm btn-outline-secondary bill-filter-btn" data-filter="all" type="button" style="color: black;">
                         <?= __('All') ?>
                     </button>
                 </div>
@@ -221,15 +221,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 switch(filter) {
                     case 'open':
                         btn.classList.add('btn-outline-primary');
-                        btn.style.color = '#0d6efd';  // Bootstrap primary color
+                        btn.style.color = 'black';  // Bootstrap primary color
                         break;
                     case 'paid':
                         btn.classList.add('btn-outline-success');
-                        btn.style.color = '#198754';  // Bootstrap success color
+                        btn.style.color = 'black';  // Bootstrap success color
                         break;
                     case 'all':
                         btn.classList.add('btn-outline-secondary');
-                        btn.style.color = '#6c757d';  // Bootstrap secondary color
+                        btn.style.color = 'black';  // Bootstrap secondary color
                         break;
                 }
             }
