@@ -34,7 +34,7 @@ $this->end();
  */
 if (!$this->fetch('tb_footer')) {
     $this->start('tb_footer');
-    printf('&copy; 2012-%s Angels Cheerleaders', date('Y'));
+    printf('<div>&copy; 2012-%s Angels Cheerleaders</div>', date('Y'));
     $this->end();
 }
 
