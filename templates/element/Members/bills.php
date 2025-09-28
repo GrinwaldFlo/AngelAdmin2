@@ -157,10 +157,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Messages for different filters
     const messages = {
-        'open': '<?= __('No open invoices found.') ?>',
-        'paid': '<?= __('No paid invoices found.') ?>',
-        'all': '<?= __('No invoices found.') ?>'
-    };
+        'open': <?= json_encode(__('No open invoices found.')) ?>,
+        'paid': <?= json_encode(__('No paid invoices found.')) ?>,
+        'all': <?= json_encode(__('No invoices found.')) ?>
+};
 
     function filterBills(filter) {
         let visibleCount = 0;

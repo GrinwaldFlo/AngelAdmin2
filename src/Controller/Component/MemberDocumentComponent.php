@@ -42,7 +42,7 @@ class MemberDocumentComponent extends Component
         
         if ($validation['isHeic']) {
             if (!ImageHelper::isHeicSupported()) {
-                $controller->Flash->error(__("HEIC format is not supported on this server"));
+                $controller->Flash->error(__("HEIC format is not supported"));
                 return false;
             }
             
@@ -60,7 +60,7 @@ class MemberDocumentComponent extends Component
                     $content = $stream->getContents();
                     file_put_contents($tempHeicPath, $content);
                 } catch (\Exception $e2) {
-                    $controller->Flash->error(__("Failed to process HEIC image file"));
+                    $controller->Flash->error(__("Failed to process image"));
                     if (file_exists($tempHeicPath)) {
                         unlink($tempHeicPath);
                     }
@@ -71,7 +71,7 @@ class MemberDocumentComponent extends Component
             // Convert HEIC to JPEG
             if (!ImageHelper::convertHeicToJpeg($tempHeicPath, $targetPath)) {
                 unlink($tempHeicPath);
-                $controller->Flash->error(__("Failed to convert HEIC image"));
+                $controller->Flash->error(__("Failed to process image"));
                 return false;
             }
             
@@ -90,7 +90,7 @@ class MemberDocumentComponent extends Component
                     $content = $stream->getContents();
                     file_put_contents($targetPath, $content);
                 } catch (\Exception $e2) {
-                    $controller->Flash->error(__("Failed to process JPEG image file"));
+                    $controller->Flash->error(__("Failed to process image"));
                     return false;
                 }
             }

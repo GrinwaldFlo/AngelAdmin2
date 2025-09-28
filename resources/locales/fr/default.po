@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Angel 2\n"
-"POT-Creation-Date: 2025-09-28 11:50+0200\n"
-"PO-Revision-Date: 2025-09-28 11:54+0200\n"
+"POT-Creation-Date: 2025-09-28 13:55+0200\n"
+"PO-Revision-Date: 2025-09-28 13:56+0200\n"
 "Last-Translator: Florian Glardon <bot@grinwald.net>\n"
 "Language-Team: Florian <florian@lausanneangels.ch>\n"
 "Language: fr\n"
@@ -185,7 +185,6 @@ msgstr ""
 "L'image JPEG ne peut pas être traitée - le fichier est peut-être corrompu"
 
 #: src/Controller/Component/ImageComponent.php:201
-#: src/Controller/Component/MemberDocumentComponent.php:45
 msgid "HEIC format is not supported on this server"
 msgstr "Le format HEIC n'est pas supporté par le serveur"
 
@@ -226,21 +225,15 @@ msgstr "Images JPEG uniquement"
 msgid "Dear"
 msgstr "Cher·e"
 
+#: src/Controller/Component/MemberDocumentComponent.php:45
+msgid "HEIC format is not supported"
+msgstr "Le format HEIC n'est pas supporté"
+
 #: src/Controller/Component/MemberDocumentComponent.php:63
-#, fuzzy
-#| msgid "Failed to convert HEIC image"
-msgid "Failed to process HEIC image file"
-msgstr "Échec de la conversion de l'image HEIC"
-
 #: src/Controller/Component/MemberDocumentComponent.php:74
-msgid "Failed to convert HEIC image"
-msgstr "Échec de la conversion de l'image HEIC"
-
 #: src/Controller/Component/MemberDocumentComponent.php:93
-#, fuzzy
-#| msgid "Failed to convert HEIC image"
-msgid "Failed to process JPEG image file"
-msgstr "Échec de la conversion de l'image HEIC"
+msgid "Failed to process image"
+msgstr "Échec de la conversion de l'image"
 
 #: src/Controller/Component/MemberDocumentComponent.php:122
 #: src/Controller/Component/MemberDocumentComponent.php:165
@@ -334,12 +327,12 @@ msgid "You are now registered, it will be validated by a coach"
 msgstr "Tu es maintenant inscrit·e, cela sera validé par un coach"
 
 #: src/Controller/Component/MemberRegistrationComponent.php:133
-#: src/Controller/MembersController.php:707
+#: src/Controller/MembersController.php:747
 msgid "New member registered"
 msgstr "Nouveau membre enregistré"
 
 #: src/Controller/Component/MemberRegistrationComponent.php:133
-#: src/Controller/MembersController.php:707
+#: src/Controller/MembersController.php:747
 msgid "The member has just registred. You need to validate the signature."
 msgstr "Le membre vient de s'inscrire. Tu dois valider la signature."
 
@@ -505,38 +498,38 @@ msgstr "La commande a été supprimée."
 msgid "The member order could not be deleted. Please, try again."
 msgstr "La commande du membre n’a pas pu être supprimée. Essaie à nouveau."
 
-#: src/Controller/MembersController.php:223
-#: src/Controller/MembersController.php:233
+#: src/Controller/MembersController.php:256
+#: src/Controller/MembersController.php:266
 msgid "Invalid access link."
 msgstr "Lien d'accès non valide."
 
-#: src/Controller/MembersController.php:306
+#: src/Controller/MembersController.php:334
 msgid "No items were selected for the order."
 msgstr "Pas d'articles séléctionnés pour cette commande."
 
-#: src/Controller/MembersController.php:318
+#: src/Controller/MembersController.php:346
 msgid "There was an error processing your order. Please try again."
 msgstr ""
 "Une erreur est survenue lors du traitement de ta commande. Merci d’essayer à "
 "nouveau."
 
-#: src/Controller/MembersController.php:331
+#: src/Controller/MembersController.php:359
 msgid "Your order has been placed successfully! Total amount: {0}"
 msgstr "Ta commande a été passée avec succès ! Montant total : {0}"
 
-#: src/Controller/MembersController.php:334
+#: src/Controller/MembersController.php:362
 msgid ""
 "There was an error creating the invoice for your order. Please try again."
 msgstr ""
 "Une erreur est survenue lors de la création de la facture pour ta commande. "
 "Essaie à nouveau, s’il te plaît."
 
-#: src/Controller/MembersController.php:464
+#: src/Controller/MembersController.php:492
 msgid "You can only view your own information."
 msgstr "Tu ne peux voir que tes propres informations."
 
-#: src/Controller/MembersController.php:600
-#: src/Controller/MembersController.php:608
+#: src/Controller/MembersController.php:640
+#: src/Controller/MembersController.php:648
 msgid ""
 "There where an issue with the connection. Please try again or ask Florian. "
 "Cookies has to be allowed."
@@ -544,7 +537,7 @@ msgstr ""
 "Il y a eu un problème de connexion. Veuillez réessayer ou demander à "
 "Florian. Les cookies doivent être autorisés."
 
-#: src/Controller/MembersController.php:640
+#: src/Controller/MembersController.php:680
 msgid "The PDF cant't be created"
 msgstr "Le PDF ne peut pas être créé"
 
@@ -1891,7 +1884,7 @@ msgid "Item Price"
 msgstr "Prix de l'article"
 
 #: templates/MemberOrders/view.php:37 templates/ShopItems/view.php:53
-#: templates/element/Members/shop.php:36
+#: templates/element/Members/shop.php:53
 msgid "Quantity"
 msgstr "Quantité"
 
@@ -2580,10 +2573,8 @@ msgid "Tokenhash"
 msgstr "Hash du jeton"
 
 #: templates/element/Members/bills.php:24
-#, fuzzy
-#| msgid "Invoice Templates"
 msgid "Invoice filters"
-msgstr "Modèles de factures"
+msgstr "Filtre des factures"
 
 #: templates/element/Members/bills.php:141
 #: templates/element/Members/bills.php:162
@@ -2591,11 +2582,8 @@ msgid "No invoices found."
 msgstr "Aucune facture trouvée."
 
 #: templates/element/Members/bills.php:160
-#, fuzzy
-#| msgctxt "No. as count"
-#| msgid "No. Open Invoices"
 msgid "No open invoices found."
-msgstr "Nb. Factures ouvertes"
+msgstr "Pas de factures ouvertes."
 
 #: templates/element/Members/bills.php:161
 msgid "No paid invoices found."
@@ -2712,27 +2700,35 @@ msgstr "Tu n'es pas inscrit·e pour cette saison"
 msgid "I register for the season"
 msgstr "Je m'inscrit pour la saison"
 
-#: templates/element/Members/shop.php:57
+#: templates/element/Members/shop.php:16
+msgid "You must be registered to place an order."
+msgstr "Tu dois être inscrit pour pouvoir commander des articles."
+
+#: templates/element/Members/shop.php:22
+msgid "You have too many overdue bills to place a new order."
+msgstr "Tu as trop de factures en retard pour pouvoir commander des articles."
+
+#: templates/element/Members/shop.php:74
 msgid "Total: {0}"
 msgstr "Total: {0}"
 
-#: templates/element/Members/shop.php:61
+#: templates/element/Members/shop.php:78
 msgid "Place Order"
 msgstr "Commander"
 
-#: templates/element/Members/shop.php:103
+#: templates/element/Members/shop.php:120
 msgid "Please select at least one item to order."
 msgstr "Sélectionne au moins un article à commander."
 
-#: templates/element/Members/shop.php:108
+#: templates/element/Members/shop.php:125
 msgid "Please confirm your order:"
 msgstr "Confirme ta commande:"
 
-#: templates/element/Members/shop.php:112
+#: templates/element/Members/shop.php:129
 msgid "Total amount: CHF {0}"
 msgstr "Total: CHF {0}"
 
-#: templates/element/Members/shop.php:113
+#: templates/element/Members/shop.php:130
 msgid "Do you want to place this order?"
 msgstr "Veux-tu commander ?"
 
@@ -2882,6 +2878,14 @@ msgstr "Si le problème persiste,"
 #: templates/layout/error.php:486
 msgid "contact our support"
 msgstr "contacter le support"
+
+#~ msgid "Failed to convert HEIC image"
+#~ msgstr "Échec de la conversion de l'image HEIC"
+
+#, fuzzy
+#~| msgid "Failed to convert HEIC image"
+#~ msgid "Failed to process JPEG image file"
+#~ msgstr "Échec de la conversion de l'image HEIC"
 
 #, fuzzy
 #~| msgid "Page Not Found"

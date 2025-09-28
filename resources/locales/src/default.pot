@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2025-09-28 11:50+0200\n"
+"POT-Creation-Date: 2025-09-28 13:55+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -185,7 +185,6 @@ msgid "JPEG image cannot be processed - file may be corrupted"
 msgstr ""
 
 #: ./src/Controller/Component/ImageComponent.php:201
-#: ./src/Controller/Component/MemberDocumentComponent.php:45
 msgid "HEIC format is not supported on this server"
 msgstr ""
 
@@ -225,16 +224,14 @@ msgstr ""
 msgid "Dear"
 msgstr ""
 
+#: ./src/Controller/Component/MemberDocumentComponent.php:45
+msgid "HEIC format is not supported"
+msgstr ""
+
 #: ./src/Controller/Component/MemberDocumentComponent.php:63
-msgid "Failed to process HEIC image file"
-msgstr ""
-
 #: ./src/Controller/Component/MemberDocumentComponent.php:74
-msgid "Failed to convert HEIC image"
-msgstr ""
-
 #: ./src/Controller/Component/MemberDocumentComponent.php:93
-msgid "Failed to process JPEG image file"
+msgid "Failed to process image"
 msgstr ""
 
 #: ./src/Controller/Component/MemberDocumentComponent.php:122
@@ -322,12 +319,12 @@ msgid "You are now registered, it will be validated by a coach"
 msgstr ""
 
 #: ./src/Controller/Component/MemberRegistrationComponent.php:133
-#: ./src/Controller/MembersController.php:707
+#: ./src/Controller/MembersController.php:747
 msgid "New member registered"
 msgstr ""
 
 #: ./src/Controller/Component/MemberRegistrationComponent.php:133
-#: ./src/Controller/MembersController.php:707
+#: ./src/Controller/MembersController.php:747
 msgid "The member has just registred. You need to validate the signature."
 msgstr ""
 
@@ -479,37 +476,37 @@ msgstr ""
 msgid "The member order could not be deleted. Please, try again."
 msgstr ""
 
-#: ./src/Controller/MembersController.php:223
-#: ./src/Controller/MembersController.php:233
+#: ./src/Controller/MembersController.php:256
+#: ./src/Controller/MembersController.php:266
 msgid "Invalid access link."
 msgstr ""
 
-#: ./src/Controller/MembersController.php:306
+#: ./src/Controller/MembersController.php:334
 msgid "No items were selected for the order."
 msgstr ""
 
-#: ./src/Controller/MembersController.php:318
+#: ./src/Controller/MembersController.php:346
 msgid "There was an error processing your order. Please try again."
 msgstr ""
 
-#: ./src/Controller/MembersController.php:331
+#: ./src/Controller/MembersController.php:359
 msgid "Your order has been placed successfully! Total amount: {0}"
 msgstr ""
 
-#: ./src/Controller/MembersController.php:334
+#: ./src/Controller/MembersController.php:362
 msgid "There was an error creating the invoice for your order. Please try again."
 msgstr ""
 
-#: ./src/Controller/MembersController.php:464
+#: ./src/Controller/MembersController.php:492
 msgid "You can only view your own information."
 msgstr ""
 
-#: ./src/Controller/MembersController.php:600
-#: ./src/Controller/MembersController.php:608
+#: ./src/Controller/MembersController.php:640
+#: ./src/Controller/MembersController.php:648
 msgid "There where an issue with the connection. Please try again or ask Florian. Cookies has to be allowed."
 msgstr ""
 
-#: ./src/Controller/MembersController.php:640
+#: ./src/Controller/MembersController.php:680
 msgid "The PDF cant't be created"
 msgstr ""
 
@@ -2133,7 +2130,7 @@ msgstr ""
 
 #: ./templates/MemberOrders/view.php:37
 #: ./templates/ShopItems/view.php:53
-#: ./templates/element/Members/shop.php:36
+#: ./templates/element/Members/shop.php:53
 msgid "Quantity"
 msgstr ""
 
@@ -2988,27 +2985,35 @@ msgstr ""
 msgid "I register for the season"
 msgstr ""
 
-#: ./templates/element/Members/shop.php:57
+#: ./templates/element/Members/shop.php:16
+msgid "You must be registered to place an order."
+msgstr ""
+
+#: ./templates/element/Members/shop.php:22
+msgid "You have too many overdue bills to place a new order."
+msgstr ""
+
+#: ./templates/element/Members/shop.php:74
 msgid "Total: {0}"
 msgstr ""
 
-#: ./templates/element/Members/shop.php:61
+#: ./templates/element/Members/shop.php:78
 msgid "Place Order"
 msgstr ""
 
-#: ./templates/element/Members/shop.php:103
+#: ./templates/element/Members/shop.php:120
 msgid "Please select at least one item to order."
 msgstr ""
 
-#: ./templates/element/Members/shop.php:108
+#: ./templates/element/Members/shop.php:125
 msgid "Please confirm your order:"
 msgstr ""
 
-#: ./templates/element/Members/shop.php:112
+#: ./templates/element/Members/shop.php:129
 msgid "Total amount: CHF {0}"
 msgstr ""
 
-#: ./templates/element/Members/shop.php:113
+#: ./templates/element/Members/shop.php:130
 msgid "Do you want to place this order?"
 msgstr ""
 
