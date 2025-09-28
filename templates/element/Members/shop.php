@@ -7,9 +7,26 @@
  * @var bool $isOwn
  */
 
-if (empty($shopItems) || !$isOwn || sizeof($shopItems) == 0 || !$member->registered) {
+if (empty($shopItems) || !$isOwn || sizeof($shopItems) == 0) {
     return;
 }
+
+if(!$member->registered)
+{
+    echo __("You must be registered to place an order.");
+    return;
+}
+
+if($member->late_bills_sum > 150)
+{
+    echo __("You have too many overdue bills to place a new order.");
+    return;    
+}
+
+
+// Determine the correct form action based on current context
+$currentAction = $this->request->getParam('action');
+$formUrl = ($currentAction === 'myPage') ? ['action' => 'my-page'] : ['action' => 'view', $member->id];
 ?>
 <div class="row px-0 mx-0">
     <div class="col px-0 mx-0">
@@ -21,7 +38,7 @@ if (empty($shopItems) || !$isOwn || sizeof($shopItems) == 0 || !$member->registe
             </h4>
             <div class="collapse" id="shopSection">
                 <div class="card card-body">
-                    <?= $this->Form->create(null, ['url' => ['action' => 'my-page'], 'id' => 'shop-order-form']) ?>
+                    <?= $this->Form->create(null, ['url' => $formUrl, 'id' => 'shop-order-form']) ?>
                     <div class="row">
                         <?php foreach ($shopItems as $item): ?>
                             <div class="col-md-6 col-lg-3 m-0 p-0">

@@ -211,6 +211,39 @@ class MembersController extends AppController
         return $curUser;
     }
 
+    /**
+     * Handle shop order functionality for any member
+     * 
+     * @param object $member The member entity
+     * @param string $redirectAction The action to redirect to after successful order
+     * @return \Cake\Http\Response|null Returns redirect response if order processed, null otherwise
+     */
+    private function handleShopOrder($member, string $redirectAction = 'view')
+    {
+        // Handle shop order submission
+        if ($this->request->is('post')) {
+            $orderData = $this->request->getData('shop_order');
+            if (!empty($orderData)) {
+                $orderSuccess = $this->processShopOrder($member, $orderData);
+                if ($orderSuccess) {
+                    // Redirect based on the specified action
+                    if ($redirectAction === 'myPage') {
+                        return $this->redirect(['action' => 'myPage']);
+                    } else {
+                        return $this->redirect(['action' => 'view', $member->id]);
+                    }
+                }
+                // If order failed, continue to show the page with error message
+            }
+        }
+
+        // Load shop items for the shopping section
+        $shopItemsTable = TableRegistry::getTableLocator()->get('ShopItems');
+        $shopItems = $shopItemsTable->find('active')->all();
+        
+        return $shopItems;
+    }
+
     public function myPage($hash = null)
     {
         $this->Authorization->skipAuthorization();
@@ -244,23 +277,18 @@ class MembersController extends AppController
             $pageData['curUser'] = $this->getHashCurUser($pageData['member']->id);
         }
 
-        // Handle shop order submission
-        if ($this->request->is('post') && !isset($pageData['error'])) {
-            $orderData = $this->request->getData('shop_order');
-            if (!empty($orderData)) {
-                $orderSuccess = $this->processShopOrder($pageData['member'], $orderData);
-                if ($orderSuccess) {
-                    // Redirect without hash - cookie will handle authentication
-                    return $this->redirect(['action' => 'myPage']);
-                }
-                // If order failed, continue to show the page with error message
+        // Handle shop orders if no errors
+        if (!isset($pageData['error'])) {
+            $shopOrderResult = $this->handleShopOrder($pageData['member'], 'myPage');
+            
+            // If handleShopOrder returns a redirect response, return it
+            if ($shopOrderResult instanceof \Cake\Http\Response) {
+                return $shopOrderResult;
             }
+            
+            // Otherwise, $shopOrderResult contains the shop items
+            $pageData['shopItems'] = $shopOrderResult;
         }
-
-        // Load shop items for the shopping section
-        $shopItemsTable = TableRegistry::getTableLocator()->get('ShopItems');
-        $shopItems = $shopItemsTable->find('active')->all();
-        $pageData['shopItems'] = $shopItems;
 
         $this->set($pageData);
         $this->render('view');
@@ -473,6 +501,18 @@ class MembersController extends AppController
         $this->Authorization->authorize($member);
 
         $viewData = $this->MemberData->prepareMemberViewData($member, $this->config);
+
+        // Handle shop orders
+        $shopOrderResult = $this->handleShopOrder($member, 'view');
+        
+        // If handleShopOrder returns a redirect response, return it
+        if ($shopOrderResult instanceof \Cake\Http\Response) {
+            return $shopOrderResult;
+        }
+        
+        // Otherwise, add shop items to view data
+        $viewData['shopItems'] = $shopOrderResult;
+
         $this->set($viewData);
     }
 
