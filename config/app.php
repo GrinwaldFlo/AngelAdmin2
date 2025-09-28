@@ -169,6 +169,9 @@ return [
      *   class will be used for both web and CLI contexts. If you want different classes for each environment
      *   you'll need to write that conditional logic as well. Error renderers need to
      *   to implement the `Cake\Error\ErrorRendererInterface`.
+     * - `logger' - string|array - The logger class to use for logging errors and exceptions.
+     *   Defaults to `Cake\Error\ErrorLogger`. You can use a custom logger class to handle
+     *   how errors and exceptions are logged.
      * - `skipLog` - array - List of exceptions to skip for logging. Exceptions that
      *   extend one of the listed exceptions will also be skipped for logging.
      *   E.g.:
@@ -185,6 +188,7 @@ return [
         'skipLog' => [],
         'log' => true,
         'trace' => true,
+        'logger' => 'App\Error\CustomErrorLogger',
         'ignoredDeprecationPaths' => [],
     ],
 

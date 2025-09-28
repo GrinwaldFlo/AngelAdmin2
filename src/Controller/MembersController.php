@@ -485,7 +485,7 @@ class MembersController extends AppController
      */
     public function edit(int|null $id = null)
     {
-        $workingHash = $hash ?? $this->getCurrentHash();
+        $workingHash = $this->getCurrentHash();
 
         if ($this->isHashAuthenticated()) {
             $this->Authorization->skipAuthorization();
