@@ -37,6 +37,7 @@
         <th><?= __("Address") ?></th>
         <th><?= __("Postal code") ?></th>
         <th><?= __("City") ?></th>
+        <th><?= __("Mobile") ?></th>
         <th><?= __("Location") ?></th>
         <th><?= $this->Paginator->sort('modified', __("Modification")) ?></th>
       </tr>
@@ -52,6 +53,7 @@
           <td><?= h($member->address) ?></td>
           <td><?= h($member->postcode) ?></td>
           <td><?= h($member->city) ?></td>
+          <td><?= h($member->phone_mobile) ?></td>
           <td><?= h($member->SiteString) ?></td>
           <td><?= h($member->modified) ?></td>
         </tr>
