@@ -79,7 +79,7 @@ class MemberListComponent extends Component
 
         $members2 = array();
         foreach ($members as $member) {
-            $member['FullAddress'] = $member['city'] . ', ' . $member['address'];
+            $member['FullAddress'] = $member['city'] . ', ' . $this->cleanAddress($member['address']);
             array_push($members2, $member);
         }
 
@@ -174,5 +174,32 @@ class MemberListComponent extends Component
         )->contain('Teams'));
     }
 
+    /**
+     * Clean address by removing punctuation and common road prefixes
+     * 
+     * @param string $address The address to clean
+     * @return string The cleaned address
+     */
+    private function cleanAddress($address)
+    {
+        // Remove dots and commas
+        $cleaned = str_replace(['.', ',', '-'], ' ', $address);
+        
+        // Convert to lowercase
+        $cleaned = strtolower($cleaned);
+        
+        // Remove common road prefixes (as whole words)
+        $wordsToRemove = ['rte', 'de', 'route', 'ch', 'chemin', 'av', 'la', 'du', 'l\'', 'des', 'rue'];
+        $pattern = '/\b(' . implode('|', $wordsToRemove) . ')\b/';
+        $cleaned = preg_replace($pattern, '', $cleaned);
+        
+        // Remove extra spaces
+        $cleaned = preg_replace('/\s+/', ' ', $cleaned);
+        
+        // Trim leading/trailing spaces
+        $cleaned = trim($cleaned);
+        
+        return $cleaned;
+    }
 
 }
