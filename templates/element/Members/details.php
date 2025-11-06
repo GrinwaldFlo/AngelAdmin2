@@ -15,15 +15,15 @@
     if (empty($member->address) || empty($member->postcode) || empty($member->city))
         $this->my->respGrid(__('Adress'), "", true);
     else
-        $this->my->respGrid(__('Adress'), ($this->Html->link(h($member->address . ", " . $member->postcode . " " . $member->city), 'https://maps.google.ch/maps?q=' . str_replace(" ", "+", $member->address . ", " . $member->postcode . ",+CH"), ['target' => '_blank'])));
+        $this->my->respGrid(__('Adress'), ($this->Html->link($member->address . ", " . $member->postcode . " " . $member->city, 'https://maps.google.ch/maps?q=' . str_replace(" ", "+", $member->address . ", " . $member->postcode . ",+CH"), ['target' => '_blank'])));
 
     if ($member->phone_mobile)
-        $this->my->respGrid(__('Mobile'), $this->Html->link(h($member->phone_mobile), 'tel:' . $member->phone_mobile));
+        $this->my->respGrid(__('Mobile'), $this->Html->link($member->phone_mobile, 'tel:' . $member->phone_mobile));
     else
         $this->my->respGrid(__('Mobile'), "", true);
 
     if ($member->email)
-        $this->my->respGrid(__('Email'), $this->Html->link(h($member->email) . ($member->email_valid ? ' ' . __('Valid') : ''), 'mailto:' . $member->email));
+        $this->my->respGrid(__('Email'), $this->Html->link($member->email . ($member->email_valid ? ' ' . __('Valid') : ''), 'mailto:' . $member->email));
     else
         $this->my->respGrid(__('Email'), "", true);
 
