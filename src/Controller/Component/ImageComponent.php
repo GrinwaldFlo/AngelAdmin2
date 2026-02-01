@@ -2,11 +2,370 @@
 namespace App\Controller\Component;
 use Cake\Controller\Component;
 use Cake\Log\Log;
+use App\Utility\ImageHelper;
 
 class ImageComponent extends Component
 {
     public $name = 'Image';
     private $__errors = array();
+
+    /**
+     * Validate uploaded file to ensure it's a processable image (JPEG or HEIC)
+     * 
+     * @param mixed $fileobject Uploaded file object with getClientMediaType() and getStream() methods
+     * @return array Validation result with 'valid', 'isHeic', 'isJpeg', and 'errorMessage' keys
+     */
+    public function validateUploadedImage($fileobject): array
+    {
+        $clientMediaType = $fileobject->getClientMediaType();
+        $isJpeg = $clientMediaType === "image/jpeg";
+        $isHeic = ImageHelper::isHeicMimeType($clientMediaType);
+        
+        // First check MIME type
+        if (!$isJpeg && !$isHeic) {
+            return [
+                'valid' => false,
+                'isHeic' => false,
+                'isJpeg' => false,
+                'errorMessage' => $this->getSupportedFormatsMessage()
+            ];
+        }
+        
+        // Get the uploaded file path for content validation
+        $tempFile = $fileobject->getStream()->getMetadata('uri');
+        if (!$tempFile) {
+            // Create a temporary file to validate content
+            $tempFile = tempnam(sys_get_temp_dir(), 'image_validation_');
+            $fileobject->moveTo($tempFile);
+            $needsCleanup = true;
+        } else {
+            $needsCleanup = false;
+        }
+        
+        // Validate actual file content
+        $contentValidation = $this->validateImageContent($tempFile, $isJpeg, $isHeic);
+        
+        // Clean up temporary file if we created one
+        if ($needsCleanup && file_exists($tempFile)) {
+            unlink($tempFile);
+        }
+        
+        if (!$contentValidation['valid']) {
+            return [
+                'valid' => false,
+                'isHeic' => $isHeic,
+                'isJpeg' => $isJpeg,
+                'errorMessage' => $contentValidation['errorMessage']
+            ];
+        }
+        
+        return [
+            'valid' => true,
+            'isHeic' => $isHeic,
+            'isJpeg' => $isJpeg,
+            'errorMessage' => $this->getSupportedFormatsMessage()
+        ];
+    }
+
+    /**
+     * Validate image file content to ensure it's actually a processable image
+     * 
+     * @param string $filePath Path to the image file
+     * @param bool $expectedJpeg Whether the file is expected to be JPEG
+     * @param bool $expectedHeic Whether the file is expected to be HEIC
+     * @return array Validation result with 'valid' and 'errorMessage' keys
+     */
+    public function validateImageContent(string $filePath, bool $expectedJpeg = true, bool $expectedHeic = false): array
+    {
+        if (!file_exists($filePath)) {
+            return [
+                'valid' => false,
+                'errorMessage' => __('Image file is not accessible for validation')
+            ];
+        }
+        
+        // Check file size (basic sanity check)
+        $fileSize = filesize($filePath);
+        if ($fileSize === false || $fileSize === 0) {
+            return [
+                'valid' => false,
+                'errorMessage' => __('Image file appears to be empty or corrupted')
+            ];
+        }
+        
+        // For JPEG validation
+        if ($expectedJpeg) {
+            return $this->validateJpegContent($filePath);
+        }
+        
+        // For HEIC validation
+        if ($expectedHeic) {
+            return $this->validateHeicContent($filePath);
+        }
+        
+        return [
+            'valid' => false,
+            'errorMessage' => __('Unknown image format')
+        ];
+    }
+
+    /**
+     * Validate JPEG file content
+     * 
+     * @param string $filePath Path to the JPEG file
+     * @return array Validation result
+     */
+    public function validateJpegContent(string $filePath): array
+    {
+        // Use getimagesize for basic validation
+        $imageInfo = @getimagesize($filePath);
+        if ($imageInfo === false) {
+            Log::warning('JPEG validation failed: getimagesize returned false for {file}', [
+                'file' => $filePath,
+                'scope' => 'image'
+            ]);
+            return [
+                'valid' => false,
+                'errorMessage' => __('File is not a valid JPEG image')
+            ];
+        }
+        
+        // Check if it's actually a JPEG
+        if ($imageInfo[2] !== IMAGETYPE_JPEG) {
+            Log::warning('JPEG validation failed: wrong image type {type} for {file}', [
+                'type' => $imageInfo[2],
+                'file' => $filePath,
+                'scope' => 'image'
+            ]);
+            return [
+                'valid' => false,
+                'errorMessage' => __('File claims to be JPEG but has different format')
+            ];
+        }
+        
+        // Check image dimensions are reasonable
+        if ($imageInfo[0] <= 0 || $imageInfo[1] <= 0) {
+            Log::warning('JPEG validation failed: invalid dimensions {width}x{height} for {file}', [
+                'width' => $imageInfo[0],
+                'height' => $imageInfo[1],
+                'file' => $filePath,
+                'scope' => 'image'
+            ]);
+            return [
+                'valid' => false,
+                'errorMessage' => __('JPEG image has invalid dimensions')
+            ];
+        }
+        
+        // Additional validation: try to create image resource
+        $imageResource = @imagecreatefromjpeg($filePath);
+        if ($imageResource === false) {
+            Log::warning('JPEG validation failed: cannot create image resource for {file}', [
+                'file' => $filePath,
+                'scope' => 'image'
+            ]);
+            return [
+                'valid' => false,
+                'errorMessage' => __('JPEG image cannot be processed - file may be corrupted')
+            ];
+        }
+        
+        // Clean up
+        imagedestroy($imageResource);
+        
+        Log::debug('JPEG validation successful for {file} ({width}x{height})', [
+            'file' => $filePath,
+            'width' => $imageInfo[0],
+            'height' => $imageInfo[1],
+            'scope' => 'image'
+        ]);
+        
+        return [
+            'valid' => true,
+            'errorMessage' => null
+        ];
+    }
+
+    /**
+     * Validate HEIC file content
+     * 
+     * @param string $filePath Path to the HEIC file
+     * @return array Validation result
+     */
+    public function validateHeicContent(string $filePath): array
+    {
+        // First check if HEIC is supported on this server
+        if (!ImageHelper::isHeicSupported()) {
+            return [
+                'valid' => false,
+                'errorMessage' => __('HEIC format is not supported on this server')
+            ];
+        }
+        
+        // Read file header to validate HEIC signature
+        $handle = @fopen($filePath, 'rb');
+        if ($handle === false) {
+            Log::warning('HEIC validation failed: cannot open file {file}', [
+                'file' => $filePath,
+                'scope' => 'image'
+            ]);
+            return [
+                'valid' => false,
+                'errorMessage' => __('Cannot read uploaded HEIC file')
+            ];
+        }
+        
+        // Read first 12 bytes to check HEIC signature
+        $header = fread($handle, 12);
+        fclose($handle);
+        
+        if (strlen($header) < 12) {
+            Log::warning('HEIC validation failed: file too small ({size} bytes) for {file}', [
+                'size' => strlen($header),
+                'file' => $filePath,
+                'scope' => 'image'
+            ]);
+            return [
+                'valid' => false,
+                'errorMessage' => __('HEIC file is too small or corrupted')
+            ];
+        }
+        
+        // HEIC files start with specific signatures
+        // Check for 'ftyp' at offset 4-7 and HEIC brands
+        $ftypSignature = substr($header, 4, 4);
+        if ($ftypSignature !== 'ftyp') {
+            Log::warning('HEIC validation failed: invalid signature "{signature}" for {file}', [
+                'signature' => $ftypSignature,
+                'file' => $filePath,
+                'scope' => 'image'
+            ]);
+            return [
+                'valid' => false,
+                'errorMessage' => __('File is not a valid HEIC image - invalid signature')
+            ];
+        }
+        
+        // Check HEIC brand (next 4 bytes after ftyp)
+        $brand = substr($header, 8, 4);
+        $validBrands = ['heic', 'heix', 'hevc', 'hevx', 'heim', 'heis', 'hevm', 'hevs', 'mif1'];
+        if (!in_array($brand, $validBrands)) {
+            Log::warning('HEIC validation failed: unsupported brand "{brand}" for {file}', [
+                'brand' => $brand,
+                'file' => $filePath,
+                'scope' => 'image'
+            ]);
+            return [
+                'valid' => false,
+                'errorMessage' => __('File is not a valid HEIC image - unsupported brand: {0}', $brand)
+            ];
+        }
+        
+        // Try to process with ImageMagick if available for deeper validation
+        if (extension_loaded('imagick')) {
+            try {
+                $imagick = new \Imagick();
+                $imagick->readImage($filePath);
+                $width = $imagick->getImageWidth();
+                $height = $imagick->getImageHeight();
+                $imagick->destroy();
+                
+                if ($width <= 0 || $height <= 0) {
+                    Log::warning('HEIC validation failed: invalid dimensions {width}x{height} for {file}', [
+                        'width' => $width,
+                        'height' => $height,
+                        'file' => $filePath,
+                        'scope' => 'image'
+                    ]);
+                    return [
+                        'valid' => false,
+                        'errorMessage' => __('HEIC image has invalid dimensions')
+                    ];
+                }
+                
+                Log::debug('HEIC validation successful for {file} ({width}x{height}, brand: {brand})', [
+                    'file' => $filePath,
+                    'width' => $width,
+                    'height' => $height,
+                    'brand' => $brand,
+                    'scope' => 'image'
+                ]);
+                
+            } catch (\Exception $e) {
+                Log::warning('HEIC validation failed: ImageMagick error for {file}: {error}', [
+                    'file' => $filePath,
+                    'error' => $e->getMessage(),
+                    'scope' => 'image'
+                ]);
+                return [
+                    'valid' => false,
+                    'errorMessage' => __('HEIC image cannot be processed: {0}', $e->getMessage())
+                ];
+            }
+        } else {
+            Log::debug('HEIC validation successful for {file} (basic validation only, brand: {brand})', [
+                'file' => $filePath,
+                'brand' => $brand,
+                'scope' => 'image'
+            ]);
+        }
+        
+        return [
+            'valid' => true,
+            'errorMessage' => null
+        ];
+    }
+
+    /**
+     * Get supported image formats message
+     * 
+     * @return string User-friendly message about supported formats
+     */
+    public function getSupportedFormatsMessage(): string
+    {
+        if (ImageHelper::isHeicSupported()) {
+            return __('JPEG and HEIC pictures only');
+        } else {
+            return __('JPEG pictures only');
+        }
+    }
+
+    /**
+     * Get accepted MIME types for file input
+     * 
+     * @return string Comma-separated list of accepted MIME types
+     */
+    public function getAcceptedMimeTypes(): string
+    {
+        $types = ['image/jpeg'];
+        
+        if (ImageHelper::isHeicSupported()) {
+            $types = array_merge($types, [
+                'image/heic',
+                'image/heif',
+                'image/heic-sequence',
+                'image/heif-sequence'
+            ]);
+        }
+        
+        return implode(',', $types);
+    }
+
+    /**
+     * Get accepted file extensions
+     * 
+     * @return array Array of accepted file extensions
+     */
+    public function getAcceptedExtensions(): array
+    {
+        $extensions = ['jpg', 'jpeg'];
+        
+        if (ImageHelper::isHeicSupported()) {
+            $extensions = array_merge($extensions, ['heic', 'heif']);
+        }
+        
+        return $extensions;
+    }
 
     public function rotateFromExif($filename)
     {

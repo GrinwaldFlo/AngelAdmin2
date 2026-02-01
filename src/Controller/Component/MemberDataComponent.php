@@ -19,6 +19,26 @@ class MemberDataComponent extends Component
         $controller = $this->getController();
         $controller->Members->getAssociation('Fields')->AddMissing($member);
 
+        // Calculate late bills sum for this member
+        $lateBillsSum = $controller->Members->Bills->find()
+            ->select([
+                'late_bills_sum' => $controller->Members->Bills->find()->func()->coalesce([
+                    $controller->Members->Bills->find()->func()->sum('Bills.amount'),
+                    0
+                ])
+            ])
+            ->where([
+                'Bills.member_id' => $member->id,
+                'Bills.paid' => false,
+                'Bills.canceled' => false,
+                'Bills.due_date <' => \Cake\I18n\FrozenDate::today()
+            ])
+            ->first();
+
+        // Add the late_bills_sum as a virtual property
+        $member->late_bills_sum = $lateBillsSum ? $lateBillsSum->late_bills_sum : 0;
+
+
         $memberDocs = $controller->fetchTable('MemberDocs');
         $docs = $memberDocs->find('all', order: ['title' => 'asc']);
 
@@ -60,6 +80,26 @@ class MemberDataComponent extends Component
             $member = $controller->Members->findByHash($hash)
                 ->contain(['Teams', 'Bills', 'Presences', 'Users', 'Presences.Meetings', 'Bills.Members', 'Fields', 'Fields.FieldTypes', 'Bills.Sites'])
                 ->FirstOrFail();
+                
+            // Calculate late bills sum for this member
+            $lateBillsSum = $controller->Members->Bills->find()
+                ->select([
+                    'late_bills_sum' => $controller->Members->Bills->find()->func()->coalesce([
+                        $controller->Members->Bills->find()->func()->sum('Bills.amount'),
+                        0
+                    ])
+                ])
+                ->where([
+                    'Bills.member_id' => $member->id,
+                    'Bills.paid' => false,
+                    'Bills.canceled' => false,
+                    'Bills.due_date <' => \Cake\I18n\FrozenDate::today()
+                ])
+                ->first();
+            
+            // Add the late_bills_sum as a virtual property
+            $member->late_bills_sum = $lateBillsSum ? $lateBillsSum->late_bills_sum : 0;
+                
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             return [
                 'error' => 'hash_not_found',

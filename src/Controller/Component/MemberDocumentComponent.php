@@ -17,21 +17,14 @@ class MemberDocumentComponent extends Component
     private function isValidImageFile($fileobject): array
     {
         $controller = $this->getController();
-        $clientMediaType = $fileobject->getClientMediaType();
-        $isJpeg = $clientMediaType === "image/jpeg";
-        $isHeic = ImageHelper::isHeicMimeType($clientMediaType);
         
-        // Load ImageSupport component to get proper error messages
-        if (!isset($controller->ImageSupport)) {
-            $controller->loadComponent('ImageSupport');
+        // Load Image component for validation
+        if (!isset($controller->Image)) {
+            $controller->loadComponent('Image');
         }
         
-        return [
-            'valid' => $isJpeg || $isHeic,
-            'isHeic' => $isHeic,
-            'isJpeg' => $isJpeg,
-            'errorMessage' => $controller->ImageSupport->getFormatDescription()
-        ];
+        // Use Image component's validation
+        return $controller->Image->validateUploadedImage($fileobject);
     }
 
     /**
@@ -49,18 +42,36 @@ class MemberDocumentComponent extends Component
         
         if ($validation['isHeic']) {
             if (!ImageHelper::isHeicSupported()) {
-                $controller->Flash->error(__("HEIC format is not supported on this server"));
+                $controller->Flash->error(__("HEIC format is not supported"));
                 return false;
             }
             
             // Create temporary file for HEIC
             $tempHeicPath = tempnam(sys_get_temp_dir(), 'heic_upload_');
-            $fileobject->moveTo($tempHeicPath);
+            
+            // Handle file stream that might have been consumed during validation
+            try {
+                $fileobject->moveTo($tempHeicPath);
+            } catch (\Exception $e) {
+                // If moveTo fails, try to get the stream and write it
+                try {
+                    $stream = $fileobject->getStream();
+                    $stream->rewind(); // Try to rewind stream
+                    $content = $stream->getContents();
+                    file_put_contents($tempHeicPath, $content);
+                } catch (\Exception $e2) {
+                    $controller->Flash->error(__("Failed to process image"));
+                    if (file_exists($tempHeicPath)) {
+                        unlink($tempHeicPath);
+                    }
+                    return false;
+                }
+            }
             
             // Convert HEIC to JPEG
             if (!ImageHelper::convertHeicToJpeg($tempHeicPath, $targetPath)) {
                 unlink($tempHeicPath);
-                $controller->Flash->error(__("Failed to convert HEIC image"));
+                $controller->Flash->error(__("Failed to process image"));
                 return false;
             }
             
@@ -69,7 +80,20 @@ class MemberDocumentComponent extends Component
             
         } else {
             // Direct JPEG upload
-            $fileobject->moveTo($targetPath);
+            try {
+                $fileobject->moveTo($targetPath);
+            } catch (\Exception $e) {
+                // If moveTo fails, try to get the stream and write it
+                try {
+                    $stream = $fileobject->getStream();
+                    $stream->rewind(); // Try to rewind stream
+                    $content = $stream->getContents();
+                    file_put_contents($targetPath, $content);
+                } catch (\Exception $e2) {
+                    $controller->Flash->error(__("Failed to process image"));
+                    return false;
+                }
+            }
         }
         
         return true;

@@ -247,6 +247,7 @@ class MembersTable extends Table
             'Members.address',
             'Members.city',
             'Members.postcode',
+            'Members.phone_mobile',
             'Members.multi_payment',
             'Members.coach',
             'Users.username',
@@ -305,6 +306,7 @@ class MembersTable extends Table
             'Members.address',
             'Members.city',
             'Members.postcode',
+            'Members.phone_mobile',
             'Members.multi_payment',
             'Members.coach',
             'Users.username',
@@ -330,7 +332,7 @@ class MembersTable extends Table
                 'Bills.canceled' => false,
                 'Bills.due_date <' => \Cake\I18n\FrozenDate::today()
             ])
-            ->group('Bills.member_id');
+            ->groupBy('Bills.member_id');
 
         // Add the late bills sum as a virtual field using LEFT JOIN
         $query->leftJoin(
