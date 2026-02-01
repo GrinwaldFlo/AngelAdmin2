@@ -54,7 +54,7 @@ $dateBill->add($interval);
     </div>
     <div id="membersList" style="display: flex; flex-wrap: wrap; gap: 10px;">
       <?php foreach ($members as $member): ?>
-        <div class="member-item" data-fullname="<?= strtolower(h($member->FullName)) ?>" style="display: flex; align-items: center; border: 1px solid #ddd; padding: 4px 6px; border-radius: 4px; background-color: #f8f9fa;">
+        <div class="member-item" data-fullname="<?= strtolower(h($member->FullName)) ?>" style="display: flex; align-items: center; border: 1px solid #ddd; padding: 6px 8px 5px 30px; border-radius: 4px; background-color: #f8f9fa;">
           <?= $this->Form->control('MemberId.' . $member->id, ['type' => 'checkbox', 'label' => false, 'class' => 'checkable', 'style' => 'margin-right: 5px;', 'templates' => ['formGroup' => '{{input}}']]); ?>
           <?= $this->Html->link($member->FullName, ['controller' => 'Members', 'action' => 'view', $member->id], ['target' => '_blank']) ?>
         </div>
@@ -116,11 +116,13 @@ EOL;
 
 <style>
   .member-item .form-check {
-    margin-bottom: 0;
-    padding: 0;
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+    display: contents;
   }
   
   .member-item .form-check-input {
-    margin-top: 0;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
   }
 </style>
