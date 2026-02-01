@@ -480,15 +480,17 @@ class AppController extends Controller
      * Get members
      * @param int $teamId Team ID
      * @param int $memberFilter 0: All, 1: Active, 2: Passif, 3: Coti not paid
+     * @param int $siteId Site ID (0 for all sites)
      * @return SelectQuery
      */
-    public function getMembers($teamId, $memberFilter): SelectQuery
+    public function getMembers($teamId, $memberFilter, $siteId = 0): SelectQuery
     {
         $membersTable = TableRegistry::getTableLocator()->get('Members');
         return $membersTable->find(
             'Members',
             teamId: $teamId,
-            memberFilter: $memberFilter
+            memberFilter: $memberFilter,
+            siteId: $siteId
         )->contain('Teams')->orderBy(['first_name' => 'ASC', 'last_name' => 'ASC']);
     }
 

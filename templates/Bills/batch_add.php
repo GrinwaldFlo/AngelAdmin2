@@ -46,22 +46,25 @@ $dateBill->add($interval);
   </div>  
 </div>  
 <div class="row">
-  <div class="col">
-    <div class="bills form content">
-      <h4><?= __('Members') ?></h4>
-      <table class="table table-striped table-hover table-sm">
-        <tbody>
-          <?php foreach ($members as $member): ?>
-            <tr>
-              <td><?= $this->Form->control('MemberId.' . $member->id, ['type' => 'checkbox', 'label' => false, 'class' => 'checkable']); ?></td>
-              <td><?= $this->Html->link($member->FullName, ['controller' => 'Members', 'action' => 'view', $member->id], ['target' => '_blank']) ?></td>
-            </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
+<div class="col">
+  <div class="bills form content">
+    <h4><?= __('Members') ?></h4>
+    <div class="mb-3">
+      <input type="text" id="memberFilter" class="form-control" placeholder="<?= __('Search members...') ?>">
+    </div>
+    <div id="membersList" style="display: flex; flex-wrap: wrap; gap: 10px;">
+      <?php foreach ($members as $member): ?>
+        <div class="member-item" data-fullname="<?= strtolower(h($member->FullName)) ?>" style="display: flex; align-items: center; border: 1px solid #ddd; padding: 4px 6px; border-radius: 4px; background-color: #f8f9fa;">
+          <?= $this->Form->control('MemberId.' . $member->id, ['type' => 'checkbox', 'label' => false, 'class' => 'checkable', 'style' => 'margin-right: 5px;', 'templates' => ['formGroup' => '{{input}}']]); ?>
+          <?= $this->Html->link($member->FullName, ['controller' => 'Members', 'action' => 'view', $member->id], ['target' => '_blank']) ?>
+        </div>
+      <?php endforeach; ?>
+    </div>
+    <div class="mt-3">
       <?= $this->Form->button(__('Submit')) ?>
       ¦ <div class="btn btn-primary btn-sm" id="CheckAll"><?= __("Check all") ?></div><div class="btn btn-primary btn-sm" id="CheckNone"><?= __("Check none") ?></div>
-        <?= $this->Form->end() ?>
+    </div>
+      <?= $this->Form->end() ?>
     </div>
   </div>  
 </div>  
@@ -70,10 +73,24 @@ $dateBill->add($interval);
 
 <script>
   $("#CheckAll").click(function () {
-    $(".checkable").prop('checked', true);
+    $(".checkable:visible").prop('checked', true);
   });
   $("#CheckNone").click(function () {
-    $(".checkable").prop('checked', false);
+    $(".checkable:visible").prop('checked', false);
+  });
+
+  $("#memberFilter").on("input", function() {
+    var filterValue = $(this).val().toLowerCase();
+    
+    $(".member-item").each(function() {
+      var fullName = $(this).data("fullname");
+      
+      if (fullName.indexOf(filterValue) > -1) {
+        $(this).show();
+      } else {
+        $(this).hide();
+      }
+    });
   });
 
   $("#clear").click(function () {
@@ -96,3 +113,14 @@ EOL;
 }
 ?>
 </script>
+
+<style>
+  .member-item .form-check {
+    margin-bottom: 0;
+    padding: 0;
+  }
+  
+  .member-item .form-check-input {
+    margin-top: 0;
+  }
+</style>

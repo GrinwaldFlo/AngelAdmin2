@@ -522,8 +522,8 @@ class BillsController extends AppController
 
         $teamId = $this->getPrefSession('teamId', $teamId, 0);
         $memberFilter = $this->getPrefSession('memberFilter', $memberFilter, 1);
-        $members = $this->getMembers($teamId, $memberFilter);
-        $teams = $this->getTeamsActiv();
+        $members = $this->getMembers($teamId, $memberFilter, $siteId);
+        $teams = $this->getTeamsActiv($siteId);
         $sites = $this->Bills->Sites->find('list');
 
         $this->set(compact('members', 'teamId', 'memberFilter', 'teams', 'sites', 'siteId'));
