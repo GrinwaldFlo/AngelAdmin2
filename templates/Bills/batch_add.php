@@ -39,7 +39,6 @@ $dateBill->add($interval);
         echo $this->Form->control('amount', ['type' => 'number', 'label' => __('Amount'), 'required' => true, 'id' => 'amount']);
         echo $this->Form->control('link_membership_fee', ['type' => 'checkbox', 'label' => __('Linked to a membership'), 'id' => 'membership_fee']);
         echo $this->Form->control('due_date', ['type' => 'date', 'label' => __('Due date'), 'value' => $dateBill, 'required' => true]);
-        //echo $this->Form->control('site_id', ['options' => $sites]);
         ?>
       </fieldset>
     </div>

@@ -485,8 +485,8 @@ class BillsController extends AppController
 
         if ($this->request->is('post')) {
             if ($siteId == 0) {
-                $this->Flash->error(__('A location need to be selected'));
-                return;
+                $this->Flash->error(__('A location needs to be selected'));
+                return $this->redirect(['action' => 'batchAdd']);
             }
 
             $result = $this->request->getData();
