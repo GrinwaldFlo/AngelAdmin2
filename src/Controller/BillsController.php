@@ -477,12 +477,18 @@ class BillsController extends AppController
         $this->set(compact('members', 'sites', 'siteId', 'memberStatus'));
     }
 
-    public function batchAdd(int|null $teamId = null, int|null $memberFilter = null)
+    public function batchAdd(int|null $teamId = null, int|null $memberFilter = null, int|null $siteId = null)
     {
         $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'edit');
         $this->set('billTemplates', $this->Get->BillTemplates());
+        $siteId = $this->getPrefSession('siteId', $siteId, 1);
 
         if ($this->request->is('post')) {
+            if ($siteId == 0) {
+                $this->Flash->error(__('A location need to be selected'));
+                return;
+            }
+
             $result = $this->request->getData();
             foreach ($result['MemberId'] as $memberId => $value) {
 
@@ -501,7 +507,7 @@ class BillsController extends AppController
                     $bill->state_id = 0;
                     $bill->tokenhash = Text::uuid();
                     $bill->confirmation = 0;
-                    $bill->site_id = $result['site_id'];
+                    $bill->site_id = $siteId;
 
                     $this->Bills->save($bill);
 
@@ -516,18 +522,11 @@ class BillsController extends AppController
 
         $teamId = $this->getPrefSession('teamId', $teamId, 0);
         $memberFilter = $this->getPrefSession('memberFilter', $memberFilter, 1);
-
         $members = $this->getMembers($teamId, $memberFilter);
-
         $teams = $this->getTeamsActiv();
+        $sites = $this->Bills->Sites->find('list');
 
-        $sites = $this->Bills->Sites->find('list', [
-            'valueField' => function ($site) {
-                return $site->city;
-            }
-        ]);
-
-        $this->set(compact('members', 'teamId', 'memberFilter', 'teams', 'sites'));
+        $this->set(compact('members', 'teamId', 'memberFilter', 'teams', 'sites', 'siteId'));
     }
 
     public function mailSend(int|null $memberStatus = null, int|null $teamId = null, int|null $siteId = null)
