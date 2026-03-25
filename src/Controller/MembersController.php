@@ -239,7 +239,7 @@ class MembersController extends AppController
 
         // Load shop items for the shopping section
         $shopItemsTable = TableRegistry::getTableLocator()->get('ShopItems');
-        $shopItems = $shopItemsTable->find('active')->all();
+        $shopItems = $shopItemsTable->find('active')->orderByAsc('label')->all();
         
         return $shopItems;
     }
