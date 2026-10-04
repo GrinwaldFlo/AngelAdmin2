@@ -24,7 +24,7 @@ class BillsTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Bills',
         'app.Members',
         'app.Sites',
@@ -61,7 +61,13 @@ class BillsTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Bills->newEntity([]);
+
+        $errors = $entity->getErrors();
+        $this->assertArrayHasKey('label', $errors);
+        $this->assertArrayHasKey('amount', $errors);
+        $this->assertArrayHasKey('printed', $errors);
+        $this->assertArrayHasKey('paid', $errors);
     }
 
     /**
@@ -71,7 +77,24 @@ class BillsTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Bills->newEntity([
+            'member_id' => 9999,
+            'site_id' => 9999,
+            'label' => 'Test invoice',
+            'amount' => 150,
+            'printed' => false,
+            'paid' => false,
+            'reminder' => 0,
+            'due_date' => '2026-01-01',
+            'due_date_ori' => '2026-01-01',
+            'link_membership_fee' => false,
+            'canceled' => false,
+            'state_id' => 1,
+            'tokenhash' => 'test-token',
+        ]);
+
+        $this->assertFalse((bool)$this->Bills->save($entity));
+        $this->assertNotEmpty($entity->getErrors());
     }
 
     /**
@@ -81,7 +104,9 @@ class BillsTableTest extends TestCase
      */
     public function testFindBills(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $result = $this->Bills->find('bills', billStatus: 3, memberStatus: 1, teamId: 0)->all();
+
+        $this->assertCount(1, $result);
     }
 
     /**
@@ -91,7 +116,7 @@ class BillsTableTest extends TestCase
      */
     public function testGetNbOpenInvoice(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->assertSame(0, $this->Bills->GetNbOpenInvoice());
     }
 
     /**
@@ -101,7 +126,7 @@ class BillsTableTest extends TestCase
      */
     public function testGetSumOpenInvoice(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->assertNull($this->Bills->GetSumOpenInvoice());
     }
 
     /**
@@ -111,7 +136,9 @@ class BillsTableTest extends TestCase
      */
     public function testGetSum(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $sum = $this->Bills->GetSum(['Bills.paid =' => 1]);
+
+        $this->assertSame(1, (int)$sum);
     }
 
     /**
@@ -121,7 +148,9 @@ class BillsTableTest extends TestCase
      */
     public function testGetSumPaidFees(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $sum = $this->Bills->GetSumPaidFees('2020-01-01');
+
+        $this->assertSame(0, (int)$sum);
     }
 
     /**
@@ -131,7 +160,9 @@ class BillsTableTest extends TestCase
      */
     public function testGetSumFeesFrom(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $sum = $this->Bills->GetSumFeesFrom('2020-01-01');
+
+        $this->assertSame(0, (int)$sum);
     }
 
     /**
@@ -141,7 +172,9 @@ class BillsTableTest extends TestCase
      */
     public function testGetSumInvoicedFrom(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $sum = $this->Bills->GetSumInvoicedFrom('2020-01-01');
+
+        $this->assertSame(0, (int)$sum);
     }
 
     /**
@@ -151,7 +184,9 @@ class BillsTableTest extends TestCase
      */
     public function testGetSumInvoicedPaidFrom(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $sum = $this->Bills->GetSumInvoicedPaidFrom('2020-01-01');
+
+        $this->assertSame(0, (int)$sum);
     }
 
     /**
@@ -161,7 +196,12 @@ class BillsTableTest extends TestCase
      */
     public function testGetFeeLabel(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $label = $this->Bills->GetFeeLabel([
+            'feeLabel' => 'Membership Fee',
+            'year' => 2025,
+        ]);
+
+        $this->assertSame('Membership Fee 2025-2026', $label);
     }
 
     /**
@@ -171,6 +211,22 @@ class BillsTableTest extends TestCase
      */
     public function testCreateMembershipFee(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $member = $this->Bills->Members->get(1);
+        $before = $this->Bills->find()->count();
+
+        $this->Bills->CreateMembershipFee(
+            ['feeLabel' => 'Membership Fee', 'year' => 2025],
+            $member,
+            'Extra',
+            '2026-01-15',
+            250
+        );
+
+        $after = $this->Bills->find()->count();
+        $bill = $this->Bills->find()->orderBy(['id' => 'DESC'])->first();
+
+        $this->assertSame($before + 1, $after);
+        $this->assertSame('Membership Fee 2025-2026 Extra', $bill->label);
+        $this->assertSame(250, $bill->amount);
     }
 }

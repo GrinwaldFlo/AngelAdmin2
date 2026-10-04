@@ -24,7 +24,7 @@ class UsersTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Users',
         'app.Roles',
         'app.Members',
@@ -61,7 +61,14 @@ class UsersTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Users->newEntity([
+            'username' => str_repeat('a', 51),
+            'password' => str_repeat('b', 51),
+        ]);
+
+        $errors = $entity->getErrors();
+        $this->assertArrayHasKey('username', $errors);
+        $this->assertArrayHasKey('password', $errors);
     }
 
     /**
@@ -71,6 +78,16 @@ class UsersTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Users->newEntity([
+            'username' => 'Lorem ipsum dolor sit amet',
+            'password' => 'secret',
+            'role_id' => 1,
+            'member_id' => 1,
+            'pass_key' => 'pass-key',
+            'tokenhash' => 'token-hash',
+        ]);
+
+        $this->assertFalse((bool)$this->Users->save($entity));
+        $this->assertNotEmpty($entity->getErrors());
     }
 }

@@ -24,7 +24,7 @@ class FieldsTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Fields',
         'app.Members',
         'app.FieldTypes',
@@ -61,7 +61,14 @@ class FieldsTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Fields->newEntity([
+            'member_id' => 1,
+            'field_type_id' => 1,
+            'value' => str_repeat('a', 256),
+        ]);
+
+        $errors = $entity->getErrors();
+        $this->assertArrayHasKey('value', $errors);
     }
 
     /**
@@ -71,6 +78,13 @@ class FieldsTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Fields->newEntity([
+            'member_id' => 1,
+            'field_type_id' => 1,
+            'value' => 'Valid value',
+        ]);
+
+        $this->assertTrue($this->Fields->checkRules($entity));
+        $this->assertEmpty($entity->getErrors());
     }
 }

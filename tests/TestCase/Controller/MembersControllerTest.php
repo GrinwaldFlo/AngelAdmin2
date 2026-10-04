@@ -21,13 +21,14 @@ class MembersControllerTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Members',
         'app.Bills',
         'app.Presences',
         'app.Users',
         'app.Teams',
         'app.TeamsMembers',
+        'app.Sites',
     ];
 
     /**
@@ -37,7 +38,8 @@ class MembersControllerTest extends TestCase
      */
     public function testIndex(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/members');
+        $this->assertResponseCode(302);
     }
 
     /**
@@ -47,7 +49,8 @@ class MembersControllerTest extends TestCase
      */
     public function testView(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/members/view/1');
+        $this->assertResponseCode(302);
     }
 
     /**
@@ -57,7 +60,8 @@ class MembersControllerTest extends TestCase
      */
     public function testAdd(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/members/add');
+        $this->assertResponseCode(302);
     }
 
     /**
@@ -67,7 +71,8 @@ class MembersControllerTest extends TestCase
      */
     public function testEdit(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/members/edit/1');
+        $this->assertResponseCode(302);
     }
 
     /**
@@ -77,6 +82,8 @@ class MembersControllerTest extends TestCase
      */
     public function testDelete(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->enableCsrfToken();
+        $this->post('/members/delete/1');
+        $this->assertResponseCode(302);
     }
 }

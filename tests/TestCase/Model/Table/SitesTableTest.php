@@ -24,7 +24,7 @@ class SitesTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Sites',
     ];
 
@@ -59,6 +59,19 @@ class SitesTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Sites->newEntity([
+            'city' => '',
+            'feeMax' => '',
+            'sender_email' => '',
+            'sender' => '',
+            'add_invoice_num' => '',
+        ]);
+
+        $errors = $entity->getErrors();
+        $this->assertArrayHasKey('city', $errors);
+        $this->assertArrayHasKey('feeMax', $errors);
+        $this->assertArrayHasKey('sender_email', $errors);
+        $this->assertArrayHasKey('sender', $errors);
+        $this->assertArrayHasKey('add_invoice_num', $errors);
     }
 }

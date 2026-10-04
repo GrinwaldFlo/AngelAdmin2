@@ -41,16 +41,19 @@ class MyHelper extends Helper
     public function Languages($config)
     {
         $r = [];
-        if ($config['fr'])
-            array_push($r, [__('French'), 'fr']);
-        if ($config['de'])
-            array_push($r, [__('German'), 'de']);
-        if ($config['en'])
-            array_push($r, [__('English'), 'en']);
-        if ($config['es'])
-            array_push($r, [__('Spanish'), 'es']);
-        if ($config['it'])
-            array_push($r, [__('Italian'), 'it']);
+        $languages = [
+            'fr' => __('French'),
+            'de' => __('German'),
+            'en' => __('English'),
+            'es' => __('Spanish'),
+            'it' => __('Italian'),
+        ];
+
+        foreach ($languages as $code => $label) {
+            if (!empty($config[$code] ?? null)) {
+                $r[] = [$label, $code];
+            }
+        }
 
         return $r;
     }

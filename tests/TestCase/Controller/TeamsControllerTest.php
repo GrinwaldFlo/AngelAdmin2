@@ -21,7 +21,7 @@ class TeamsControllerTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Teams',
         'app.Meetings',
         'app.Members',
@@ -36,7 +36,8 @@ class TeamsControllerTest extends TestCase
      */
     public function testIndex(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/teams');
+        $this->assertResponseCode(302);
     }
 
     /**
@@ -46,7 +47,8 @@ class TeamsControllerTest extends TestCase
      */
     public function testView(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/teams/view/1');
+        $this->assertResponseCode(302);
     }
 
     /**
@@ -56,7 +58,8 @@ class TeamsControllerTest extends TestCase
      */
     public function testAdd(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/teams/add');
+        $this->assertResponseCode(302);
     }
 
     /**
@@ -66,7 +69,8 @@ class TeamsControllerTest extends TestCase
      */
     public function testEdit(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/teams/edit/1');
+        $this->assertResponseCode(302);
     }
 
     /**
@@ -76,6 +80,8 @@ class TeamsControllerTest extends TestCase
      */
     public function testDelete(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->enableCsrfToken();
+        $this->post('/teams/delete/1');
+        $this->assertResponseCode(302);
     }
 }
