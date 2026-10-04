@@ -261,13 +261,13 @@ class MembersTable extends Table
 
         //************************************** Member status **************************************
         switch ($options['memberFilter']) {
-            case 1;
+            case 1:
                 $query->where(['Members.active =' => 1]);
                 break;
-            case 2;
+            case 2:
                 $query->where(['Members.active =' => 0]);
                 break;
-            case 3;
+            case 3:
                 $query->where(['Members.active =' => 1, 'Members.membership_fee_paid =' => 0]);
                 break;
             case 4:
@@ -345,13 +345,13 @@ class MembersTable extends Table
 
         //************************************** Member status **************************************
         switch ($options['memberFilter']) {
-            case 1;
+            case 1:
                 $query->where(['Members.active =' => 1]);
                 break;
-            case 2;
+            case 2:
                 $query->where(['Members.active =' => 0]);
                 break;
-            case 3;
+            case 3:
                 $query->where(['Members.active =' => 1, 'Members.membership_fee_paid =' => 0]);
                 break;
             case 4:

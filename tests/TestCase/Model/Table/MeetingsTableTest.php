@@ -24,10 +24,12 @@ class MeetingsTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Meetings',
         'app.Teams',
         'app.Presences',
+        'app.Members',
+        'app.Sites',
     ];
 
     /**
@@ -61,7 +63,16 @@ class MeetingsTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Meetings->newEntity([
+            'meeting_date' => '',
+            'name' => '',
+            'url' => str_repeat('a', 251),
+        ]);
+
+        $errors = $entity->getErrors();
+        $this->assertArrayHasKey('meeting_date', $errors);
+        $this->assertArrayHasKey('name', $errors);
+        $this->assertArrayHasKey('url', $errors);
     }
 
     /**
@@ -71,6 +82,14 @@ class MeetingsTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Meetings->newEntity([
+            'meeting_date' => '2025-01-15 09:00:00',
+            'team_id' => 999999,
+            'name' => 'Team meeting',
+        ]);
+
+        $this->assertFalse($this->Meetings->checkRules($entity));
+        $this->assertNotEmpty($entity->getErrors());
+        $this->assertArrayHasKey('team_id', $entity->getErrors());
     }
 }

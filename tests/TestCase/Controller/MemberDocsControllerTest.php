@@ -21,7 +21,7 @@ class MemberDocsControllerTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.MemberDocs',
     ];
 

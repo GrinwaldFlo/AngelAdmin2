@@ -21,7 +21,7 @@ class FieldsControllerTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Fields',
         'app.Members',
         'app.FieldTypes',

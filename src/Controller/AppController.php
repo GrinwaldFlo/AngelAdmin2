@@ -139,7 +139,7 @@ class AppController extends Controller
         $this->set("wide", '');
         $this->set('isMobile', $this->request->is('Mobile'));
 
-        $locale = $this->config['lng'];
+        $locale = $this->config['lng'] ?? 'fr';
         if ($this->Authentication->getIdentity() != NULL) {
             $members = TableRegistry::getTableLocator()->get('Members');
             $contents = TableRegistry::getTableLocator()->get('Contents');
@@ -151,7 +151,7 @@ class AppController extends Controller
             $this->set("curRole", $this->curRole);
             $this->set("curUser", $this->curUser);
 
-            $locale = $this->curMember->language;
+            $locale = $this->curMember->language ?? $locale;
 
             $externalLinks = $contents->find('all')->where(['location =' => 1, 'team_id IN' => $this->curMember->TeamIds]);
             $this->set("externalLinks", $externalLinks);
@@ -164,8 +164,9 @@ class AppController extends Controller
             $locale = $this->getPrefSessionStr('lng', null, $locale);
         }
 
-        if ($this->config[$locale] == 0)
-            $locale = $this->config['lng'];
+        if (($this->config[$locale] ?? 0) == 0) {
+            $locale = $this->config['lng'] ?? 'fr';
+        }
 
         I18n::setLocale($locale);
     }
@@ -312,7 +313,7 @@ class AppController extends Controller
 
     private function loadConfig()
     {
-        $this->config = array();
+        $this->config = [];
         $configurations = TableRegistry::getTableLocator()->get('Configurations');
 
         $config = $configurations->find('all');
@@ -321,6 +322,21 @@ class AppController extends Controller
             $this->config[$value->label] = $value->value;
         }
 
+        $this->config['year'] ??= (int) date('Y');
+        $this->config['lng'] ??= 'fr';
+        $this->config['firstDaySeason'] ??= '01.09';
+        $this->config['clubName'] ??= 'Your club Name';
+        $this->config['clubDescription'] ??= 'Your club description';
+        $this->config['feeLabel'] ??= 'Membership fee';
+        $this->config['domain'] ??= '@example.com';
+        $this->config['email'] ??= 'noreply@example.com';
+        $this->config['emailName'] ??= 'Club Admin';
+
+        foreach (['fr', 'de', 'en', 'es', 'it'] as $lang) {
+            $this->config[$lang] ??= 1;
+        }
+
+        $this->config[$this->config['lng']] ??= 1;
         $this->config['dateSeasonStart'] = new \DateTime($this->config['firstDaySeason'] . '.' . $this->config['year']);
 
         $this->set('config', $this->config);
@@ -381,26 +397,26 @@ class AppController extends Controller
         //************************************** Bill status **************************************
 
         switch ($billStatus) {
-            case 1;
+            case 1:
                 $bills->where(['Bills.paid =' => 0]);
                 break;
-            case 2; // Late
+            case 2: // Late
                 $bills->where(['Bills.due_date <' => \Cake\I18n\FrozenDate::today()])->where(['Bills.paid =' => 0]);
                 break;
-            case 3;
+            case 3:
                 $bills->where(['Bills.paid =' => 1]);
                 break;
-            case 4;
+            case 4:
                 $bills->where(['Bills.printed =' => 0])->where(['Bills.paid =' => 0]);
                 break;
         }
 
         //************************************** Member status **************************************
         switch ($memberStatus) {
-            case 1;
+            case 1:
                 $bills->where(['Members.active =' => 1]);
                 break;
-            case 2;
+            case 2:
                 $bills->where(['Members.active =' => 0]);
                 break;
         }

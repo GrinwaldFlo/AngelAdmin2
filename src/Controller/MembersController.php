@@ -239,7 +239,7 @@ class MembersController extends AppController
 
         // Load shop items for the shopping section
         $shopItemsTable = TableRegistry::getTableLocator()->get('ShopItems');
-        $shopItems = $shopItemsTable->find('active')->all();
+        $shopItems = $shopItemsTable->find('active')->orderByAsc('label')->all();
         
         return $shopItems;
     }
@@ -497,7 +497,7 @@ class MembersController extends AppController
             }
         }
 
-        $member = $this->Members->get($id, contain: ['Teams', 'Bills', 'Presences', 'Users', 'Presences.Meetings', 'Bills.Members', 'Fields', 'Fields.FieldTypes', 'Bills.Sites']);
+        $member = $this->Members->get($id, contain: ['Teams', 'Bills', 'Presences', 'Users', 'Presences.Meetings', 'Bills.Members', 'Fields' => ['FieldTypes'], 'Bills.Sites']);
         $this->Authorization->authorize($member);
 
         $viewData = $this->MemberData->prepareMemberViewData($member, $this->config);
@@ -525,7 +525,15 @@ class MembersController extends AppController
      */
     public function edit(int|null $id = null)
     {
+        $this->Authorization->skipAuthorization();
+
         $workingHash = $this->getCurrentHash();
+
+        if (!$this->Authentication->getIdentity() && !$this->isHashAuthenticated()) {
+            $this->Flash->error(__('Please log in to access this member.'));
+
+            return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+        }
 
         if ($this->isHashAuthenticated()) {
             $this->Authorization->skipAuthorization();

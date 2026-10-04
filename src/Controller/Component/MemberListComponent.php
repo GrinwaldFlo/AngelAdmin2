@@ -65,7 +65,7 @@ class MemberListComponent extends Component
             'Members',
             teamId: $teamId,
             memberFilter: $memberFilter,
-            contain: ['Teams', 'Fields', 'Fields.FieldTypes']
+            contain: ['Teams', 'Fields' => ['FieldTypes']]
         )->contain('Teams'));
     }
 

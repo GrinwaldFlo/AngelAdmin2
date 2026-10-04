@@ -21,9 +21,10 @@ class ContentsControllerTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Contents',
         'app.Teams',
+        'app.Sites',
     ];
 
     /**

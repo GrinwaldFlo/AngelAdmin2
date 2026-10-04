@@ -24,7 +24,7 @@ class MemberDocsTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.MemberDocs',
     ];
 
@@ -59,7 +59,14 @@ class MemberDocsTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->MemberDocs->newEntity([
+            'name' => str_repeat('a', 21),
+            'title' => '',
+        ]);
+
+        $errors = $entity->getErrors();
+        $this->assertArrayHasKey('name', $errors);
+        $this->assertArrayHasKey('title', $errors);
     }
 
     /**
@@ -69,6 +76,12 @@ class MemberDocsTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->MemberDocs->newEntity([
+            'name' => 'Unique doc name',
+            'title' => 'Unique title',
+        ]);
+
+        $this->assertTrue($this->MemberDocs->checkRules($entity));
+        $this->assertEmpty($entity->getErrors());
     }
 }

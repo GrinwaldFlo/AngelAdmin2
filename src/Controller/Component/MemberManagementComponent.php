@@ -67,7 +67,7 @@ class MemberManagementComponent extends Component
     public function updateMember($id, $data, $isAllowed = false)
     {
         $controller = $this->getController();
-        $member = $controller->Members->get($id, contain: ['Teams', 'Fields', 'Fields.FieldTypes']);
+        $member = $controller->Members->get($id, contain: ['Teams', 'Fields' => ['FieldTypes']]);
 
         $controller->Members->getAssociation('Fields')->AddMissing($member);
         usort($member->fields, function ($a, $b) {
@@ -75,7 +75,7 @@ class MemberManagementComponent extends Component
         });
         
         // For regular users, use normal authorization
-        if(!$isAllowed) {
+        if (!$isAllowed && $controller->Authentication->getIdentity() !== null) {
             $controller->Authorization->authorize($member);
         }
 

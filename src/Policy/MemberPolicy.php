@@ -9,28 +9,36 @@ use Authorization\IdentityInterface;
  */
 class MemberPolicy
 {
-  public function canViewAll(IdentityInterface $user, Member $member)
+  public function canViewAll(?IdentityInterface $user, Member $member)
   {
-    return $user->Role->MemberViewAll;
+    return $user !== null && $user->Role->MemberViewAll;
   }
 
-  public function canEdit(IdentityInterface $user, Member $member)
+  public function canEdit(?IdentityInterface $user, Member $member)
   {
+    if ($user === null) {
+      return false;
+    }
+
     return $user->Role->MemberEditAll || ($member->id == $user->member_id && $user->Role->MemberEditOwn);
   }
   
-    public function canEditAll(IdentityInterface $user, Member $member)
+    public function canEditAll(?IdentityInterface $user, Member $member)
   {
-    return $user->Role->MemberEditAll;
+    return $user !== null && $user->Role->MemberEditAll;
   }
 
-  public function canAdmin(IdentityInterface $user, Member $member)
+  public function canAdmin(?IdentityInterface $user, Member $member)
   {
-    return $user->Role->Admin;
+    return $user !== null && $user->Role->Admin;
   }
 
-  public function canView(IdentityInterface $user, Member $member)
+  public function canView(?IdentityInterface $user, Member $member)
   {
+    if ($user === null) {
+      return false;
+    }
+
     if ($user->Role->MemberViewAll)
     {
       return true;

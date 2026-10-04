@@ -24,7 +24,7 @@ class ConfigurationsTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Configurations',
     ];
 
@@ -59,6 +59,13 @@ class ConfigurationsTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Configurations->newEntity([
+            'label' => '',
+            'value' => '',
+        ]);
+
+        $errors = $entity->getErrors();
+        $this->assertArrayHasKey('label', $errors);
+        $this->assertArrayHasKey('value', $errors);
     }
 }

@@ -78,7 +78,7 @@ class MemberDataComponent extends Component
 
         try {
             $member = $controller->Members->findByHash($hash)
-                ->contain(['Teams', 'Bills', 'Presences', 'Users', 'Presences.Meetings', 'Bills.Members', 'Fields', 'Fields.FieldTypes', 'Bills.Sites'])
+                ->contain(['Teams', 'Bills', 'Presences', 'Users', 'Presences.Meetings', 'Bills.Members', 'Fields' => ['FieldTypes'], 'Bills.Sites'])
                 ->FirstOrFail();
                 
             // Calculate late bills sum for this member

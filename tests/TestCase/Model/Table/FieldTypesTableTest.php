@@ -24,9 +24,10 @@ class FieldTypesTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.FieldTypes',
         'app.Fields',
+        'app.Members',
     ];
 
     /**
@@ -60,6 +61,19 @@ class FieldTypesTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->FieldTypes->newEntity([
+            'label' => '',
+            'style' => 'not-an-int',
+            'member_edit' => 'not-an-int',
+            'hidden' => 'not-an-int',
+            'mandatory' => 'not-an-int',
+        ]);
+
+        $errors = $entity->getErrors();
+        $this->assertArrayHasKey('label', $errors);
+        $this->assertArrayHasKey('style', $errors);
+        $this->assertArrayHasKey('member_edit', $errors);
+        $this->assertArrayHasKey('hidden', $errors);
+        $this->assertArrayHasKey('mandatory', $errors);
     }
 }
