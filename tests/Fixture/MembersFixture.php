@@ -88,6 +88,9 @@ class MembersFixture extends TestFixture
                 'coach' => 1,
                 'registered' => 1,
                 'bvr' => 1,
+                'hash' => '1111111111111111111111111111111111111111',
+                'language' => 'fr',
+                'checked' => 0,
             ],
         ];
         parent::init();

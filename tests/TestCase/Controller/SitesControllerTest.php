@@ -21,7 +21,7 @@ class SitesControllerTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Sites',
     ];
 
@@ -32,7 +32,8 @@ class SitesControllerTest extends TestCase
      */
     public function testIndex(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/sites');
+        $this->assertResponseCode(302);
     }
 
     /**
@@ -42,7 +43,8 @@ class SitesControllerTest extends TestCase
      */
     public function testView(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/sites/view/1');
+        $this->assertResponseCode(302);
     }
 
     /**
@@ -52,7 +54,8 @@ class SitesControllerTest extends TestCase
      */
     public function testAdd(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/sites/add');
+        $this->assertResponseCode(302);
     }
 
     /**
@@ -62,7 +65,8 @@ class SitesControllerTest extends TestCase
      */
     public function testEdit(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/sites/edit/1');
+        $this->assertResponseCode(302);
     }
 
     /**
@@ -72,6 +76,8 @@ class SitesControllerTest extends TestCase
      */
     public function testDelete(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->enableCsrfToken();
+        $this->post('/sites/delete/1');
+        $this->assertResponseCode(302);
     }
 }

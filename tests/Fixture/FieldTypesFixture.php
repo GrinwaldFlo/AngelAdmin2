@@ -43,6 +43,9 @@ class FieldTypesFixture extends TestFixture
                 'label' => 'Lorem ipsum dolor sit amet',
                 'style' => 1,
                 'member_edit' => 1,
+                'sort' => 1,
+                'hidden' => 0,
+                'mandatory' => 0,
             ],
         ];
         parent::init();

@@ -24,7 +24,7 @@ class TeamsMembersTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.TeamsMembers',
         'app.Teams',
         'app.Members',
@@ -61,6 +61,12 @@ class TeamsMembersTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->TeamsMembers->newEntity([
+            'team_id' => 1,
+            'member_id' => 1,
+        ]);
+
+        $this->assertTrue($this->TeamsMembers->checkRules($entity));
+        $this->assertEmpty($entity->getErrors());
     }
 }

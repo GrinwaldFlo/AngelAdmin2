@@ -24,7 +24,7 @@ class SessionsTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Sessions',
     ];
 
@@ -59,6 +59,13 @@ class SessionsTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Sessions->newEntity([
+            'id' => str_repeat('a', 41),
+            'expires' => -1,
+        ]);
+
+        $errors = $entity->getErrors();
+        $this->assertArrayHasKey('id', $errors);
+        $this->assertArrayHasKey('expires', $errors);
     }
 }

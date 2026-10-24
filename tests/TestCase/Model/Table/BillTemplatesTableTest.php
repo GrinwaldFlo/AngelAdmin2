@@ -24,7 +24,7 @@ class BillTemplatesTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.BillTemplates',
         'app.Sites',
     ];
@@ -60,7 +60,17 @@ class BillTemplatesTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->BillTemplates->newEntity([
+            'label' => str_repeat('a', 201),
+            'amount' => '',
+            'membership_fee' => 'not-boolean',
+            'site_id' => 1,
+        ]);
+
+        $errors = $entity->getErrors();
+        $this->assertArrayHasKey('label', $errors);
+        $this->assertArrayHasKey('amount', $errors);
+        $this->assertArrayHasKey('membership_fee', $errors);
     }
 
     /**
@@ -70,6 +80,15 @@ class BillTemplatesTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->BillTemplates->newEntity([
+            'label' => 'Test label',
+            'amount' => 125,
+            'membership_fee' => true,
+            'site_id' => 999999,
+        ]);
+
+        $this->assertFalse($this->BillTemplates->checkRules($entity));
+        $this->assertNotEmpty($entity->getErrors());
+        $this->assertArrayHasKey('site_id', $entity->getErrors());
     }
 }

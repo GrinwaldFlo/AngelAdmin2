@@ -21,10 +21,11 @@ class TeamsMembersControllerTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.TeamsMembers',
         'app.Teams',
         'app.Members',
+        'app.Sites',
     ];
 
     /**

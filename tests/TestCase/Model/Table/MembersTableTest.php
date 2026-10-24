@@ -24,12 +24,14 @@ class MembersTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Members',
         'app.Bills',
         'app.Presences',
+        'app.Meetings',
         'app.Users',
         'app.Teams',
+        'app.Sites',
     ];
 
     /**
@@ -63,7 +65,18 @@ class MembersTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Members->newEntity([
+            'first_name' => '',
+            'last_name' => '',
+            'email' => 'invalid-email',
+            'multi_payment' => 9,
+        ]);
+
+        $errors = $entity->getErrors();
+        $this->assertArrayHasKey('first_name', $errors);
+        $this->assertArrayHasKey('last_name', $errors);
+        $this->assertArrayHasKey('email', $errors);
+        $this->assertArrayHasKey('multi_payment', $errors);
     }
 
     /**
@@ -73,6 +86,6 @@ class MembersTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->markTestSkipped('MembersTable::buildRules currently returns rules unchanged. Add assertions when integrity rules are introduced.');
     }
 }

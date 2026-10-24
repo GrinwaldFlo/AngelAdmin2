@@ -24,10 +24,9 @@ class RegistrationsTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Registrations',
         'app.Members',
-        'app.Validations',
     ];
 
     /**
@@ -61,7 +60,15 @@ class RegistrationsTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Registrations->newEntity([
+            'signature_member' => 'abc',
+            'signature_parent' => 'def',
+            'member_id' => 1,
+            'year' => '',
+        ]);
+
+        $errors = $entity->getErrors();
+        $this->assertArrayHasKey('year', $errors);
     }
 
     /**
@@ -71,6 +78,15 @@ class RegistrationsTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Registrations->newEntity([
+            'signature_member' => 'abc',
+            'signature_parent' => 'def',
+            'member_id' => 999999,
+            'year' => 2025,
+        ]);
+
+        $this->assertFalse($this->Registrations->checkRules($entity));
+        $this->assertNotEmpty($entity->getErrors());
+        $this->assertArrayHasKey('member_id', $entity->getErrors());
     }
 }

@@ -24,9 +24,10 @@ class RolesTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Roles',
         'app.Users',
+        'app.Members',
     ];
 
     /**
@@ -60,6 +61,25 @@ class RolesTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Roles->newEntity([
+            'name' => '',
+            'MemberViewAll' => 'invalid',
+            'MemberEditAll' => 'invalid',
+            'MemberEditOwn' => 'invalid',
+            'BillViewAll' => 'invalid',
+            'BillEditAll' => 'invalid',
+            'BillValidate' => 'invalid',
+            'Editor' => 'invalid',
+        ]);
+
+        $errors = $entity->getErrors();
+        $this->assertArrayHasKey('name', $errors);
+        $this->assertArrayHasKey('MemberViewAll', $errors);
+        $this->assertArrayHasKey('MemberEditAll', $errors);
+        $this->assertArrayHasKey('MemberEditOwn', $errors);
+        $this->assertArrayHasKey('BillViewAll', $errors);
+        $this->assertArrayHasKey('BillEditAll', $errors);
+        $this->assertArrayHasKey('BillValidate', $errors);
+        $this->assertArrayHasKey('Editor', $errors);
     }
 }

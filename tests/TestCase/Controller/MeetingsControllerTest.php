@@ -21,10 +21,12 @@ class MeetingsControllerTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Meetings',
         'app.Teams',
         'app.Presences',
+        'app.Members',
+        'app.Sites',
     ];
 
     /**

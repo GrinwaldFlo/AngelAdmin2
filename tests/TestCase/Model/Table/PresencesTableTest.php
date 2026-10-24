@@ -24,10 +24,12 @@ class PresencesTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Presences',
         'app.Meetings',
         'app.Members',
+        'app.Teams',
+        'app.Sites',
     ];
 
     /**
@@ -61,7 +63,14 @@ class PresencesTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Presences->newEntity([
+            'meeting_id' => 1,
+            'member_id' => 1,
+            'state' => '',
+        ]);
+
+        $errors = $entity->getErrors();
+        $this->assertArrayHasKey('state', $errors);
     }
 
     /**
@@ -71,6 +80,13 @@ class PresencesTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Presences->newEntity([
+            'meeting_id' => 999999,
+            'member_id' => 999999,
+            'state' => 1,
+        ]);
+
+        $this->assertFalse($this->Presences->checkRules($entity));
+        $this->assertNotEmpty($entity->getErrors());
     }
 }

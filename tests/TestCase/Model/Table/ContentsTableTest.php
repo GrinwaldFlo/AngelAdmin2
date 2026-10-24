@@ -24,9 +24,10 @@ class ContentsTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Contents',
         'app.Teams',
+        'app.Sites',
     ];
 
     /**
@@ -60,7 +61,17 @@ class ContentsTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Contents->newEntity([
+            'text' => 'Valid text',
+            'location' => '',
+            'url' => str_repeat('a', 1001),
+            'sort' => '',
+        ]);
+
+        $errors = $entity->getErrors();
+        $this->assertArrayHasKey('location', $errors);
+        $this->assertArrayHasKey('url', $errors);
+        $this->assertArrayHasKey('sort', $errors);
     }
 
     /**
@@ -70,6 +81,15 @@ class ContentsTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Contents->newEntity([
+            'text' => 'Valid content',
+            'location' => 1,
+            'url' => 'https://example.com',
+            'sort' => 10,
+            'team_id' => 999999,
+        ]);
+
+        $this->assertTrue($this->Contents->checkRules($entity));
+        $this->assertEmpty($entity->getErrors());
     }
 }

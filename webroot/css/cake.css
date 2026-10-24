@@ -181,6 +181,23 @@ body {
   color: black;
   line-height: 1.4;
 }
+
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+
+.login-shell {
+  width: 100%;
+  max-width: 600px;
+}
+
+.login-logo {
+  height: 50px;
+}
+
 .content {
   padding: 1rem;
   background: #ffffff;

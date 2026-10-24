@@ -173,25 +173,25 @@ class BillsTable extends Table
     //We never show canceled bills
     //$query->where(['Bills.canceled =' => 0]);
     switch ($options['billStatus'] ) {
-      case 1;
+      case 1:
         $query->where(['Bills.paid =' => 0]);
         break;
-      case 2;
+      case 2:
         $query->where(['Bills.due_date <' => new \DateTime()])->where(['Bills.paid =' => 0]);
         break;
-      case 3;
+      case 3:
         $query->where(['Bills.paid =' => 1]);
         break;
-      case 4;
+      case 4:
         $query->where(['Bills.printed =' => 0]);
         break;
     }
     //************************************** Member status **************************************
     switch ($options['memberStatus']) {
-      case 1;
+      case 1:
         $query->where(['Members.active =' => 1]);
         break;
-      case 2;
+      case 2:
         $query->where(['Members.active =' => 0]);
         break;
     }

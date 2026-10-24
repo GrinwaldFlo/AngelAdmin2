@@ -24,7 +24,7 @@ class TeamsTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Teams',
         'app.Meetings',
         'app.Members',
@@ -62,6 +62,15 @@ class TeamsTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Teams->newEntity([
+            'name' => '',
+            'membership_fee' => 'not-an-int',
+            'active' => 'nope',
+        ]);
+
+        $errors = $entity->getErrors();
+        $this->assertArrayHasKey('name', $errors);
+        $this->assertArrayHasKey('membership_fee', $errors);
+        $this->assertArrayHasKey('active', $errors);
     }
 }

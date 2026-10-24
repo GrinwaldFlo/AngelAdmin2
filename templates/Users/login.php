@@ -3,8 +3,8 @@
 use Cake\Core\Configure;
 ?>
 
-<div class="d-flex justify-content-center align-items-start min-vh-100" style="align-items: flex-start !important;">
-    <div class="w-100" style="max-width: 600px;">
+<div class="login-page">
+    <div class="login-shell">
 
         <div class="row justify-content-center p-0 m-0">
             <div class="col-12 p-0 m-0">
@@ -12,9 +12,9 @@ use Cake\Core\Configure;
                 <div class="form content text-center">
                     <h3>
                         <?= __('Welcome to the registration platform of') ?><br />
-                        <?php echo $this->Html->image(Configure::read('App.logo'), [
-                            "alt" => $config['clubName'],
-                            'class' => "navbar-item",
+                        <?php echo $this->Html->image(Configure::read('App.logo') ?: 'logo.png', [
+                            "alt" => $config['clubName'] ?? __('Club'),
+                            'class' => "navbar-item login-logo",
                             'height' => '50',
                             'loading' => 'lazy'
                         ]);

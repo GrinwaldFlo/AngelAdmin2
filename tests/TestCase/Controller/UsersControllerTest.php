@@ -21,7 +21,7 @@ class UsersControllerTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Users',
         'app.Roles',
         'app.Members',
@@ -34,7 +34,8 @@ class UsersControllerTest extends TestCase
      */
     public function testIndex(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/users');
+        $this->assertResponseCode(302);
     }
 
     /**
@@ -44,7 +45,8 @@ class UsersControllerTest extends TestCase
      */
     public function testView(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/users/view/1');
+        $this->assertResponseCode(302);
     }
 
     /**
@@ -54,7 +56,8 @@ class UsersControllerTest extends TestCase
      */
     public function testAdd(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/users/add');
+        $this->assertResponseCode(302);
     }
 
     /**
@@ -64,7 +67,8 @@ class UsersControllerTest extends TestCase
      */
     public function testEdit(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/users/edit/1');
+        $this->assertResponseCode(302);
     }
 
     /**
@@ -74,6 +78,15 @@ class UsersControllerTest extends TestCase
      */
     public function testDelete(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->enableCsrfToken();
+        $this->post('/users/delete/1');
+        $this->assertResponseCode(302);
+    }
+
+    public function testLoginPageIsAccessible(): void
+    {
+        $this->get('/users/login');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Login');
     }
 }
