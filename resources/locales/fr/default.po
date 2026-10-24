@@ -2885,6 +2885,93 @@ msgstr "Tous les emplacements"
 msgid "This location doesn't exists"
 msgstr "Cet emplacement n'existe pas"
 
+msgid "+{0} new / -{1} left this season"
+msgstr "+{0} nouveaux / -{1} départs cette saison"
+
+msgid "Absent"
+msgstr "Absent"
+
+msgid "Active members"
+msgstr "Membres actifs"
+
+msgid "Attendance ({0} days)"
+msgstr "Présence ({0} jours)"
+
+msgid "Attendance per team ({0} days)"
+msgstr "Présence par équipe ({0} jours)"
+
+msgid "Birthdays in the next {0} days"
+msgstr "Anniversaires dans les {0} prochains jours"
+
+msgid "Collected"
+msgstr "Encaissé"
+
+msgid "Draft (not printed)"
+msgstr "Brouillons (non imprimés)"
+
+msgid "Events this season"
+msgstr "Événements cette saison"
+
+msgid "Excused"
+msgstr "Excusé"
+
+msgid "Invoiced"
+msgstr "Facturé"
+
+msgid "Invoiced per month"
+msgstr "Facturé par mois"
+
+msgid "Late invoices"
+msgstr "Factures en retard"
+
+msgid "Membership fees"
+msgstr "Cotisations"
+
+msgid "Next {0} days"
+msgstr "{0} prochains jours"
+
+msgid "No event"
+msgstr "Aucun événement"
+
+msgid "No presence recorded"
+msgstr "Aucune présence saisie"
+
+msgid "None"
+msgstr "Aucun"
+
+msgid "Present"
+msgstr "Présent"
+
+msgid "Season since {0}"
+msgstr "Saison depuis le {0}"
+
+msgid "Signatures to validate"
+msgstr "Signatures à valider"
+
+msgid "Signatures validated"
+msgstr "Signatures validées"
+
+msgid "This season"
+msgstr "Cette saison"
+
+msgid "With reminder"
+msgstr "Avec rappel"
+
+msgid "{0} / {1} members"
+msgstr "{0} / {1} membres"
+
+msgid "{0} invoices, {1} late"
+msgstr "{0} factures, {1} en retard"
+
+msgid "{0} members"
+msgstr "{0} membres"
+
+msgid "{0} presences recorded"
+msgstr "{0} présences saisies"
+
+msgid "{0} years"
+msgstr "{0} ans"
+
 #~ msgid "Failed to convert HEIC image"
 #~ msgstr "Échec de la conversion de l'image HEIC"
 

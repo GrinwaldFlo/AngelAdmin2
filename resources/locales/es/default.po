@@ -1748,3 +1748,96 @@ msgstr "Todas las ubicaciones"
 msgid "This location doesn't exists"
 msgstr "Esta ubicación no existe"
 
+msgid "+{0} new / -{1} left this season"
+msgstr "+{0} nuevos / -{1} bajas esta temporada"
+
+msgid "Absent"
+msgstr "Ausente"
+
+msgid "Active members"
+msgstr "Miembros activos"
+
+msgid "Attendance"
+msgstr "Asistencia"
+
+msgid "Attendance ({0} days)"
+msgstr "Asistencia ({0} días)"
+
+msgid "Attendance per team ({0} days)"
+msgstr "Asistencia por equipo ({0} días)"
+
+msgid "Birthdays in the next {0} days"
+msgstr "Cumpleaños en los próximos {0} días"
+
+msgid "Collected"
+msgstr "Cobrado"
+
+msgid "Dashboard"
+msgstr "Panel"
+
+msgid "Draft (not printed)"
+msgstr "Borradores (no impresos)"
+
+msgid "Events this season"
+msgstr "Eventos esta temporada"
+
+msgid "Excused"
+msgstr "Justificado"
+
+msgid "Invoiced"
+msgstr "Facturado"
+
+msgid "Invoiced per month"
+msgstr "Facturado por mes"
+
+msgid "Late invoices"
+msgstr "Facturas vencidas"
+
+msgid "Membership fees"
+msgstr "Cuotas"
+
+msgid "Next {0} days"
+msgstr "Próximos {0} días"
+
+msgid "No event"
+msgstr "Ningún evento"
+
+msgid "No presence recorded"
+msgstr "Ninguna asistencia registrada"
+
+msgid "None"
+msgstr "Ninguno"
+
+msgid "Present"
+msgstr "Presente"
+
+msgid "Season since {0}"
+msgstr "Temporada desde {0}"
+
+msgid "Signatures to validate"
+msgstr "Firmas por validar"
+
+msgid "Signatures validated"
+msgstr "Firmas validadas"
+
+msgid "This season"
+msgstr "Esta temporada"
+
+msgid "With reminder"
+msgstr "Con recordatorio"
+
+msgid "{0} / {1} members"
+msgstr "{0} / {1} miembros"
+
+msgid "{0} invoices, {1} late"
+msgstr "{0} facturas, {1} vencidas"
+
+msgid "{0} members"
+msgstr "{0} miembros"
+
+msgid "{0} presences recorded"
+msgstr "{0} asistencias registradas"
+
+msgid "{0} years"
+msgstr "{0} años"
+

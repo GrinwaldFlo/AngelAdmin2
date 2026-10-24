@@ -3160,3 +3160,90 @@ msgstr ""
 
 msgid "This location doesn't exists"
 msgstr ""
+
+msgid "+{0} new / -{1} left this season"
+msgstr ""
+
+msgid "Absent"
+msgstr ""
+
+msgid "Active members"
+msgstr ""
+
+msgid "Attendance ({0} days)"
+msgstr ""
+
+msgid "Attendance per team ({0} days)"
+msgstr ""
+
+msgid "Birthdays in the next {0} days"
+msgstr ""
+
+msgid "Collected"
+msgstr ""
+
+msgid "Draft (not printed)"
+msgstr ""
+
+msgid "Events this season"
+msgstr ""
+
+msgid "Excused"
+msgstr ""
+
+msgid "Invoiced"
+msgstr ""
+
+msgid "Invoiced per month"
+msgstr ""
+
+msgid "Late invoices"
+msgstr ""
+
+msgid "Membership fees"
+msgstr ""
+
+msgid "Next {0} days"
+msgstr ""
+
+msgid "No event"
+msgstr ""
+
+msgid "No presence recorded"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "Present"
+msgstr ""
+
+msgid "Season since {0}"
+msgstr ""
+
+msgid "Signatures to validate"
+msgstr ""
+
+msgid "Signatures validated"
+msgstr ""
+
+msgid "This season"
+msgstr ""
+
+msgid "With reminder"
+msgstr ""
+
+msgid "{0} / {1} members"
+msgstr ""
+
+msgid "{0} invoices, {1} late"
+msgstr ""
+
+msgid "{0} members"
+msgstr ""
+
+msgid "{0} presences recorded"
+msgstr ""
+
+msgid "{0} years"
+msgstr ""

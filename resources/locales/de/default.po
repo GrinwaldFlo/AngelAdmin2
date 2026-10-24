@@ -1784,6 +1784,96 @@ msgstr "Alle Standorte"
 msgid "This location doesn't exists"
 msgstr "Dieser Standort existiert nicht"
 
+msgid "+{0} new / -{1} left this season"
+msgstr "+{0} neu / -{1} Austritte diese Saison"
+
+msgid "Absent"
+msgstr "Abwesend"
+
+msgid "Active members"
+msgstr "Aktive Mitglieder"
+
+msgid "Attendance ({0} days)"
+msgstr "Anwesenheit ({0} Tage)"
+
+msgid "Attendance per team ({0} days)"
+msgstr "Anwesenheit pro Team ({0} Tage)"
+
+msgid "Birthdays in the next {0} days"
+msgstr "Geburtstage in den nächsten {0} Tagen"
+
+msgid "Collected"
+msgstr "Eingenommen"
+
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgid "Draft (not printed)"
+msgstr "Entwürfe (nicht gedruckt)"
+
+msgid "Events this season"
+msgstr "Termine diese Saison"
+
+msgid "Excused"
+msgstr "Entschuldigt"
+
+msgid "Invoiced"
+msgstr "Verrechnet"
+
+msgid "Invoiced per month"
+msgstr "Verrechnet pro Monat"
+
+msgid "Late invoices"
+msgstr "Überfällige Rechnungen"
+
+msgid "Membership fees"
+msgstr "Mitgliederbeiträge"
+
+msgid "Next {0} days"
+msgstr "Nächste {0} Tage"
+
+msgid "No event"
+msgstr "Kein Termin"
+
+msgid "No presence recorded"
+msgstr "Keine Anwesenheit erfasst"
+
+msgid "None"
+msgstr "Keine"
+
+msgid "Present"
+msgstr "Anwesend"
+
+msgid "Season since {0}"
+msgstr "Saison seit {0}"
+
+msgid "Signatures to validate"
+msgstr "Zu prüfende Unterschriften"
+
+msgid "Signatures validated"
+msgstr "Geprüfte Unterschriften"
+
+msgid "This season"
+msgstr "Diese Saison"
+
+msgid "With reminder"
+msgstr "Mit Mahnung"
+
+msgid "{0} / {1} members"
+msgstr "{0} / {1} Mitglieder"
+
+msgid "{0} invoices, {1} late"
+msgstr "{0} Rechnungen, {1} überfällig"
+
+msgid "{0} members"
+msgstr "{0} Mitglieder"
+
+msgid "{0} presences recorded"
+msgstr "{0} Anwesenheiten erfasst"
+
+msgid "{0} years"
+msgstr "{0} Jahre"
+
 #, fuzzy
 #~| msgid "Quit membership"
 #~ msgid "Cancel membership"

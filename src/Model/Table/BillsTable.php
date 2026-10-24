@@ -236,36 +236,88 @@ class BillsTable extends Table
       ->contain(['Members', 'Members.Teams', 'Sites']);
   }
 
-  public function GetNbOpenInvoice()
+  public function GetNbOpenInvoice(int $siteId = 0)
   {
-    return $this->find('all')->where(['Bills.paid =' => 0, 'Bills.canceled =' => 0])->count();
+    return $this->GetCount(['Bills.paid =' => 0, 'Bills.canceled =' => 0], $siteId);
   }
-  public function GetSumOpenInvoice()
+  public function GetSumOpenInvoice(int $siteId = 0)
   {
-    return $this->GetSum(['Bills.paid =' => 0, 'Bills.canceled =' => 0]);
+    return $this->GetSum(['Bills.paid =' => 0, 'Bills.canceled =' => 0], $siteId);
   }
-  public function GetSum($condition)
+  /**
+   * @param int $siteId 0 = all sites
+   */
+  public function GetSum($condition, int $siteId = 0)
   {
     $query = $this->find();
     $result = $query->select(['sum' => $query->func()->sum('Bills.amount')])
-      ->where($condition)->first();
+      ->where($this->siteCondition($condition, $siteId))->first();
     return $result->sum;
   }
-  public function GetSumPaidFees($dateFrom)
+  public function GetSumPaidFees($dateFrom, int $siteId = 0)
   {
-    return $this->GetSum(['Bills.created >' => $dateFrom, 'Bills.paid =' => 1, 'Bills.canceled =' => 0, 'Bills.link_membership_fee =' => 1]);
+    return $this->GetSum(['Bills.created >' => $dateFrom, 'Bills.paid =' => 1, 'Bills.canceled =' => 0, 'Bills.link_membership_fee =' => 1], $siteId);
   }
-  public function GetSumFeesFrom($dateFrom)
+  public function GetSumFeesFrom($dateFrom, int $siteId = 0)
   {
-    return $this->GetSum(['Bills.created >' => $dateFrom, 'Bills.canceled =' => 0, 'Bills.link_membership_fee =' => 1]);
+    return $this->GetSum(['Bills.created >' => $dateFrom, 'Bills.canceled =' => 0, 'Bills.link_membership_fee =' => 1], $siteId);
   }
-  public function GetSumInvoicedFrom($dateFrom)
+  public function GetSumInvoicedFrom($dateFrom, int $siteId = 0)
   {
-    return $this->GetSum(['Bills.created >' => $dateFrom, 'Bills.canceled =' => 0]);
+    return $this->GetSum(['Bills.created >' => $dateFrom, 'Bills.canceled =' => 0], $siteId);
   }
-  public function GetSumInvoicedPaidFrom($dateFrom)
+  public function GetSumInvoicedPaidFrom($dateFrom, int $siteId = 0)
   {
-    return $this->GetSum(['Bills.paid =' => 1, 'Bills.created >' => $dateFrom, 'Bills.canceled =' => 0]);
+    return $this->GetSum(['Bills.paid =' => 1, 'Bills.created >' => $dateFrom, 'Bills.canceled =' => 0], $siteId);
+  }
+  /**
+   * @param int $siteId 0 = all sites
+   */
+  public function GetCount(array $condition, int $siteId = 0): int
+  {
+    return $this->find('all')->where($this->siteCondition($condition, $siteId))->count();
+  }
+  /**
+   * Unpaid invoices with due date passed
+   */
+  public function GetLateCondition(): array
+  {
+    return ['Bills.paid =' => 0, 'Bills.canceled =' => 0, 'Bills.due_date <' => date('Y-m-d')];
+  }
+  /**
+   * Invoiced and paid amounts per month of creation
+   * @return array ['Y-m' => ['invoiced' => int, 'paid' => int]] for each month from $dateFrom to now
+   */
+  public function GetMonthlyFrom(\DateTimeInterface $dateFrom, int $siteId = 0): array
+  {
+    $months = [];
+    $month = \DateTime::createFromInterface($dateFrom)->modify('first day of this month');
+    while ($month <= new \DateTime()) {
+      $months[$month->format('Y-m')] = ['invoiced' => 0, 'paid' => 0];
+      $month->modify('+1 month');
+    }
+
+    $bills = $this->find()
+      ->select(['Bills.created', 'Bills.amount', 'Bills.paid'])
+      ->where($this->siteCondition(['Bills.created >=' => $dateFrom, 'Bills.canceled =' => 0], $siteId));
+    foreach ($bills as $bill) {
+      $key = $bill->created->format('Y-m');
+      if (isset($months[$key])) {
+        $months[$key]['invoiced'] += $bill->amount;
+        $months[$key]['paid'] += $bill->paid ? $bill->amount : 0;
+      }
+    }
+    return $months;
+  }
+  /**
+   * Add the site filter to a condition, 0 = all sites
+   */
+  private function siteCondition(array $condition, int $siteId): array
+  {
+    if ($siteId > 0) {
+      $condition['Bills.site_id ='] = $siteId;
+    }
+    return $condition;
   }
   public function GetFeeLabel($config)
   {

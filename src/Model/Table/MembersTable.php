@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace App\Model\Table;
 use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -377,35 +378,61 @@ class MembersTable extends Table
         return $query->groupBy(['Members.id']);
     }
 
-    public function CountActiveMembers(): int
+    public function CountActiveMembers(int $siteId = 0): int
     {
-        return $this->find('all')->where(["active =" => 1])->count();
+        return $this->queryInSite($siteId)->count();
     }
 
-    public function CountNotRegistered(): int
+    public function CountNotRegistered(int $siteId = 0): int
     {
-        return $this->find('all')->where(["active =" => 1, "registered =" => 0])->count();
+        return $this->queryInSite($siteId)->where(["registered =" => 0])->count();
     }
 
-    public function CountActiveChilds(): int
+    public function CountActiveChilds(int $siteId = 0): int
     {
-        $d = new \DateTime('now');
-        $d->sub(new \DateInterval('P18Y'));
-
-        return $this->find('all')->where(["active =" => 1, 'date_birth <' => $d])->count();
+        return $this->queryInSite($siteId)->where(['date_birth >' => $this->adultBirthLimit()])->count();
     }
 
-    public function CountActiveAdults(): int
+    public function CountActiveAdults(int $siteId = 0): int
     {
-        $d = new \DateTime('now');
-        $d->sub(new \DateInterval('P18Y'));
-
-        return $this->find('all')->where(["active =" => 1, 'date_birth >' => $d])->count();
+        return $this->queryInSite($siteId)->where(['date_birth <=' => $this->adultBirthLimit()])->count();
     }
 
-    public function CountActiveFeesPaid(): int
+    /**
+     * Members born on this date or before are adults (18 years old)
+     */
+    private function adultBirthLimit(): string
     {
-        return $this->find('all')->where(["active =" => 1, 'membership_fee_paid >' => 0])->count();
+        return (new \DateTime('today'))->sub(new \DateInterval('P18Y'))->format('Y-m-d');
+    }
+
+    public function CountActiveFeesPaid(int $siteId = 0): int
+    {
+        return $this->queryInSite($siteId)->where(['membership_fee_paid >' => 0])->count();
+    }
+
+    public function CountActiveWithoutTeam(): int
+    {
+        return $this->find('all')
+            ->leftJoinWith('Teams')
+            ->where(['Members.active =' => 1, 'Teams.id IS' => null])
+            ->count();
+    }
+
+    /**
+     * Members in a team of the site, each member counted once
+     * @param int $siteId 0 = all sites
+     * @param bool $active true = active members, false = alumni
+     */
+    public function queryInSite(int $siteId, bool $active = true): SelectQuery
+    {
+        $query = $this->find('all')->where(["Members.active =" => $active ? 1 : 0]);
+        if ($siteId > 0) {
+            $inSite = $this->find()->select(['Members.id'])
+                ->innerJoinWith('Teams', fn($q) => $q->where(['Teams.site_id =' => $siteId]));
+            $query->where(['Members.id IN' => $inSite]);
+        }
+        return $query;
     }
 
     public function findwithTeams(Query $query, array $options)
