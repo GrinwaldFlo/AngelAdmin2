@@ -89,4 +89,20 @@ class PresencesTableTest extends TestCase
         $this->assertFalse($this->Presences->checkRules($entity));
         $this->assertNotEmpty($entity->getErrors());
     }
+
+    /**
+     * Test CountStatesByTeam method
+     *
+     * @return void
+     */
+    public function testCountStatesByTeam(): void
+    {
+        $from = new \DateTime('2020-03-01');
+        $to = new \DateTime('2020-04-01');
+
+        $this->assertSame([1 => [1 => 1]], $this->Presences->CountStatesByTeam($from, $to));
+        $this->assertSame([1 => [1 => 1]], $this->Presences->CountStatesByTeam($from, $to, 1));
+        $this->assertSame([], $this->Presences->CountStatesByTeam($from, $to, 2));
+        $this->assertSame([], $this->Presences->CountStatesByTeam(new \DateTime('2021-01-01'), new \DateTime('2021-02-01')));
+    }
 }

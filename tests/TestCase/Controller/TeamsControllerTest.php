@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
+use App\Controller\PrefResult;
 use App\Controller\TeamsController;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
@@ -27,7 +28,17 @@ class TeamsControllerTest extends TestCase
         'app.Members',
         'app.Sites',
         'app.TeamsMembers',
+        'app.Users',
+        'app.Roles',
+        'app.Configurations',
+        'app.Contents',
     ];
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        PrefResult::$sites = null;
+    }
 
     /**
      * Test index method
@@ -38,6 +49,40 @@ class TeamsControllerTest extends TestCase
     {
         $this->get('/teams');
         $this->assertResponseCode(302);
+    }
+
+    /**
+     * Test index method filtered by the site chosen in the menu
+     *
+     * @return void
+     */
+    public function testIndexSiteFilter(): void
+    {
+        $this->getTableLocator()->get('Sites')->insertQuery()
+            ->insert(['id', 'city', 'feeMax', 'sender_email', 'sender'])
+            ->values(['id' => 2, 'city' => 'Second city', 'feeMax' => 1, 'sender_email' => 'second@example.com', 'sender' => 'Second'])
+            ->execute();
+        $this->getTableLocator()->get('Teams')->insertQuery()
+            ->insert(['id', 'name', 'membership_fee', 'active', 'site_id'])
+            ->values(['id' => 2, 'name' => 'Second team', 'membership_fee' => 0, 'active' => 1, 'site_id' => 2])
+            ->execute();
+        $members = $this->getTableLocator()->get('Members');
+        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1)]);
+        $teamIds = fn() => array_map(fn($team) => $team->id, $this->viewVariable('teams')->toArray());
+
+        $this->get('/teams');
+        $this->assertResponseOk();
+        $this->assertEqualsCanonicalizing([1, 2], $teamIds());
+
+        $members->updateAll(['pref_site_id' => 2], ['id' => 1]);
+        $this->get('/teams');
+        $this->assertResponseOk();
+        $this->assertSame([2], $teamIds());
+        $this->assertResponseContains('Second team');
+
+        $members->updateAll(['pref_site_id' => 1], ['id' => 1]);
+        $this->get('/teams');
+        $this->assertSame([1], $teamIds());
     }
 
     /**

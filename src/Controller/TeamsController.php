@@ -26,6 +26,10 @@ class TeamsController extends AppController
   {
     $this->Authorization->authorize($this->Teams->newEmptyEntity(), 'viewall');
     $teams = $this->Teams->find('all')->orderBy(['Name' => 'ASC'])->contain(['Sites']);
+    $siteId = $this->getSiteId();
+    if ($siteId > 0) {
+      $teams->where(['Teams.site_id =' => $siteId]);
+    }
 
     $this->set(compact('teams'));
   }

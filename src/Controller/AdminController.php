@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace App\Controller;
 use App\Controller\AppController;
+use Cake\Event\EventInterface;
 use Cake\ORM\TableRegistry;
 use Cake\Http\Exception\NotFoundException;
 
@@ -12,37 +13,35 @@ class AdminController extends AppController
         parent::initialize();
 
         $this->Authorization->skipAuthorization();
-        if (!$this->curRole->Admin) {
-            $this->redirect('/');
+    }
+
+    /**
+     * Admin pages are only for the admin role
+     * (not logged users are redirected to the login by the authentication)
+     */
+    public function beforeFilter(EventInterface $event)
+    {
+        parent::beforeFilter($event);
+
+        if ($this->curRole !== null && !$this->curRole->Admin) {
+            return $this->redirect('/');
         }
     }
 
     public function dashboard()
     {
         $this->set("wide", '100');
+        $this->loadComponent('Dashboard');
 
-        $teamsReg = TableRegistry::getTableLocator()->get('Teams');
-        $billsReg = TableRegistry::getTableLocator()->get('Bills');
-        $membersReg = TableRegistry::getTableLocator()->get('Members');
+        $siteId = $this->getSiteId();
+        $seasonStart = $this->config['dateSeasonStart'];
 
-        $teams = $teamsReg->find('all')->where(['active =' => 1])->orderBy(['name' => 'ASC']);
+        $members = $this->Dashboard->members($siteId, $seasonStart, (int)$this->config['year']);
+        $finances = $this->Dashboard->finances($siteId, $seasonStart);
+        $attendance = $this->Dashboard->attendance($siteId, $seasonStart);
+        $teams = $this->Dashboard->teams($siteId);
 
-        $finances = array();
-        array_push($finances, [__('Open invoices'), $billsReg->GetNbOpenInvoice() . '<br>' . $billsReg->GetSumOpenInvoice() . '&nbspCHF']);
-        array_push($finances, [__('Membership fee (paid/invoiced)'), $billsReg->GetSumPaidFees($this->config['dateSeasonStart']) . '&nbspCHF<br>' . $billsReg->GetSumFeesFrom($this->config['dateSeasonStart']) . '&nbspCHF']);
-        array_push($finances, [__('Invoiced this year (paid/total)'), $billsReg->GetSumInvoicedPaidFrom($this->config['dateSeasonStart']) . '&nbspCHF<br>' . $billsReg->GetSumInvoicedFrom($this->config['dateSeasonStart']) . '&nbspCHF']);
-
-        $members = array();
-        array_push($members, [__('No. of members'), $membersReg->CountActiveMembers()]);
-        array_push($members, [__('Not registered'), $membersReg->CountNotRegistered()]);
-        array_push($members, [__('Children / Adults'), $membersReg->CountActiveChilds() . ' / ' . $membersReg->CountActiveAdults()]);
-        array_push($members, [__('Membership fee paid'), $membersReg->CountActiveFeesPaid()]);
-
-        $configuration = array();
-        array_push($configuration, [__('First day of the season'), $this->config['dateSeasonStart']->format('d M Y')]);
-        array_push($configuration, [__('Club name'), $this->config['clubName']]);
-
-        $this->set(compact(['teams', 'finances', 'members', 'configuration']));
+        $this->set(compact('members', 'finances', 'attendance', 'teams', 'siteId', 'seasonStart'));
     }
 
     public function newYear()

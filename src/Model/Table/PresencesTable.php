@@ -90,5 +90,27 @@ class PresencesTable extends Table
     return $rules;
   }
 
-  
+  /**
+   * Count presences by team and state for meetings in a period
+   * @param int $siteId 0 = all sites
+   * @return array [team_id => [state => count]], state: 0 = absent, 1 = present, 2 = excused, 3 = late
+   */
+  public function CountStatesByTeam(\DateTimeInterface $from, \DateTimeInterface $to, int $siteId = 0): array
+  {
+    $query = $this->find();
+    $query->select(['team_id' => 'Meetings.team_id', 'state' => 'Presences.state', 'nb' => $query->func()->count('*')])
+      ->innerJoinWith('Meetings.Teams')
+      ->where(['Meetings.meeting_date >=' => $from, 'Meetings.meeting_date <=' => $to, 'Presences.state IN' => [0, 1, 2, 3]])
+      ->groupBy(['Meetings.team_id', 'Presences.state'])
+      ->disableHydration();
+    if ($siteId > 0) {
+      $query->where(['Teams.site_id =' => $siteId]);
+    }
+
+    $result = [];
+    foreach ($query as $row) {
+      $result[$row['team_id']][$row['state']] = (int)$row['nb'];
+    }
+    return $result;
+  }
 }

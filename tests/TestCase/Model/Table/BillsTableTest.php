@@ -142,6 +142,18 @@ class BillsTableTest extends TestCase
     }
 
     /**
+     * Test GetSum method with the site filter
+     *
+     * @return void
+     */
+    public function testGetSumSiteFilter(): void
+    {
+        $this->assertSame(1, (int)$this->Bills->GetSum(['Bills.paid =' => 1], 0));
+        $this->assertSame(1, (int)$this->Bills->GetSum(['Bills.paid =' => 1], 1));
+        $this->assertNull($this->Bills->GetSum(['Bills.paid =' => 1], 2));
+    }
+
+    /**
      * Test GetSumPaidFees method
      *
      * @return void
@@ -228,5 +240,38 @@ class BillsTableTest extends TestCase
         $this->assertSame($before + 1, $after);
         $this->assertSame('Membership Fee 2025-2026 Extra', $bill->label);
         $this->assertSame(250, $bill->amount);
+    }
+
+    /**
+     * Test late invoices condition
+     *
+     * @return void
+     */
+    public function testGetCountLate(): void
+    {
+        $this->assertSame(0, $this->Bills->GetCount($this->Bills->GetLateCondition()));
+
+        $this->Bills->updateAll(['paid' => 0, 'canceled' => 0], ['id' => 1]);
+        $this->assertSame(1, $this->Bills->GetCount($this->Bills->GetLateCondition()));
+        $this->assertSame(1, $this->Bills->GetCount($this->Bills->GetLateCondition(), 1));
+        $this->assertSame(0, $this->Bills->GetCount($this->Bills->GetLateCondition(), 2));
+    }
+
+    /**
+     * Test GetMonthlyFrom method
+     *
+     * @return void
+     */
+    public function testGetMonthlyFrom(): void
+    {
+        $this->Bills->updateAll(['canceled' => 0, 'amount' => 100, 'created' => date('Y-m-d H:i:s')], ['id' => 1]);
+        $monthly = $this->Bills->GetMonthlyFrom((new \DateTime('first day of this month'))->modify('-2 months')->setTime(0, 0));
+
+        $this->assertCount(3, $monthly);
+        $this->assertSame(['invoiced' => 100, 'paid' => 100], $monthly[date('Y-m')]);
+        $this->assertSame(['invoiced' => 0, 'paid' => 0], reset($monthly));
+
+        $otherSite = $this->Bills->GetMonthlyFrom((new \DateTime('first day of this month'))->setTime(0, 0), 2);
+        $this->assertSame([date('Y-m') => ['invoiced' => 0, 'paid' => 0]], $otherSite);
     }
 }
