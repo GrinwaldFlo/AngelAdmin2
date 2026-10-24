@@ -74,7 +74,8 @@ A comprehensive membership and team management system built with CakePHP 5.2, de
    composer install
    ```
 
-3. **Configure the database**
+3. **Configure the environment and database**
+   - Copy `.env.example` to `.env` and adjust the values (see [Environment Variables](#environment-variables))
    - Copy `config/app_local.example.php` to `config/app_local.php`
    - Update database connection settings in `config/app_local.php`
    ```php
@@ -93,9 +94,6 @@ A comprehensive membership and team management system built with CakePHP 5.2, de
    ```bash
    # Run migrations to create database tables
    bin/cake migrations migrate
-   
-   # Seed initial data (optional)
-   bin/cake migrations seed
    ```
 
 5. **Configure security**
@@ -124,7 +122,7 @@ A comprehensive membership and team management system built with CakePHP 5.2, de
 
 ### Environment Variables
 
-Create a `.env` file in the root directory or set these environment variables:
+Copy `.env.example` to `.env` in the root directory (it lists every supported variable), or set these environment variables:
 
 ```bash
 # Security
@@ -169,17 +167,28 @@ The application uses a configuration system accessible through the admin panel:
 ```
 AngelAdmin2/
 ├── config/              # Configuration files
+│   └── Migrations/      # Database migrations
+├── docs/                # Additional documentation
+├── plugins/             # Local CakePHP plugins
+├── resources/           # Translations and other resources
 ├── src/
-│   ├── Controller/      # Application controllers
-│   ├── Model/          # Database models and entities
-│   ├── View/           # View helpers and custom view classes
-│   └── Console/        # Command-line tools
-├── templates/          # View templates
-├── webroot/           # Public web files (CSS, JS, images)
-├── tests/             # Unit and integration tests
-├── logs/              # Application logs
-├── tmp/               # Temporary files and cache
-└── vendor/            # Composer dependencies
+│   ├── Command/         # CLI commands (bin/cake ...)
+│   ├── Console/         # Composer installer hooks
+│   ├── Controller/      # Application controllers and components
+│   ├── Error/           # Custom error logging
+│   ├── Middleware/      # Security and maintenance middleware
+│   ├── Model/           # Tables, entities and behaviors
+│   ├── Policy/          # Authorization policies
+│   ├── Utility/         # Shared helper classes
+│   └── View/            # View helpers and custom view classes
+├── templates/           # View templates
+├── webroot/             # Public web files (CSS, JS, images)
+├── tests/
+│   ├── Fixture/         # Test fixtures (table schemas and sample rows)
+│   └── TestCase/        # Unit and integration tests
+├── logs/                # Application logs
+├── tmp/                 # Temporary files, cache and test database
+└── vendor/              # Composer dependencies
 ```
 
 ## 🔧 Key Components
@@ -209,17 +218,52 @@ The system provides various endpoints for:
 
 ## 🧪 Testing
 
-Run the test suite:
+The test suite uses [PHPUnit](https://phpunit.de/) with CakePHP's test framework. Tests live in `tests/TestCase/` and their sample data in `tests/Fixture/`.
+
+### Requirements
+
+- Development dependencies installed (`composer install`, without `--no-dev`)
+- PHP extensions `pdo_sqlite`, `mbstring`, `intl` and `zip`
+- A `config/app_local.php` file (copy it from `config/app_local.example.php`)
+
+No MySQL server is needed: by default the `test` datasource uses a SQLite file at `tmp/tests.sqlite`. `tests/bootstrap.php` builds its tables by running the migrations in `config/Migrations`, then each test fills them with rows from its fixtures. If you add a table, add a migration for it, or the tests will not see it. To use another database, set `DATABASE_TEST_URL`:
+
+```bash
+DATABASE_TEST_URL="mysql://user:password@localhost/angeladmin2_test" composer test
+```
+
+The tests never touch the `default` database: `tests/bootstrap.php` aliases it to the `test` connection.
+
+### Running tests
 
 ```bash
 # Run all tests
 composer test
 
-# Run specific test categories
+# Run one directory
 ./vendor/bin/phpunit tests/TestCase/Controller/
 ./vendor/bin/phpunit tests/TestCase/Model/
 
-# Code style checks
+# Run one test file
+./vendor/bin/phpunit tests/TestCase/Controller/MembersControllerTest.php
+
+# Run tests whose name matches a pattern
+./vendor/bin/phpunit --filter testIndex
+
+# Run the tests and the code style check
+composer check
+```
+
+Some generated tests are still marked as incomplete or skipped; they show up as `I` and `S` in the output and do not fail the run.
+
+### Continuous integration
+
+GitHub Actions (`.github/workflows/phpunit.yml`) runs `composer test` on PHP 8.3 for every pull request and every push to `master`.
+
+### Code style
+
+```bash
+# Check code style
 composer cs-check
 
 # Fix code style issues
@@ -231,9 +275,12 @@ composer cs-fix
 ### Core Dependencies
 - **CakePHP 5.2**: Web framework
 - **Authentication & Authorization**: User management
+- **Migrations**: Database schema management
 - **Bootstrap UI**: Frontend framework integration
 - **Intervention Image**: Image processing
+- **Mobile Detect**: Device detection
 - **Swiss QR-Bill**: Payment slip generation
+- **Symfony String & Emoji**: String handling
 - **TinyMCE**: Rich text editor
 - **TCPDF**: PDF generation
 
@@ -242,6 +289,7 @@ composer cs-fix
 - **CakePHP Bake**: Code generation
 - **Debug Kit**: Development debugging
 - **Code Sniffer**: Code quality
+- **PHP Dotenv**: Loads the `.env` file
 
 ## 🚢 Deployment
 
@@ -285,7 +333,7 @@ FROM php:8.1-apache
 
 ## 🤝 Contributing
 
-We welcome contributions! Please follow these guidelines:
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for details, and please follow these guidelines:
 
 1. **Fork the repository** and create your feature branch
 2. **Follow coding standards**: Use CakePHP conventions and PSR-12
@@ -312,7 +360,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 💬 Support
 
-- **Documentation**: Check the `/docs` directory for detailed guides
+- **Documentation**: Check the [docs](docs/) directory for detailed guides (installation, security, HEIC support, favicons)
 - **Issues**: Report bugs via [GitHub Issues](https://github.com/GrinwaldFlo/AngelAdmin2/issues)
 - **Community**: Join our discussions for questions and support
 

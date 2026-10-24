@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
+use Migrations\TestSuite\Migrator;
 
 /**
  * Test runner bootstrap.
@@ -48,6 +49,10 @@ ConnectionManager::setConfig('test_debug_kit', [
 ]);
 
 ConnectionManager::alias('test_debug_kit', 'debug_kit');
+
+// Build the test database schema from config/Migrations. Fixtures only insert
+// rows, they no longer create tables.
+(new Migrator())->run();
 
 // Fixate sessionid early on, as php7.2+
 // does not allow the sessionid to be set after stdout

@@ -24,6 +24,7 @@ class FieldTypesControllerTest extends TestCase
     protected array $fixtures = [
         'app.FieldTypes',
         'app.Fields',
+        'app.Members',
     ];
 
     /**
