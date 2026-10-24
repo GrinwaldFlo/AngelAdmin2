@@ -4,23 +4,19 @@ $rowCount = 0;
 <div class="row">
   <div class="col">
     <div class="members view content">
-      <?php foreach ($sites as $key => $site): ?>
-        <?= $this->Html->link(h($site), ['action' => 'overview', $memberStatus, $teamId, $year, $billTemplateId, $siteId == $key ? 0 : $key], ['class' => 'btn btn-primary btn-sm' . ($key == $siteId ? ' pressed' : '')]) ?>      
-      <?php endforeach; ?>
-      |
-      <?= $this->Html->link(__('Active'), ['action' => 'overview', $memberStatus == 1 ? 0 : 1, $teamId, $year, $billTemplateId, $siteId], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 1 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Alumni'), ['action' => 'overview', $memberStatus == 2 ? 0 : 2, $teamId, $year, $billTemplateId, $siteId], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 2 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Active'), ['action' => 'overview', $memberStatus == 1 ? 0 : 1, $teamId, $year, $billTemplateId], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 1 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Alumni'), ['action' => 'overview', $memberStatus == 2 ? 0 : 2, $teamId, $year, $billTemplateId], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 2 ? ' pressed' : '')]) ?>
       |      
-      <?= $this->Html->link(__('This year'), ['action' => 'overview', $memberStatus, $teamId, 0, $billTemplateId, $siteId], ['class' => 'btn btn-primary btn-sm' . ($year == 0 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Two years'), ['action' => 'overview', $memberStatus, $teamId, 1, $billTemplateId, $siteId], ['class' => 'btn btn-primary btn-sm' . ($year == 1 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Three years'), ['action' => 'overview', $memberStatus, $teamId, 2, $billTemplateId, $siteId], ['class' => 'btn btn-primary btn-sm' . ($year == 2 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('This year'), ['action' => 'overview', $memberStatus, $teamId, 0, $billTemplateId], ['class' => 'btn btn-primary btn-sm' . ($year == 0 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Two years'), ['action' => 'overview', $memberStatus, $teamId, 1, $billTemplateId], ['class' => 'btn btn-primary btn-sm' . ($year == 1 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Three years'), ['action' => 'overview', $memberStatus, $teamId, 2, $billTemplateId], ['class' => 'btn btn-primary btn-sm' . ($year == 2 ? ' pressed' : '')]) ?>
       |
       <?php foreach ($billTemplates as $bill): ?>
-        <?= $this->Html->link(h($bill->label), ['action' => 'overview', $memberStatus, $teamId, $year, $billTemplateId == $bill->id ? 0 : $bill->id, $siteId], ['class' => 'btn btn-primary btn-sm' . ($bill->id == $billTemplateId ? ' pressed' : '')]) ?>      
+        <?= $this->Html->link(h($bill->label), ['action' => 'overview', $memberStatus, $teamId, $year, $billTemplateId == $bill->id ? 0 : $bill->id], ['class' => 'btn btn-primary btn-sm' . ($bill->id == $billTemplateId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
       <br>  
       <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'overview', $memberStatus, $teamId == $key ? 0 : $key, $year, $billTemplateId, $siteId], ['class' => 'btn btn-primary btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+        <?= $this->Html->link(h($team), ['action' => 'overview', $memberStatus, $teamId == $key ? 0 : $key, $year, $billTemplateId], ['class' => 'btn btn-primary btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>

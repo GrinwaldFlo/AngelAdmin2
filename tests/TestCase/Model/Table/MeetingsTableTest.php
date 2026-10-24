@@ -92,4 +92,20 @@ class MeetingsTableTest extends TestCase
         $this->assertNotEmpty($entity->getErrors());
         $this->assertArrayHasKey('team_id', $entity->getErrors());
     }
+
+    /**
+     * Test findMeetings method with the site filter
+     *
+     * @return void
+     */
+    public function testFindMeetingsSiteFilter(): void
+    {
+        $find = fn(int $siteId) => $this->Meetings->find('Meetings', teamId: 0, siteId: $siteId, meetingFilter: 0)
+            ->contain('Teams')
+            ->count();
+
+        $this->assertSame(1, $find(0), 'All sites');
+        $this->assertSame(1, $find(1), 'Site of the meeting team');
+        $this->assertSame(0, $find(2), 'Other site');
+    }
 }

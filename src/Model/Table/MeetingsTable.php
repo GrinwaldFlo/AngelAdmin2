@@ -130,6 +130,12 @@ class MeetingsTable extends Table
       $query->where(['Teams.id =' => $options['teamId']]);
     }
 
+    //************************************** Site filter **************************************
+
+    if (!empty($options['siteId'])) {
+      $query->where(['Teams.site_id =' => $options['siteId']]);
+    }
+
     return $query; //->team(['Members.id']);
   }
 

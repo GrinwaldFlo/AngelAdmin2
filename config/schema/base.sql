@@ -306,6 +306,7 @@ CREATE TABLE `members` (
   `language` varchar(5) NOT NULL DEFAULT 'fr',
   `leaving_comment` varchar(1000) DEFAULT NULL,
   `checked` tinyint(1) NOT NULL DEFAULT '0',
+  `pref_site_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `members_UN` (`hash`),
   UNIQUE KEY `members_Name` (`first_name`,`last_name`),

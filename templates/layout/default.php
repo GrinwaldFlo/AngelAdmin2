@@ -142,6 +142,19 @@ if (Configure::read('debug')) {
                 <li class="nav-item">
                     <?= $this->Html->link(__('Home'), ['controller' => 'Pages', 'action' => 'home'], ['class' => 'nav-link']) ?>
                 </li>
+                <?php if (($curRole->MemberViewAll || $curRole->BillViewAll) && count($navSites ?? []) > 1): ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSite" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <?= isset($navSites[$navSiteId]) ? h($navSites[$navSiteId]->city) : __('All locations') ?>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownSite">
+                            <li><?= $this->Form->postLink(__('All locations'), ['controller' => 'Members', 'action' => 'setSite', 0], ['class' => 'dropdown-item' . ($navSiteId == 0 ? ' active' : '')]) ?></li>
+                            <?php foreach ($navSites as $site): ?>
+                                <li><?= $this->Form->postLink(h($site->city), ['controller' => 'Members', 'action' => 'setSite', $site->id], ['class' => 'dropdown-item' . ($site->id == $navSiteId ? ' active' : '')]) ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
+                <?php endif; ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('My account'), ['controller' => 'Members', 'action' => 'view', $curUser->member_id], ['class' => 'nav-link']) ?>
                 </li>

@@ -7,20 +7,17 @@ $dateBill->add($interval);
 <div class="row">
   <div class="col">
     <div class="members view content">
-      <?php foreach ($sites as $key => $site): ?>
-        <?= $this->Html->link(h($site), ['action' => 'batchAdd', $teamId, $memberFilter, $key], ['class' => 'btn btn-primary btn-sm' . ($key == $siteId ? ' pressed' : '')]) ?>      
-      <?php endforeach; ?>
-      |
-      <?= $this->Html->link(__('Active'), ['action' => 'batchAdd', $teamId, $memberFilter == 1 ? 0 : 1, $siteId], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 1 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Alumni'), ['action' => 'batchAdd', $teamId, $memberFilter == 2 ? 0 : 2, $siteId], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 2 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Active'), ['action' => 'batchAdd', $teamId, $memberFilter == 1 ? 0 : 1], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 1 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Alumni'), ['action' => 'batchAdd', $teamId, $memberFilter == 2 ? 0 : 2], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 2 ? ' pressed' : '')]) ?>
       |
       <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'batchAdd', $teamId == $key ? 0 : $key, $memberFilter, $siteId], ['class' => 'btn btn-primary btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+        <?= $this->Html->link(h($team), ['action' => 'batchAdd', $teamId == $key ? 0 : $key, $memberFilter], ['class' => 'btn btn-primary btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>
 </div>
 <?= $this->Form->create() ?>
+<?= $this->Form->control('siteId', ['type' => 'hidden', 'value' => $siteId]); ?>
 <div class="row">
   <div class="col">
     <div class="bills form content">

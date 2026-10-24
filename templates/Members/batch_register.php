@@ -8,8 +8,6 @@
 <div class="row">
   <div class="col">
     <div class="members view content">
-      <?= $this->my->siteLinks($pref, 'batchRegister') ?>
-      |
       <?= $this->my->teamLinks($pref, 'batchRegister') ?>
     </div>
   </div>

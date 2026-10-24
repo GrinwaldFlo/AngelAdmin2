@@ -55,32 +55,31 @@ class MembersController extends AppController
      * @param int | null $teamId
      * @param int | null $memberFilter 0 = All, 1= Active, 2=Passif, 3=Membership not paid, ...
      */
-    public function index(int|null $teamId = null, int|null $memberFilter = null, int|null $siteId = null)
+    public function index(int|null $teamId = null, int|null $memberFilter = null)
     {
         $this->Authorization->authorize($this->Members->newEmptyEntity(), 'viewall');
 
-        $pref = new PrefResult($this, $siteId, $teamId, $memberFilter);
+        $pref = new PrefResult($this, $teamId, $memberFilter);
         $members = $this->MemberList->getMembersList($pref, finder: 'MembersExtended');
 
         $this->set(compact('members', 'pref'));
     }
 
-    public function subventions(int|null $siteId = null, int $ageFilter = 0, int $grid = 0)
+    public function subventions(int $ageFilter = 0, int $grid = 0)
     {
-        $this->subventionsCommon($siteId, $ageFilter, $grid, false);
+        $this->subventionsCommon($ageFilter, $grid, false);
     }
 
-    public function subventionsPdf(int|null $siteId = null, int $ageFilter = 0)
+    public function subventionsPdf(int $ageFilter = 0)
     {
-        $this->subventionsCommon($siteId, $ageFilter, 0, true);
+        $this->subventionsCommon($ageFilter, 0, true);
     }
 
-    public function subventionsCommon(int|null $siteId = null, int $ageFilter = 0, int $grid = 0, bool $pdf = false)
+    public function subventionsCommon(int $ageFilter = 0, int $grid = 0, bool $pdf = false)
     {
         $this->Authorization->authorize($this->Members->newEmptyEntity(), 'Edit');
-        if ($siteId == null)
-            $siteId = 1;
-        $pref = new PrefResult($this, $siteId, 0, 1);
+        $pref = new PrefResult($this, 0, 1, true);
+        $siteId = $pref->siteId;
 
         $contents = $this->MemberData->getSubventionsContent();
         $subventionsData = $this->MemberList->getSubventionsList($pref, $ageFilter);
@@ -95,11 +94,11 @@ class MembersController extends AppController
         }
     }
 
-    public function batchRegister(int|null $teamId = null, int|null $memberFilter = null, int|null $siteId = null)
+    public function batchRegister(int|null $teamId = null, int|null $memberFilter = null)
     {
         $this->Authorization->authorize($this->Members->newEmptyEntity(), 'viewall');
 
-        $pref = new PrefResult($this, $siteId, $teamId, $memberFilter);
+        $pref = new PrefResult($this, $teamId, $memberFilter);
         $members = $this->MemberList->getBatchRegisterList($pref);
 
         $this->set(compact('members', 'pref'));
@@ -135,26 +134,18 @@ class MembersController extends AppController
         $this->set(compact('members'));
     }
 
-    public function list(int|null $teamId = null, int|null $memberFilter = null, int|null $siteId = 0)
+    public function list(int|null $teamId = null, int|null $memberFilter = null)
     {
         $this->set("wide", '100');
         $this->Authorization->authorize($this->Members->newEmptyEntity(), 'viewall');
 
-        $siteId = $this->getPrefSession('siteId', $siteId, 0);
-        $teamId = $this->getPrefSession('teamId', $teamId, 0);
-        $memberFilter = $this->getPrefSession('memberFilter', $memberFilter, 1);
-
-        $sitesTable = TableRegistry::getTableLocator()->get('Sites');
-        $sites = $sitesTable->find('list');
-        if ($siteId > 0) {
-            $site = $sitesTable->get($siteId);
-        }
-
-        $pref = new PrefResult($this, $siteId, $teamId, $memberFilter);
+        $pref = new PrefResult($this, $teamId, $memberFilter);
         $members = $this->MemberList->getMembersList($pref);
-        $teams = $this->getTeamsActiv($siteId);
+        $teamId = $pref->teamId;
+        $memberFilter = $pref->memberFilter;
+        $teams = $pref->teams;
 
-        $this->set(compact('members', 'teamId', 'memberFilter', 'teams', 'siteId', 'sites'));
+        $this->set(compact('members', 'teamId', 'memberFilter', 'teams'));
     }
 
     public function listEmail(int|null $teamId = null, int|null $memberFilter = null)
@@ -755,11 +746,11 @@ class MembersController extends AppController
         $this->Mail->mailNotif(__('New member registered'), __('The member has just registred. You need to validate the signature.'), $this->curMember);
     }
 
-    public function invite(int|null $teamId = null, int|null $memberFilter = null, int|null $siteId = null)
+    public function invite(int|null $teamId = null, int|null $memberFilter = null)
     {
         $this->Authorization->authorize($this->Members->newEmptyEntity(), 'viewall');
 
-        $pref = new PrefResult($this, $siteId, $teamId, $memberFilter);
+        $pref = new PrefResult($this, $teamId, $memberFilter);
         $members = $this->MemberList->getMembersList($pref);
 
         $this->set(compact('members', 'pref'));
@@ -767,5 +758,17 @@ class MembersController extends AppController
         if ($this->request->is('post')) {
             $this->MemberRegistration->sendInvitations($this->request->getData()['MemberId'], $this->config);
         }
+    }
+
+    /**
+     * Save the site (city) chosen in the menu as preference of the current member
+     * @param int $siteId 0 = all sites
+     */
+    public function setSite(int $siteId = 0)
+    {
+        $this->request->allowMethod(['post']);
+        $this->Authorization->authorize($this->Members->newEmptyEntity(), 'setSite');
+        $this->MemberManagement->setMemberSite($siteId);
+        return $this->redirect($this->referer());
     }
 }

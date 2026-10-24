@@ -299,27 +299,6 @@ class MyHelper extends Helper
         return '<span class="' . h($class) . '"' . $style . '>' . h($name) . '</span>';
     }
 
-    public function siteLinks(PrefResult $pref, string $action): string
-    {
-        $links = '';
-        foreach (PrefResult::$sites as $site) {
-            $isCurrent = $site->id == $pref->siteId;
-            $url = [
-                'action' => $action,
-                $pref->teamId,
-                $pref->memberFilter,
-                $isCurrent ? 0 : $site->id
-            ];
-            $class = 'btn btn-primary btn-sm' . ($isCurrent ? ' pressed' : '');
-            $links .= $this->getView()->Html->link(
-                h($site->city),
-                $url,
-                ['class' => $class]
-            );
-        }
-        return $links;
-    }
-
     public function teamLinks(PrefResult $pref, string $action): string
     {
         $links = '';
@@ -328,8 +307,7 @@ class MyHelper extends Helper
             $url = [
                 'action' => $action,
                 $isCurrent ? 0 : $key,
-                $pref->memberFilter,
-                $pref->siteId
+                $pref->memberFilter
             ];
             $class = 'btn btn-primary btn-sm' . ($isCurrent ? ' pressed' : '');
             $links .= $this->getView()->Html->link(

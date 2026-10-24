@@ -1778,6 +1778,12 @@ msgstr "Ausloggen"
 msgid "Back"
 msgstr "Zurück"
 
+msgid "All locations"
+msgstr "Alle Standorte"
+
+msgid "This location doesn't exists"
+msgstr "Dieser Standort existiert nicht"
+
 #, fuzzy
 #~| msgid "Quit membership"
 #~ msgid "Cancel membership"

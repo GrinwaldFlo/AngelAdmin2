@@ -1,12 +1,3 @@
-<div class="row">
-  <div class="col">
-    <div class="members view content">
-      <?php foreach ($sites as $key => $site): ?>
-        <?= $this->Html->link(h($site), ['action' => 'batch_validation', $key], ['class' => 'btn btn-primary btn-sm' . ($key == $siteId ? ' pressed' : '')]) ?>
-      <?php endforeach; ?>
-    </div>
-  </div>
-</div>
 <div class="bills index content">
   <h3><?= __('Batch validation') ?></h3>
   <?= $this->Form->create() ?>

@@ -3155,3 +3155,8 @@ msgstr ""
 msgid "contact our support"
 msgstr ""
 
+msgid "All locations"
+msgstr ""
+
+msgid "This location doesn't exists"
+msgstr ""

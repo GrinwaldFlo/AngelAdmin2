@@ -7,7 +7,6 @@
 $action = 'invite';
 $teamId = $pref->teamId;
 $memberFilter = $pref->memberFilter;
-$siteId = $pref->siteId;
 $teams = $pref->teams;
 
 ?>
@@ -15,13 +14,11 @@ $teams = $pref->teams;
 <div class="row">
   <div class="col">
     <div class="members view content">
-      <?= $this->my->siteLinks($pref, $action) ?>
-      |
-      <?= $this->Html->link(__('Active'), ['action' => $action, $teamId, $memberFilter == 1 ? 0 : 1, $siteId], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 1 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Alumni'), ['action' => $action, $teamId, $memberFilter == 2 ? 0 : 2, $siteId], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 2 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Membership not paid'), ['action' => $action, $teamId, $memberFilter == 3 ? 0 : 3, $siteId], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 3 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Non inscrit'), ['action' => $action, $teamId, $memberFilter == 4 ? 0 : 4, $siteId], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 4 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('No team'), ['action' => $action, $teamId, $memberFilter == 5 ? 0 : 5, $siteId], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 5 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Active'), ['action' => $action, $teamId, $memberFilter == 1 ? 0 : 1], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 1 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Alumni'), ['action' => $action, $teamId, $memberFilter == 2 ? 0 : 2], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 2 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Membership not paid'), ['action' => $action, $teamId, $memberFilter == 3 ? 0 : 3], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 3 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Non inscrit'), ['action' => $action, $teamId, $memberFilter == 4 ? 0 : 4], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 4 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('No team'), ['action' => $action, $teamId, $memberFilter == 5 ? 0 : 5], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 5 ? ' pressed' : '')]) ?>
       <br />
       <?= $this->my->teamLinks($pref, $action) ?>
     </div>
