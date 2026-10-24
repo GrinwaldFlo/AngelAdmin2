@@ -18,9 +18,9 @@ class PrefResult
     public $teams;
     public $site;
     /**
-     * @var \app\Model\Entity\Site[]
+     * @var \app\Model\Entity\Site[]|null null = not loaded yet
      */
-    public static array $sites;
+    public static ?array $sites = null;
 
     /**
      * @param AppController $app
@@ -28,7 +28,7 @@ class PrefResult
     public function __construct(AppController $app, int|null $teamId = null, int|null $memberFilter = null, bool $siteRequired = false)
     {
         $this->siteId = $app->getSiteId($siteRequired);
-        $this->site = $this->siteId > 0 ? PrefResult::getSites()[$this->siteId] ?? null : null;
+        $this->site = PrefResult::getSite($this->siteId);
 
         $this->teamId = $app->getPrefSession('teamId', $teamId, 0);
         $this->teams = $app->getTeamsActiv($this->siteId);
@@ -44,7 +44,7 @@ class PrefResult
      */
     public static function getSites(): array
     {
-        if (empty(PrefResult::$sites)) {
+        if (PrefResult::$sites === null) {
             $sitesTable = TableRegistry::getTableLocator()->get('Sites');
             PrefResult::$sites = [];
             foreach ($sitesTable->find('all')->orderBy(['id' => 'ASC']) as $site) {
@@ -52,6 +52,24 @@ class PrefResult
             }
         }
         return PrefResult::$sites;
+    }
+
+    /**
+     * @param int $siteId
+     * @return \app\Model\Entity\Site|null null if the site doesn't exist
+     */
+    public static function getSite(int $siteId)
+    {
+        return PrefResult::getSites()[$siteId] ?? null;
+    }
+
+    /**
+     * @param int|null $siteId
+     * @return int $siteId if the site exists, otherwise 0
+     */
+    public static function validSiteId(int|null $siteId): int
+    {
+        return PrefResult::getSite((int)$siteId) !== null ? (int)$siteId : 0;
     }
 
     /**

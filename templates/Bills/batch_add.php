@@ -17,6 +17,7 @@ $dateBill->add($interval);
   </div>
 </div>
 <?= $this->Form->create() ?>
+<?= $this->Form->control('siteId', ['type' => 'hidden', 'value' => $siteId]); ?>
 <div class="row">
   <div class="col">
     <div class="bills form content">

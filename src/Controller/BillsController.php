@@ -33,6 +33,25 @@ class BillsController extends AppController
     }
 
     /**
+     * Site and team preferences of the bills pages (one site is always needed), teamId and teams are set to the view
+     */
+    private function getPref(int|null $teamId = null, int|null $memberFilter = null): PrefResult
+    {
+        $pref = new PrefResult($this, $teamId, $memberFilter, true);
+        $this->set(['teamId' => $pref->teamId, 'teams' => $pref->teams, 'siteId' => $pref->siteId]);
+        return $pref;
+    }
+
+    /**
+     * Site sent by the form, so the page site is used even if the menu site changed meanwhile
+     * @return int 0 if missing or unknown
+     */
+    private function getPostedSiteId(): int
+    {
+        return PrefResult::validSiteId((int)$this->request->getData('siteId'));
+    }
+
+    /**
      *
      * @param int|null $billStatus 0=All, 1=Open, 2=Late, 3=Paid, 4=Draft
      * @param int|null $memberStatus
@@ -44,14 +63,12 @@ class BillsController extends AppController
 
         $billStatus = $this->getPrefSession('billStatus', $billStatus, 1);
         $memberStatus = $this->getPrefSession('memberStatus', $memberStatus, 1);
-        $teamId = $this->getPrefSession('teamId', $teamId, 0);
-        $siteId = $this->getSiteId(true);
+        $pref = $this->getPref($teamId);
 
-        $bills = $this->getBills($billStatus, $memberStatus, $teamId, $siteId);
+        $bills = $this->getBills($billStatus, $memberStatus, $pref->teamId, $pref->siteId);
         $bills = $this->paginate($bills);
-        $teams = $this->getTeamsActiv($siteId);
 
-        $this->set(compact('bills', 'teamId', 'memberStatus', 'billStatus', 'teams'));
+        $this->set(compact('bills', 'memberStatus', 'billStatus'));
     }
 
     public function simple(int|null $billStatus = null, int|null $memberStatus = null, int|null $teamId = null)
@@ -60,12 +77,10 @@ class BillsController extends AppController
 
         $twoYearsFromNow = date('Y-m-d', strtotime('-2 years'));
 
-        $teamId = $this->getPrefSession('teamId', $teamId, 0);
-        $siteId = $this->getSiteId(true);
+        $pref = $this->getPref($teamId);
 
-        $bills = $this->getBills(0, 1, $teamId, $siteId);
+        $bills = $this->getBills(0, 1, $pref->teamId, $pref->siteId);
         $bills = $this->paginate($bills);
-        $teams = $this->getTeamsActiv($siteId);
 
         $result = array();
 
@@ -79,7 +94,7 @@ class BillsController extends AppController
             }
         }
         ksort($result);
-        $this->set(compact('bills', 'teamId', 'memberStatus', 'billStatus', 'teams', 'result'));
+        $this->set(compact('bills', 'memberStatus', 'billStatus', 'result'));
 
     }
 
@@ -123,6 +138,8 @@ class BillsController extends AppController
         ]);
 
         $bill = $this->Bills->newEmptyEntity();
+        // Default site of the form: the one chosen in the menu
+        $bill->site_id = $this->getSiteId(true);
         if ($this->request->is('post')) {
             $bill = $this->Bills->patchEntity($bill, $this->request->getData());
             $bill->due_date_ori = $bill->due_date;
@@ -305,13 +322,20 @@ class BillsController extends AppController
         }
     }
 
-    public function pdfs(int|null $memberStatus = null, int|null $teamId = null, $markSent = false)
+    /**
+     * @param int|null $siteId site shown by mail_print, not the menu one which may have changed meanwhile
+     */
+    public function pdfs(int|null $memberStatus = null, int|null $teamId = null, int|null $siteId = null, $markSent = false)
     {
         $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'edit');
 
+        $siteId = PrefResult::validSiteId($siteId);
+        if ($siteId == 0) {
+            $this->Flash->error(__('A location needs to be selected'));
+            return $this->redirect(['action' => 'mailPrint']);
+        }
         $memberStatus = $this->getPrefSession('memberStatus', $memberStatus, 1);
-        $teamId = $this->getPrefSession('teamId', $teamId, 0);
-        $siteId = $this->getSiteId(true);
+        $teamId = PrefResult::validateTeamId($this->getPrefSession('teamId', $teamId, 0), $this->getTeamsActiv($siteId));
         $bills = $this->getBills(4, $memberStatus, $teamId, $siteId);
 
         if ($markSent) {
@@ -363,9 +387,8 @@ class BillsController extends AppController
     public function generateReminder(int|null $memberStatus = null, int|null $teamId = null)
     {
         $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'edit');
-        $siteId = $this->getSiteId(true);
         $memberStatus = $this->getPrefSession('memberStatus', $memberStatus, 1);
-        $teamId = $this->getPrefSession('teamId', $teamId, 0);
+        $pref = $this->getPref($teamId);
 
         if ($this->request->is('post')) {
             $result = $this->request->getData();
@@ -392,18 +415,25 @@ class BillsController extends AppController
             return $this->redirect(['controller' => 'Bills', 'action' => 'pdf', -1]);
         }
 
-        $bills = $this->getBills(2, $memberStatus, $teamId, $siteId);
+        $bills = $this->getBills(2, $memberStatus, $pref->teamId, $pref->siteId);
 
-        $teams = $this->getTeamsActiv($siteId);
-        $this->set(compact('bills', 'memberStatus', 'teamId', 'teams'));
+        $this->set(compact('bills', 'memberStatus'));
     }
 
     public function sendReminder(int|null $memberStatus = null)
     {
         $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'edit');
 
-        $siteId = $this->getSiteId(true);
-        $site = PrefResult::getSites()[$siteId] ?? null;
+        if ($this->request->is('post')) {
+            $siteId = $this->getPostedSiteId();
+            if ($siteId == 0) {
+                $this->Flash->error(__('A location needs to be selected'));
+                return $this->redirect(['action' => 'sendReminder']);
+            }
+        } else {
+            $siteId = $this->getSiteId(true);
+        }
+        $site = PrefResult::getSite($siteId);
 
         $members = $this->getLateBillsByMember($memberStatus, $siteId)->all();
 
@@ -465,16 +495,16 @@ class BillsController extends AppController
             $this->Flash->success(__('Remiders have been sent'));
         }
 
-        $this->set(compact('members', 'memberStatus'));
+        $this->set(compact('members', 'memberStatus', 'siteId'));
     }
 
     public function batchAdd(int|null $teamId = null, int|null $memberFilter = null)
     {
         $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'edit');
         $this->set('billTemplates', $this->Get->BillTemplates());
-        $siteId = $this->getSiteId(true);
 
         if ($this->request->is('post')) {
+            $siteId = $this->getPostedSiteId();
             if ($siteId == 0) {
                 $this->Flash->error(__('A location needs to be selected'));
                 return $this->redirect(['action' => 'batchAdd']);
@@ -511,12 +541,11 @@ class BillsController extends AppController
         }
 
 
-        $teamId = $this->getPrefSession('teamId', $teamId, 0);
-        $memberFilter = $this->getPrefSession('memberFilter', $memberFilter, 1);
-        $members = $this->getMembers($teamId, $memberFilter, $siteId);
-        $teams = $this->getTeamsActiv($siteId);
+        $pref = $this->getPref($teamId, $memberFilter);
+        $memberFilter = $pref->memberFilter;
+        $members = $this->getMembers($pref->teamId, $memberFilter, $pref->siteId);
 
-        $this->set(compact('members', 'teamId', 'memberFilter', 'teams'));
+        $this->set(compact('members', 'memberFilter'));
     }
 
     public function mailSend(int|null $memberStatus = null, int|null $teamId = null)
@@ -582,14 +611,12 @@ class BillsController extends AppController
         }
 
         $memberStatus = $this->getPrefSession('memberStatus', $memberStatus, 1);
-        $teamId = $this->getPrefSession('teamId', $teamId, 0);
-        $siteId = $this->getSiteId(true);
+        $pref = $this->getPref($teamId);
 
-        $bills = $this->getBills(4, $memberStatus, $teamId, $siteId);
+        $bills = $this->getBills(4, $memberStatus, $pref->teamId, $pref->siteId);
         $bills = $this->paginate($bills);
-        $teams = $this->getTeamsActiv($siteId);
 
-        $this->set(compact('bills', 'teamId', 'memberStatus', 'teams'));
+        $this->set(compact('bills', 'memberStatus'));
     }
 
     public function mailPrint(int|null $memberStatus = null, int|null $teamId = null)
@@ -610,18 +637,16 @@ class BillsController extends AppController
               array_push($bills, $bill);
               }
               } */
-            return $this->redirect(['controller' => 'Bills', 'action' => 'pdfs', $result['memberStatus'], $result['teamId'], $result['MarkSent']]);
+            return $this->redirect(['controller' => 'Bills', 'action' => 'pdfs', $result['memberStatus'], $result['teamId'], $result['siteId'], $result['MarkSent']]);
         }
 
         $memberStatus = $this->getPrefSession('memberStatus', $memberStatus, 1);
-        $teamId = $this->getPrefSession('teamId', $teamId, 0);
-        $siteId = $this->getSiteId(true);
+        $pref = $this->getPref($teamId);
 
-        $bills = $this->getBills(4, $memberStatus, $teamId, $siteId);
+        $bills = $this->getBills(4, $memberStatus, $pref->teamId, $pref->siteId);
         $bills = $this->paginate($bills);
-        $teams = $this->getTeamsActiv($siteId);
 
-        $this->set(compact('bills', 'teamId', 'memberStatus', 'teams'));
+        $this->set(compact('bills', 'memberStatus'));
     }
 
     public function overview(int|null $memberStatus = null, int|null $teamId = null, int $year = 0, int $billTemplateId = 0)
@@ -630,13 +655,12 @@ class BillsController extends AppController
 
         $billTemplates = $this->Get->BillTemplates();
         $memberStatus = $this->getPrefSession('memberStatus', $memberStatus, 1);
-        $teamId = $this->getPrefSession('teamId', $teamId, 0);
-        $siteId = $this->getSiteId(true);
+        $pref = $this->getPref($teamId);
 
         $startDate = $this->config['dateSeasonStart'];
         $startDate->sub(new \DateInterval('P' . $year . 'Y'));
 
-        $bills = $this->getBills(0, $memberStatus, $teamId, $siteId)
+        $bills = $this->getBills(0, $memberStatus, $pref->teamId, $pref->siteId)
             ->where(['Bills.created >' => $startDate, 'link_membership_fee =' => 0])
             ->contain('Members')->order('Members.first_name');
         if ($billTemplateId > 0) {
@@ -644,11 +668,7 @@ class BillsController extends AppController
             $bills->where(['Bills.label LIKE' => $billFilter->label . '%']);
         }
 
-        $teams = $this->getTeamsActiv($siteId);
-        $members = $this->Bills->Members->find('Members', [
-            'teamId' => $teamId,
-            'memberFilter' => 1
-        ])->contain('Teams')->order(['first_name' => 'ASC', 'last_name' => 'ASC']);
+        $members = $this->getMembers($pref->teamId, 1, $pref->siteId);
         //$billTemplates = $this->Get->BillTemplates();
 
         $result = array();
@@ -656,7 +676,7 @@ class BillsController extends AppController
         $colIndex = 0;
 
         $wide = 'Wide';
-        $this->set(compact('wide', 'teamId', 'memberStatus', 'teams', 'billTemplates', 'billTemplateId', 'year'));
+        $this->set(compact('wide', 'memberStatus', 'billTemplates', 'billTemplateId', 'year'));
 
         if ($this->request->is(['post'])) {
             $newBillData = $this->request->getData();

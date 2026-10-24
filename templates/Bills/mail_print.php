@@ -48,6 +48,7 @@
     <div class="members view content">
       <?= $this->Form->control('memberStatus', ['type' => 'hidden', 'value' => $memberStatus]); ?>
       <?= $this->Form->control('teamId', ['type' => 'hidden', 'value' => $teamId]); ?>
+      <?= $this->Form->control('siteId', ['type' => 'hidden', 'value' => $siteId]); ?>
       
       <?= $this->Form->control('MarkSent', ['type' => 'checkbox', 'required' => false, 'label' => __('Mark invoices as sent')]); ?>
       <?= $this->Form->button(__('Download PDF')) ?>

@@ -18,6 +18,7 @@ foreach ($members as $member) {
   </div>
 </div>
 <?= $this->Form->create() ?>
+<?= $this->Form->control('siteId', ['type' => 'hidden', 'value' => $siteId]); ?>
 <div class="bills index content">
 
 <table class="table table-striped table-hover table-sm">

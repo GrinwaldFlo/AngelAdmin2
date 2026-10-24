@@ -766,7 +766,8 @@ class MembersController extends AppController
      */
     public function setSite(int $siteId = 0)
     {
-        $this->Authorization->skipAuthorization();
+        $this->request->allowMethod(['post']);
+        $this->Authorization->authorize($this->Members->newEmptyEntity(), 'setSite');
         $this->MemberManagement->setMemberSite($siteId);
         return $this->redirect($this->referer());
     }

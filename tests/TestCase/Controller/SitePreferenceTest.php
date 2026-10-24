@@ -8,6 +8,12 @@ use App\Controller\Component\MemberManagementComponent;
 use App\Controller\MembersController;
 use App\Controller\PrefResult;
 use App\Model\Entity\Member;
+use App\Model\Entity\Role;
+use App\Policy\MemberPolicy;
+use ArrayObject;
+use Authorization\AuthorizationServiceInterface;
+use Authorization\IdentityDecorator;
+use Authorization\IdentityInterface;
 use Cake\Http\ServerRequest;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
@@ -17,6 +23,8 @@ use Cake\TestSuite\TestCase;
  *
  * @uses \App\Controller\AppController::getSiteId()
  * @uses \App\Controller\Component\MemberManagementComponent::setMemberSite()
+ * @uses \App\Controller\PrefResult
+ * @uses \App\Policy\MemberPolicy::canSetSite()
  */
 class SitePreferenceTest extends TestCase
 {
@@ -30,7 +38,7 @@ class SitePreferenceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        PrefResult::$sites = [];
+        PrefResult::$sites = null;
         $this->getTableLocator()->get('Sites')->insertQuery()
             ->insert(['id', 'city', 'feeMax', 'sender_email', 'sender'])
             ->values([
@@ -45,7 +53,7 @@ class SitePreferenceTest extends TestCase
 
     protected function tearDown(): void
     {
-        PrefResult::$sites = [];
+        PrefResult::$sites = null;
         parent::tearDown();
     }
 
@@ -68,6 +76,29 @@ class SitePreferenceTest extends TestCase
     public function testGetSitesIndexedById(): void
     {
         $this->assertSame([1, 2], array_keys(PrefResult::getSites()));
+    }
+
+    public function testGetSitesCachesEmptyResult(): void
+    {
+        $this->getTableLocator()->get('Sites')->deleteAll([]);
+
+        $this->assertSame([], PrefResult::getSites());
+        $this->assertSame([], PrefResult::$sites);
+    }
+
+    public function testGetSite(): void
+    {
+        $this->assertSame('Second city', PrefResult::getSite(2)->city);
+        $this->assertNull(PrefResult::getSite(0));
+        $this->assertNull(PrefResult::getSite(999));
+    }
+
+    public function testValidSiteId(): void
+    {
+        $this->assertSame(2, PrefResult::validSiteId(2));
+        $this->assertSame(0, PrefResult::validSiteId(999));
+        $this->assertSame(0, PrefResult::validSiteId(0));
+        $this->assertSame(0, PrefResult::validSiteId(null));
     }
 
     public function testGetSiteIdWithoutPreferenceIsAll(): void
@@ -133,9 +164,34 @@ class SitePreferenceTest extends TestCase
         $this->assertSame(0, $members->get(1)->pref_site_id);
     }
 
+    /**
+     * Identity with the given role rights
+     */
+    private function identityWithRole(bool $memberViewAll, bool $billViewAll): IdentityInterface
+    {
+        $user = new ArrayObject(
+            ['Role' => new Role(['MemberViewAll' => $memberViewAll, 'BillViewAll' => $billViewAll])],
+            ArrayObject::ARRAY_AS_PROPS
+        );
+
+        return new IdentityDecorator($this->createStub(AuthorizationServiceInterface::class), $user);
+    }
+
+    public function testCanSetSite(): void
+    {
+        $policy = new MemberPolicy();
+        $member = new Member();
+
+        $this->assertTrue($policy->canSetSite($this->identityWithRole(true, false), $member));
+        $this->assertTrue($policy->canSetSite($this->identityWithRole(false, true), $member));
+        $this->assertFalse($policy->canSetSite($this->identityWithRole(false, false), $member));
+        $this->assertFalse($policy->canSetSite(null, $member));
+    }
+
     public function testSetSiteRequiresLogin(): void
     {
-        $this->get('/members/set-site/2');
+        $this->enableCsrfToken();
+        $this->post('/members/set-site/2');
         $this->assertResponseCode(302);
         $this->assertSame(0, $this->getTableLocator()->get('Members')->get(1)->pref_site_id);
     }

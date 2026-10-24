@@ -148,9 +148,9 @@ if (Configure::read('debug')) {
                             <?= isset($navSites[$navSiteId]) ? h($navSites[$navSiteId]->city) : __('All locations') ?>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownSite">
-                            <li><?= $this->Html->link(__('All locations'), ['controller' => 'Members', 'action' => 'setSite', 0], ['class' => 'dropdown-item' . ($navSiteId == 0 ? ' active' : '')]) ?></li>
+                            <li><?= $this->Form->postLink(__('All locations'), ['controller' => 'Members', 'action' => 'setSite', 0], ['class' => 'dropdown-item' . ($navSiteId == 0 ? ' active' : '')]) ?></li>
                             <?php foreach ($navSites as $site): ?>
-                                <li><?= $this->Html->link(h($site->city), ['controller' => 'Members', 'action' => 'setSite', $site->id], ['class' => 'dropdown-item' . ($site->id == $navSiteId ? ' active' : '')]) ?></li>
+                                <li><?= $this->Form->postLink(h($site->city), ['controller' => 'Members', 'action' => 'setSite', $site->id], ['class' => 'dropdown-item' . ($site->id == $navSiteId ? ' active' : '')]) ?></li>
                             <?php endforeach; ?>
                         </ul>
                     </li>

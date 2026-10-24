@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Event\EventInterface;
 use Cake\ORM\TableRegistry;
 use Cake\I18n\I18n;
 use Cake\ORM\Query\SelectQuery;
@@ -93,9 +94,6 @@ class AppController extends Controller
 
             $externalLinks = $contents->find('all')->where(['location =' => 1, 'team_id IN' => $this->curMember->TeamIds]);
             $this->set("externalLinks", $externalLinks);
-
-            $this->set("navSites", PrefResult::getSites());
-            $this->getSiteId();
         } else
         {
             // Check for hash authentication
@@ -110,6 +108,22 @@ class AppController extends Controller
         }
 
         I18n::setLocale($locale);
+    }
+
+    /**
+     * Load the site (city) menu, only for the roles seeing it
+     */
+    public function beforeRender(EventInterface $event)
+    {
+        parent::beforeRender($event);
+
+        if ($this->curRole !== null && ($this->curRole->MemberViewAll || $this->curRole->BillViewAll)) {
+            $this->set("navSites", PrefResult::getSites());
+            // Keep the site already used by the page
+            if (!$this->viewBuilder()->hasVar('navSiteId')) {
+                $this->getSiteId();
+            }
+        }
     }
 
     /**
