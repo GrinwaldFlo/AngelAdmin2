@@ -54,6 +54,7 @@ use Cake\Core\Configure;
  * @property \App\Model\Entity\Team[] $teams
  * @property \App\Model\Entity\Field[] $fields
  * @property \App\Model\Entity\MemberOrder[] $member_orders
+ * @property int $pref_site_id Site (city) chosen in the menu, 0 = all sites
  */
 class Member extends Entity
 {

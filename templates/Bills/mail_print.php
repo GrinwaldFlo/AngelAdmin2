@@ -1,15 +1,11 @@
 <div class="row">
   <div class="col">
     <div class="members view content">
-      <?php foreach ($sites as $key => $site): ?>
-        <?= $this->Html->link(h($site), ['action' => 'mail_print', $memberStatus, $teamId, $key], ['class' => 'btn btn-primary btn-sm' . ($key == $siteId ? ' pressed' : '')]) ?>      
-      <?php endforeach; ?>
-      |
-      <?= $this->Html->link(__('Active'), ['action' => 'mail_print', $memberStatus == 1 ? 0 : 1, $teamId, $siteId], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 1 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Alumni'), ['action' => 'mail_print', $memberStatus == 2 ? 0 : 2, $teamId, $siteId], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 2 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Active'), ['action' => 'mail_print', $memberStatus == 1 ? 0 : 1], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 1 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Alumni'), ['action' => 'mail_print', $memberStatus == 2 ? 0 : 2], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 2 ? ' pressed' : '')]) ?>
       |
       <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'mail_print', $memberStatus, $teamId == $key ? 0 : $key, $siteId], ['class' => 'btn btn-primary btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+        <?= $this->Html->link(h($team), ['action' => 'mail_print', $memberStatus, $teamId == $key ? 0 : $key], ['class' => 'btn btn-primary btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>
@@ -52,7 +48,6 @@
     <div class="members view content">
       <?= $this->Form->control('memberStatus', ['type' => 'hidden', 'value' => $memberStatus]); ?>
       <?= $this->Form->control('teamId', ['type' => 'hidden', 'value' => $teamId]); ?>
-      <?= $this->Form->control('siteId', ['type' => 'hidden', 'value' => $siteId]); ?>
       
       <?= $this->Form->control('MarkSent', ['type' => 'checkbox', 'required' => false, 'label' => __('Mark invoices as sent')]); ?>
       <?= $this->Form->button(__('Download PDF')) ?>

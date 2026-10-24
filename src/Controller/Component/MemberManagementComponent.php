@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller\Component;
 
+use App\Controller\PrefResult;
 use Cake\Controller\Component;
 use Cake\Utility\Security;
 
@@ -207,6 +208,24 @@ class MemberManagementComponent extends Component
         $controller->Members->save($controller->curMember);
         $controller->getPrefSessionStr('lng', $lng, 'fr');
         
+        return true;
+    }
+
+    /**
+     * Set member preferred site (city), 0 = all sites
+     */
+    public function setMemberSite(int $siteId): bool
+    {
+        $controller = $this->getController();
+
+        if ($siteId != 0 && !isset(PrefResult::getSites()[$siteId])) {
+            $controller->Flash->error(__("This location doesn't exists"));
+            return false;
+        }
+
+        $controller->curMember->pref_site_id = $siteId;
+        $controller->fetchTable('Members')->updateAll(['pref_site_id' => $siteId], ['id' => $controller->curMember->id]);
+
         return true;
     }
 }

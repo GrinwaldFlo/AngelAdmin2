@@ -12,12 +12,8 @@ foreach ($members as $member) {
 <div class="row">
   <div class="col">
     <div class="members view content">
-      <?php foreach ($sites as $key => $site): ?>
-        <?= $this->Html->link(h($site), ['action' => 'send_reminder', $memberStatus, $key], ['class' => 'btn btn-primary btn-sm' . ($key == $siteId ? ' pressed' : '')]) ?>      
-      <?php endforeach; ?>
-      |
-      <?= $this->Html->link(__('Active'), ['action' => 'send_reminder', $memberStatus == 1 ? 0 : 1, $siteId], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 1 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Alumni'), ['action' => 'send_reminder', $memberStatus == 2 ? 0 : 2, $siteId], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 2 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Active'), ['action' => 'send_reminder', $memberStatus == 1 ? 0 : 1], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 1 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Alumni'), ['action' => 'send_reminder', $memberStatus == 2 ? 0 : 2], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 2 ? ' pressed' : '')]) ?>
     </div>
   </div>
 </div>

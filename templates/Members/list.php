@@ -7,16 +7,12 @@
 <div class="row">
   <div class="col">
     <div class="members view content">
-      <?php foreach ($sites as $key => $site): ?>
-        <?= $this->Html->link(h($site), ['action' => 'list', $teamId, $memberFilter, $key == $siteId ? 0 : $key], ['class' => 'btn btn-primary btn-sm' . ($key == $siteId ? ' pressed' : '')]) ?>      
-      <?php endforeach; ?>
-      |
-      <?= $this->Html->link(__('Active'), ['action' => 'list', $teamId, $memberFilter == 1 ? 0 : 1, $teamId, $siteId], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 1 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Alumni'), ['action' => 'list', $teamId, $memberFilter == 2 ? 0 : 2, $teamId, $siteId], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 2 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Membership not paid'), ['action' => 'list', $teamId, $memberFilter == 3 ? 0 : 3, $teamId, $siteId], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 3 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Active'), ['action' => 'list', $teamId, $memberFilter == 1 ? 0 : 1], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 1 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Alumni'), ['action' => 'list', $teamId, $memberFilter == 2 ? 0 : 2], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 2 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Membership not paid'), ['action' => 'list', $teamId, $memberFilter == 3 ? 0 : 3], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 3 ? ' pressed' : '')]) ?>
       |
       <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'list', $teamId == $key ? 0 : $key, $memberFilter, $siteId], ['class' => 'btn btn-primary btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+        <?= $this->Html->link(h($team), ['action' => 'list', $teamId == $key ? 0 : $key, $memberFilter], ['class' => 'btn btn-primary btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>

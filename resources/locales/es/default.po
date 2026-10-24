@@ -1741,3 +1741,10 @@ msgstr "Cerrar sesión"
 #: layout/error.php:40
 msgid "Back"
 msgstr "Volver"
+
+msgid "All locations"
+msgstr "Todas las ubicaciones"
+
+msgid "This location doesn't exists"
+msgstr "Esta ubicación no existe"
+

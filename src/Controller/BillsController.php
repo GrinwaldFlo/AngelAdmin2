@@ -38,36 +38,34 @@ class BillsController extends AppController
      * @param int|null $memberStatus
      * @param int|null $teamId
      */
-    public function index(int|null $billStatus = null, int|null $memberStatus = null, int|null $teamId = null, int|null $siteId = null)
+    public function index(int|null $billStatus = null, int|null $memberStatus = null, int|null $teamId = null)
     {
         $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'viewall');
 
         $billStatus = $this->getPrefSession('billStatus', $billStatus, 1);
         $memberStatus = $this->getPrefSession('memberStatus', $memberStatus, 1);
         $teamId = $this->getPrefSession('teamId', $teamId, 0);
-        $siteId = $this->getPrefSession('siteId', $siteId, 1);
+        $siteId = $this->getSiteId(true);
 
         $bills = $this->getBills($billStatus, $memberStatus, $teamId, $siteId);
         $bills = $this->paginate($bills);
         $teams = $this->getTeamsActiv($siteId);
-        $sites = $this->Bills->Sites->find('list');
 
-        $this->set(compact('bills', 'teamId', 'memberStatus', 'billStatus', 'teams', 'sites', 'siteId'));
+        $this->set(compact('bills', 'teamId', 'memberStatus', 'billStatus', 'teams'));
     }
 
-    public function simple(int|null $billStatus = null, int|null $memberStatus = null, int|null $teamId = null, int|null $siteId = null)
+    public function simple(int|null $billStatus = null, int|null $memberStatus = null, int|null $teamId = null)
     {
         $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'viewall');
 
         $twoYearsFromNow = date('Y-m-d', strtotime('-2 years'));
 
         $teamId = $this->getPrefSession('teamId', $teamId, 0);
-        $siteId = $this->getPrefSession('siteId', $siteId, 1);
+        $siteId = $this->getSiteId(true);
 
         $bills = $this->getBills(0, 1, $teamId, $siteId);
         $bills = $this->paginate($bills);
         $teams = $this->getTeamsActiv($siteId);
-        $sites = $this->Bills->Sites->find('list');
 
         $result = array();
 
@@ -81,7 +79,7 @@ class BillsController extends AppController
             }
         }
         ksort($result);
-        $this->set(compact('bills', 'teamId', 'memberStatus', 'billStatus', 'teams', 'sites', 'siteId', 'result'));
+        $this->set(compact('bills', 'teamId', 'memberStatus', 'billStatus', 'teams', 'result'));
 
     }
 
@@ -307,13 +305,13 @@ class BillsController extends AppController
         }
     }
 
-    public function pdfs(int|null $memberStatus = null, int|null $teamId = null, int|null $siteId = null, $markSent = false)
+    public function pdfs(int|null $memberStatus = null, int|null $teamId = null, $markSent = false)
     {
         $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'edit');
 
         $memberStatus = $this->getPrefSession('memberStatus', $memberStatus, 1);
         $teamId = $this->getPrefSession('teamId', $teamId, 0);
-        $siteId = $this->getPrefSession('siteId', $siteId, 1);
+        $siteId = $this->getSiteId(true);
         $bills = $this->getBills(4, $memberStatus, $teamId, $siteId);
 
         if ($markSent) {
@@ -332,10 +330,10 @@ class BillsController extends AppController
         //return $this->redirect(['controller' => 'Bills', 'action' => 'mail-print']);
     }
 
-    public function batchValidation(int|null $siteId = null)
+    public function batchValidation()
     {
         $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'edit');
-        $siteId = $this->getPrefSession('siteId', $siteId, 1);
+        $siteId = $this->getSiteId(true);
 
         if ($this->request->is('post')) {
             $result = $this->request->getData();
@@ -359,15 +357,13 @@ class BillsController extends AppController
             ->orderBy(['Bills.id' => 'ASC'])
             ->where(['Bills.site_id =' => $siteId])
             ->contain(['Members', 'Sites']);
-
-        $sites = $this->Bills->Sites->find('list');
-        $this->set(compact('bills', 'sites', 'siteId'));
+        $this->set(compact('bills'));
     }
 
-    public function generateReminder(int|null $memberStatus = null, int|null $teamId = null, int|null $siteId = null)
+    public function generateReminder(int|null $memberStatus = null, int|null $teamId = null)
     {
         $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'edit');
-        $siteId = $this->getPrefSession('siteId', $siteId, 1);
+        $siteId = $this->getSiteId(true);
         $memberStatus = $this->getPrefSession('memberStatus', $memberStatus, 1);
         $teamId = $this->getPrefSession('teamId', $teamId, 0);
 
@@ -399,20 +395,15 @@ class BillsController extends AppController
         $bills = $this->getBills(2, $memberStatus, $teamId, $siteId);
 
         $teams = $this->getTeamsActiv($siteId);
-        $sites = $this->Bills->Sites->find('list');
-        $this->set(compact('bills', 'sites', 'siteId', 'memberStatus', 'teamId', 'teams'));
+        $this->set(compact('bills', 'memberStatus', 'teamId', 'teams'));
     }
 
-    public function sendReminder(int|null $memberStatus = null, int|null $siteId = null)
+    public function sendReminder(int|null $memberStatus = null)
     {
         $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'edit');
 
-        $sitesTable = TableRegistry::getTableLocator()->get('Sites');
-        $siteId = $this->getPrefSession('siteId', $siteId, 0);
-        $sites = $sitesTable->find('list');
-        if ($siteId > 0) {
-            $site = $sitesTable->get($siteId);
-        }
+        $siteId = $this->getSiteId(true);
+        $site = PrefResult::getSites()[$siteId] ?? null;
 
         $members = $this->getLateBillsByMember($memberStatus, $siteId)->all();
 
@@ -474,14 +465,14 @@ class BillsController extends AppController
             $this->Flash->success(__('Remiders have been sent'));
         }
 
-        $this->set(compact('members', 'sites', 'siteId', 'memberStatus'));
+        $this->set(compact('members', 'memberStatus'));
     }
 
-    public function batchAdd(int|null $teamId = null, int|null $memberFilter = null, int|null $siteId = null)
+    public function batchAdd(int|null $teamId = null, int|null $memberFilter = null)
     {
         $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'edit');
         $this->set('billTemplates', $this->Get->BillTemplates());
-        $siteId = $this->getPrefSession('siteId', $siteId, 1);
+        $siteId = $this->getSiteId(true);
 
         if ($this->request->is('post')) {
             if ($siteId == 0) {
@@ -524,12 +515,11 @@ class BillsController extends AppController
         $memberFilter = $this->getPrefSession('memberFilter', $memberFilter, 1);
         $members = $this->getMembers($teamId, $memberFilter, $siteId);
         $teams = $this->getTeamsActiv($siteId);
-        $sites = $this->Bills->Sites->find('list');
 
-        $this->set(compact('members', 'teamId', 'memberFilter', 'teams', 'sites', 'siteId'));
+        $this->set(compact('members', 'teamId', 'memberFilter', 'teams'));
     }
 
-    public function mailSend(int|null $memberStatus = null, int|null $teamId = null, int|null $siteId = null)
+    public function mailSend(int|null $memberStatus = null, int|null $teamId = null)
     {
         $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'edit');
 
@@ -593,17 +583,16 @@ class BillsController extends AppController
 
         $memberStatus = $this->getPrefSession('memberStatus', $memberStatus, 1);
         $teamId = $this->getPrefSession('teamId', $teamId, 0);
-        $siteId = $this->getPrefSession('siteId', $siteId, 1);
+        $siteId = $this->getSiteId(true);
 
         $bills = $this->getBills(4, $memberStatus, $teamId, $siteId);
         $bills = $this->paginate($bills);
         $teams = $this->getTeamsActiv($siteId);
-        $sites = $this->Bills->Sites->find('list');
 
-        $this->set(compact('bills', 'teamId', 'memberStatus', 'teams', 'sites', 'siteId'));
+        $this->set(compact('bills', 'teamId', 'memberStatus', 'teams'));
     }
 
-    public function mailPrint(int|null $memberStatus = null, int|null $teamId = null, int|null $siteId = null)
+    public function mailPrint(int|null $memberStatus = null, int|null $teamId = null)
     {
         $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'edit');
 
@@ -621,29 +610,28 @@ class BillsController extends AppController
               array_push($bills, $bill);
               }
               } */
-            return $this->redirect(['controller' => 'Bills', 'action' => 'pdfs', $result['memberStatus'], $result['teamId'], $result['siteId'], $result['MarkSent']]);
+            return $this->redirect(['controller' => 'Bills', 'action' => 'pdfs', $result['memberStatus'], $result['teamId'], $result['MarkSent']]);
         }
 
         $memberStatus = $this->getPrefSession('memberStatus', $memberStatus, 1);
         $teamId = $this->getPrefSession('teamId', $teamId, 0);
-        $siteId = $this->getPrefSession('siteId', $siteId, 1);
+        $siteId = $this->getSiteId(true);
 
         $bills = $this->getBills(4, $memberStatus, $teamId, $siteId);
         $bills = $this->paginate($bills);
         $teams = $this->getTeamsActiv($siteId);
-        $sites = $this->Bills->Sites->find('list');
 
-        $this->set(compact('bills', 'teamId', 'memberStatus', 'teams', 'sites', 'siteId'));
+        $this->set(compact('bills', 'teamId', 'memberStatus', 'teams'));
     }
 
-    public function overview(int|null $memberStatus = null, int|null $teamId = null, int $year = 0, int $billTemplateId = 0, int $siteId = 1)
+    public function overview(int|null $memberStatus = null, int|null $teamId = null, int $year = 0, int $billTemplateId = 0)
     {
         $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'viewall');
 
         $billTemplates = $this->Get->BillTemplates();
         $memberStatus = $this->getPrefSession('memberStatus', $memberStatus, 1);
         $teamId = $this->getPrefSession('teamId', $teamId, 0);
-        $siteId = $this->getPrefSession('siteId', $siteId, 1);
+        $siteId = $this->getSiteId(true);
 
         $startDate = $this->config['dateSeasonStart'];
         $startDate->sub(new \DateInterval('P' . $year . 'Y'));
@@ -657,7 +645,6 @@ class BillsController extends AppController
         }
 
         $teams = $this->getTeamsActiv($siteId);
-        $sites = $this->Bills->Sites->find('list');
         $members = $this->Bills->Members->find('Members', [
             'teamId' => $teamId,
             'memberFilter' => 1
@@ -669,7 +656,7 @@ class BillsController extends AppController
         $colIndex = 0;
 
         $wide = 'Wide';
-        $this->set(compact('wide', 'teamId', 'memberStatus', 'teams', 'billTemplates', 'billTemplateId', 'year', 'sites', 'siteId'));
+        $this->set(compact('wide', 'teamId', 'memberStatus', 'teams', 'billTemplates', 'billTemplateId', 'year'));
 
         if ($this->request->is(['post'])) {
             $newBillData = $this->request->getData();
@@ -699,7 +686,7 @@ class BillsController extends AppController
 
             return $this->redirect(['controller' => 'Bills', 'action' => 'pdf', $bill->id]);
             //return $this->redirect(['controller' => 'Bills', 'action' => 'pdf', -1]);
-            //return $this->redirect(['controller' => 'Bills', 'action' => 'overview', $memberStatus, $teamId, $year, $billTemplateId, $siteId]);
+            //return $this->redirect(['controller' => 'Bills', 'action' => 'overview', $memberStatus, $teamId, $year, $billTemplateId]);
             /*    */
         }
 

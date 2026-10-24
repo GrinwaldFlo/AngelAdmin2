@@ -1,6 +1,4 @@
 <?php 
-use App\Controller\PrefResult;
-
 if ($grid): 
 ?>
   <?php $this->layout = "empty"; ?>
@@ -33,15 +31,11 @@ if ($grid):
 <div class="row">
   <div class="col">
     <div class="members view content">
-      <?php foreach (PrefResult::$sites as $site): ?>
-        <?= $this->Html->link(h($site->city), ['action' => 'subventions', $site->id, $ageFilter], ['class' => 'btn btn-primary btn-sm' . ($site->id == $pref->siteId ? ' pressed' : '')]) ?>
-      <?php endforeach; ?>
+      <?= $this->Html->link(__("All"), ['action' => 'subventions', 0], ['class' => 'btn btn-primary btn-sm' . ($ageFilter == 0 ? ' pressed' : '')]) ?>   
+      <?= $this->Html->link("<21", ['action' => 'subventions', 21], ['class' => 'btn btn-primary btn-sm' . ($ageFilter == 21 ? ' pressed' : '')]) ?>   
       |
-      <?= $this->Html->link(__("All"), ['action' => 'subventions', $pref->siteId, 0], ['class' => 'btn btn-primary btn-sm' . ($ageFilter == 0 ? ' pressed' : '')]) ?>   
-      <?= $this->Html->link("<21", ['action' => 'subventions', $pref->siteId, 21], ['class' => 'btn btn-primary btn-sm' . ($ageFilter == 21 ? ' pressed' : '')]) ?>   
-      |
-      <?= $this->Html->link(__("PDF"), ['action' => 'subventions_pdf', $pref->siteId, $ageFilter], ['class' => 'btn btn-primary btn-sm']) ?>
-      <?= $this->Html->link(__("Grid"), ['action' => 'subventions', $pref->siteId, $ageFilter, 1], ['class' => 'btn btn-primary btn-sm']) ?>
+      <?= $this->Html->link(__("PDF"), ['action' => 'subventions_pdf', $ageFilter], ['class' => 'btn btn-primary btn-sm']) ?>
+      <?= $this->Html->link(__("Grid"), ['action' => 'subventions', $ageFilter, 1], ['class' => 'btn btn-primary btn-sm']) ?>
     </div>
   </div>
 </div>

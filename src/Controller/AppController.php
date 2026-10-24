@@ -23,68 +23,6 @@ use Cake\ORM\Query\SelectQuery;
 use Cake\Routing\Router;
 use Cake\Http\Cookie\Cookie;
 
-class PrefResult
-{
-    public int $siteId;
-    public int $teamId;
-    public int $memberFilter;
-
-    public $members;
-    /**
-     * @var \app\Model\Entity\Team[]
-     */
-    public $teams;
-    public $site;
-    /**
-     * @var \app\Model\Entity\Site[]
-     */
-    public static array $sites;
-
-    /**
-     * @param AppController $app
-     */
-    public function __construct(AppController $app, int|null $siteId = null, int|null $teamId = null, int|null $memberFilter = null)
-    {
-        if (empty(PrefResult::$sites)) {
-            $sitesTable = TableRegistry::getTableLocator()->get('Sites');
-            $sites = $sitesTable->find('all')->toArray();
-            PrefResult::$sites = [];
-            foreach ($sites as $site) {
-                PrefResult::$sites[$site->id] = $site;
-            }
-        }
-
-        $this->siteId = $app->getPrefSession('siteId', $siteId, 0);
-        $this->site = $this->siteId > 0 ? PrefResult::$sites[$this->siteId] ?? null : null;
-
-        $this->teamId = $app->getPrefSession('teamId', $teamId, 0);
-        $this->teams = $app->getTeamsActiv($this->siteId);
-        $this->teamId = $this->validateTeamId($this->teamId, $this->teams);
-
-        $this->memberFilter = $app->getPrefSession('memberFilter', $memberFilter, 1);
-    }
-
-    /**
-     * Checks if $teamId exists in $teams array, otherwise sets it to null.
-     *
-     * @param int $teamId
-     * @param array $teams
-     * @return int
-     */
-    public static function validateTeamId($teamId, $teams): int
-    {
-        if (empty($teamId)) {
-            return 0;
-        }
-        // If $teams is associative (id => name), check keys
-        if (is_array($teams) && !in_array($teamId, array_keys($teams))) {
-            return 0;
-        }
-        return $teamId;
-    }
-
-}
-
 /**
  * Application Controller
  *
@@ -155,6 +93,9 @@ class AppController extends Controller
 
             $externalLinks = $contents->find('all')->where(['location =' => 1, 'team_id IN' => $this->curMember->TeamIds]);
             $this->set("externalLinks", $externalLinks);
+
+            $this->set("navSites", PrefResult::getSites());
+            $this->getSiteId();
         } else
         {
             // Check for hash authentication
@@ -360,6 +301,26 @@ class AppController extends Controller
         }
         $this->Session->write($name, $curVal);
         return (int) $curVal;
+    }
+
+    /**
+     * Get the site (city) chosen by the current member in the menu
+     * @param bool $required true if the page needs one site: falls back to the first site instead of 0 (all sites)
+     * @return int Site id, 0 = all sites
+     */
+    public function getSiteId(bool $required = false): int
+    {
+        $sites = PrefResult::getSites();
+        $siteId = (int)($this->curMember->pref_site_id ?? 0);
+        if (!isset($sites[$siteId])) {
+            $siteId = 0;
+        }
+        if ($siteId == 0 && $required && !empty($sites)) {
+            $siteId = array_key_first($sites);
+        }
+        // The menu shows the site really used by the page
+        $this->set('navSiteId', $siteId);
+        return $siteId;
     }
 
     public function getPrefSessionStr(string $name, string|null $curVal, string $default): string

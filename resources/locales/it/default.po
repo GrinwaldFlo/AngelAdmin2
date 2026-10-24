@@ -1739,6 +1739,12 @@ msgstr "Esci"
 msgid "Back"
 msgstr "Indietro"
 
+msgid "All locations"
+msgstr "Tutte le località"
+
+msgid "This location doesn't exists"
+msgstr "Questa località non esiste"
+
 #~ msgid "Nobody is assigned for this invoice"
 #~ msgstr "Nessuno è assegnato per questa fattura"
 

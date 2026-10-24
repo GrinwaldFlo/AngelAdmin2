@@ -25,7 +25,9 @@ class MeetingsController extends AppController
   public function index(int|null $teamId = null,int|null  $meetingFilter = null)
   {
     $this->Authorization->authorize($this->Meetings->newEmptyEntity(), 'viewall');
-    $teamId = $this->getPrefSession('teamId', $teamId, 0);
+    $siteId = $this->getSiteId();
+    $teams = $this->getTeamsActiv($siteId);
+    $teamId = PrefResult::validateTeamId($this->getPrefSession('teamId', $teamId, 0), $teams);
     $meetingFilter = $this->getPrefSession('meetingFilter', $meetingFilter, 1);
 
     if ($meetingFilter == 1)
@@ -39,9 +41,8 @@ class MeetingsController extends AppController
 
     $meetings = $this->paginate($this->Meetings->find('Meetings',
     teamId: $teamId,
+    siteId: $siteId,
     meetingFilter: $meetingFilter)->contain('Teams'));
-
-    $teams = $this->getTeamsActiv();
 
     $this->set(compact('meetings', 'teamId', 'meetingFilter', 'teams'));
   }
