@@ -174,4 +174,40 @@ class MembersTableTest extends TestCase
         $this->getTableLocator()->get('TeamsMembers')->deleteAll(['member_id' => 1]);
         $this->assertSame(1, $this->Members->CountActiveWithoutTeam());
     }
+
+    public function testNewHashIsAValidUniqueHash(): void
+    {
+        $hash = MembersTable::newHash();
+
+        $this->assertTrue(MembersTable::isValidHash($hash));
+        $this->assertNotSame($hash, MembersTable::newHash());
+    }
+
+    public function testIsValidHash(): void
+    {
+        $this->assertTrue(MembersTable::isValidHash(str_repeat('a1', 20)));
+        $this->assertFalse(MembersTable::isValidHash(''));
+        $this->assertFalse(MembersTable::isValidHash(null));
+        $this->assertFalse(MembersTable::isValidHash(str_repeat('a', 39)));
+        $this->assertFalse(MembersTable::isValidHash(str_repeat('g', 40)));
+    }
+
+    public function testEnsureHashKeepsExistingHash(): void
+    {
+        $member = $this->Members->get(1);
+
+        $this->assertSame('1111111111111111111111111111111111111111', $this->Members->ensureHash($member));
+    }
+
+    public function testEnsureHashCreatesMissingHash(): void
+    {
+        $this->Members->updateAll(['hash' => ''], ['id' => 1]);
+        $member = $this->Members->get(1);
+
+        $hash = $this->Members->ensureHash($member);
+
+        $this->assertTrue(MembersTable::isValidHash($hash));
+        $this->assertSame($hash, $member->hash);
+        $this->assertSame($hash, $this->Members->get(1)->hash);
+    }
 }

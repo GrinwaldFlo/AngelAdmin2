@@ -1,0 +1,83 @@
+/* Emails to teams (templates/Mailings) */
+
+.ml-muted {
+  color: #6b717a;
+  font-size: 0.875rem;
+}
+
+.ml-invalid {
+  color: #cc1f1a;
+}
+
+.ml-content {
+  font-family: inherit;
+}
+
+.ml-placeholders {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+  margin: -0.5rem 0 1rem;
+}
+
+.btn.ml-placeholder {
+  color: #606c76;
+  background-color: #fff;
+  border: 0.1rem solid #c4c9cf;
+  font-family: monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.btn.ml-placeholder:hover,
+.btn.ml-placeholder:focus {
+  color: #fff;
+  background-color: #9b4dca;
+  border-color: #9b4dca;
+}
+
+.ml-preview {
+  display: block;
+  width: 100%;
+  height: 16rem;
+  border: 1px solid #e3e5e8;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  background: #fff;
+}
+
+.ml-progress {
+  margin-bottom: 1rem;
+}
+
+.ml-bar {
+  width: 100%;
+  height: 1.25rem;
+  accent-color: #7f3fb0;
+}
+
+.ml-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.ml-controls label {
+  margin: 0;
+}
+
+.ml-delay {
+  width: auto;
+}
+
+.ml-delete {
+  margin-bottom: 1rem;
+}
+
+.ml-failed-title {
+  margin-top: 1.5rem;
+}

@@ -205,6 +205,7 @@ if (Configure::read('debug')) {
                             <?= $curRole->Admin ? $this->Html->link(__('Users'), ['controller' => 'Users', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Roles'), ['controller' => 'Roles', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Contents'), ['controller' => 'Contents', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
+                            <?= $curRole->Admin ? $this->Html->link(__('Emails to teams'), ['controller' => 'Mailings', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Configuration'), ['controller' => 'Configurations', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('New year'), ['controller' => 'Admin', 'action' => 'new_year'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Invoice Templates'), ['controller' => 'BillTemplates', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>

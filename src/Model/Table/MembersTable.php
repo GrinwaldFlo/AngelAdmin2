@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 namespace App\Model\Table;
+use App\Model\Entity\Member;
 use Cake\ORM\Query;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
@@ -209,6 +210,34 @@ class MembersTable extends Table
             ->allowEmptyString('leaving_comment');
 
         return $validator;
+    }
+
+    /**
+     * New hash giving access to the personal page of a member without account (40 hex characters, like SHA-1)
+     */
+    public static function newHash(): string
+    {
+        return bin2hex(random_bytes(20));
+    }
+
+    public static function isValidHash(?string $hash): bool
+    {
+        return is_string($hash) && preg_match('/^[a-f0-9]{40}$/i', $hash) === 1;
+    }
+
+    /**
+     * Give a hash to a member who has none (or an invalid one), saved at once
+     * @return string the hash of the member
+     */
+    public function ensureHash(Member $member): string
+    {
+        if (!self::isValidHash($member->hash)) {
+            $member->hash = self::newHash();
+            $this->updateAll(['hash' => $member->hash], ['id' => $member->id]);
+            $member->setDirty('hash', false);
+        }
+
+        return $member->hash;
     }
 
     public function beforeSave($event, $entity, $options)

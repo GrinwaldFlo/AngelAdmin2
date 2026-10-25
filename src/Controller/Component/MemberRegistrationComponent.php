@@ -2,7 +2,7 @@
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
-use Cake\Utility\Security;
+use App\Model\Table\MembersTable;
 use Cake\Routing\Router;
 use Cake\Mailer\Mailer;
 use Cake\ORM\TableRegistry;
@@ -32,7 +32,7 @@ class MemberRegistrationComponent extends Component
 
         $member = $controller->Members->patchEntity($member, $data);
         $member->date_arrival = new \Cake\I18n\Date();
-        $member->hash = Security::hash('Personal folder', 'sha1', $member->fullName . rand(0, 100));
+        $member->hash = MembersTable::newHash();
         $member->leaving_comment = '';
         $member->active = true;
         $member->checked = true;
