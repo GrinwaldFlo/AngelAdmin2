@@ -56,10 +56,8 @@ $separatorShown = false;
 
   <div class="mt-toolbar">
     <div class="mt-filters">
-      <?= $m->filterButton('all', __('All'), 'all', 'groups') ?>
-      <?= $m->filterButton((string)Presence::NONE, __('Not set'), 'none', 'help') ?>
-      <?php foreach (Presence::states() as $state => $info) : ?>
-        <?= $m->filterButton((string)$state, $info['label'], $info['key'], $info['icon']) ?>
+      <?php foreach ($m->filters() as $filter => $info) : ?>
+        <?= $m->filterButton((string)$filter, $info['label'], $info['key'], $info['icon']) ?>
       <?php endforeach; ?>
     </div>
     <button type="button" class="mt-btn mt-btn-outline mt-bulk" data-state="<?= Presence::PRESENT ?>" hidden>
@@ -86,6 +84,8 @@ $separatorShown = false;
       </li>
     <?php endforeach; ?>
   </ul>
+
+  <?= $m->legend() ?>
 
   <div class="mt-toast" role="alert" hidden></div>
 </div>

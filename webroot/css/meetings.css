@@ -708,7 +708,7 @@
   margin-top: 16px;
 }
 
-.mt-submit .btn {
+.mt-submit .mt-btn {
   width: 100%;
 }
 
@@ -730,7 +730,7 @@
 }
 
 @media (min-width: 992px) {
-  .mt-submit .btn {
+  .mt-submit .mt-btn {
     width: auto;
     min-width: 240px;
   }
@@ -746,4 +746,41 @@
   .mt-states {
     gap: 2px;
   }
+}
+
+/* Legend of the attendance page */
+
+.mt-legend {
+  margin-top: 24px;
+  padding: 12px 16px;
+  border: 1px dashed var(--mt-border);
+  border-radius: var(--mt-radius);
+}
+
+.mt-legend-title {
+  margin-bottom: 8px;
+  color: var(--mt-muted);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.mt-legend-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 6px 12px;
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.mt-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+}
+
+.mt-legend-item .mt-icon {
+  color: var(--mt-state);
 }

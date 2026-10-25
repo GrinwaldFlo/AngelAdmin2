@@ -24,9 +24,9 @@ $others = array_filter($meetings, fn($meeting) => $isPast || !$m->isToday($meeti
   <div class="mt-header">
     <h2 class="mt-title"><?= __('Attendance') ?></h2>
     <?php if ($teamId > 0 && count($teams) > 1) : ?>
-      <select class="form-select mt-team-select" aria-label="<?= __('Team') ?>" data-team-url="<?= Router::url(['action' => 'index']) ?>">
+      <select class="form-select mt-team-select" aria-label="<?= __('Team') ?>">
         <?php foreach ($teams as $id => $name) : ?>
-          <option value="<?= $id ?>" <?= $id == $teamId ? 'selected' : '' ?>><?= h($name) ?></option>
+          <option value="<?= $id ?>" data-url="<?= Router::url(['action' => 'index', $id, $meetingFilter]) ?>" <?= $id == $teamId ? 'selected' : '' ?>><?= h($name) ?></option>
         <?php endforeach; ?>
       </select>
     <?php endif; ?>

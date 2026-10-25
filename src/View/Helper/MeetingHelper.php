@@ -93,6 +93,22 @@ class MeetingHelper extends Helper
     }
 
     /**
+     * Filters of the attendance page: everybody, members without status, then each state
+     * @return array [filter => ['key' => css suffix, 'label' => text, 'icon' => material symbol]]
+     */
+    public function filters(): array
+    {
+        $filters = [
+            'all' => ['key' => 'all', 'label' => __('All'), 'icon' => 'groups'],
+            (string)Presence::NONE => ['key' => 'none', 'label' => __('Not set'), 'icon' => 'help'],
+        ];
+        foreach (Presence::states() as $state => $info) {
+            $filters[(string)$state] = $info;
+        }
+        return $filters;
+    }
+
+    /**
      * Counter / filter button of the attendance page
      * @param string $filter 'all' or a state
      */
@@ -101,5 +117,21 @@ class MeetingHelper extends Helper
         return '<button type="button" class="mt-filter mt-is-' . $key . '" data-filter="' . h($filter) . '" title="' . h($label) . '">'
             . $this->icon($icon) . '<span class="mt-count">0</span>'
             . '<span class="visually-hidden">' . h($label) . '</span></button>';
+    }
+
+    /**
+     * Explanation of the icons used on the attendance page
+     */
+    public function legend(): string
+    {
+        $items = '';
+        foreach ($this->filters() as $info) {
+            $items .= '<li class="mt-legend-item mt-is-' . $info['key'] . '">' . $this->icon($info['icon']) . h($info['label']) . '</li>';
+        }
+        return '<div class="mt-legend">'
+            . '<h3 class="mt-legend-title">' . h(__('Legend')) . '</h3>'
+            . '<ul class="mt-legend-list">' . $items . '</ul>'
+            . '<p class="mt-muted">' . h(__('Tap a status to set it. Tap a counter at the top to show only these members.')) . '</p>'
+            . '</div>';
     }
 }

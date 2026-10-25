@@ -2,10 +2,10 @@
 (function () {
   'use strict';
 
-  /* Team picker of the list: go to the selected team */
+  /* Team picker of the list: go to the selected team (URL built by the server) */
   function initTeamSelect(select) {
     select.addEventListener('change', function () {
-      window.location.href = select.dataset.teamUrl + '/' + encodeURIComponent(select.value);
+      window.location.href = select.options[select.selectedIndex].dataset.url;
     });
   }
 
@@ -207,7 +207,7 @@
     update();
   }
 
-  document.querySelectorAll('[data-team-url]').forEach(initTeamSelect);
+  document.querySelectorAll('.mt-team-select').forEach(initTeamSelect);
   document.querySelectorAll('.mt-attendance').forEach(initAttendance);
   document.querySelectorAll('.mt-add-form').forEach(initAddForm);
 })();

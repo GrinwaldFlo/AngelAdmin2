@@ -2141,3 +2141,9 @@ msgid "{0} meeting has been saved."
 msgid_plural "{0} meetings have been saved."
 msgstr[0] "{0} incontro è stato salvato."
 msgstr[1] "{0} incontri sono stati salvati."
+
+msgid "Legend"
+msgstr "Legenda"
+
+msgid "Tap a status to set it. Tap a counter at the top to show only these members."
+msgstr "Tocca uno stato per inserirlo. Tocca un contatore in alto per mostrare solo questi membri."

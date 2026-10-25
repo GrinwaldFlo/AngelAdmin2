@@ -94,6 +94,20 @@ class MeetingsControllerTest extends TestCase
         $this->assertResponseNotContains('mt-tabs');
     }
 
+    public function testIndexTeamSelectLinksToEachTeam(): void
+    {
+        $this->addTeam(2, 'Second team');
+        $this->login();
+        $this->get('/meetings/index/1/' . MeetingsTable::FILTER_PAST);
+
+        $this->assertResponseOk();
+        $this->assertResponseContains('data-url="/meetings/index/2/' . MeetingsTable::FILTER_PAST . '"');
+
+        $this->get('/meetings/index/2/' . MeetingsTable::FILTER_PAST);
+        $this->assertResponseOk();
+        $this->assertSame(2, $this->viewVariable('teamId'));
+    }
+
     public function testIndexIgnoresTeamOfAnotherSite(): void
     {
         $this->addTeam(2, 'Second team');
@@ -191,6 +205,8 @@ class MeetingsControllerTest extends TestCase
         $this->assertResponseContains('data-csrf=');
         $this->assertResponseContains('/presences/set-presence/1');
         $this->assertResponseContains('aria-pressed="true"');
+        $this->assertResponseContains('mt-legend');
+        $this->assertResponseContains('Legend');
         $this->assertResponseContains('/meetings/edit/1');
         $this->assertSession(1, 'teamId');
     }
