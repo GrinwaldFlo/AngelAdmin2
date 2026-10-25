@@ -2007,3 +2007,120 @@ msgstr "Toque un estado para indicarlo. Toque un contador arriba para mostrar so
 
 msgid "The link must start with http:// or https://"
 msgstr "El enlace debe empezar por http:// o https://"
+
+msgid "Full name"
+msgstr "Nombre completo"
+
+msgid "Link to the personal page"
+msgstr "Enlace a la página personal"
+
+msgid "Invalid email address"
+msgstr "Dirección de correo no válida"
+
+msgid "Select at least one team"
+msgstr "Selecciona al menos un equipo"
+
+msgid "There is no active member with an email in these teams"
+msgstr "No hay ningún miembro activo con correo en estos equipos"
+
+msgid "The mailing could not be saved."
+msgstr "No se ha podido guardar el envío."
+
+msgid "New email"
+msgstr "Nuevo correo"
+
+msgid "Emails to teams"
+msgstr "Correos a los equipos"
+
+msgid "Subject"
+msgstr "Asunto"
+
+msgid "{0} invalid"
+msgstr "{0} no válido(s)"
+
+msgid "Done"
+msgstr "Terminado"
+
+msgid "{0} pending"
+msgstr "{0} pendiente(s)"
+
+msgid "Resume"
+msgstr "Reanudar"
+
+msgid "Content"
+msgstr "Contenido"
+
+msgid "Insert:"
+msgstr "Insertar:"
+
+msgid "The emails are prepared on the next page, where you can start sending them."
+msgstr "Los correos se preparan en la página siguiente, donde podrás iniciar el envío."
+
+msgid "Emails are being sent, leaving the page will stop the sending."
+msgstr "Se están enviando los correos, salir de la página detendrá el envío."
+
+msgid "The server could not be reached. Check your connection and resume."
+msgstr "No se ha podido contactar con el servidor. Comprueba tu conexión y reanuda el envío."
+
+msgid "Pending"
+msgstr "Pendientes"
+
+msgid "Invalid addresses"
+msgstr "Direcciones no válidas"
+
+msgid "All emails have been processed."
+msgstr "Se han procesado todos los correos."
+
+msgid "Pause between each {0} emails"
+msgstr "Pausa entre cada {0} correos"
+
+msgid "{0} s"
+msgstr "{0} s"
+
+msgid "Resume sending"
+msgstr "Reanudar el envío"
+
+msgid "Start sending"
+msgstr "Iniciar el envío"
+
+msgid "Stop"
+msgstr "Detener"
+
+msgid "Emails with an error"
+msgstr "Correos con error"
+
+msgid "Error"
+msgstr "Error"
+
+msgid "Invalid address"
+msgstr "Dirección no válida"
+
+msgid "Pending ({0} attempts)"
+msgstr "Pendiente ({0} intentos)"
+
+msgid "Invalid placeholders: {0}. Available placeholders: {1}"
+msgstr "Marcadores no válidos: {0}. Marcadores disponibles: {1}"
+
+msgid "Emails of this mailing have already been sent, it cannot be deleted."
+msgstr "Ya se han enviado correos de este envío, no se puede eliminar."
+
+msgid "The mailing has been deleted."
+msgstr "El envío se ha eliminado."
+
+msgid "The mailing could not be deleted."
+msgstr "No se ha podido eliminar el envío."
+
+msgid "My page"
+msgstr "Mi página"
+
+msgid "HTML is allowed and line returns are kept. {0} is shown as a link with the text \"{1}\"."
+msgstr "Se permite HTML y se conservan los saltos de línea. {0} se muestra como un enlace con el texto \"{1}\"."
+
+msgid "New"
+msgstr "Nuevo"
+
+msgid "New email with the same subject, content and teams"
+msgstr "Nuevo correo con el mismo asunto, contenido y equipos"
+
+msgid "Recipients"
+msgstr "Destinatarios"

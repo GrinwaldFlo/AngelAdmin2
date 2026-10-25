@@ -188,28 +188,6 @@ class CreateInitialTables extends AbstractMigration
             ->addForeignKey('field_type_id', 'field_types', 'id', ['delete' => 'CASCADE', 'update' => 'NO_ACTION'])
             ->create();
 
-        // Create mailings table
-        $this->table('mailings')
-            ->addColumn('title', 'string', ['limit' => 100])
-            ->addColumn('content', 'text')
-            ->addColumn('attachement1', 'string', ['limit' => 255])
-            ->addColumn('attachement2', 'string', ['limit' => 255])
-            ->addColumn('attachement3', 'string', ['limit' => 255])
-            ->addColumn('status', 'integer')
-            ->addColumn('created', 'datetime')
-            ->addColumn('modified', 'datetime')
-            ->addColumn('sentDate', 'datetime')
-            ->create();
-
-        // Create mailing_items table
-        $this->table('mailing_items')
-            ->addColumn('mailing_id', 'integer')
-            ->addColumn('member_id', 'integer')
-            ->addColumn('status', 'integer')
-            ->addColumn('tokenhash', 'string', ['limit' => 255])
-            ->addColumn('confirmation', 'datetime')
-            ->create();
-
         // Create meetings table
         $this->table('meetings')
             ->addColumn('meeting_date', 'datetime')
@@ -345,8 +323,6 @@ class CreateInitialTables extends AbstractMigration
         $this->table('registrations')->drop()->save();
         $this->table('presences')->drop()->save();
         $this->table('meetings')->drop()->save();
-        $this->table('mailing_items')->drop()->save();
-        $this->table('mailings')->drop()->save();
         $this->table('fields')->drop()->save();
         $this->table('field_types')->drop()->save();
         $this->table('data')->drop()->save();

@@ -2050,3 +2050,120 @@ msgstr "Tippen Sie auf einen Status, um ihn zu erfassen. Tippen Sie oben auf ein
 
 msgid "The link must start with http:// or https://"
 msgstr "Der Link muss mit http:// oder https:// beginnen"
+
+msgid "Full name"
+msgstr "Vollständiger Name"
+
+msgid "Link to the personal page"
+msgstr "Link zur persönlichen Seite"
+
+msgid "Invalid email address"
+msgstr "Ungültige E-Mail-Adresse"
+
+msgid "Select at least one team"
+msgstr "Wähle mindestens ein Team aus"
+
+msgid "There is no active member with an email in these teams"
+msgstr "In diesen Teams gibt es kein aktives Mitglied mit einer E-Mail-Adresse"
+
+msgid "The mailing could not be saved."
+msgstr "Der Versand konnte nicht gespeichert werden."
+
+msgid "New email"
+msgstr "Neue E-Mail"
+
+msgid "Emails to teams"
+msgstr "E-Mails an Teams"
+
+msgid "Subject"
+msgstr "Betreff"
+
+msgid "{0} invalid"
+msgstr "{0} ungültig"
+
+msgid "Done"
+msgstr "Fertig"
+
+msgid "{0} pending"
+msgstr "{0} ausstehend"
+
+msgid "Resume"
+msgstr "Fortsetzen"
+
+msgid "Content"
+msgstr "Inhalt"
+
+msgid "Insert:"
+msgstr "Einfügen:"
+
+msgid "The emails are prepared on the next page, where you can start sending them."
+msgstr "Die E-Mails werden auf der nächsten Seite vorbereitet, wo du den Versand starten kannst."
+
+msgid "Emails are being sent, leaving the page will stop the sending."
+msgstr "Die E-Mails werden gerade gesendet, beim Verlassen der Seite wird der Versand gestoppt."
+
+msgid "The server could not be reached. Check your connection and resume."
+msgstr "Der Server ist nicht erreichbar. Prüfe deine Verbindung und setze den Versand fort."
+
+msgid "Pending"
+msgstr "Ausstehend"
+
+msgid "Invalid addresses"
+msgstr "Ungültige Adressen"
+
+msgid "All emails have been processed."
+msgstr "Alle E-Mails wurden verarbeitet."
+
+msgid "Pause between each {0} emails"
+msgstr "Pause nach jeweils {0} E-Mails"
+
+msgid "{0} s"
+msgstr "{0} s"
+
+msgid "Resume sending"
+msgstr "Versand fortsetzen"
+
+msgid "Start sending"
+msgstr "Versand starten"
+
+msgid "Stop"
+msgstr "Stoppen"
+
+msgid "Emails with an error"
+msgstr "E-Mails mit Fehler"
+
+msgid "Error"
+msgstr "Fehler"
+
+msgid "Invalid address"
+msgstr "Ungültige Adresse"
+
+msgid "Pending ({0} attempts)"
+msgstr "Ausstehend ({0} Versuche)"
+
+msgid "Invalid placeholders: {0}. Available placeholders: {1}"
+msgstr "Ungültige Platzhalter: {0}. Verfügbare Platzhalter: {1}"
+
+msgid "Emails of this mailing have already been sent, it cannot be deleted."
+msgstr "E-Mails dieses Versands wurden bereits gesendet, er kann nicht gelöscht werden."
+
+msgid "The mailing has been deleted."
+msgstr "Der Versand wurde gelöscht."
+
+msgid "The mailing could not be deleted."
+msgstr "Der Versand konnte nicht gelöscht werden."
+
+msgid "My page"
+msgstr "Meine Seite"
+
+msgid "HTML is allowed and line returns are kept. {0} is shown as a link with the text \"{1}\"."
+msgstr "HTML ist erlaubt und Zeilenumbrüche bleiben erhalten. {0} wird als Link mit dem Text \"{1}\" angezeigt."
+
+msgid "New"
+msgstr "Neu"
+
+msgid "New email with the same subject, content and teams"
+msgstr "Neue E-Mail mit gleichem Betreff, Inhalt und Teams"
+
+msgid "Recipients"
+msgstr "Empfänger"

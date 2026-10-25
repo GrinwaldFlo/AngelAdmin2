@@ -3,7 +3,7 @@ namespace App\Controller\Component;
 
 use App\Controller\PrefResult;
 use Cake\Controller\Component;
-use Cake\Utility\Security;
+use App\Model\Table\MembersTable;
 
 /**
  * Member Management Component
@@ -38,7 +38,7 @@ class MemberManagementComponent extends Component
         if (!empty($data)) {
             $member = $controller->Members->patchEntity($member, $data);
             $member->date_arrival = new \Cake\I18n\Date();
-            $member->hash = Security::hash('Personal folder', 'sha1', $member->fullName . rand(0, 100));
+            $member->hash = MembersTable::newHash();
             
             if (array_key_exists('field', $data)) {
                 $controller->Members->getAssociation('Fields')->patchFields($member, $data['field']);

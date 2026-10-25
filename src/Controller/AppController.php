@@ -18,6 +18,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
+use App\Model\Table\MembersTable;
 use Cake\ORM\TableRegistry;
 use Cake\I18n\I18n;
 use Cake\ORM\Query\SelectQuery;
@@ -131,7 +132,7 @@ class AppController extends Controller
      */
     protected function isValidHashFormat(?string $hash): bool
     {
-        return is_string($hash) && preg_match('/^[a-f0-9]{40}$/i', $hash) === 1;
+        return MembersTable::isValidHash($hash);
     }
 
     /**

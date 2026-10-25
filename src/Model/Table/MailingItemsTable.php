@@ -1,32 +1,19 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
+use App\Model\Entity\MailingItem;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * MailingItems Model
+ * MailingItems Model: recipients of the mailings, the pending ones are the queue still to send
  *
  * @property \App\Model\Table\MailingsTable&\Cake\ORM\Association\BelongsTo $Mailings
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Members
- *
- * @method \App\Model\Entity\MailingItem newEmptyEntity()
- * @method \App\Model\Entity\MailingItem newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\MailingItem[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\MailingItem get($primaryKey,array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, ...$args)
- * @method \App\Model\Entity\MailingItem findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\MailingItem patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\MailingItem[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\MailingItem|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\MailingItem saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\MailingItem[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\MailingItem[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\MailingItem[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\MailingItem[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class MailingItemsTable extends Table
 {
@@ -68,19 +55,11 @@ class MailingItemsTable extends Table
 
         $validator
             ->integer('status')
-            ->requirePresence('status', 'create')
             ->notEmptyString('status');
 
         $validator
-            ->scalar('tokenhash')
-            ->maxLength('tokenhash', 255)
-            ->requirePresence('tokenhash', 'create')
-            ->notEmptyString('tokenhash');
-
-        $validator
-            ->dateTime('confirmation')
-            ->requirePresence('confirmation', 'create')
-            ->notEmptyDateTime('confirmation');
+            ->scalar('email')
+            ->maxLength('email', 255);
 
         return $validator;
     }
@@ -98,5 +77,49 @@ class MailingItemsTable extends Table
         $rules->add($rules->existsIn(['member_id'], 'Members'));
 
         return $rules;
+    }
+
+    /**
+     * Next emails to send, the ones that already failed come last
+     * @return \Cake\Datasource\ResultSetInterface<\App\Model\Entity\MailingItem> with the member
+     */
+    public function nextPending(int $mailingId, int $limit)
+    {
+        return $this->find()
+            ->contain(['Members'])
+            ->where(['MailingItems.mailing_id' => $mailingId, 'MailingItems.status' => MailingItem::PENDING])
+            ->orderBy(['MailingItems.attempts' => 'ASC', 'MailingItems.id' => 'ASC'])
+            ->limit($limit)
+            ->all();
+    }
+
+    /**
+     * Number of emails by state for each mailing
+     * @return array [mailing_id => ['total', 'pending', 'sent', 'invalid']], every given mailing is in the result
+     */
+    public function countsByMailing(array $mailingIds): array
+    {
+        $result = [];
+        foreach ($mailingIds as $mailingId) {
+            $result[$mailingId] = ['total' => 0, 'pending' => 0, 'sent' => 0, 'invalid' => 0];
+        }
+        if (empty($mailingIds)) {
+            return $result;
+        }
+
+        $query = $this->find();
+        $rows = $query->select(['mailing_id', 'status', 'nb' => $query->func()->count('*')])
+            ->where(['mailing_id IN' => $mailingIds])
+            ->groupBy(['mailing_id', 'status'])
+            ->disableHydration()
+            ->all();
+
+        $keys = [MailingItem::PENDING => 'pending', MailingItem::SENT => 'sent', MailingItem::INVALID => 'invalid'];
+        foreach ($rows as $row) {
+            $result[$row['mailing_id']][$keys[$row['status']]] = (int)$row['nb'];
+            $result[$row['mailing_id']]['total'] += (int)$row['nb'];
+        }
+
+        return $result;
     }
 }
