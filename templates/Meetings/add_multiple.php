@@ -1,90 +1,82 @@
 <?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Meeting $meeting
+ * @var array $teams [id => name]
+ * @var \DateTime $today
+ * @var \DateTime $seasonEnd
+ */
+use Cake\I18n\I18n;
 
-// Set default values for the date inputs
-$curDay = new DateTime();
-$curDay->setTime(0, 0, 0, 0);
-$finalDay = new DateTime();
-$finalDay->add(new DateInterval('P300D'));
+$this->loadHelper('Meeting');
+$this->Html->css('meetings', ['block' => true]);
+$this->Html->script('meetings', ['block' => true, 'defer' => true]);
 
+$mode = $this->request->getData('mode', 'weekly');
+$weekdays = array_map('intval', (array)$this->request->getData('weekdays', []));
+$dayNames = [1 => __('Mon'), 2 => __('Tue'), 3 => __('Wed'), 4 => __('Thu'), 5 => __('Fri'), 6 => __('Sat'), 7 => __('Sun')];
 ?>
-<div class="row">
-  <div class="col">
-    <div class="meetings form content">
-      <div class="tags float-end" style="width: 100px">
-        <?= $this->backButtonCtrl('Meetings', 'index') ?>
-      </div>
-      <?= $this->Form->create($meeting) ?>
-      <fieldset>
-        <legend><?= __('Add Meeting') ?></legend>
-        <div>
-          <label for="startDate"><?= __('Start Date') ?>:</label>
-          <input type="date" id="startDate" value="<?= $curDay->format('Y-m-d') ?>">
-          <label for="endDate" style="margin-left:10px;"><?= __('End Date') ?>:</label>
-          <input type="date" id="endDate" value="<?= $finalDay->format('Y-m-d') ?>">
-        </div>
-        <div style="margin:10px 0;">
-          <?php
-            $days = [__('Mon'), __('Tue'), __('Wed'), __('Thu'), __('Fri'), __('Sat'), __('Sun')];
-            foreach ($days as $i => $day) {
-              echo "<label style='margin-right:8px;'><input type='checkbox' class='weekday' value='$i' > $day</label>";
-            }
-          ?>
-        </div>
-        <div id="dateCheckboxes"></div>
-        <?php
-        echo $this->Form->control('meeting_date', ['type' => 'time', 'step' => 60 * 15, 'label' => 'Time']);
-        echo $this->Form->control('team_id', ['options' => $teams]);
-        echo $this->Form->control('name');
-        echo $this->Form->control('big_event');
-        echo $this->Form->control('url');
-        echo $this->Form->control('doodle');
-        ?>
+<div class="mt-page">
+  <div class="mt-view-head">
+    <?= $this->Html->link($this->Meeting->icon('arrow_back'), ['action' => 'index'], ['class' => 'mt-icon-btn', 'escape' => false, 'title' => __('Back'), 'aria-label' => __('Back')]) ?>
+    <h2 class="mt-title"><?= __('New meeting(s)') ?></h2>
+  </div>
+
+  <?= $this->Form->create($meeting, ['class' => 'mt-add-form', 'data-locale' => str_replace('_', '-', I18n::getLocale())]) ?>
+  <div class="row g-3">
+    <div class="col-lg-5">
+      <fieldset class="mt-card">
+        <legend class="mt-card-title"><?= __('Meeting') ?></legend>
+        <?= $this->element('Meetings/form_fields', ['teams' => $teams]) ?>
+        <?= $this->Form->control('time', ['type' => 'time', 'label' => __('Time'), 'step' => 60, 'format' => 'H:i', 'required' => true]) ?>
       </fieldset>
-      <?= $this->Form->button(__('Submit')) ?>
-      <?= $this->Form->end() ?>
+    </div>
+
+    <div class="col-lg-7">
+      <fieldset class="mt-card">
+        <legend class="mt-card-title"><?= __('Dates') ?></legend>
+        <div class="mt-segmented" role="group" aria-label="<?= __('Repeat') ?>">
+          <input type="radio" class="mt-toggle-input" name="mode" id="mode-once" value="once" <?= $mode == 'once' ? 'checked' : '' ?>>
+          <label class="mt-toggle" for="mode-once"><?= __('Once') ?></label>
+          <input type="radio" class="mt-toggle-input" name="mode" id="mode-weekly" value="weekly" <?= $mode == 'once' ? '' : 'checked' ?>>
+          <label class="mt-toggle" for="mode-weekly"><?= __('Weekly') ?></label>
+        </div>
+
+        <div data-mode="once">
+          <?= $this->Form->control('date', ['type' => 'date', 'label' => __('Date'), 'default' => $today->format('Y-m-d')]) ?>
+        </div>
+
+        <div data-mode="weekly">
+          <div class="mb-3">
+            <div class="form-label"><?= __('Days') ?></div>
+            <div class="mt-weekdays">
+              <?php foreach ($dayNames as $iso => $dayName) : ?>
+                <input type="checkbox" class="mt-toggle-input" name="weekdays[]" id="weekday-<?= $iso ?>" value="<?= $iso ?>" autocomplete="off" <?= in_array($iso, $weekdays) ? 'checked' : '' ?>>
+                <label class="mt-toggle" for="weekday-<?= $iso ?>"><?= h($dayName) ?></label>
+              <?php endforeach; ?>
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col-sm-6"><?= $this->Form->control('from', ['type' => 'date', 'label' => __('From'), 'default' => $today->format('Y-m-d')]) ?></div>
+            <div class="col-sm-6"><?= $this->Form->control('to', ['type' => 'date', 'label' => __('To'), 'default' => $seasonEnd->format('Y-m-d')]) ?></div>
+          </div>
+          <p class="mt-muted mt-preview-hint"
+             data-preview-hint
+             data-empty="<?= h(__('Choose at least one day.')) ?>"
+             data-text="<?= h(__('Tap a date to exclude it (holidays, ...).')) ?>"></p>
+          <div class="mt-date-chips" data-preview></div>
+        </div>
+      </fieldset>
     </div>
   </div>
+
+  <div class="mt-submit">
+    <?= $this->Form->button(__('Create'), [
+        'class' => 'mt-btn mt-btn-primary',
+        'data-label-none' => __('Create'),
+        'data-label-one' => __('Create 1 meeting'),
+        'data-label-many' => __('Create {0} meetings'),
+    ]) ?>
+  </div>
+  <?= $this->Form->end() ?>
 </div>
-<script>
-function getSelectedWeekdays() {
-  return Array.from(document.querySelectorAll('.weekday:checked')).map(cb => parseInt(cb.value));
-}
-
-function renderDateCheckboxes() {
-  const start = document.getElementById('startDate').value;
-  const end = document.getElementById('endDate').value;
-  const weekdays = getSelectedWeekdays();
-  const container = document.getElementById('dateCheckboxes');
-  container.innerHTML = '';
-  if (!start || !end) return;
-  let cur = new Date(start);
-  const final = new Date(end);
-  let html = '';
-  while (cur <= final) {
-    const day = cur.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
-    // Map JS getDay to our weekday index (Mon=0,...,Sun=6)
-    const weekdayIndex = (day + 6) % 7;
-    if (weekdays.includes(weekdayIndex)) {
-      const ts = Math.floor(cur.getTime() / 1000);
-      const label = cur.toLocaleDateString(undefined, { weekday: 'short', day: '2-digit', month: 'short' });
-      html += `
-        <div class="mb-3 form-check checkbox">
-          <input type="hidden" name="Date[${ts}]" value="0">
-          <input type="checkbox" name="Date[${ts}]" value="1" id="date-${ts}" class="form-check-input" checked>
-          <label class="form-check-label" for="date-${ts}">${label}</label>
-        </div>
-      `;
-    }
-    cur.setDate(cur.getDate() + 1);
-  }
-  container.innerHTML = html;
-}
-
-// Initial render
-document.addEventListener('DOMContentLoaded', function() {
-  renderDateCheckboxes();
-  document.getElementById('startDate').addEventListener('change', renderDateCheckboxes);
-  document.getElementById('endDate').addEventListener('change', renderDateCheckboxes);
-  document.querySelectorAll('.weekday').forEach(cb => cb.addEventListener('change', renderDateCheckboxes));
-});
-</script>

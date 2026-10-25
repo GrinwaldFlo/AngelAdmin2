@@ -29,7 +29,15 @@ class MeetingPolicy
     return $user->Role->MemberViewAll;
   }
 
-    public function canJoin(IdentityInterface $user, Meeting $meeting)
+  /**
+   * Taking attendance is allowed to everyone who can open the attendance page
+   */
+  public function canSetPresence(IdentityInterface $user, Meeting $meeting)
+  {
+    return $user->Role->MemberViewAll;
+  }
+
+  public function canJoin(IdentityInterface $user, Meeting $meeting)
   {
     return true;
   }

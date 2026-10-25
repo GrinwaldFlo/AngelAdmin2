@@ -457,10 +457,6 @@ msgstr "La réunion a été enregistrée."
 msgid "The meeting could not be saved."
 msgstr "La réunion n'a pas pu être enregistrée."
 
-#: src/Controller/MeetingsController.php:149
-msgid "{0} meeting has been saved."
-msgstr "{0} réunions ont été enregistrées."
-
 #: src/Controller/MeetingsController.php:153
 msgid "No meeting has been saved."
 msgstr "Aucune réunion n'a été enregistrée."
@@ -3107,3 +3103,140 @@ msgstr "{0} ans"
 
 #~ msgid "Next big events"
 #~ msgstr "Prochains grands événements"
+
+msgid "Are you sure you want to delete {0}?"
+msgstr "Es-tu sûr·e de vouloir supprimer {0} ?"
+
+msgid "Big event"
+msgstr "Grand événement"
+
+msgid "Choose a team"
+msgstr "Choisis une équipe"
+
+msgid "Choose at least one date and a time."
+msgstr "Choisis au moins une date et une heure."
+
+msgid "Choose at least one day."
+msgstr "Choisis au moins un jour."
+
+msgid "Create 1 meeting"
+msgstr "Créer 1 réunion"
+
+msgid "Create {0} meetings"
+msgstr "Créer {0} réunions"
+
+msgid "Date and time"
+msgstr "Date et heure"
+
+msgid "Dates"
+msgstr "Dates"
+
+msgid "Days"
+msgstr "Jours"
+
+msgid "Doodle"
+msgstr "Inscription"
+
+msgid "From"
+msgstr "Du"
+
+msgid "Invalid presence"
+msgstr "Présence invalide"
+
+msgid "Mark the rest as present"
+msgstr "Mettre le reste présent"
+
+msgid "Meeting"
+msgstr "Réunion"
+
+msgid "Members can register from the home page"
+msgstr "Les membres peuvent s'inscrire depuis la page d'accueil"
+
+msgid "More options"
+msgstr "Plus d'options"
+
+msgid "New meeting"
+msgstr "Nouvelle réunion"
+
+msgid "New meeting(s)"
+msgstr "Nouvelle(s) réunion(s)"
+
+msgid "Next"
+msgstr "Suivant"
+
+msgid "No active member in this team"
+msgstr "Aucun membre actif dans cette équipe"
+
+msgid "No active team"
+msgstr "Aucune équipe active"
+
+msgid "No attendance yet"
+msgstr "Pas encore de présences"
+
+msgid "No past meeting"
+msgstr "Aucune réunion passée"
+
+msgid "No upcoming meeting"
+msgstr "Aucune réunion à venir"
+
+msgid "Not in the team anymore"
+msgstr "Plus dans l'équipe"
+
+msgid "Not set"
+msgstr "Non saisi"
+
+msgid "Once"
+msgstr "Une fois"
+
+msgid "Other meetings"
+msgstr "Autres réunions"
+
+msgid "Previous"
+msgstr "Précédent"
+
+msgid "Repeat"
+msgstr "Répétition"
+
+msgid "Save"
+msgstr "Enregistrer"
+
+msgid "Show more"
+msgstr "Afficher plus"
+
+msgid "Take attendance"
+msgstr "Saisir les présences"
+
+msgid "Tap a date to exclude it (holidays, ...)."
+msgstr "Touche une date pour l'exclure (vacances, ...)."
+
+msgid "The attendance could not be saved. Check your connection and try again."
+msgstr "La présence n'a pas pu être enregistrée. Vérifie ta connexion et réessaie."
+
+msgid "Time"
+msgstr "Heure"
+
+msgid "To"
+msgstr "Au"
+
+msgid "Training"
+msgstr "Entraînement"
+
+msgid "Upcoming"
+msgstr "À venir"
+
+msgid "Weekly"
+msgstr "Chaque semaine"
+
+msgid "{0} meeting has been saved."
+msgid_plural "{0} meetings have been saved."
+msgstr[0] "{0} réunion a été enregistrée."
+msgstr[1] "{0} réunions ont été enregistrées."
+
+msgid "Legend"
+msgstr "Légende"
+
+msgid "Tap a status to set it. Tap a counter at the top to show only these members."
+msgstr "Touche un statut pour le saisir. Touche un compteur en haut pour n'afficher que ces membres."
+
+msgid "The link must start with http:// or https://"
+msgstr "Le lien doit commencer par http:// ou https://"

@@ -203,8 +203,8 @@ class MyHelper extends Helper
                 $label = __('{0} - {1}', $meet->meeting_date->i18nFormat($config['dateEvent']), $meet->name);
             }
 
-            if ($meet->url != "")
-                $label .= ' ' . $this->getView()->Html->link(__('Link'), $meet->url, ['target' => '_blank']);
+            if ($meet->webUrl())
+                $label .= ' ' . $this->getView()->Html->link(__('Link'), $meet->webUrl(), ['target' => '_blank', 'rel' => 'noopener']);
 
             if ($meet->doodle && $meet->my == null) {
                 $label .= ' ' . $this->getView()->Form->postLink(__('Join'), ['controller' => 'meetings', 'action' => 'join', $meet->id], ['confirm' => __('Are you sure you want to join the event ?'), 'class' => 'btn btn-primary btn-sm']);
