@@ -498,7 +498,8 @@ return [
      */
     'DebugKit' => [
         'forceEnable' => filter_var(env('DEBUG_KIT_FORCE_ENABLE', false), FILTER_VALIDATE_BOOLEAN),
-        'safeTld' => env('DEBUG_KIT_SAFE_TLD', null),
+        // Comma separated list of top-level domains only (e.g. "local,test"), not full host names
+        'safeTld' => array_filter(array_map('trim', explode(',', (string)env('DEBUG_KIT_SAFE_TLD', '')))),
         // DebugKit is only loaded in debug mode, its toolbar requests must not need authorization
         'ignoreAuthorization' => true,
     ],
