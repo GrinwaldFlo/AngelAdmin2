@@ -76,19 +76,8 @@ A comprehensive membership and team management system built with CakePHP 5.2, de
 
 3. **Configure the environment and database**
    - Copy `.env.example` to `.env` and adjust the values (see [Environment Variables](#environment-variables))
-   - Copy `config/app_local.example.php` to `config/app_local.php`
-   - Update database connection settings in `config/app_local.php`
-   ```php
-   'Datasources' => [
-       'default' => [
-           'host' => 'localhost',
-           'username' => 'your_username',
-           'password' => 'your_password',
-           'database' => 'angeladmin2',
-           // ... other settings
-       ],
-   ],
-   ```
+   - Set the database connection with `DATABASE_HOST`, `DATABASE_NAME`, `DATABASE_USER` and `DATABASE_PASSWORD` (or a single `DATABASE_URL`)
+   - `config/app.php` reads every environment specific value from these variables. An optional, git-ignored `config/app_local.php` can still override any key on one machine.
 
 4. **Set up the database**
    ```bash
@@ -97,10 +86,10 @@ A comprehensive membership and team management system built with CakePHP 5.2, de
    ```
 
 5. **Configure security**
-   - Generate a security salt and update `SECURITY_SALT` in your environment variables or `app_local.php`
+   - Generate a security salt and set `SECURITY_SALT` in `.env` or in the environment. The application does not start without it.
    ```bash
    # Generate a random salt
-   openssl rand -base64 32
+   openssl rand -hex 32
    ```
 
 6. **Set file permissions**
@@ -140,18 +129,14 @@ DEBUG=false
 
 ### Email Configuration
 
-Configure email settings in `config/app_local.php`:
+Configure the SMTP server in `.env`:
 
-```php
-'EmailTransport' => [
-    'default' => [
-        'host' => 'your-smtp-server.com',
-        'port' => 587,
-        'username' => 'your-email@example.com',
-        'password' => 'your-password',
-        'tls' => true,
-    ],
-],
+```bash
+EMAIL_HOST=your-smtp-server.com
+EMAIL_PORT=587
+EMAIL_USER=your-email@example.com
+EMAIL_PASSWORD=your-password
+EMAIL_TLS=true
 ```
 
 ### Application Settings
@@ -224,7 +209,7 @@ The test suite uses [PHPUnit](https://phpunit.de/) with CakePHP's test framework
 
 - Development dependencies installed (`composer install`, without `--no-dev`)
 - PHP extensions `pdo_sqlite`, `mbstring`, `intl` and `zip`
-- A `config/app_local.php` file (copy it from `config/app_local.example.php`)
+- No `.env` is needed: `phpunit.xml.dist` provides a test `SECURITY_SALT`
 
 No MySQL server is needed: by default the `test` datasource uses a SQLite file at `tmp/tests.sqlite`. `tests/bootstrap.php` builds its tables by running the migrations in `config/Migrations`, then each test fills them with rows from its fixtures. If you add a table, add a migration for it, or the tests will not see it. To use another database, set `DATABASE_TEST_URL`:
 

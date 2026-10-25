@@ -65,10 +65,12 @@ require CAKE . 'functions.php';
  * for more information for recommended practices.
 */
 
-// Load .env file from the root directory (not config directory)
+// Load .env file from the root directory (not config directory).
+// Variables already defined in the real environment take precedence.
 if (!env('APP_NAME') && file_exists(ROOT . DS . '.env')) {
     $dotenv = new \josegonzalez\Dotenv\Loader([ROOT . DS . '.env']);
     $dotenv->parse()
+        ->skipExisting()
         ->putenv()
         ->toEnv()
         ->toServer();
@@ -89,8 +91,9 @@ try {
 }
 
 /*
- * Load an environment local configuration file to provide overrides to your configuration.
- * Notice: For security reasons app_local.php **should not** be included in your git repo.
+ * app.php reads all environment specific values from environment variables (.env).
+ * An optional config/app_local.php can override any key for a single machine.
+ * It is git-ignored and must not be committed.
  */
 if (file_exists(CONFIG . 'app_local.php')) {
     Configure::load('app_local', 'default');
@@ -186,7 +189,12 @@ ConnectionManager::setConfig(Configure::consume('Datasources'));
 TransportFactory::setConfig(Configure::consume('EmailTransport'));
 Mailer::setConfig(Configure::consume('Email'));
 Log::setConfig(Configure::consume('Log'));
-Security::setSalt(Configure::consume('Security.salt'));
+$salt = Configure::consume('Security.salt');
+if (empty($salt)) {
+    echo "SECURITY_SALT is not defined. Set it in the .env file or in the environment.\n";
+    exit(1);
+}
+Security::setSalt($salt);
 
 /*
  * Setup detectors for mobile and tablet.
@@ -235,13 +243,12 @@ ServerRequest::addDetector('tablet', function ($request) {
 // \Cake\I18n\Time::setToStringFormat('dd.MM.yyyy HH:mm');
 
 
-if (isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] == env('APP_DEV_IP', '127.0.0.1'))
-{
-  Configure::write('debug', TRUE);
-  Configure::write('DebugKit.forceEnable', true);
-  Configure::write('DebugKit.ignoreAuthorization', true);
-}
-else
-{
-  Configure::write('debug', FALSE);
+/*
+ * Debug mode:
+ * - DEBUG=true (local development): always on, set in app.php.
+ * - DEBUG=false (server): only on for requests coming from APP_DEV_IP.
+ */
+if (!Configure::read('debug') && env('REMOTE_ADDR') === Configure::read('App.devIp')) {
+    Configure::write('debug', true);
+    Configure::write('DebugKit.forceEnable', true);
 }

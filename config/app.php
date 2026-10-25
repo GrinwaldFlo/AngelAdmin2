@@ -4,7 +4,7 @@ use Cake\Cache\Engine\FileEngine;
 use Cake\Database\Connection;
 use Cake\Database\Driver\Mysql;
 use Cake\Log\Engine\FileLog;
-use Cake\Mailer\Transport\MailTransport;
+use Cake\Mailer\Transport\SmtpTransport;
 
 if (!function_exists('env')) {
     function env($key, $default = null) {
@@ -17,6 +17,13 @@ if (!function_exists('env')) {
 }
 
 
+$isBeta = filter_var(env('APP_IS_BETA', false), FILTER_VALIDATE_BOOLEAN);
+
+/*
+ * All environment specific values are read from environment variables (or the
+ * .env file at the project root, see .env.example). Do not put credentials here.
+ * An optional, git-ignored config/app_local.php can still override any key.
+ */
 return [
     /*
      * Debug Level:
@@ -66,7 +73,10 @@ return [
         'dir' => 'src',
         'webroot' => 'webroot',
         'wwwRoot' => WWW_ROOT,
-        'logo' => env('APP_LOGO', 'logo.png'),
+        'logo' => env('APP_LOGO', $isBeta ? 'logoBeta.png' : 'logo.png'),
+        'isBeta' => $isBeta,
+        'maintenance' => filter_var(env('APP_MAINTENANCE', false), FILTER_VALIDATE_BOOLEAN),
+        'devIp' => env('APP_DEV_IP', '127.0.0.1'),
         //'baseUrl' => env('SCRIPT_NAME'),
         'fullBaseUrl' => false,
         'imageBaseUrl' => 'img/',
@@ -85,6 +95,7 @@ return [
      * - salt - A random string used in security hashing methods.
      *   The salt value is also used as the encryption key.
      *   You should treat it as extremely sensitive data.
+     *   It is required: the application stops in bootstrap.php if SECURITY_SALT is not set.
      */
     'Security' => [
         'salt' => env('SECURITY_SALT'),
@@ -230,21 +241,14 @@ return [
      */
     'EmailTransport' => [
         'default' => [
-            'className' => MailTransport::class,
-            /*
-             * The keys host, port, timeout, username, password, client and tls
-             * are used in SMTP transports
-             */
-            'host' => 'localhost',
-            'port' => 25,
+            'className' => SmtpTransport::class,
+            'host' => env('EMAIL_HOST', 'localhost'),
+            'port' => env('EMAIL_PORT', 587),
             'timeout' => 30,
-            /*
-             * It is recommended to set these options through your environment or app_local.php
-             */
-            //'username' => null,
-            //'password' => null,
+            'username' => env('EMAIL_USER'),
+            'password' => env('EMAIL_PASSWORD'),
             'client' => null,
-            'tls' => false,
+            'tls' => filter_var(env('EMAIL_TLS', false), FILTER_VALIDATE_BOOLEAN),
             'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
         ],
     ],
@@ -285,20 +289,20 @@ return [
      */
     'Datasources' => [
         /*
-         * These configurations should contain permanent settings used
-         * by all environments.
-         *
-         * The values in app_local.php will override any values set here
-         * and should be used for local and per-environment configurations.
-         *
-         * Environment variable-based configurations can be loaded here or
-         * in app_local.php depending on the application's needs.
+         * Connection values come from the environment. DATABASE_URL, when set,
+         * replaces the host/port/username/password/database keys.
          */
         'default' => [
             'className' => Connection::class,
             'driver' => Mysql::class,
             'persistent' => false,
             'timezone' => 'UTC',
+            'host' => env('DATABASE_HOST', 'localhost'),
+            'port' => env('DATABASE_PORT', null),
+            'username' => env('DATABASE_USER'),
+            'password' => env('DATABASE_PASSWORD'),
+            'database' => env('DATABASE_NAME'),
+            'url' => env('DATABASE_URL', null),
 
             /*
              * For MariaDB/MySQL the internal default changed from utf8 to utf8mb4, aka full utf-8 support
@@ -336,6 +340,7 @@ return [
 
         /*
          * The test connection is used during the test suite.
+         * SQLite by default, override with DATABASE_TEST_URL.
          */
         'test' => [
             'className' => Connection::class,
@@ -347,7 +352,25 @@ return [
             'cacheMetadata' => true,
             'quoteIdentifiers' => false,
             'log' => false,
-            //'init' => ['SET GLOBAL innodb_stats_on_metadata = 0'],
+            'url' => env('DATABASE_TEST_URL', 'sqlite://127.0.0.1/tmp/tests.sqlite'),
+        ],
+
+        /*
+         * The debug_kit connection stores DebugKit meta-data.
+         */
+        'debug_kit' => [
+            'className' => Connection::class,
+            'driver' => Mysql::class,
+            'persistent' => false,
+            'host' => env('DEBUG_KIT_DB_HOST', 'localhost'),
+            'port' => env('DEBUG_KIT_DB_PORT', null),
+            'username' => env('DEBUG_KIT_DB_USER'),
+            'password' => env('DEBUG_KIT_DB_PASSWORD'),
+            'database' => env('DEBUG_KIT_DB_NAME'),
+            'encoding' => 'utf8',
+            'timezone' => 'UTC',
+            'cacheMetadata' => true,
+            'quoteIdentifiers' => false,
         ],
     ],
 
@@ -475,7 +498,14 @@ return [
      */
     'DebugKit' => [
         'forceEnable' => filter_var(env('DEBUG_KIT_FORCE_ENABLE', false), FILTER_VALIDATE_BOOLEAN),
-        'safeTld' => env('DEBUG_KIT_SAFE_TLD', null),
-        'ignoreAuthorization' => env('DEBUG_KIT_IGNORE_AUTHORIZATION', false),
+        // Comma separated list of top-level domains only (e.g. "local,test"), not full host names
+        'safeTld' => array_filter(array_map('trim', explode(',', (string)env('DEBUG_KIT_SAFE_TLD', '')))),
+        // DebugKit is only loaded in debug mode, its toolbar requests must not need authorization
+        'ignoreAuthorization' => true,
+    ],
+
+    'Slack' => [
+        'token' => env('SLACK_TOKEN'),
+        'channelId' => env('SLACK_CHANNEL_ID'),
     ],
 ];

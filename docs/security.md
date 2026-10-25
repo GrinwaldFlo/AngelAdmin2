@@ -81,7 +81,7 @@ find /path/to/angeladmin2 -type d -exec chmod 755 {} \;
 chmod 755 tmp/ logs/ webroot/uploads/
 
 # Configuration files (more restrictive)
-chmod 600 config/app_local.php .env
+chmod 600 .env
 ```
 
 ### Database Security

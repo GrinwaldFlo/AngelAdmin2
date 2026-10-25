@@ -68,15 +68,14 @@ FLUSH PRIVILEGES;
 ```bash
 # Copy the example environment file
 cp .env.example .env
-
-# Copy the local configuration file
-cp config/app_local.example.php config/app_local.php
 ```
 
+All settings are read from `.env` by `config/app.php`. An optional, git-ignored `config/app_local.php` can override any key on one machine.
+
 #### Generate Security Salt
+`SECURITY_SALT` is required: the application does not start without it.
 ```bash
-# Generate a random 32-character string
-openssl rand -base64 32
+openssl rand -hex 32
 ```
 
 #### Edit Configuration
