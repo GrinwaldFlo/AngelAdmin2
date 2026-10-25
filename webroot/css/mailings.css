@@ -78,6 +78,7 @@
   margin-bottom: 1rem;
 }
 
-.ml-failed-title {
+.ml-failed-title,
+.ml-recipients-title {
   margin-top: 1.5rem;
 }

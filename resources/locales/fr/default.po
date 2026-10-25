@@ -3351,3 +3351,6 @@ msgstr "Nouveau"
 
 msgid "New email with the same subject, content and teams"
 msgstr "Nouvel email avec le même sujet, contenu et équipes"
+
+msgid "Recipients"
+msgstr "Destinataires"

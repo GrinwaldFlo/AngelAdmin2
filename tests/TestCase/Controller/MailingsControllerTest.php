@@ -495,6 +495,28 @@ class MailingsControllerTest extends TestCase
         $this->assertNull($this->items($mailingId)[0]->error);
     }
 
+    public function testSendPageListsRecipients(): void
+    {
+        $mailingId = $this->addMailing(['a@example.com', 'not an email', 'c@example.com']);
+        $this->getTableLocator()->get('Members')->updateAll(['last_name' => 'Zed'], ['id' => 100]);
+        $this->login();
+        $this->sendNext($mailingId);
+        $this->getTableLocator()->get('MailingItems')->updateAll(['status' => MailingItem::PENDING, 'sent' => null], ['member_id' => 102]);
+
+        $this->get('/mailings/send/' . $mailingId);
+
+        $this->assertResponseOk();
+        $this->assertResponseContains('Recipients (3)');
+        $this->assertSame([101, 102, 100], $this->viewVariable('items')->extract('member_id')->toList());
+        $this->assertSame(['Invalid address', 'Pending', 'Sent'], $this->viewVariable('items')->map(fn ($item) => $item->statusLabel())->toList());
+        $this->assertResponseContains('First100 Zed');
+        $this->assertResponseContains('a@example.com');
+        $this->assertResponseContains('c@example.com');
+        $this->assertResponseContains('/members/view/102');
+        // Only the invalid address is in the errors
+        $this->assertCount(1, $this->viewVariable('failedItems')->toList());
+    }
+
     public function testSendNextRequiresPost(): void
     {
         $mailingId = $this->addMailing(['a@example.com']);

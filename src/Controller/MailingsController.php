@@ -64,13 +64,14 @@ class MailingsController extends AppController
         $this->Authorization->authorize($this->Mailings->newEmptyEntity(), 'send');
         $mailing = $this->Mailings->get($id);
         $counts = $this->Mailings->MailingItems->countsByMailing([$mailing->id])[$mailing->id];
-        $failedItems = $this->Mailings->MailingItems->find()
+        $items = $this->Mailings->MailingItems->find()
             ->contain(['Members'])
-            ->where(['MailingItems.mailing_id' => $mailing->id, 'MailingItems.error IS NOT' => null])
+            ->where(['MailingItems.mailing_id' => $mailing->id])
             ->orderBy(['Members.last_name' => 'ASC', 'Members.first_name' => 'ASC'])
             ->all();
+        $failedItems = $items->filter(fn ($item) => $item->error !== null);
 
-        $this->set(compact('mailing', 'counts', 'failedItems'));
+        $this->set(compact('mailing', 'counts', 'items', 'failedItems'));
     }
 
     /**

@@ -28,6 +28,15 @@ class MailingItem extends Entity
     // The address is not a valid email, retrying would never work
     public const INVALID = 2;
 
+    public function statusLabel(): string
+    {
+        return match ($this->status) {
+            self::SENT => __('Sent'),
+            self::INVALID => __('Invalid address'),
+            default => $this->attempts > 0 ? __('Pending ({0} attempts)', $this->attempts) : __('Pending'),
+        };
+    }
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *

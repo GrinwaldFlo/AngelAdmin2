@@ -2264,3 +2264,6 @@ msgstr "Nuovo"
 
 msgid "New email with the same subject, content and teams"
 msgstr "Nuova email con lo stesso oggetto, contenuto e squadre"
+
+msgid "Recipients"
+msgstr "Destinatari"

@@ -4,11 +4,11 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Mailing $mailing
  * @var array $counts ['total', 'pending', 'sent', 'invalid']
+ * @var \App\Model\Entity\MailingItem[]|\Cake\Collection\CollectionInterface $items recipients
  * @var \App\Model\Entity\MailingItem[]|\Cake\Collection\CollectionInterface $failedItems recipients with a sending error
  */
 use App\Controller\MailingsController;
 use App\Model\Entity\Mailing;
-use App\Model\Entity\MailingItem;
 use Cake\Routing\Router;
 
 $this->Html->css('mailings', ['block' => true]);
@@ -78,14 +78,33 @@ $startLabel = $counts['sent'] + $counts['invalid'] > 0 || !$failedItems->isEmpty
           <tr>
             <td><?= $this->Html->link($item->member->FullName, ['controller' => 'Members', 'action' => 'view', $item->member_id]) ?></td>
             <td><?= h($item->email) ?></td>
-            <td><?= match ($item->status) {
-                MailingItem::INVALID => __('Invalid address'),
-                default => __('Pending ({0} attempts)', $item->attempts),
-                } ?></td>
+            <td><?= h($item->statusLabel()) ?></td>
             <td><?= h($item->error) ?></td>
           </tr>
         <?php endforeach; ?>
       </tbody>
     </table>
   <?php endif; ?>
+
+  <h4 class="ml-recipients-title"><?= __('Recipients') ?> (<?= $counts['total'] ?>)</h4>
+  <table class="table table-striped table-sm">
+    <thead>
+      <tr>
+        <th><?= __('Member') ?></th>
+        <th><?= __('Email') ?></th>
+        <th><?= __('Status') ?></th>
+        <th><?= __('Sent') ?></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php foreach ($items as $item) : ?>
+        <tr>
+          <td><?= $this->Html->link($item->member->FullName, ['controller' => 'Members', 'action' => 'view', $item->member_id]) ?></td>
+          <td><?= h($item->email) ?></td>
+          <td><?= h($item->statusLabel()) ?></td>
+          <td><?= $item->sent ? h($item->sent->i18nFormat('dd.MM.yyyy HH:mm')) : '' ?></td>
+        </tr>
+      <?php endforeach; ?>
+    </tbody>
+  </table>
 </div>
