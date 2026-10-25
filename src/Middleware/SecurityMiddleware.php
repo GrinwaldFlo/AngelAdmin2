@@ -44,7 +44,8 @@ class SecurityMiddleware implements MiddlewareInterface
     {
         $headers = [
             'X-Content-Type-Options' => 'nosniff',
-            'X-Frame-Options' => 'DENY',
+            // SAMEORIGIN: the DebugKit toolbar is loaded in a same-origin iframe
+            'X-Frame-Options' => 'SAMEORIGIN',
             'X-XSS-Protection' => '1; mode=block',
             'Referrer-Policy' => 'strict-origin-when-cross-origin',
         ];

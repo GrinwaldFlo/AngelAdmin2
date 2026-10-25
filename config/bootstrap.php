@@ -243,13 +243,12 @@ ServerRequest::addDetector('tablet', function ($request) {
 // \Cake\I18n\Time::setToStringFormat('dd.MM.yyyy HH:mm');
 
 
-if (isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] == env('APP_DEV_IP', '127.0.0.1'))
-{
-  Configure::write('debug', TRUE);
-  Configure::write('DebugKit.forceEnable', true);
-  Configure::write('DebugKit.ignoreAuthorization', true);
-}
-else
-{
-  Configure::write('debug', FALSE);
+/*
+ * Debug mode:
+ * - DEBUG=true (local development): always on, set in app.php.
+ * - DEBUG=false (server): only on for requests coming from APP_DEV_IP.
+ */
+if (!Configure::read('debug') && env('REMOTE_ADDR') === Configure::read('App.devIp')) {
+    Configure::write('debug', true);
+    Configure::write('DebugKit.forceEnable', true);
 }

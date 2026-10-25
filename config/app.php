@@ -499,7 +499,8 @@ return [
     'DebugKit' => [
         'forceEnable' => filter_var(env('DEBUG_KIT_FORCE_ENABLE', false), FILTER_VALIDATE_BOOLEAN),
         'safeTld' => env('DEBUG_KIT_SAFE_TLD', null),
-        'ignoreAuthorization' => filter_var(env('DEBUG_KIT_IGNORE_AUTHORIZATION', false), FILTER_VALIDATE_BOOLEAN),
+        // DebugKit is only loaded in debug mode, its toolbar requests must not need authorization
+        'ignoreAuthorization' => true,
     ],
 
     'Slack' => [
