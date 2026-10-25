@@ -57,8 +57,8 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 
 3. Copy and configure the environment
    ```bash
-   cp config/app_local.example.php config/app_local.php
-   # Edit config/app_local.php with your database settings
+   cp .env.example .env
+   # Edit .env with your database settings and a SECURITY_SALT
    ```
 
 4. Run migrations

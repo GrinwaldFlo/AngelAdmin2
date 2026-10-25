@@ -7,7 +7,7 @@ AngelAdmin2 is a CakePHP 5.2 (PHP 8.1+) server-rendered app for sports-club admi
 ## Commands
 
 ```bash
-composer install                 # needs config/app_local.php (copy from config/app_local.example.php) and .env (from .env.example)
+composer install                 # then copy .env.example to .env (SECURITY_SALT is required); config/app.php reads all settings from env
 bin/cake server -p 8765          # dev server
 bin/cake migrations migrate      # apply DB migrations
 
