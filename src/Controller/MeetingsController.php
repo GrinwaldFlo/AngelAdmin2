@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 namespace App\Controller;
+use App\Model\Entity\Presence;
 use App\Model\Table\MeetingsTable;
 use Cake\I18n\DateTime;
-use Cake\ORM\TableRegistry;
 
 /**
  * Meetings Controller
@@ -44,6 +44,7 @@ class MeetingsController extends AppController
         ->toArray();
       $hasMore = count($meetings) > $limit;
       $meetings = array_slice($meetings, 0, $limit);
+      $this->Meetings->loadCounts($meetings);
     }
 
     $this->set(compact('meetings', 'teamId', 'meetingFilter', 'teams', 'limit', 'hasMore'));
@@ -166,20 +167,7 @@ class MeetingsController extends AppController
     $this->request->allowMethod(['post', 'delete']);
     $meeting = $this->Meetings->get($id);
     $this->Authorization->authorize($meeting, 'join');
-    $presences = TableRegistry::getTableLocator()->get('Presences');
-
-    $presence = $presences->find('all')->where(['member_id' => $this->curMember->id])->where(['meeting_id' => $id])->first();
-
-    if (empty($presence))
-    {
-      $presence = $presences->newEmptyEntity();
-      $presence->meeting_id = $id;
-      $presence->member_id = $this->curMember->id;
-    }
-    $presence->state = 1;
-
-    $presences->save($presence);
-    $meeting->CheckPresences(true);
+    $this->Meetings->Presences->setState($meeting, [$this->curMember->id], Presence::PRESENT);
 
     $this->Flash->success(__('You are now registered'));
     return $this->redirect('/');

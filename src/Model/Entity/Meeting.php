@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace App\Model\Entity;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use Cake\Validation\Validation;
 
 /**
  * Meeting Entity
@@ -69,28 +70,51 @@ class Meeting extends Entity
     ];
   }
 
+  /**
+   * True when the cached counters are known (they are -1 until computed)
+   */
+  public function hasCounts(): bool
+  {
+    return $this->present != -1 && $this->absent != -1 && $this->excused != -1 && $this->late != -1;
+  }
+
+  /**
+   * Set the cached counters from the number of presences by state
+   * @param array $nbByState [state => count], missing states count 0
+   */
+  public function setCounts(array $nbByState): void
+  {
+    $this->present = (int)($nbByState[Presence::PRESENT] ?? 0);
+    $this->absent = (int)($nbByState[Presence::ABSENT] ?? 0);
+    $this->excused = (int)($nbByState[Presence::EXCUSED] ?? 0);
+    $this->late = (int)($nbByState[Presence::LATE] ?? 0);
+  }
+
   public function CheckPresences($force)
   {
-    if (!$force && $this->present != -1 && $this->absent != -1 && $this->excused != -1 && $this->late != -1)
+    if (!$force && $this->hasCounts())
     {
       return;
     }
-    $presences = TableRegistry::getTableLocator()->get('Presences');
-    $query = $presences->find();
-    $rows = $query->select(['state', 'nb' => $query->func()->count('*')])
-      ->where(['meeting_id' => $this->id])
-      ->groupBy(['state'])
-      ->disableHydration()
-      ->all()
-      ->combine('state', 'nb')
-      ->toArray();
+    $meetings = TableRegistry::getTableLocator()->get('Meetings');
+    $this->setCounts($meetings->countPresences([$this->id])[$this->id] ?? []);
+    $meetings->save($this);
+  }
 
-    $this->present = (int)($rows[Presence::PRESENT] ?? 0);
-    $this->absent = (int)($rows[Presence::ABSENT] ?? 0);
-    $this->excused = (int)($rows[Presence::EXCUSED] ?? 0);
-    $this->late = (int)($rows[Presence::LATE] ?? 0);
+  /**
+   * Only http(s) links are allowed, other schemes (javascript:, data:, ...) could run code when clicked
+   */
+  public static function isWebUrl(?string $url): bool
+  {
+    return $url !== null && preg_match('#^https?://#i', $url) === 1 && Validation::url($url, true);
+  }
 
-    TableRegistry::getTableLocator()->get('Meetings')->save($this);
+  /**
+   * Link of the meeting, null if empty or not a web link
+   */
+  public function webUrl(): ?string
+  {
+    return self::isWebUrl($this->url) ? $this->url : null;
   }
 
 }

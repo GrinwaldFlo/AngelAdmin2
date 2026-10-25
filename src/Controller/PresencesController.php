@@ -24,9 +24,9 @@ class PresencesController extends AppController
     $meeting = $this->Presences->Meetings->get($meetingId);
     $this->Authorization->authorize($meeting, 'setPresence');
 
-    $state = (int)$this->request->getData('state');
+    $state = filter_var($this->request->getData('state'), FILTER_VALIDATE_INT);
     $memberIds = array_values(array_filter(array_map('intval', (array)$this->request->getData('member_id'))));
-    if (!Presence::isValidState($state) || empty($memberIds)) {
+    if ($state === false || !Presence::isValidState($state) || empty($memberIds)) {
       throw new BadRequestException(__('Invalid presence'));
     }
 

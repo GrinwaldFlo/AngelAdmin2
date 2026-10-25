@@ -118,6 +118,24 @@ class PresencesControllerTest extends TestCase
         $this->assertSame(Presence::PRESENT, $this->state(1, 1));
     }
 
+    public function testSetPresenceRejectsMissingState(): void
+    {
+        $this->login();
+        $this->post('/presences/set-presence/1', ['member_id' => 1]);
+
+        $this->assertResponseCode(400);
+        $this->assertSame(Presence::PRESENT, $this->state(1, 1));
+    }
+
+    public function testSetPresenceRejectsNonNumericState(): void
+    {
+        $this->login();
+        $this->post('/presences/set-presence/1', ['member_id' => 1, 'state' => 'abc']);
+
+        $this->assertResponseCode(400);
+        $this->assertSame(Presence::PRESENT, $this->state(1, 1));
+    }
+
     public function testSetPresenceRejectsUnknownMember(): void
     {
         $this->login();

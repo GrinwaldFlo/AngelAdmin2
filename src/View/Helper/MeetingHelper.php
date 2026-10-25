@@ -51,7 +51,7 @@ class MeetingHelper extends Helper
         if ($meeting->doodle) {
             $html .= '<span class="mt-badge">' . $this->icon('how_to_reg') . h(__('Doodle')) . '</span>';
         }
-        if (!empty($meeting->url)) {
+        if ($meeting->webUrl()) {
             $html .= '<span class="mt-badge">' . $this->icon('link') . h(__('Link')) . '</span>';
         }
         return '<div class="mt-badges">' . $html . '</div>';

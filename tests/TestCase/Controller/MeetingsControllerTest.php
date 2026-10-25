@@ -140,6 +140,18 @@ class MeetingsControllerTest extends TestCase
         $this->assertFalse($this->viewVariable('hasMore'));
     }
 
+    public function testIndexPastLoadsUnknownCountsWithoutSaving(): void
+    {
+        $this->login();
+        $this->get('/meetings/index/1/' . MeetingsTable::FILTER_PAST);
+
+        $this->assertResponseOk();
+        $this->assertSame(1, $this->viewVariable('meetings')[0]->present);
+        $this->assertResponseContains('mt-count-chip mt-is-present');
+        // The GET does not write the counters
+        $this->assertSame(-1, $this->getTableLocator()->get('Meetings')->get(1)->present);
+    }
+
     public function testIndexUpcomingWithToday(): void
     {
         $this->addMeeting((new DateTime('today'))->format('Y-m-d') . ' 00:01', 'Training of today');
@@ -381,6 +393,53 @@ class MeetingsControllerTest extends TestCase
         $meeting = $this->getTableLocator()->get('Meetings')->get(1);
         $this->assertSame('Renamed', $meeting->name);
         $this->assertSame('2020-03-30 19:15', $meeting->meeting_date->format('Y-m-d H:i'));
+    }
+
+    public function testEditWithWebUrl(): void
+    {
+        $this->enableCsrfToken();
+        $this->login();
+        $this->post('/meetings/edit/1', ['meeting_date' => '2020-03-30T19:10', 'team_id' => 1, 'name' => 'Renamed', 'url' => 'https://example.com/event']);
+
+        $this->assertRedirect(['controller' => 'Meetings', 'action' => 'view', 1]);
+        $meeting = $this->getTableLocator()->get('Meetings')->get(1);
+        $this->assertSame('https://example.com/event', $meeting->url);
+        $this->assertSame('2020-03-30 19:10', $meeting->meeting_date->format('Y-m-d H:i'));
+    }
+
+    public function testEditRejectsScriptUrl(): void
+    {
+        $this->enableCsrfToken();
+        $this->login();
+        $this->post('/meetings/edit/1', ['meeting_date' => '2020-03-30T19:15', 'team_id' => 1, 'name' => 'Renamed', 'url' => 'javascript:alert(1)']);
+
+        $this->assertResponseOk();
+        $this->assertTrue($this->viewVariable('meeting')->hasErrors());
+        $this->assertNull($this->getTableLocator()->get('Meetings')->get(1)->url);
+    }
+
+    public function testViewHidesScriptUrl(): void
+    {
+        $meetings = $this->getTableLocator()->get('Meetings');
+        $meetings->updateAll(['url' => 'javascript:alert(1)'], ['id' => 1]);
+        $this->login();
+        $this->get('/meetings/view/1');
+
+        $this->assertResponseOk();
+        $this->assertResponseNotContains('javascript:alert(1)');
+    }
+
+    public function testJoin(): void
+    {
+        $this->enableCsrfToken();
+        $this->login();
+        $this->post('/meetings/join/1');
+
+        $this->assertRedirect('/');
+        $presences = $this->getTableLocator()->get('Presences')->find()->where(['meeting_id' => 1, 'member_id' => 1])->toArray();
+        $this->assertCount(1, $presences);
+        $this->assertSame(Presence::PRESENT, $presences[0]->state);
+        $this->assertSame(1, $this->getTableLocator()->get('Meetings')->get(1)->present);
     }
 
     public function testDelete(): void

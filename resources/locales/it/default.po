@@ -2147,3 +2147,6 @@ msgstr "Legenda"
 
 msgid "Tap a status to set it. Tap a counter at the top to show only these members."
 msgstr "Tocca uno stato per inserirlo. Tocca un contatore in alto per mostrare solo questi membri."
+
+msgid "The link must start with http:// or https://"
+msgstr "Il link deve iniziare con http:// o https://"

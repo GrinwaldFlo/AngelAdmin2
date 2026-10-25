@@ -87,7 +87,11 @@ class MeetingsTable extends Table
     $validator
       ->scalar('url')
       ->maxLength('url', 250)
-      ->allowEmptyString('url');
+      ->allowEmptyString('url')
+      ->add('url', 'webUrl', [
+        'rule' => fn($value) => Meeting::isWebUrl($value),
+        'message' => __('The link must start with http:// or https://'),
+      ]);
 
 
     return $validator;
@@ -147,6 +151,43 @@ class MeetingsTable extends Table
     return $query; //->team(['Members.id']);
   }
 
+
+  /**
+   * Number of presences by state for several meetings, in one query
+   * @param int[] $meetingIds
+   * @return array [meeting_id => [state => count]]
+   */
+  public function countPresences(array $meetingIds): array
+  {
+    if (empty($meetingIds)) {
+      return [];
+    }
+    $query = $this->Presences->find();
+    $query->select(['meeting_id', 'state', 'nb' => $query->func()->count('*')])
+      ->where(['meeting_id IN' => $meetingIds])
+      ->groupBy(['meeting_id', 'state'])
+      ->disableHydration();
+
+    $result = [];
+    foreach ($query as $row) {
+      $result[$row['meeting_id']][$row['state']] = (int)$row['nb'];
+    }
+    return $result;
+  }
+
+  /**
+   * Fill the unknown counters of a list of meetings with one query (not saved, so a GET stays read-only)
+   * @param \App\Model\Entity\Meeting[] $meetings
+   */
+  public function loadCounts(array $meetings): void
+  {
+    $unknown = array_filter($meetings, fn(Meeting $meeting) => !$meeting->hasCounts());
+    $counts = $this->countPresences(array_map(fn(Meeting $meeting) => $meeting->id, $unknown));
+    foreach ($unknown as $meeting) {
+      $meeting->setCounts($counts[$meeting->id] ?? []);
+      $meeting->clean();
+    }
+  }
 
   /**
    * Members to show on the attendance page: active team members plus anyone already having a presence

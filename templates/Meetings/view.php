@@ -24,8 +24,8 @@ $separatorShown = false;
       <h2 class="mt-title"><?= h($meeting->name) ?></h2>
       <div class="mt-muted">
         <?= h($meeting->team->name) ?> · <?= h($meeting->meeting_date->i18nFormat('EEE dd.MM.yyyy HH:mm')) ?>
-        <?php if (!empty($meeting->url)) : ?>
-          · <?= $this->Html->link(__('Link'), $meeting->url, ['target' => '_blank', 'rel' => 'noopener']) ?>
+        <?php if ($meeting->webUrl()) : ?>
+          · <?= $this->Html->link(__('Link'), $meeting->webUrl(), ['target' => '_blank', 'rel' => 'noopener']) ?>
         <?php endif; ?>
       </div>
     </div>

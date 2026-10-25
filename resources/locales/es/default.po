@@ -2004,3 +2004,6 @@ msgstr "Leyenda"
 
 msgid "Tap a status to set it. Tap a counter at the top to show only these members."
 msgstr "Toque un estado para indicarlo. Toque un contador arriba para mostrar solo estos miembros."
+
+msgid "The link must start with http:// or https://"
+msgstr "El enlace debe empezar por http:// o https://"
