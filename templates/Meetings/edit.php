@@ -15,7 +15,7 @@ $this->Html->css('meetings', ['block' => true]);
 
   <?= $this->Form->create($meeting) ?>
   <fieldset class="mt-card mt-form-narrow">
-    <?= $this->Form->control('meeting_date', ['label' => __('Date and time')]) ?>
+    <?= $this->Form->control('meeting_date', ['label' => __('Date and time'), 'step' => 60, 'format' => 'Y-m-d\TH:i']) ?>
     <?= $this->element('Meetings/form_fields', ['teams' => $teams]) ?>
   </fieldset>
   <div class="mt-submit mt-form-narrow">

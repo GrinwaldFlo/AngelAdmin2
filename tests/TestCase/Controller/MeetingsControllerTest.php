@@ -302,6 +302,20 @@ class MeetingsControllerTest extends TestCase
         $this->assertSame(1, $this->viewVariable('meeting')->team_id);
         $this->assertResponseContains('mt-add-form');
         $this->assertResponseContains('Create {0} meetings');
+        // Time without seconds
+        $this->assertResponseContains('type="time" name="time"');
+        $this->assertResponseContains('step="60"');
+    }
+
+    public function testEditFormHasNoSeconds(): void
+    {
+        $this->login();
+        $this->get('/meetings/edit/1');
+
+        $this->assertResponseOk();
+        $this->assertResponseContains('type="datetime-local" name="meeting_date"');
+        $this->assertResponseContains('step="60"');
+        $this->assertResponseContains('value="2020-03-29T10:44"');
     }
 
     public function testAddMultipleWeekly(): void

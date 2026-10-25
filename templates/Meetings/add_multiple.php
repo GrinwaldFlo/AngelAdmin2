@@ -28,7 +28,7 @@ $dayNames = [1 => __('Mon'), 2 => __('Tue'), 3 => __('Wed'), 4 => __('Thu'), 5 =
       <fieldset class="mt-card">
         <legend class="mt-card-title"><?= __('Meeting') ?></legend>
         <?= $this->element('Meetings/form_fields', ['teams' => $teams]) ?>
-        <?= $this->Form->control('time', ['type' => 'time', 'label' => __('Time'), 'required' => true]) ?>
+        <?= $this->Form->control('time', ['type' => 'time', 'label' => __('Time'), 'step' => 60, 'format' => 'H:i', 'required' => true]) ?>
       </fieldset>
     </div>
 
