@@ -22,4 +22,4 @@
 </div>
 
 <h1><?= h(($member->coach ? __('Coach') . ' ' : '') . $member->fullName) ?></h1>
-<h4><?= h($member->teamString) ?></h4>
+<h4><?= h($member->activeTeamString) ?></h4>

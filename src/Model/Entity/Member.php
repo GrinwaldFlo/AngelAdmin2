@@ -134,14 +134,28 @@ class Member extends Entity
     if (isset($this->_fields['team_string'])) {
       return $this->_fields['team_string'];
     }
-    if (empty($this->teams)) {
+    return $this->buildTeamString(false);
+  }
+
+  /**
+   * Same as team_string, but archived teams (active = 0) are hidden
+   */
+  protected function _getActiveTeamString()
+  {
+    return $this->buildTeamString(true);
+  }
+
+  private function buildTeamString(bool $activeOnly): string
+  {
+    $teams = new Collection($this->teams ?? []);
+    if ($activeOnly) {
+      $teams = $teams->filter(fn($team) => $team->active !== false);
+    }
+    $names = $teams->extract('name')->toList();
+    if (empty($names)) {
       return __('No team');
     }
-    $teams = new Collection($this->teams);
-    $str = $teams->reduce(function ($string, $team) {
-      return $string . $team->name . ', ';
-    }, '');
-    return trim($str, ', ');
+    return implode(', ', $names);
   }
 
   protected function _getSiteString()

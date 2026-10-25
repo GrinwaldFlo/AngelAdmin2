@@ -76,7 +76,7 @@ $teams = $pref->teams;
                             </td>
                             <td><?= $this->Html->link($member->first_name, ['action' => 'view', $member->id]) ?></td>
                             <td><?= $this->Html->link($member->last_name, ['action' => 'view', $member->id]) ?></td>
-                            <td><?= h($member->TeamString) ?></td>
+                            <td><?= h($member->activeTeamString) ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
