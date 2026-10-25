@@ -1883,3 +1883,161 @@ msgstr "{0} Jahre"
 #, fuzzy
 #~ msgid "Cancel the registration"
 #~ msgstr "Die Registrierung abbrechen"
+
+msgid "Are you sure you want to delete {0}?"
+msgstr "Wollen Sie {0} wirklich löschen?"
+
+msgid "Big event"
+msgstr "Grosser Anlass"
+
+msgid "Choose a team"
+msgstr "Wählen Sie ein Team"
+
+msgid "Choose at least one date and a time."
+msgstr "Wählen Sie mindestens ein Datum und eine Uhrzeit."
+
+msgid "Choose at least one day."
+msgstr "Wählen Sie mindestens einen Tag."
+
+msgid "Create 1 meeting"
+msgstr "1 Termin erstellen"
+
+msgid "Create {0} meetings"
+msgstr "{0} Termine erstellen"
+
+msgid "Date and time"
+msgstr "Datum und Uhrzeit"
+
+msgid "Dates"
+msgstr "Daten"
+
+msgid "Days"
+msgstr "Tage"
+
+msgid "Doodle"
+msgstr "Anmeldung"
+
+msgid "From"
+msgstr "Von"
+
+msgid "Invalid presence"
+msgstr "Ungültige Anwesenheit"
+
+msgid "Mark the rest as present"
+msgstr "Rest als anwesend markieren"
+
+msgid "Meeting"
+msgstr "Termin"
+
+msgid "Members can register from the home page"
+msgstr "Mitglieder können sich auf der Startseite anmelden"
+
+msgid "More options"
+msgstr "Weitere Optionen"
+
+msgid "New meeting"
+msgstr "Neuer Termin"
+
+msgid "New meeting(s)"
+msgstr "Neue(r) Termin(e)"
+
+msgid "Next"
+msgstr "Nächster"
+
+msgid "No active member in this team"
+msgstr "Kein aktives Mitglied in diesem Team"
+
+msgid "No active team"
+msgstr "Kein aktives Team"
+
+msgid "No attendance yet"
+msgstr "Noch keine Anwesenheiten"
+
+msgid "No past meeting"
+msgstr "Kein vergangener Termin"
+
+msgid "No upcoming meeting"
+msgstr "Kein bevorstehender Termin"
+
+msgid "Not in the team anymore"
+msgstr "Nicht mehr im Team"
+
+msgid "Not set"
+msgstr "Nicht erfasst"
+
+msgid "Once"
+msgstr "Einmalig"
+
+msgid "Other meetings"
+msgstr "Andere Termine"
+
+msgid "Previous"
+msgstr "Vorheriger"
+
+msgid "Repeat"
+msgstr "Wiederholung"
+
+msgid "Save"
+msgstr "Speichern"
+
+msgid "Show more"
+msgstr "Mehr anzeigen"
+
+msgid "Take attendance"
+msgstr "Anwesenheit erfassen"
+
+msgid "Tap a date to exclude it (holidays, ...)."
+msgstr "Tippen Sie auf ein Datum, um es auszuschliessen (Ferien, ...)."
+
+msgid "The attendance could not be saved. Check your connection and try again."
+msgstr "Die Anwesenheit konnte nicht gespeichert werden. Prüfen Sie Ihre Verbindung und versuchen Sie es erneut."
+
+msgid "Time"
+msgstr "Uhrzeit"
+
+msgid "To"
+msgstr "Bis"
+
+msgid "Training"
+msgstr "Training"
+
+msgid "Upcoming"
+msgstr "Bevorstehend"
+
+msgid "Weekly"
+msgstr "Wöchentlich"
+
+msgid "All"
+msgstr "Alle"
+
+msgid "Mon"
+msgstr "Mo"
+
+msgid "Tue"
+msgstr "Di"
+
+msgid "Wed"
+msgstr "Mi"
+
+msgid "Thu"
+msgstr "Do"
+
+msgid "Fri"
+msgstr "Fr"
+
+msgid "Sat"
+msgstr "Sa"
+
+msgid "Sun"
+msgstr "So"
+
+msgid "No meeting has been saved."
+msgstr "Es wurde kein Termin gespeichert."
+
+msgid "You are now registered"
+msgstr "Sie sind jetzt angemeldet"
+
+msgid "{0} meeting has been saved."
+msgid_plural "{0} meetings have been saved."
+msgstr[0] "{0} Termin wurde gespeichert."
+msgstr[1] "{0} Termine wurden gespeichert."

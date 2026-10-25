@@ -18,6 +18,31 @@ use Cake\ORM\Entity;
  */
 class Presence extends Entity
 {
+  public const NONE = -1;
+  public const ABSENT = 0;
+  public const PRESENT = 1;
+  public const EXCUSED = 2;
+  public const LATE = 3;
+
+  /**
+   * States a member can be set to, in the display order of the attendance page
+   * @return array [state => ['key' => css suffix, 'label' => text, 'icon' => material symbol]]
+   */
+  public static function states(): array
+  {
+    return [
+      self::PRESENT => ['key' => 'present', 'label' => __('Present'), 'icon' => 'check'],
+      self::ABSENT => ['key' => 'absent', 'label' => __('Absent'), 'icon' => 'close'],
+      self::EXCUSED => ['key' => 'excused', 'label' => __('Excused'), 'icon' => 'event_busy'],
+      self::LATE => ['key' => 'late', 'label' => __('Late'), 'icon' => 'schedule'],
+    ];
+  }
+
+  public static function isValidState(int $state): bool
+  {
+    return isset(self::states()[$state]);
+  }
+
   /**
    * Fields that can be mass assigned using newEntity() or patchEntity().
    *

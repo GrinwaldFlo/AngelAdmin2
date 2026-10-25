@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
 namespace App\Controller;
-use Cake\ORM\TableRegistry;
+use App\Model\Entity\Presence;
+use Cake\Http\Exception\BadRequestException;
 
 /**
  * Presences Controller
@@ -12,34 +13,29 @@ use Cake\ORM\TableRegistry;
  */
 class PresencesController extends AppController
 {
-  public function beforeFilter(\Cake\Event\EventInterface $event)
+  /**
+   * Set the state of one or several members for a meeting (called from the attendance page)
+   * POST data: member_id (int or int[]), state (Presence constant)
+   * @return \Cake\Http\Response JSON with the new counters of the meeting
+   */
+  public function setPresence(int|null $meetingId = null)
   {
-    parent::beforeFilter($event);
-    // Configure the login action to not require authentication, preventing
-    // the infinite redirect loop issue
-    $this->Authentication->addUnauthenticatedActions(['setPresence']);
-  }
+    $this->request->allowMethod(['post']);
+    $meeting = $this->Presences->Meetings->get($meetingId);
+    $this->Authorization->authorize($meeting, 'setPresence');
 
-  public function setPresence(int|null $meetingId = null, int|null $memberId = null, $state = null)
-  {
-    $this->Authorization->skipAuthorization();
-
-    if ($meetingId == null || $memberId == null || $state == null)
-      return;
-
-    $meetings = TableRegistry::getTableLocator()->get('Meetings');
-    $meeting = $meetings->findById($meetingId)->firstOrFail();
-    $presence = $this->Presences->find('all')->where(['member_id' => $memberId])->where(['meeting_id' => $meetingId])->first();
-
-    if (empty($presence)) {
-      $presence = $this->Presences->newEmptyEntity();
-      $presence->meeting_id = $meetingId;
-      $presence->member_id = $memberId;
+    $state = (int)$this->request->getData('state');
+    $memberIds = array_values(array_filter(array_map('intval', (array)$this->request->getData('member_id'))));
+    if (!Presence::isValidState($state) || empty($memberIds)) {
+      throw new BadRequestException(__('Invalid presence'));
     }
-    $presence->state = $state;
 
-    $this->Presences->save($presence);
-    $meeting->CheckPresences(true);
+    $saved = $this->Presences->setState($meeting, $memberIds, $state);
+
+    return $this->response
+      ->withStatus($saved ? 200 : 422)
+      ->withType('application/json')
+      ->withStringBody(json_encode(['saved' => $saved, 'counts' => $meeting->counts()]));
   }
 
 }

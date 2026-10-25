@@ -1841,3 +1841,160 @@ msgstr "{0} asistencias registradas"
 msgid "{0} years"
 msgstr "{0} años"
 
+msgid "Are you sure you want to delete {0}?"
+msgstr "¿Está seguro de que desea eliminar {0}?"
+
+msgid "Big event"
+msgstr "Gran evento"
+
+msgid "Choose a team"
+msgstr "Elija un equipo"
+
+msgid "Choose at least one date and a time."
+msgstr "Elija al menos una fecha y una hora."
+
+msgid "Choose at least one day."
+msgstr "Elija al menos un día."
+
+msgid "Create 1 meeting"
+msgstr "Crear 1 reunión"
+
+msgid "Create {0} meetings"
+msgstr "Crear {0} reuniones"
+
+msgid "Date and time"
+msgstr "Fecha y hora"
+
+msgid "Dates"
+msgstr "Fechas"
+
+msgid "Days"
+msgstr "Días"
+
+msgid "Doodle"
+msgstr "Inscripción"
+
+msgid "From"
+msgstr "Desde"
+
+msgid "Invalid presence"
+msgstr "Asistencia no válida"
+
+msgid "Mark the rest as present"
+msgstr "Marcar el resto presente"
+
+msgid "Meeting"
+msgstr "Reunión"
+
+msgid "Members can register from the home page"
+msgstr "Los miembros pueden inscribirse desde la página de inicio"
+
+msgid "More options"
+msgstr "Más opciones"
+
+msgid "New meeting"
+msgstr "Nueva reunión"
+
+msgid "New meeting(s)"
+msgstr "Nueva(s) reunión(es)"
+
+msgid "Next"
+msgstr "Siguiente"
+
+msgid "No active member in this team"
+msgstr "Ningún miembro activo en este equipo"
+
+msgid "No active team"
+msgstr "Ningún equipo activo"
+
+msgid "No attendance yet"
+msgstr "Aún sin asistencia"
+
+msgid "No past meeting"
+msgstr "Ninguna reunión pasada"
+
+msgid "No upcoming meeting"
+msgstr "Ninguna reunión próxima"
+
+msgid "Not in the team anymore"
+msgstr "Ya no está en el equipo"
+
+msgid "Not set"
+msgstr "Sin indicar"
+
+msgid "Once"
+msgstr "Una vez"
+
+msgid "Other meetings"
+msgstr "Otras reuniones"
+
+msgid "Previous"
+msgstr "Anterior"
+
+msgid "Repeat"
+msgstr "Repetición"
+
+msgid "Save"
+msgstr "Guardar"
+
+msgid "Show more"
+msgstr "Mostrar más"
+
+msgid "Take attendance"
+msgstr "Pasar lista"
+
+msgid "Tap a date to exclude it (holidays, ...)."
+msgstr "Toque una fecha para excluirla (vacaciones, ...)."
+
+msgid "The attendance could not be saved. Check your connection and try again."
+msgstr "No se pudo guardar la asistencia. Compruebe su conexión e inténtelo de nuevo."
+
+msgid "Time"
+msgstr "Hora"
+
+msgid "To"
+msgstr "Hasta"
+
+msgid "Training"
+msgstr "Entrenamiento"
+
+msgid "Upcoming"
+msgstr "Próximas"
+
+msgid "Weekly"
+msgstr "Semanal"
+
+msgid "All"
+msgstr "Todos"
+
+msgid "Mon"
+msgstr "Lun"
+
+msgid "Tue"
+msgstr "Mar"
+
+msgid "Wed"
+msgstr "Mié"
+
+msgid "Thu"
+msgstr "Jue"
+
+msgid "Fri"
+msgstr "Vie"
+
+msgid "Sat"
+msgstr "Sáb"
+
+msgid "Sun"
+msgstr "Dom"
+
+msgid "No meeting has been saved."
+msgstr "No se ha guardado ninguna reunión."
+
+msgid "You are now registered"
+msgstr "Ahora está inscrito"
+
+msgid "{0} meeting has been saved."
+msgid_plural "{0} meetings have been saved."
+msgstr[0] "{0} reunión se ha guardado."
+msgstr[1] "{0} reuniones se han guardado."

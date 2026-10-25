@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 namespace App\Model\Table;
+use App\Model\Entity\Meeting;
+use App\Model\Entity\Presence;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -30,6 +32,10 @@ use Cake\Validation\Validator;
  */
 class MeetingsTable extends Table
 {
+  public const FILTER_PAST = 1;
+  public const FILTER_TODAY = 2;
+  public const FILTER_UPCOMING = 3;
+
   /**
    * Initialize method
    *
@@ -110,15 +116,17 @@ class MeetingsTable extends Table
       $query = $query->select($columns)->distinct($columns); */
 
     //************************************** Member status **************************************
+    // Today's meetings stay in "upcoming" for the whole day
+    $today = new \DateTime('today');
     switch ($options['meetingFilter']) {
-      case 1: // past
-        $query->where(['Meetings.meeting_date <' => new \DateTime()]);
+      case self::FILTER_PAST:
+        $query->where(['Meetings.meeting_date <' => $today]);
         break;
-      case 2: // Now
-        $query->where(['DATE(Meetings.meeting_date)' => (new \DateTime())->format('Y-m-d')]);
+      case self::FILTER_TODAY:
+        $query->where(['Meetings.meeting_date >=' => $today, 'Meetings.meeting_date <' => new \DateTime('tomorrow')]);
         break;
-      case 3: // Futur
-        $query->where(['Meetings.meeting_date >' => new \DateTime()]);
+      case self::FILTER_UPCOMING:
+        $query->where(['Meetings.meeting_date >=' => $today]);
         break;
     }
 
@@ -139,4 +147,51 @@ class MeetingsTable extends Table
     return $query; //->team(['Members.id']);
   }
 
+
+  /**
+   * Members to show on the attendance page: active team members plus anyone already having a presence
+   * @param \App\Model\Entity\Meeting $meeting with presences.member loaded
+   * @param iterable $teamMembers Active members of the meeting's team
+   * @return array list of ['id', 'name', 'state', 'inTeam'] sorted by name, team members first
+   */
+  public function attendanceList(Meeting $meeting, iterable $teamMembers): array
+  {
+    $list = [];
+    foreach ($teamMembers as $member) {
+      $list[$member->id] = ['id' => $member->id, 'name' => $member->FullNameShort, 'state' => Presence::NONE, 'inTeam' => true];
+    }
+    foreach ($meeting->presences as $presence) {
+      if (isset($list[$presence->member_id])) {
+        $list[$presence->member_id]['state'] = $presence->state;
+      } elseif ($presence->member !== null) {
+        $list[$presence->member_id] = ['id' => $presence->member_id, 'name' => $presence->member->FullNameShort, 'state' => $presence->state, 'inTeam' => false];
+      }
+    }
+
+    usort($list, fn($a, $b) => [!$a['inTeam'], mb_strtolower($a['name'])] <=> [!$b['inTeam'], mb_strtolower($b['name'])]);
+    return $list;
+  }
+
+  /**
+   * Previous and next meetings of the same team
+   * @return array ['prev' => Meeting|null, 'next' => Meeting|null]
+   */
+  public function neighbours(Meeting $meeting): array
+  {
+    $sameTeam = fn() => $this->find()->where(['team_id' => $meeting->team_id, 'Meetings.id !=' => $meeting->id]);
+    return [
+      'prev' => $sameTeam()
+        ->where(['OR' => [
+          'meeting_date <' => $meeting->meeting_date,
+          'AND' => ['meeting_date' => $meeting->meeting_date, 'Meetings.id <' => $meeting->id],
+        ]])
+        ->orderBy(['meeting_date' => 'DESC', 'Meetings.id' => 'DESC'])->first(),
+      'next' => $sameTeam()
+        ->where(['OR' => [
+          'meeting_date >' => $meeting->meeting_date,
+          'AND' => ['meeting_date' => $meeting->meeting_date, 'Meetings.id >' => $meeting->id],
+        ]])
+        ->orderBy(['meeting_date' => 'ASC', 'Meetings.id' => 'ASC'])->first(),
+    ];
+  }
 }

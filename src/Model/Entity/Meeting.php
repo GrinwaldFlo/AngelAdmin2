@@ -54,21 +54,43 @@ class Meeting extends Entity
     return __('{0}/{1}/{2}/{3}', $this->present, $this->absent, $this->excused, $this->late); // $this->_fields['first_name'] . ' ' . $this->_fields['last_name'];
   }
 
+  /**
+   * Number of members by state, recomputed only when the cached counters are unknown
+   * @return array [Presence::PRESENT => n, Presence::ABSENT => n, Presence::EXCUSED => n, Presence::LATE => n]
+   */
+  public function counts(): array
+  {
+    $this->CheckPresences(false);
+    return [
+      Presence::PRESENT => (int)$this->present,
+      Presence::ABSENT => (int)$this->absent,
+      Presence::EXCUSED => (int)$this->excused,
+      Presence::LATE => (int)$this->late,
+    ];
+  }
+
   public function CheckPresences($force)
   {
     if (!$force && $this->present != -1 && $this->absent != -1 && $this->excused != -1 && $this->late != -1)
     {
       return;
     }
-    $meetings = TableRegistry::getTableLocator()->get('Meetings');
-    
     $presences = TableRegistry::getTableLocator()->get('Presences');
-    $this->present = $presences->find('all', conditions: ['Presences.meeting_id =' => $this->id, 'Presences.state =' => 1])->count();
-    $this->absent = $presences->find('all', conditions: ['Presences.meeting_id =' => $this->id, 'Presences.state =' => 0])->count();
-    $this->excused = $presences->find('all', conditions: ['Presences.meeting_id =' => $this->id, 'Presences.state =' => 2])->count();
-    $this->late = $presences->find('all', conditions: ['Presences.meeting_id =' => $this->id, 'Presences.state =' => 3])->count();
-    
-    $meetings->save($this);
+    $query = $presences->find();
+    $rows = $query->select(['state', 'nb' => $query->func()->count('*')])
+      ->where(['meeting_id' => $this->id])
+      ->groupBy(['state'])
+      ->disableHydration()
+      ->all()
+      ->combine('state', 'nb')
+      ->toArray();
+
+    $this->present = (int)($rows[Presence::PRESENT] ?? 0);
+    $this->absent = (int)($rows[Presence::ABSENT] ?? 0);
+    $this->excused = (int)($rows[Presence::EXCUSED] ?? 0);
+    $this->late = (int)($rows[Presence::LATE] ?? 0);
+
+    TableRegistry::getTableLocator()->get('Meetings')->save($this);
   }
 
 }

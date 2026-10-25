@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace App\Model\Table;
 use Cake\ORM\Query;
+use App\Model\Entity\Meeting;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -112,5 +113,32 @@ class PresencesTable extends Table
       $result[$row['team_id']][$row['state']] = (int)$row['nb'];
     }
     return $result;
+  }
+
+  /**
+   * Set the state of members for a meeting (creates the missing presences) and refresh the meeting counters
+   * @param \App\Model\Entity\Meeting $meeting
+   * @param int[] $memberIds
+   * @param int $state One of the Presence constants
+   * @return bool false if one presence could not be saved
+   */
+  public function setState(Meeting $meeting, array $memberIds, int $state): bool
+  {
+    $existing = $this->find()
+      ->where(['meeting_id' => $meeting->id, 'member_id IN' => $memberIds ?: [0]])
+      ->all()
+      ->indexBy('member_id')
+      ->toArray();
+
+    $presences = [];
+    foreach ($memberIds as $memberId) {
+      $presence = $existing[$memberId] ?? $this->newEntity(['meeting_id' => $meeting->id, 'member_id' => $memberId]);
+      $presence->state = $state;
+      $presences[] = $presence;
+    }
+
+    $saved = $this->saveMany($presences) !== false;
+    $meeting->CheckPresences(true);
+    return $saved;
   }
 }
