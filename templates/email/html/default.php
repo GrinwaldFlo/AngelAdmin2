@@ -17,5 +17,5 @@
 $content = explode("\n", $content);
 
 foreach ($content as $line) :
-    echo '<p> ' . h($line) . "</p>\n";
+    echo '<p> ' . $line . "</p>\n";
 endforeach;

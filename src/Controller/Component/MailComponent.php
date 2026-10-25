@@ -74,8 +74,8 @@ class MailComponent extends Component
         continue;
       }
 
-      $myPageUrl = Router::url(['controller' => 'Members', 'action' => 'myPage', $members->ensureHash($item->member)], true);
       try {
+        $myPageUrl = Router::url(['controller' => 'Members', 'action' => 'myPage', $members->ensureHash($item->member)], true);
         $this->deliver(
           $item->email,
           $item->member->FullName,
