@@ -2267,3 +2267,15 @@ msgstr "Nuova email con lo stesso oggetto, contenuto e squadre"
 
 msgid "Recipients"
 msgstr "Destinatari"
+
+msgid "Subject: Request for Sports Funding"
+msgstr "Oggetto: Richiesta di sussidio sportivo"
+
+msgid "Municipal Registry"
+msgstr "Cancelleria comunale"
+
+msgid "Bank details"
+msgstr "Coordinate bancarie"
+
+msgid "Number of members: {0}"
+msgstr "Numero di membri: {0}"

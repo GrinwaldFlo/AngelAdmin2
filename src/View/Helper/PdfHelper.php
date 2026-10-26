@@ -176,57 +176,122 @@ class PdfHelper extends Helper
         $this->pdf->AddPage();
         $this->header($site);
 
-        $txt = "Greffe municipal" . "\r\n" . $city;
-        $this->pdf->SetXY(135, 45);
-        $this->pdf->MultiCell(0, 0, $txt, 0, 'L', false, 2);
+        // Destinataire
+        $this->setFontText(false, false, 10);
+        $this->pdf->SetXY(120, 50);
+        $this->pdf->MultiCell(0, 0, __('Municipal Registry') . "\n" . $city, 0, 'L', false, 1);
 
-        // Facture
-        $this->setFontTitle(1);
-        $this->pdf->SetY(65);
+        // Objet
+        $this->setFontTitle(2, true);
+        $this->pdf->SetY(70);
         $this->pdf->Cell(0, 0, __('Subject: Request for Sports Funding'), 0, 1);
+        $this->pdf->Ln(3);
 
-        $this->pdf->ln(1);
-        $this->setFontText(false);
+        $this->writeContent($contents[1] ?? '');
+        $this->pdf->Ln(2);
+        $this->writeMembersTable($members);
+        $this->pdf->Ln(3);
+        $this->writeContent($contents[2] ?? '');
 
-        $this->pdf->MultiCell(0, 0, $contents[1], 0, 'L', false, 1);
+        // Signature et coordonnées bancaires sur la même page
+        $this->ensureSpace(50);
+        $this->pdf->Ln(5);
+        $this->writeContent($contents[3] ?? '', 120, 'L', true);
 
-        $this->pdf->MultiCell(0, 0, " ", 0, 'L', false, 1);
-        $i = 0;
-        $yOri = 0;
-        $y1 = 0;
-        $y2 = 0;
-        foreach ($members as $member) {
-            if ($i++ % 2 == 0) {
-                $yOri = $this->pdf->GetY();
-                $this->pdf->SetX(30);
-                $this->pdf->MultiCell(70, 0, "- " . $member->FullName . " " . $member->date_birth, 0, 'L', false, 1);
-                $y1 = $this->pdf->GetY();
-            } else {
-                $this->pdf->SetY($yOri);
-                $this->pdf->SetX(100);
-                $this->pdf->MultiCell(70, 0, "- " . $member->FullName . " " . $member->date_birth, 0, 'L', false, 1);
-                $y2 = $this->pdf->GetY();
+        $this->pdf->Ln(6);
+        $this->setFontText(true, false, 10);
+        $this->pdf->Cell(0, 6, __('Bank details'), 0, 1);
+        $this->setFontText(false, false, 10);
+        $this->writeBankDetails($site);
+    }
 
-                if ($y1 > $y2)
-                    $this->pdf->SetY($y1);
-            }
+    /**
+     * Write a text from the Contents table as paragraphs.
+     * HTML (TinyMCE, may contain only entities) is rendered as is; in plain text,
+     * blank lines separate paragraphs and single line breaks are joined unless $keepLines.
+     *
+     * @param string $text
+     * @param float|string $x left position, '' for the current one
+     * @param string $align 'J' justified, 'L' left
+     * @param bool $keepLines keep single line breaks of a plain text
+     */
+    private function writeContent($text, $x = '', $align = 'J', $keepLines = false)
+    {
+        $text = trim(str_replace("\r\n", "\n", $text));
+        if ($text === '') {
+            return;
         }
 
-        $this->pdf->MultiCell(0, 0, " ", 0, 'L', false, 1);
+        if (!preg_match('/<[a-z][^>]*>|&#?[a-z0-9]+;/i', $text)) {
+            $html = '';
+            foreach (preg_split('/\n\s*\n/', $text) as $paragraph) {
+                $lines = array_map(fn($line) => h(trim($line)), explode("\n", trim($paragraph)));
+                $html .= '<p>' . implode($keepLines ? '<br>' : ' ', $lines) . '</p>';
+            }
+            $text = $html;
+        }
 
-        $this->pdf->MultiCell(0, 0, $contents[2], 0, 'L', false, 1);
-        $this->pdf->MultiCell(0, 0, " ", 0, 'L', false, 1);
-        $this->pdf->MultiCell(0, 0, " ", 0, 'L', false, 1);
+        // MultiCell() also stretches the last line of a paragraph, the HTML renderer does not
+        $this->setFontText(false, false, 10);
+        $this->pdf->setHtmlVSpace(['p' => [['h' => 0, 'n' => 0], ['h' => 2.5, 'n' => 1]]]);
+        $this->pdf->writeHTMLCell(0, 0, $x, '', $text, 0, 1, false, true, $align);
+    }
 
-        $this->pdf->SetX(135);
-        $this->pdf->MultiCell(0, 0, $contents[3], 0, 'L', false, 1);
+    private function writeMembersTable($members)
+    {
+        $sortName = fn($member) => $member->last_name . ' ' . $member->first_name;
+        usort($members, fn($a, $b) => strcasecmp($sortName($a), $sortName($b)));
 
-        //    $this->pdf->SetX(30);
-        $this->pdf->MultiCell(0, 0, " ", 0, 'L', false, 1);
-        $this->pdf->MultiCell(0, 0, __('Beneficiary') . ' : ' . $site->account_designation, 0, 'L', false, 1);
-        $this->pdf->MultiCell(0, 0, __('Address') . ' : ' . $site->address . ' ' . $site->postcode . ' ' . $site->city, 0, 'L', false, 1);
-        $this->pdf->MultiCell(0, 0, __('IBAN') . ' : ' . $site->iban, 0, 'L', false, 1);
-        $this->pdf->MultiCell(0, 0, __('BIC') . ' : ' . $site->bic, 0, 'L', false, 1);
+        $w = [12, 75, 35];
+        $x = (210 - array_sum($w)) / 2;
+        $h = 5.5;
+
+        $this->pdf->SetDrawColor(180);
+        $this->pdf->SetLineWidth(0.2);
+        $this->pdf->SetFillColor(225);
+        $this->setFontText(true, false, 10);
+        $this->pdf->SetX($x);
+        $this->pdf->Cell($w[0], $h, 'N°', 'B', 0, 'C', true);
+        $this->pdf->Cell($w[1], $h, __('Name'), 'B', 0, 'L', true);
+        $this->pdf->Cell($w[2], $h, __('Date of birth'), 'B', 1, 'C', true);
+
+        $this->setFontText(false, false, 10);
+        $this->pdf->SetFillColor(245);
+        foreach ($members as $i => $member) {
+            $fill = $i % 2 == 1;
+            $this->pdf->SetX($x);
+            $this->pdf->Cell($w[0], $h, $i + 1, 0, 0, 'C', $fill);
+            $birth = empty($member->date_birth) ? '' : $member->date_birth->format('d.m.Y');
+            $this->pdf->Cell($w[1], $h, $sortName($member), 0, 0, 'L', $fill, '', 1);
+            $this->pdf->Cell($w[2], $h, $birth, 0, 1, 'C', $fill);
+        }
+
+        $this->pdf->SetX($x);
+        $this->pdf->Cell(array_sum($w), $h, __('Number of members: {0}', count($members)), 'T', 1, 'R');
+    }
+
+    private function writeBankDetails($site)
+    {
+        $this->writeLabelValue(__('Beneficiary'), $site->account_designation);
+        $this->writeLabelValue(__('Address'), $site->postcode . ' ' . $site->city);
+        $this->writeLabelValue(__('IBAN'), $site->iban);
+        $this->writeLabelValue(__('BIC'), $site->bic);
+    }
+
+    private function writeLabelValue($label, $value)
+    {
+        $this->pdf->Cell(35, 6, $label . ':', 0, 0);
+        $this->pdf->Cell(0, 6, $value, 0, 1);
+    }
+
+    /**
+     * Start a new page if less than $height mm remain before the bottom margin
+     */
+    private function ensureSpace($height)
+    {
+        if ($this->pdf->GetY() + $height > $this->pdf->getPageHeight() - $this->pdf->getBreakMargin()) {
+            $this->pdf->AddPage();
+        }
     }
 
     public function WriteInvoice($bill)
@@ -283,15 +348,7 @@ class PdfHelper extends Helper
         $this->setFontText(false);
         $this->pdf->MultiCell(0, 0, __('Payments via e-banking save us the cost of processing the inpayment slip.'), 0, 'L', false, 1);
 
-        $this->pdf->Cell(35, 6, __('Beneficiary') . ':', 0, 0);
-        $this->pdf->Cell(50, 6, $bill->site->account_designation, 0, 1);
-        $this->pdf->Cell(35, 6, __('Address') . ':', 0, 0);
-        $this->pdf->Cell(50, 6, $bill->site->address . ' ' . $bill->site->postcode . ' ' . $bill->site->city, 0, 1);
-
-        $this->pdf->Cell(35, 6, __('IBAN') . ':', 0, 0);
-        $this->pdf->Cell(50, 6, $bill->site->iban, 0, 1);
-        $this->pdf->Cell(35, 6, __('BIC') . ':', 0, 0);
-        $this->pdf->Cell(50, 6, $bill->site->bic, 0, 1);
+        $this->writeBankDetails($bill->site);
         $this->pdf->Cell(35, 6, __('Amount') . ':', 0, 0);
         $this->pdf->Cell(50, 6, $bill->amount . ' CHF', 0, 1);
         $this->pdf->Cell(35, 6, __('Description') . ':', 0, 0);

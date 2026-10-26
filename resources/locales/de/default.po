@@ -2167,3 +2167,15 @@ msgstr "Neue E-Mail mit gleichem Betreff, Inhalt und Teams"
 
 msgid "Recipients"
 msgstr "Empfänger"
+
+msgid "Subject: Request for Sports Funding"
+msgstr "Betreff: Antrag auf Sportförderung"
+
+msgid "Municipal Registry"
+msgstr "Gemeindekanzlei"
+
+msgid "Bank details"
+msgstr "Bankverbindung"
+
+msgid "Number of members: {0}"
+msgstr "Anzahl Mitglieder: {0}"
