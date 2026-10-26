@@ -2136,3 +2136,30 @@ msgstr "Datos bancarios"
 
 msgid "Number of members: {0}"
 msgstr "Número de miembros: {0}"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Request for Sports Funding"
+msgstr "Solicitud de subvención deportiva"
+
+msgid "Invalid email address: {0}"
+msgstr "Dirección de correo no válida: {0}"
+
+msgid "The emails have been saved."
+msgstr "Los correos se han guardado."
+
+msgid "Email pack"
+msgstr "Paquete de correos"
+
+msgid "Municipality emails"
+msgstr "Correos de los municipios"
+
+msgid "The email body is empty: add a content with the location \"{0}\"."
+msgstr "El texto del correo está vacío: añade un contenido con la ubicación \"{0}\"."
+
+msgid "The email pack contains one email per city, with its letter attached. Without an email address, the recipient must be added in the email client."
+msgstr "El paquete contiene un correo por municipio, con su carta adjunta. Sin dirección de correo, tendrás que añadir el destinatario en tu cliente de correo."
+
+msgid "Subsidies"
+msgstr "Subvenciones"

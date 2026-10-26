@@ -105,60 +105,6 @@ class MemberListComponent extends Component
     }
 
     /**
-     * Get subventions list with filtering
-     */
-    public function getSubventionsList($pref, $ageFilter)
-    {
-        $controller = $this->getController();
-        
-        $members = $controller->paginate($controller->Members->find(
-            'Members',
-            teamId: $pref->teamId,
-            memberFilter: $pref->memberFilter,
-            siteId: $pref->siteId
-        )->contain('Teams'));
-
-        $membersFilter = [];
-        if ($pref->siteId == null) {
-            $membersFilter = $members;
-        } else {
-            foreach ($members as $member) {
-                if ($controller->memberIsInSite($member, $pref->siteId) && 
-                    $controller->memberYoungerThan($member, $ageFilter)) {
-                    array_push($membersFilter, $member);
-                }
-            }
-        }
-
-        return $this->groupMembersByCity($membersFilter);
-    }
-
-    /**
-     * Group members by city
-     */
-    private function groupMembersByCity($members)
-    {
-        $membersCity = [];
-        $membersCityList = [];
-        
-        foreach ($members as $member) {
-            if (!isset($membersCity[$member->city])) {
-                $membersCity[$member->city] = [];
-                array_push($membersCityList, $member->city);
-            }
-            array_push($membersCity[$member->city], $member);
-        }
-
-        sort($membersCityList);
-
-        return [
-            'membersFilter' => $members,
-            'membersCity' => $membersCity,
-            'membersCityList' => $membersCityList
-        ];
-    }
-
-    /**
      * Get batch register list
      */
     public function getBatchRegisterList($pref)

@@ -65,35 +65,6 @@ class MembersController extends AppController
         $this->set(compact('members', 'pref'));
     }
 
-    public function subventions(int $ageFilter = 0, int $grid = 0)
-    {
-        $this->subventionsCommon($ageFilter, $grid, false);
-    }
-
-    public function subventionsPdf(int $ageFilter = 0)
-    {
-        $this->subventionsCommon($ageFilter, 0, true);
-    }
-
-    public function subventionsCommon(int $ageFilter = 0, int $grid = 0, bool $pdf = false)
-    {
-        $this->Authorization->authorize($this->Members->newEmptyEntity(), 'Edit');
-        $pref = new PrefResult($this, 0, 1, true);
-        $siteId = $pref->siteId;
-
-        $contents = $this->MemberData->getSubventionsContent();
-        $subventionsData = $this->MemberList->getSubventionsList($pref, $ageFilter);
-
-        if ($pdf) {
-            $this->Set("outputType", 'D');
-            $this->Set("outputPath", 'Subventions.pdf');
-            $site = $pref->site;
-            $this->set(compact('subventionsData', 'siteId', 'ageFilter', 'site', 'contents'));
-        } else {
-            $this->set(array_merge($subventionsData, compact('pref', 'ageFilter', 'grid', 'contents')));
-        }
-    }
-
     public function batchRegister(int|null $teamId = null, int|null $memberFilter = null)
     {
         $this->Authorization->authorize($this->Members->newEmptyEntity(), 'viewall');

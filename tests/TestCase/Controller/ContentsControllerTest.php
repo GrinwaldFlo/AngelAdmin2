@@ -25,7 +25,19 @@ class ContentsControllerTest extends TestCase
         'app.Contents',
         'app.Teams',
         'app.Sites',
+        'app.Members',
+        'app.Users',
+        'app.Roles',
+        'app.TeamsMembers',
+        'app.Configurations',
     ];
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->enableCsrfToken();
+        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1)]);
+    }
 
     /**
      * Test index method
@@ -54,7 +66,12 @@ class ContentsControllerTest extends TestCase
      */
     public function testAdd(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->post('/contents/add', ['text' => 'Hello', 'location' => 12, 'url' => '', 'team_id' => '', 'sort' => 1]);
+        $this->assertRedirect(['action' => 'index']);
+        // No team is saved as 0, the column is not nullable
+        $content = $this->getTableLocator()->get('Contents')->find()->where(['location' => 12])->firstOrFail();
+        $this->assertSame(0, $content->team_id);
+        $this->assertSame('Hello', $content->text);
     }
 
     /**
@@ -64,7 +81,11 @@ class ContentsControllerTest extends TestCase
      */
     public function testEdit(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->post('/contents/edit/1', ['text' => 'Changed', 'location' => 1, 'url' => '', 'team_id' => '', 'sort' => 0]);
+        $this->assertRedirect(['action' => 'index']);
+        $content = $this->getTableLocator()->get('Contents')->get(1);
+        $this->assertSame(0, $content->team_id);
+        $this->assertSame('Changed', $content->text);
     }
 
     /**

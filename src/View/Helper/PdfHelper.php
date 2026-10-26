@@ -1,6 +1,7 @@
 <?php
 /* src/View/Helper/PdfHelper.php */
 namespace App\View\Helper;
+use App\Model\Entity\Content;
 use Cake\View\Helper;
 use Cake\Core\Configure;
 use Sprain\SwissQrBill as QrBill;
@@ -171,6 +172,37 @@ class PdfHelper extends Helper
         $this->pdf->Cell(array_sum($w), 0, '', 'T');
     }
 
+    /**
+     * Create the subsidy requests document, one page (or more) per city
+     *
+     * @param \App\Model\Entity\Site $site
+     * @param array<int, string> $contents texts of the letter by sort
+     * @param array<string, \App\Model\Entity\Member[]> $membersCity members by city
+     * @return \TCPDF
+     */
+    public function createSubventions($site, $contents, $membersCity)
+    {
+        $pdf = new \TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        $this->Init($pdf);
+
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('Angel Admin');
+        $pdf->SetTitle(__('Request for Sports Funding'));
+        $pdf->SetSubject(__('Request for Sports Funding'));
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
+        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+        $pdf->setFontSubsetting(true);
+
+        foreach ($membersCity as $city => $members) {
+            $this->WriteSubvention($city, $site, $contents, $members);
+        }
+        return $pdf;
+    }
+
     public function WriteSubvention($city, $site, $contents, $members)
     {
         $this->pdf->AddPage();
@@ -222,7 +254,7 @@ class PdfHelper extends Helper
             return;
         }
 
-        if (!preg_match('/<[a-z][^>]*>|&#?[a-z0-9]+;/i', $text)) {
+        if (!Content::isHtml($text)) {
             $html = '';
             foreach (preg_split('/\n\s*\n/', $text) as $paragraph) {
                 $lines = array_map(fn($line) => h(trim($line)), explode("\n", trim($paragraph)));

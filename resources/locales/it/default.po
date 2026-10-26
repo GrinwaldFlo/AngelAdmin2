@@ -2279,3 +2279,30 @@ msgstr "Coordinate bancarie"
 
 msgid "Number of members: {0}"
 msgstr "Numero di membri: {0}"
+
+msgid "Cancel"
+msgstr "Annulla"
+
+msgid "Request for Sports Funding"
+msgstr "Richiesta di sussidio sportivo"
+
+msgid "Invalid email address: {0}"
+msgstr "Indirizzo email non valido: {0}"
+
+msgid "The emails have been saved."
+msgstr "Gli indirizzi email sono stati salvati."
+
+msgid "Email pack"
+msgstr "Pacchetto email"
+
+msgid "Municipality emails"
+msgstr "Email dei comuni"
+
+msgid "The email body is empty: add a content with the location \"{0}\"."
+msgstr "Il testo dell'email è vuoto: aggiungi un contenuto con la posizione \"{0}\"."
+
+msgid "The email pack contains one email per city, with its letter attached. Without an email address, the recipient must be added in the email client."
+msgstr "Il pacchetto contiene un'email per comune, con la sua lettera allegata. Senza indirizzo email, dovrai aggiungere il destinatario nel tuo client email."
+
+msgid "Subsidies"
+msgstr "Sussidi"

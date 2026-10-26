@@ -86,8 +86,6 @@ class ContentsController extends AppController
     if ($this->request->is(['patch', 'post', 'put']))
     {
       $content = $this->Contents->patchEntity($content, $this->request->getData());
-      if($content->team_id == null)
-        $content->team_id = 0;
       if ($this->Contents->save($content))
       {
         $this->Flash->success(__('The content has been saved.'));

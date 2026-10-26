@@ -171,18 +171,4 @@ class MemberDataComponent extends Component
             $fieldReg->save($nf);
         }
     }
-
-    /**
-     * Get subventions content
-     */
-    public function getSubventionsContent()
-    {
-        $contentsTable = TableRegistry::getTableLocator()->get('Contents');
-        $contentsTmp = $contentsTable->find('all')->where(['location =' => 11]);
-        $contents = [];
-        foreach ($contentsTmp as $value) {
-            $contents[$value->sort] = $value->text;
-        }
-        return $contents;
-    }
 }
