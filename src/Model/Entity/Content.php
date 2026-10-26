@@ -17,6 +17,9 @@ use Cake\ORM\Entity;
  */
 class Content extends Entity
 {
+  public const SUBVENTIONS = 11;
+  public const EMAIL_SUBVENTIONS = 12;
+
   /**
    * Fields that can be mass assigned using newEntity() or patchEntity().
    *
@@ -34,6 +37,14 @@ class Content extends Entity
       'team' => true,
       'sort' => true,
   ];
+  /**
+   * Text saved with TinyMCE is HTML, it may contain only entities (&eacute;) without tags
+   */
+  public static function isHtml(string $text): bool
+  {
+    return (bool)preg_match('/<[a-z][^>]*>|&#?[a-z0-9]+;/i', $text);
+  }
+
   public function getLocationList()
   {
     return [
@@ -48,8 +59,8 @@ class Content extends Entity
         8 => 'Comment event',
         9 => 'Comment big event',
         10 => 'Comment doodle',
-        11 => 'Subventions',
-        
+        self::SUBVENTIONS => 'Subventions',
+        self::EMAIL_SUBVENTIONS => 'Email subventions',
         ];
   }
 

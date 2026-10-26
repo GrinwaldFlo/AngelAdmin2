@@ -2167,3 +2167,42 @@ msgstr "Neue E-Mail mit gleichem Betreff, Inhalt und Teams"
 
 msgid "Recipients"
 msgstr "Empfänger"
+
+msgid "Subject: Request for Sports Funding"
+msgstr "Betreff: Antrag auf Sportförderung"
+
+msgid "Municipal Registry"
+msgstr "Gemeindekanzlei"
+
+msgid "Bank details"
+msgstr "Bankverbindung"
+
+msgid "Number of members: {0}"
+msgstr "Anzahl Mitglieder: {0}"
+
+msgid "Cancel"
+msgstr "Abbrechen"
+
+msgid "Request for Sports Funding"
+msgstr "Antrag auf Sportförderung"
+
+msgid "Invalid email address: {0}"
+msgstr "Ungültige E-Mail-Adresse: {0}"
+
+msgid "The emails have been saved."
+msgstr "Die E-Mail-Adressen wurden gespeichert."
+
+msgid "Email pack"
+msgstr "E-Mail-Paket"
+
+msgid "Municipality emails"
+msgstr "E-Mails der Gemeinden"
+
+msgid "The email body is empty: add a content with the location \"{0}\"."
+msgstr "Der E-Mail-Text ist leer: Füge einen Inhalt mit dem Ort \"{0}\" hinzu."
+
+msgid "The email pack contains one email per city, with its letter attached. Without an email address, the recipient must be added in the email client."
+msgstr "Das Paket enthält eine E-Mail pro Gemeinde mit ihrem Brief als Anhang. Ohne E-Mail-Adresse musst du den Empfänger im E-Mail-Programm ergänzen."
+
+msgid "Subsidies"
+msgstr "Subventionen"

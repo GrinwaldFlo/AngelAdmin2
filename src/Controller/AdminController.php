@@ -2,15 +2,20 @@
 declare(strict_types=1);
 namespace App\Controller;
 use App\Controller\AppController;
+use App\Model\Entity\Content;
 use Cake\Event\EventInterface;
 use Cake\ORM\TableRegistry;
 use Cake\Http\Exception\NotFoundException;
 
+/**
+ * @property \App\Controller\Component\SubventionComponent $Subvention
+ */
 class AdminController extends AppController
 {
     public function initialize(): void
     {
         parent::initialize();
+        $this->loadComponent('Subvention');
 
         $this->Authorization->skipAuthorization();
     }
@@ -170,5 +175,88 @@ class AdminController extends AppController
             : ["Log file not found"];
 
         $this->set(compact('lines', 'type'));
+    }
+
+    public function subventions(int $ageFilter = 0, int $grid = 0)
+    {
+        $this->subventionsCommon($ageFilter, $grid, false);
+    }
+
+    public function subventionsPdf(int $ageFilter = 0)
+    {
+        $this->subventionsCommon($ageFilter, 0, true);
+    }
+
+    private function subventionsCommon(int $ageFilter = 0, int $grid = 0, bool $pdf = false)
+    {
+        $pref = new PrefResult($this, 0, 1, true);
+        $siteId = $pref->siteId;
+
+        $contents = $this->Subvention->getContents();
+        $subventionsData = $this->Subvention->getList($pref, $ageFilter);
+
+        if ($pdf) {
+            $this->Set("outputType", 'D');
+            $this->Set("outputPath", 'Subventions.pdf');
+            $site = $pref->site;
+            $this->set(compact('subventionsData', 'siteId', 'ageFilter', 'site', 'contents'));
+        } else {
+            $this->set(array_merge($subventionsData, compact('pref', 'ageFilter', 'grid', 'contents')));
+        }
+    }
+
+    /**
+     * Email address of the municipality of each city of the subsidy requests
+     */
+    public function subventionEmails(int $ageFilter = 0)
+    {
+        $pref = new PrefResult($this, 0, 1, true);
+        $subventionsData = $this->Subvention->getList($pref, $ageFilter);
+        $counts = array_map('count', $subventionsData['membersCity']);
+        $subventionCities = TableRegistry::getTableLocator()->get('SubventionCities');
+        $emails = $subventionCities->emailsByCity($subventionsData['membersCityList']);
+
+        if ($this->request->is(['post', 'put'])) {
+            foreach ((array)$this->request->getData('cities') as $row) {
+                $emails[(string)($row['city'] ?? '')] = (string)($row['email'] ?? '');
+            }
+            unset($emails['']);
+            $invalid = $subventionCities->saveEmails($emails);
+            if (empty($invalid)) {
+                $this->Flash->success(__('The emails have been saved.'));
+                return $this->redirect(['action' => 'subventions', $ageFilter]);
+            }
+            $this->Flash->error(__('Invalid email address: {0}', implode(', ', $invalid)));
+        }
+
+        $hasBody = !empty($this->Subvention->getContents(Content::EMAIL_SUBVENTIONS));
+        $this->set(compact('emails', 'counts', 'ageFilter', 'hasBody'));
+    }
+
+    /**
+     * Zip of ready to send emails (.eml), one per city with its letter, to import in an email client
+     */
+    public function subventionsEmailPack(int $ageFilter = 0)
+    {
+        $pref = new PrefResult($this, 0, 1, true);
+        $subventionsData = $this->Subvention->getList($pref, $ageFilter);
+        $emails = TableRegistry::getTableLocator()->get('SubventionCities')
+            ->emailsByCity($subventionsData['membersCityList']);
+        $body = implode("\n\n", $this->Subvention->getContents(Content::EMAIL_SUBVENTIONS));
+
+        $zipPath = $this->Subvention->createEmailPack(
+            $pref->site,
+            $subventionsData,
+            $this->Subvention->getContents(),
+            $body,
+            $emails
+        );
+        $zip = file_get_contents($zipPath);
+        unlink($zipPath);
+
+        return $this->response
+            ->withStringBody($zip)
+            ->withType('zip')
+            ->withDownload(__('Subsidies') . '.zip');
     }
 }

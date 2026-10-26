@@ -17,7 +17,7 @@ if ($grid):
         <?php foreach ($membersCity[$city] as $member): ?>
           <tr>
             <td><?= $city ?></td>
-            <td><?= $this->Html->link($member->fullName, ['action' => 'view', $member->id]) ?></td>
+            <td><?= $this->Html->link($member->fullName, ['controller' => 'Members', 'action' => 'view', $member->id]) ?></td>
             <td><?= h($member->date_birth) ?></td>
             <td><?= $member->Age ?></td>
           </tr>
@@ -36,6 +36,9 @@ if ($grid):
       |
       <?= $this->Html->link(__("PDF"), ['action' => 'subventions_pdf', $ageFilter], ['class' => 'btn btn-primary btn-sm']) ?>
       <?= $this->Html->link(__("Grid"), ['action' => 'subventions', $ageFilter, 1], ['class' => 'btn btn-primary btn-sm']) ?>
+      |
+      <?= $this->Html->link(__("Email pack"), ['action' => 'subventions_email_pack', $ageFilter], ['class' => 'btn btn-primary btn-sm']) ?>
+      <?= $this->Html->link(__("Municipality emails"), ['action' => 'subvention_emails', $ageFilter], ['class' => 'btn btn-primary btn-sm']) ?>
     </div>
   </div>
 </div>
@@ -56,7 +59,7 @@ if ($grid):
           <tbody>
             <?php foreach ($membersCity[$city] as $member): ?>
               <tr>
-                <td><?= $this->Html->link($member->fullName, ['action' => 'view', $member->id]) ?></td>
+                <td><?= $this->Html->link($member->fullName, ['controller' => 'Members', 'action' => 'view', $member->id]) ?></td>
                 <td><?= h($member->date_birth) ?></td>
                 <td><?= $member->Age ?></td>
               </tr>
