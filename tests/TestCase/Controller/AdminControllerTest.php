@@ -140,7 +140,7 @@ class AdminControllerTest extends TestCase
     public function testGenerateMembershipAllSitesListsNobody(): void
     {
         $this->selectSecondSite();
-        $this->getTableLocator()->get('Members')->updateAll(['pref_site_id' => 0], ['id' => 1]);
+        $this->getTableLocator()->get('Members')->updateAll(['pref_site_id' => 0, 'language' => 'en'], ['id' => 1]);
 
         $this->loginAdmin();
         $this->enableRetainFlashMessages();
