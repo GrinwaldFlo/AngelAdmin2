@@ -2163,3 +2163,6 @@ msgstr "El paquete contiene un correo por municipio, con su carta adjunta. Sin d
 
 msgid "Subsidies"
 msgstr "Subvenciones"
+
+msgid "Select a site to create membership fees"
+msgstr "Selecciona una ubicación para crear las cuotas"

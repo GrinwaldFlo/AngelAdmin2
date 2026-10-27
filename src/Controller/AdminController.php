@@ -100,9 +100,15 @@ class AdminController extends AppController
     {
         $membersReg = TableRegistry::getTableLocator()->get('Members');
         $billsReg = TableRegistry::getTableLocator()->get('Bills');
-        $pref = new PrefResult($this, $teamId, null, true);
+        // Bills need a real site: the one chosen in the menu, or the only one when the menu is hidden
+        $pref = new PrefResult($this, $teamId, null, count(PrefResult::getSites()) == 1);
+        $site = $pref->site;
 
         if ($this->request->is('post')) {
+            if ($site === null) {
+                $this->Flash->error(__('Select a site to create membership fees'));
+                return $this->redirect(['action' => 'generateMembership']);
+            }
             $result = $this->request->getData();
             $date = array(5);
             $date[1] = new \DateTime();
@@ -117,13 +123,14 @@ class AdminController extends AppController
             foreach ($result['MemberId'] as $memberId => $value) {
                 if ($value == 1) {
                     $member = $membersReg->get($memberId, contain: ['Users', 'Teams']);
+                    $fee = $member->MembershipFee($site->feeMax);
 
                     if ($member->multi_payment > 1) {
                         for ($i = 1; $i <= $member->multi_payment; $i++) {
-                            $billsReg->CreateMembershipFee($this->config, $member, " " . $i . "/" . $member->multi_payment, $date[$i], $member->MembershipFee($this->config['feeMax']) / ($member->multi_payment * 1.0), $pref->siteId);
+                            $billsReg->CreateMembershipFee($this->config, $member, " " . $i . "/" . $member->multi_payment, $date[$i], $fee / ($member->multi_payment * 1.0), $site->id);
                         }
                     } else {
-                        $billsReg->CreateMembershipFee($this->config, $member, "", $date[1], $member->MembershipFee($this->config['feeMax']), $pref->siteId);
+                        $billsReg->CreateMembershipFee($this->config, $member, "", $date[1], $fee, $site->id);
                     }
 
                     $this->Flash->success(__('Membership fee created for ') . ' ' . $member->FullName);
@@ -132,11 +139,16 @@ class AdminController extends AppController
             return $this->redirect(['controller' => 'Bills', 'action' => 'pdf', -1]);
         }
 
-        $members = $this->getMembers($pref->teamId, 1, $pref->siteId);
+        $members = [];
+        if ($site === null) {
+            $this->Flash->error(__('Select a site to create membership fees'));
+        } else {
+            $members = $this->getMembers($pref->teamId, 1, $site->id);
+        }
         $teamId = $pref->teamId;
         $teams = $pref->teams;
 
-        $this->set(compact('members', 'teamId', 'teams'));
+        $this->set(compact('members', 'teamId', 'teams', 'site'));
     }
 
     public function viewLog(string $type = 'debug')

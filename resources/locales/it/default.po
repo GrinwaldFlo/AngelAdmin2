@@ -2306,3 +2306,6 @@ msgstr "Il pacchetto contiene un'email per comune, con la sua lettera allegata. 
 
 msgid "Subsidies"
 msgstr "Sussidi"
+
+msgid "Select a site to create membership fees"
+msgstr "Seleziona una località per creare le quote associative"

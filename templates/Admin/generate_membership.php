@@ -2,6 +2,7 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Member[]|\Cake\Collection\CollectionInterface $members
+ * @var \App\Model\Entity\Site|null $site
  */
 ?>
 <div class="row">
@@ -37,7 +38,7 @@
           <td><?= h($member->TeamString) ?></td>
           <td><?= $member->multi_payment ?></td>
           <td><?=
-            h($member->MembershipFee($config['feeMax']))
+            h($member->MembershipFee($site->feeMax))
             . ($member->coach ? ' ' . __('Coach') : '')
             ?></td>
           <td>
