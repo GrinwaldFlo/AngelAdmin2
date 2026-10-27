@@ -100,6 +100,8 @@ class AdminController extends AppController
     {
         $membersReg = TableRegistry::getTableLocator()->get('Members');
         $billsReg = TableRegistry::getTableLocator()->get('Bills');
+        $pref = new PrefResult($this, $teamId, null, true);
+
         if ($this->request->is('post')) {
             $result = $this->request->getData();
             $date = array(5);
@@ -118,10 +120,10 @@ class AdminController extends AppController
 
                     if ($member->multi_payment > 1) {
                         for ($i = 1; $i <= $member->multi_payment; $i++) {
-                            $billsReg->CreateMembershipFee($this->config, $member, " " . $i . "/" . $member->multi_payment, $date[$i], $member->MembershipFee($this->config['feeMax']) / ($member->multi_payment * 1.0));
+                            $billsReg->CreateMembershipFee($this->config, $member, " " . $i . "/" . $member->multi_payment, $date[$i], $member->MembershipFee($this->config['feeMax']) / ($member->multi_payment * 1.0), $pref->siteId);
                         }
                     } else {
-                        $billsReg->CreateMembershipFee($this->config, $member, "", $date[1], $member->MembershipFee($this->config['feeMax']));
+                        $billsReg->CreateMembershipFee($this->config, $member, "", $date[1], $member->MembershipFee($this->config['feeMax']), $pref->siteId);
                     }
 
                     $this->Flash->success(__('Membership fee created for ') . ' ' . $member->FullName);
@@ -130,18 +132,9 @@ class AdminController extends AppController
             return $this->redirect(['controller' => 'Bills', 'action' => 'pdf', -1]);
         }
 
-
-
-
-        $teamId = $this->getPrefSession('teamId', $teamId, 0);
-
-        $members = $membersReg->find(
-            'Members',
-            teamId: $teamId,
-            memberFilter: 1
-        )->contain('Teams')->orderBy(['first_name' => 'ASC', 'last_name' => 'ASC']);
-
-        $teams = $this->getTeamsActiv();
+        $members = $this->getMembers($pref->teamId, 1, $pref->siteId);
+        $teamId = $pref->teamId;
+        $teams = $pref->teams;
 
         $this->set(compact('members', 'teamId', 'teams'));
     }
