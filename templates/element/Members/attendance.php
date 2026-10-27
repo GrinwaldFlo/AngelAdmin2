@@ -9,13 +9,6 @@
 if (empty($member->presences) || sizeof($member->presences) == 0) {
     return;
 }
-
-function cmp_obj($a, $b): int
-{
-    return ($a->meeting->meeting_date <=> $b->meeting->meeting_date) * -1;
-}
-
-usort($member->presences, "cmp_obj");
 ?>
 <div class="row px-0 mx-0">
     <div class="col px-0 mx-0">
