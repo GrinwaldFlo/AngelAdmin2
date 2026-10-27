@@ -231,7 +231,8 @@ class BillsTableTest extends TestCase
             $member,
             'Extra',
             '2026-01-15',
-            250
+            250,
+            1
         );
 
         $after = $this->Bills->find()->count();
@@ -240,6 +241,7 @@ class BillsTableTest extends TestCase
         $this->assertSame($before + 1, $after);
         $this->assertSame('Membership Fee 2025-2026 Extra', $bill->label);
         $this->assertSame(250, $bill->amount);
+        $this->assertSame(1, $bill->site_id);
     }
 
     /**

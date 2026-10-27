@@ -323,10 +323,11 @@ class BillsTable extends Table
   {
     return $config['feeLabel'] . " " . __("{0}-{1}", $config['year'], $config['year'] + 1);
   }
-  public function CreateMembershipFee($config, $member, $extraLabel, $date, $amount)
+  public function CreateMembershipFee($config, $member, $extraLabel, $date, $amount, $siteId)
   {
     $bill = $this->newEmptyEntity();
     $bill->member_id = $member->id;
+    $bill->site_id = $siteId;
     $bill->label = $this->GetFeeLabel($config);
     if (!empty($extraLabel))
       $bill->label = $bill->label . " " . $extraLabel;

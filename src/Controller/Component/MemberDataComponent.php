@@ -50,10 +50,7 @@ class MemberDataComponent extends Component
             }
         }
 
-        $attendance = [];
-        foreach ($member->presences as $item) {
-            $attendance[$item->Season($config['firstDaySeason'])][$item->id] = $item;
-        }
+        $attendance = $this->buildAttendance($member, $config);
 
         usort($member->fields, fn($a, $b) => $a->field_type->sort <=> $b->field_type->sort);
 
@@ -63,6 +60,22 @@ class MemberDataComponent extends Component
             'title' => $member->fullName,
             'attendance' => $attendance
         ];
+    }
+
+    /**
+     * Group the member presences by season, newest meeting first
+     */
+    private function buildAttendance($member, $config): array
+    {
+        $presences = $member->presences ?? [];
+        usort($presences, fn($a, $b) => $b->meeting->meeting_date <=> $a->meeting->meeting_date);
+
+        $attendance = [];
+        foreach ($presences as $item) {
+            $attendance[$item->Season($config['firstDaySeason'])][$item->id] = $item;
+        }
+
+        return $attendance;
     }
 
     /**
@@ -119,10 +132,7 @@ class MemberDataComponent extends Component
             }
         }
 
-        $attendance = array();
-        foreach ($member->presences as $item) {
-            $attendance[$item->Season($config['firstDaySeason'])][$item->id] = $item;
-        }
+        $attendance = $this->buildAttendance($member, $config);
 
         return [
             'member' => $member,

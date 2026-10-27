@@ -3387,3 +3387,6 @@ msgstr "Le texte de l'email est vide : ajoute un contenu avec l'emplacement \"{0
 
 msgid "The email pack contains one email per city, with its letter attached. Without an email address, the recipient must be added in the email client."
 msgstr "Le pack contient un email par commune, avec sa lettre en pièce jointe. Sans adresse email, il faudra ajouter le destinataire dans ton client email."
+
+msgid "Select a site to create membership fees"
+msgstr "Sélectionne un emplacement pour créer les cotisations"
