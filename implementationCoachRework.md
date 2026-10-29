@@ -35,7 +35,7 @@ Narrows access to only their teams and don't show teams they are not coach or he
 | 16 | Bills | Coaches only **view** bills of their teams. Creating/editing bills stays reserved to `BillEditAll` (the coach role does not get it) |
 | 17 | New member | Coaches can create a new member (`Members/add`) |
 | 18 | Assignment page | `TeamScoped` users can't assign coaches, even with `MemberEditAll` |
-| 19 | Mailings actions | A coach can send/delete any mailing they see, even if it also targets other teams or was created by an admin |
+| 19 | Mailings actions | A coach creates mailings for their teams only, because the send page shows the recipients' email addresses. They can send (`send`/`sendNext`) and `delete` only mailings whose teams are all coached; other listed mailings (admin or multi-team) are read-only in the list |
 
 ## Access model
 
@@ -80,7 +80,7 @@ Legend: **Scoped** = available to coaches, restricted to their teams. **No coach
 | Teams | `addMember`, `removeMember` | `MemberEditAll` | Only on coached teams. `addMember` can search **all active members** (only exception to visibility) |
 | Meetings | `index`, `view`, `add`, `addMultiple`, `edit`, `delete` | `MemberViewAll` / `MemberEditAll` | Only meetings of coached teams |
 | Presences | `setPresence` | `MemberViewAll` | Only meetings of coached teams |
-| Mailings | `index`, `add`, `send`, `sendNext`, `delete` | `Admin` | Opened to coaches. `index` lists mailings targeting at least one coached team (whoever created them). `add` proposes only coached teams. `send`/`sendNext`/`delete` allowed on every listed mailing, even if it also targets non-coached teams |
+| Mailings | `index`, `add`, `send`, `sendNext`, `delete` | `Admin` | Opened to coaches. `index` lists mailings targeting at least one coached team (whoever created them). `add` proposes only coached teams (and saving refuses other teams). "New" from an existing mailing keeps only the coached teams. `send`/`sendNext`/`delete` only when every team of the mailing is coached (the send page lists recipient emails); the action links are hidden otherwise |
 | Bills | `index`, `simple`, `overview`, `view` | `BillViewAll` / own | Read only, bills of members of coached teams |
 
 ### Not available to coaches
@@ -114,6 +114,7 @@ Legend: **Scoped** = available to coaches, restricted to their teams. **No coach
 - `Team::_getCoachs()` reads `teams_coaches` (used by the admin dashboard), with coach / help-coach label.
 - Nav menu (`layout/default.php`): show Members / Meetings / Teams / Bills / "Emails to teams" entries to coaches according to their flags; hide admin-only entries.
 - Teams view: list coaches and help-coaches.
+- Members index (`/members`, `templates/Members/index.php`): a single line above the list, e.g. `Coach: Anna Muller, Marc Rossi · Help coach: Luc Favre` (full names), for the selected team. Hidden when "all teams" is selected. Rendered by a reusable element/helper method (shared with the Teams view) and styled with a CSS class. A label is omitted when its list is empty.
 - **New page `Teams/coaches`** (`MemberEditAll`, not `TeamScoped`): list of all active teams (filtered by selected site), for each team two multi-selects "Coaches" and "Help-coaches" proposing only members with a user account. Linked from the Teams index and the nav menu.
 - Translations: new strings in fr/de/es/it `.po`.
 
