@@ -156,6 +156,60 @@ class CoachAccessTest extends TestCase
         $this->assertResponseNotContains('/members/index/3/1');
     }
 
+    public function testMembersIndexHidesNoTeamFilterForCoaches(): void
+    {
+        $this->loginCoach();
+        $this->get('/members/index/0/1');
+
+        $this->assertResponseOk();
+        $this->assertResponseNotContains('/members/index/0/5');
+    }
+
+    public function testCoachDoesNotSeeOldMembers(): void
+    {
+        $this->addMember(104, [2]);
+        $this->getTableLocator()->get('Members')->updateAll(['active' => false], ['id' => 104]);
+        $this->loginCoach();
+
+        // All members, then alumni
+        $this->get('/members/index/0/0');
+        $this->assertResponseOk();
+        $this->assertResponseContains('First100');
+        $this->assertResponseNotContains('First104');
+        $this->assertResponseNotContains('/members/index/0/2');
+
+        $this->get('/members/index/0/2');
+        $this->assertResponseOk();
+        $this->assertResponseNotContains('First104');
+
+        $this->get('/members/view/104');
+        $this->assertResponseCode(403);
+
+        $this->get('/members/edit/104');
+        $this->assertResponseCode(403);
+    }
+
+    public function testAdminSeesOldMembers(): void
+    {
+        $this->addMember(104, [2]);
+        $this->getTableLocator()->get('Members')->updateAll(['active' => false], ['id' => 104]);
+        $this->login();
+        $this->get('/members/index/0/2');
+
+        $this->assertResponseOk();
+        $this->assertResponseContains('First104');
+        $this->assertResponseContains('/members/index/0/2');
+    }
+
+    public function testMembersIndexShowsNoTeamFilterForOthers(): void
+    {
+        $this->login();
+        $this->get('/members/index/0/1');
+
+        $this->assertResponseOk();
+        $this->assertResponseContains('/members/index/0/5');
+    }
+
     public function testMembersIndexOfOtherTeamFallsBackToCoachedTeams(): void
     {
         $this->loginCoach();
@@ -292,6 +346,26 @@ class CoachAccessTest extends TestCase
         $this->get('/members/new-members');
 
         $this->assertResponseCode(403);
+    }
+
+    public function testFamilyReductionIsAdminOnly(): void
+    {
+        $this->loginCoach();
+        $this->get('/members/family-reduction');
+        $this->assertResponseCode(403);
+
+        $this->getTableLocator()->get('Roles')->updateAll(['TeamScoped' => 0], ['id' => 1]);
+        $this->get('/members/family-reduction');
+        $this->assertResponseCode(403);
+        // Menu link only for the admins
+        $this->get('/members/index/0/1');
+        $this->assertResponseNotContains('/members/family-reduction');
+
+        $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 1], ['id' => 1]);
+        $this->get('/members/family-reduction');
+        $this->assertResponseOk();
+        $this->get('/members/index/0/1');
+        $this->assertResponseContains('/members/family-reduction');
     }
 
     public function testSignaturesIsForbidden(): void
@@ -443,38 +517,66 @@ class CoachAccessTest extends TestCase
         $this->assertResponseNotContains('First100 Last100');
     }
 
-    public function testCoachesPageSavesCoaches(): void
+    public function testCoachesPageListsCoachesWithRemoveButton(): void
+    {
+        $this->login();
+        $this->get('/teams/coaches');
+
+        $this->assertResponseOk();
+        $row = $this->getTableLocator()->get('TeamsCoaches')->find()->firstOrFail();
+        $this->assertResponseContains('/teams/remove-coach/' . $row->id);
+        $this->assertResponseContains('id="team-2"');
+    }
+
+    public function testAddCoach(): void
     {
         $this->addMember(103, [], true);
         $this->login();
-        $this->post('/teams/coaches', ['teams' => [
-            2 => [TeamsCoach::COACH => [''], TeamsCoach::HELP_COACH => ['', '103']],
-            3 => [TeamsCoach::COACH => ['', '1', '103'], TeamsCoach::HELP_COACH => ['']],
-        ]]);
+        $this->post('/teams/add-coach', ['team_id' => 3, 'member_id' => 103, 'type' => TeamsCoach::HELP_COACH]);
 
-        $this->assertRedirect(['controller' => 'Teams', 'action' => 'coaches']);
-        $rows = $this->getTableLocator()->get('TeamsCoaches')->find()
-            ->orderBy(['team_id' => 'ASC', 'member_id' => 'ASC'])
-            ->all()
-            ->map(fn ($row) => [$row->team_id, $row->member_id, $row->type])
-            ->toList();
-        $this->assertSame([
-            [2, 103, TeamsCoach::HELP_COACH],
-            [3, 1, TeamsCoach::COACH],
-            [3, 103, TeamsCoach::COACH],
-        ], $rows);
+        $this->assertRedirect(['controller' => 'Teams', 'action' => 'coaches', '#' => 'team-3']);
+        $this->assertFlashMessage('First103 Last103 is now coach of Seniors.');
+        $this->assertTrue($this->getTableLocator()->get('TeamsCoaches')->exists(['team_id' => 3, 'member_id' => 103, 'type' => TeamsCoach::HELP_COACH]));
     }
 
-    public function testCoachesPageRefusesCoachAndHelpCoachOfSameTeam(): void
+    public function testAddCoachRefusesMemberWithoutAccount(): void
     {
         $this->login();
-        $this->post('/teams/coaches', ['teams' => [
-            2 => [TeamsCoach::COACH => ['1'], TeamsCoach::HELP_COACH => ['1']],
-        ]]);
+        $this->post('/teams/add-coach', ['team_id' => 3, 'member_id' => 100, 'type' => TeamsCoach::COACH]);
 
-        $this->assertResponseOk();
-        $this->assertFlashMessage('The coaches of Juniors could not be saved: a member cannot be coach and help coach of the same team.');
-        // Unchanged
+        $this->assertFlashMessage('The coach could not be added.');
+        $this->assertFalse($this->getTableLocator()->get('TeamsCoaches')->exists(['member_id' => 100]));
+    }
+
+    public function testAddCoachRefusesSameMemberTwice(): void
+    {
+        $this->login();
+        $this->post('/teams/add-coach', ['team_id' => 2, 'member_id' => 1, 'type' => TeamsCoach::HELP_COACH]);
+
+        $this->assertFlashMessage('Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet is already a coach of Juniors.');
+        $this->assertSame(1, $this->getTableLocator()->get('TeamsCoaches')->find()->count());
+    }
+
+    public function testRemoveCoach(): void
+    {
+        $row = $this->getTableLocator()->get('TeamsCoaches')->find()->firstOrFail();
+        $this->login();
+        $this->post('/teams/remove-coach/' . $row->id);
+
+        $this->assertRedirect(['controller' => 'Teams', 'action' => 'coaches', '#' => 'team-2']);
+        $this->assertSame(0, $this->getTableLocator()->get('TeamsCoaches')->find()->count());
+    }
+
+    public function testAddAndRemoveCoachForbiddenToCoaches(): void
+    {
+        $row = $this->getTableLocator()->get('TeamsCoaches')->find()->firstOrFail();
+        $this->addMember(103, [], true);
+        $this->loginCoach();
+        $this->post('/teams/add-coach', ['team_id' => 2, 'member_id' => 103, 'type' => TeamsCoach::COACH]);
+        $this->assertResponseCode(403);
+
+        $this->post('/teams/remove-coach/' . $row->id);
+        $this->assertResponseCode(403);
         $this->assertSame(1, $this->getTableLocator()->get('TeamsCoaches')->find()->count());
     }
 

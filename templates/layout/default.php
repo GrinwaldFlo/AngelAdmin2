@@ -217,7 +217,7 @@ if (Configure::read('debug')) {
                             <?= $curRole->Admin ? $this->Html->link(__('Invoice Templates'), ['controller' => 'BillTemplates', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Subsidies'), ['controller' => 'Admin', 'action' => 'subventions'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $this->Html->link(__('List'), ['controller' => 'Members', 'action' => 'list'], ['class' => 'dropdown-item']); ?>
-                            <?= $this->Html->link(__('Familly discount'), ['controller' => 'Members', 'action' => 'familyReduction'], ['class' => 'dropdown-item']); ?>
+                            <?= $curRole->Admin ? $this->Html->link(__('Familly discount'), ['controller' => 'Members', 'action' => 'familyReduction'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $this->Html->link(__('Birthdays'), ['controller' => 'Members', 'action' => 'birthdays'], ['class' => 'dropdown-item']); ?>
                             <?= $this->Html->link(__('Pictures'), ['controller' => 'Members', 'action' => 'pictures'], ['class' => 'dropdown-item']); ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Log'), ['controller' => 'Admin', 'action' => 'view_log'], ['class' => 'dropdown-item']) : '' ?>

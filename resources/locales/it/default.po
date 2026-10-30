@@ -2322,14 +2322,43 @@ msgstr "Limitato ai gruppi allenati"
 msgid "No active team."
 msgstr "Nessun gruppo attivo."
 
-msgid "The coaches have been saved."
-msgstr "Gli allenatori sono stati salvati."
 
-msgid "The coaches of {0} could not be saved: a member cannot be coach and help coach of the same team."
-msgstr "Non è stato possibile salvare gli allenatori di {0}: un membro non può essere allenatore e allenatore in seconda dello stesso gruppo."
 
 msgid "Only the members having a user account can be chosen. Coaches and help coaches have the same access to their teams."
 msgstr "Possono essere scelti solo i membri con un account utente. Allenatori e allenatori in seconda hanno lo stesso accesso ai loro gruppi."
 
 msgid "This member is in none of your teams: you will not see them until you add them to one of your teams from the Teams page."
 msgstr "Questo membro non è in nessuno dei tuoi gruppi: non lo vedrai finché non lo aggiungi a uno dei tuoi gruppi dalla pagina Gruppi."
+
+msgid "Add"
+msgstr "Aggiungi"
+
+msgid "Remove"
+msgstr "Rimuovi"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "Choose a member"
+msgstr "Scegli un membro"
+
+msgid "No coach"
+msgstr "Nessun allenatore"
+
+msgid "Remove {0} from the coaches of {1}?"
+msgstr "Rimuovere {0} dagli allenatori di {1}?"
+
+msgid "The coach could not be added."
+msgstr "Non è stato possibile aggiungere l'allenatore."
+
+msgid "The coach could not be removed."
+msgstr "Non è stato possibile rimuovere l'allenatore."
+
+msgid "{0} is now coach of {1}."
+msgstr "{0} è ora allenatore di {1}."
+
+msgid "{0} is already a coach of {1}."
+msgstr "{0} è già allenatore di {1}."
+
+msgid "{0} is no longer coach of {1}."
+msgstr "{0} non è più allenatore di {1}."

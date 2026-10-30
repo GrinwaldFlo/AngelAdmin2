@@ -51,35 +51,57 @@ class TeamsCoachesTableTest extends TestCase
 
     public function testTeamIdsOfOnlyActiveTeams(): void
     {
-        $this->assertTrue($this->TeamsCoaches->saveTeamCoaches(2, [TeamsCoach::COACH => [1]]));
-        $this->assertTrue($this->TeamsCoaches->saveTeamCoaches(4, [TeamsCoach::HELP_COACH => [1]]));
+        $this->assertFalse($this->TeamsCoaches->addCoach(2, 1, TeamsCoach::COACH)->hasErrors());
+        $this->assertFalse($this->TeamsCoaches->addCoach(4, 1, TeamsCoach::HELP_COACH)->hasErrors());
 
         $this->assertSame([2], $this->TeamsCoaches->teamIdsOf(1));
         $this->assertSame([], $this->TeamsCoaches->teamIdsOf(999));
     }
 
-    public function testSaveTeamCoachesReplacesCoachesAndClearsCache(): void
+    public function testAddAndRemoveCoachClearsCache(): void
     {
-        $this->TeamsCoaches->saveTeamCoaches(2, [TeamsCoach::COACH => [1]]);
+        $row = $this->TeamsCoaches->addCoach(2, 1, TeamsCoach::COACH);
         $this->assertSame([2], $this->TeamsCoaches->teamIdsOf(1));
 
-        $this->assertTrue($this->TeamsCoaches->saveTeamCoaches(2, [TeamsCoach::COACH => [''], TeamsCoach::HELP_COACH => ['']]));
+        $this->assertTrue($this->TeamsCoaches->delete($row));
         $this->assertSame([], $this->TeamsCoaches->teamIdsOf(1));
-        $this->assertSame(0, $this->TeamsCoaches->find()->count());
     }
 
-    public function testSaveTeamCoachesRefusesSameMemberTwice(): void
+    public function testAddCoachRefusesSameMemberTwice(): void
     {
-        $this->TeamsCoaches->saveTeamCoaches(2, [TeamsCoach::COACH => [1]]);
+        $this->TeamsCoaches->addCoach(2, 1, TeamsCoach::COACH);
 
-        $this->assertFalse($this->TeamsCoaches->saveTeamCoaches(2, [TeamsCoach::COACH => [1], TeamsCoach::HELP_COACH => [1]]));
+        $row = $this->TeamsCoaches->addCoach(2, 1, TeamsCoach::HELP_COACH);
+        $this->assertNotEmpty($row->getError('member_id'));
         // Unchanged
         $this->assertSame([[1, TeamsCoach::COACH]], $this->TeamsCoaches->find()->all()->map(fn ($row) => [$row->member_id, $row->type])->toList());
     }
 
+    public function testAddCoachRefusesInvalidTypeOrMember(): void
+    {
+        $this->assertNotEmpty($this->TeamsCoaches->addCoach(2, 1, 99)->getError('type'));
+        $this->assertNotEmpty($this->TeamsCoaches->addCoach(2, 999, TeamsCoach::COACH)->getError('member_id'));
+        $this->assertSame(0, $this->TeamsCoaches->find()->count());
+    }
+
+    public function testRowsByTeamCoachesFirst(): void
+    {
+        $this->getTableLocator()->get('Members')->insertQuery()
+            ->insert(['id', 'first_name', 'last_name', 'gender_id', 'email', 'email_valid', 'date_arrival', 'hash', 'active'])
+            ->values(['id' => 100, 'first_name' => 'Aaa', 'last_name' => 'Help', 'gender_id' => 1, 'email' => 'a@example.com',
+                'email_valid' => 1, 'date_arrival' => '2026-01-01', 'hash' => sha1('100'), 'active' => true])
+            ->execute();
+        $this->TeamsCoaches->addCoach(2, 100, TeamsCoach::HELP_COACH);
+        $this->TeamsCoaches->addCoach(2, 1, TeamsCoach::COACH);
+
+        $rows = $this->TeamsCoaches->rowsByTeam([2, 3]);
+        $this->assertSame([1, 100], array_map(fn ($row) => $row->member->id, $rows[2]));
+        $this->assertSame([], $rows[3]);
+    }
+
     public function testCoachesOfByType(): void
     {
-        $this->TeamsCoaches->saveTeamCoaches(2, [TeamsCoach::HELP_COACH => [1]]);
+        $this->TeamsCoaches->addCoach(2, 1, TeamsCoach::HELP_COACH);
 
         $coaches = $this->TeamsCoaches->coachesOf(2);
         $this->assertSame([], $coaches[TeamsCoach::COACH]);
@@ -108,7 +130,7 @@ class TeamsCoachesTableTest extends TestCase
 
     public function testTeamScopeOfCoach(): void
     {
-        $this->TeamsCoaches->saveTeamCoaches(2, [TeamsCoach::COACH => [1]]);
+        $this->TeamsCoaches->addCoach(2, 1, TeamsCoach::COACH);
         $coach = $this->user(true);
 
         $this->assertSame([2], TeamScope::teamIds($coach));

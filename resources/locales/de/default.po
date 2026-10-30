@@ -2222,14 +2222,43 @@ msgstr "Auf die trainierten Gruppen beschränkt"
 msgid "No active team."
 msgstr "Keine aktive Gruppe."
 
-msgid "The coaches have been saved."
-msgstr "Die Trainer wurden gespeichert."
 
-msgid "The coaches of {0} could not be saved: a member cannot be coach and help coach of the same team."
-msgstr "Die Trainer von {0} konnten nicht gespeichert werden: ein Mitglied kann nicht Trainer und Hilfstrainer derselben Gruppe sein."
 
 msgid "Only the members having a user account can be chosen. Coaches and help coaches have the same access to their teams."
 msgstr "Nur Mitglieder mit einem Benutzerkonto können gewählt werden. Trainer und Hilfstrainer haben denselben Zugriff auf ihre Gruppen."
 
 msgid "This member is in none of your teams: you will not see them until you add them to one of your teams from the Teams page."
 msgstr "Dieses Mitglied ist in keiner deiner Gruppen: du siehst es erst, wenn du es auf der Seite Gruppen zu einer deiner Gruppen hinzufügst."
+
+msgid "Add"
+msgstr "Hinzufügen"
+
+msgid "Remove"
+msgstr "Entfernen"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "Choose a member"
+msgstr "Wähle ein Mitglied"
+
+msgid "No coach"
+msgstr "Kein Trainer"
+
+msgid "Remove {0} from the coaches of {1}?"
+msgstr "{0} aus den Trainern von {1} entfernen?"
+
+msgid "The coach could not be added."
+msgstr "Der Trainer konnte nicht hinzugefügt werden."
+
+msgid "The coach could not be removed."
+msgstr "Der Trainer konnte nicht entfernt werden."
+
+msgid "{0} is now coach of {1}."
+msgstr "{0} ist jetzt Trainer von {1}."
+
+msgid "{0} is already a coach of {1}."
+msgstr "{0} ist bereits Trainer von {1}."
+
+msgid "{0} is no longer coach of {1}."
+msgstr "{0} ist nicht mehr Trainer von {1}."

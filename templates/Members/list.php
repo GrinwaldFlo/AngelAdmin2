@@ -8,7 +8,9 @@
   <div class="col">
     <div class="members view content">
       <?= $this->Html->link(__('Active'), ['action' => 'list', $teamId, $memberFilter == 1 ? 0 : 1], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 1 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Alumni'), ['action' => 'list', $teamId, $memberFilter == 2 ? 0 : 2], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 2 ? ' pressed' : '')]) ?>
+      <?php if (!$isScoped): // Coaches do not see the old members ?>
+        <?= $this->Html->link(__('Alumni'), ['action' => 'list', $teamId, $memberFilter == 2 ? 0 : 2], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 2 ? ' pressed' : '')]) ?>
+      <?php endif; ?>
       <?= $this->Html->link(__('Membership not paid'), ['action' => 'list', $teamId, $memberFilter == 3 ? 0 : 3], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 3 ? ' pressed' : '')]) ?>
       |
       <?php foreach ($teams as $key => $team): ?>

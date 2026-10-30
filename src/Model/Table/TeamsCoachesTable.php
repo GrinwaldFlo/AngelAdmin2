@@ -110,16 +110,13 @@ class TeamsCoachesTable extends Table
     }
 
     /**
-     * Coaches of teams, sorted by name
+     * Coach assignments of teams with their member, coaches first then help-coaches, sorted by name
      * @param int[] $teamIds
-     * @return array<int, array<int, \App\Model\Entity\Member[]>> members by team id, then by type
+     * @return array<int, \App\Model\Entity\TeamsCoach[]> assignments by team id
      */
-    public function coachesByTeam(array $teamIds): array
+    public function rowsByTeam(array $teamIds): array
     {
-        $result = [];
-        foreach ($teamIds as $teamId) {
-            $result[$teamId] = array_fill_keys(array_keys(TeamsCoach::types()), []);
-        }
+        $result = array_fill_keys($teamIds, []);
         if (empty($teamIds)) {
             return $result;
         }
@@ -127,9 +124,27 @@ class TeamsCoachesTable extends Table
         $rows = $this->find()
             ->contain(['Members'])
             ->where(['TeamsCoaches.team_id IN' => $teamIds])
-            ->orderBy(['Members.first_name' => 'ASC', 'Members.last_name' => 'ASC']);
+            ->orderBy(['TeamsCoaches.type' => 'ASC', 'Members.first_name' => 'ASC', 'Members.last_name' => 'ASC']);
         foreach ($rows as $row) {
-            $result[$row->team_id][$row->type][] = $row->member;
+            $result[$row->team_id][] = $row;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Coaches of teams, sorted by name
+     * @param int[] $teamIds
+     * @return array<int, array<int, \App\Model\Entity\Member[]>> members by team id, then by type
+     */
+    public function coachesByTeam(array $teamIds): array
+    {
+        $result = [];
+        foreach ($this->rowsByTeam($teamIds) as $teamId => $rows) {
+            $result[$teamId] = array_fill_keys(array_keys(TeamsCoach::types()), []);
+            foreach ($rows as $row) {
+                $result[$teamId][$row->type][] = $row->member;
+            }
         }
 
         return $result;
@@ -164,30 +179,14 @@ class TeamsCoachesTable extends Table
     }
 
     /**
-     * Replace the coaches of a team
-     * @param int[] $memberIdsByType member ids by type (TeamsCoach::COACH / HELP_COACH)
-     * @return bool false if a member is given with several types, or if saving fails
+     * Assign a member as coach or help-coach of a team
+     * @return \App\Model\Entity\TeamsCoach saved, or with errors (e.g. the member already coaches the team)
      */
-    public function saveTeamCoaches(int $teamId, array $memberIdsByType): bool
+    public function addCoach(int $teamId, int $memberId, int $type): TeamsCoach
     {
-        $rows = [];
-        foreach (array_keys(TeamsCoach::types()) as $type) {
-            foreach (array_unique(array_map('intval', (array)($memberIdsByType[$type] ?? []))) as $memberId) {
-                if ($memberId <= 0) {
-                    continue;
-                }
-                if (isset($rows[$memberId])) {
-                    return false;
-                }
-                $rows[$memberId] = $this->newEntity(['team_id' => $teamId, 'member_id' => $memberId, 'type' => $type]);
-            }
-        }
+        $row = $this->newEntity(['team_id' => $teamId, 'member_id' => $memberId, 'type' => $type]);
+        $this->save($row);
 
-        return (bool)$this->getConnection()->transactional(function () use ($teamId, $rows) {
-            $this->deleteAll(['team_id' => $teamId]);
-            $this->teamIdsCache = [];
-
-            return empty($rows) || $this->saveMany($rows) !== false;
-        });
+        return $row;
     }
 }

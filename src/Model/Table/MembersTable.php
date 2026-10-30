@@ -464,36 +464,45 @@ class MembersTable extends Table
     }
 
     /**
-     * Keep only the rows whose member is in one of the teams (used to limit the access of coaches)
+     * Keep only the rows whose member is active and in one of the teams (used to limit the access of coaches)
      * @param int[]|null $teamIds null = no restriction
      * @param string $field member id column of the query
      */
-    public function whereInTeams(SelectQuery $query, ?array $teamIds, string $field = 'Members.id'): SelectQuery
+    public function whereActiveInTeams(SelectQuery $query, ?array $teamIds, string $field = 'Members.id'): SelectQuery
     {
         if ($teamIds === null) {
             return $query;
         }
-        $inTeams = $this->Teams->junction()->find()
-            ->select(['TeamsMembers.member_id'])
-            ->where(['TeamsMembers.team_id IN' => $teamIds ?: [0]]);
 
-        return $query->where([$field . ' IN' => $inTeams]);
+        return $query->where([$field . ' IN' => $this->activeIdsInTeams($teamIds)]);
     }
 
     /**
-     * True if the member is in one of the teams
+     * True if the member is active and in one of the teams
      * @param int[]|null $teamIds null = no restriction
      */
-    public function isInTeams(?int $memberId, ?array $teamIds): bool
+    public function isActiveInTeams(?int $memberId, ?array $teamIds): bool
     {
         if ($teamIds === null) {
             return true;
         }
-        if ($memberId === null || empty($teamIds)) {
+        if ($memberId === null) {
             return false;
         }
 
-        return $this->Teams->junction()->exists(['member_id' => $memberId, 'team_id IN' => $teamIds]);
+        return !$this->activeIdsInTeams($teamIds)->where(['Members.id' => $memberId])->all()->isEmpty();
+    }
+
+    /**
+     * Ids of the active members of the teams
+     * @param int[] $teamIds
+     */
+    private function activeIdsInTeams(array $teamIds): SelectQuery
+    {
+        return $this->find()
+            ->select(['Members.id'])
+            ->where(['Members.active' => true])
+            ->innerJoinWith('Teams', fn ($q) => $q->where(['Teams.id IN' => $teamIds ?: [0]]));
     }
 
     public function findwithTeams(Query $query, array $options)

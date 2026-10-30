@@ -140,7 +140,7 @@ class MembersController extends AppController
     public function familyReduction(int|null $teamId = null, int|null $memberFilter = null)
     {
         $this->set("wide", '100');
-        $this->Authorization->authorize($this->Members->newEmptyEntity(), 'viewall');
+        $this->Authorization->authorize($this->Members->newEmptyEntity(), 'admin');
 
         $members2 = $this->MemberList->getFamilyReductionList();
         $teams = $this->getTeamsActiv();

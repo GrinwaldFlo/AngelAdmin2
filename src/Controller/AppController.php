@@ -406,8 +406,8 @@ class AppController extends Controller
         //We never show canceled bills
         $bills->where(['Bills.canceled =' => 0]);
 
-        // Coaches: bills of the members of their teams
-        TableRegistry::getTableLocator()->get('Members')->whereInTeams($bills, $this->getCoachedTeamIds(), 'Bills.member_id');
+        // Coaches: bills of the active members of their teams
+        TableRegistry::getTableLocator()->get('Members')->whereActiveInTeams($bills, $this->getCoachedTeamIds(), 'Bills.member_id');
 
         $bills->where(['Bills.site_id =' => $siteId]);
         return $bills;
@@ -513,11 +513,11 @@ class AppController extends Controller
     }
 
     /**
-     * Coaches: keep only the members of their teams
+     * Coaches: keep only the active members of their teams
      */
     public function scopeMembers(SelectQuery $query): SelectQuery
     {
-        return TableRegistry::getTableLocator()->get('Members')->whereInTeams($query, $this->getCoachedTeamIds());
+        return TableRegistry::getTableLocator()->get('Members')->whereActiveInTeams($query, $this->getCoachedTeamIds());
     }
 
     public function getData($dataType, $param = null)

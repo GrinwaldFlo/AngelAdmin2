@@ -60,11 +60,11 @@ class TeamScope
     }
 
     /**
-     * Member in one of the accessible teams
+     * Active member in one of the accessible teams (coaches do not see the old members)
      * @param \Authorization\IdentityInterface|\App\Model\Entity\User|null $user
      */
     public static function canAccessMember(?object $user, ?int $memberId): bool
     {
-        return TableRegistry::getTableLocator()->get('Members')->isInTeams($memberId, self::teamIds($user));
+        return TableRegistry::getTableLocator()->get('Members')->isActiveInTeams($memberId, self::teamIds($user));
     }
 }

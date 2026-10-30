@@ -160,37 +160,60 @@ class TeamsController extends AppController
     $this->Authorization->authorize($this->Teams->newEmptyEntity(), 'assignCoaches');
     $teamsCoaches = $this->fetchTable('TeamsCoaches');
     $teams = $this->getTeamsActiv($this->getSiteId(), scoped: false);
-
-    if ($this->request->is(['post', 'put'])) {
-      $failed = [];
-      foreach ((array)$this->request->getData('teams') as $teamId => $memberIdsByType) {
-        $teamId = (int)$teamId;
-        if (!isset($teams[$teamId])) {
-          continue;
-        }
-        if (!$teamsCoaches->saveTeamCoaches($teamId, (array)$memberIdsByType)) {
-          $failed[] = $teams[$teamId];
-        }
-      }
-      if (empty($failed)) {
-        $this->Flash->success(__('The coaches have been saved.'));
-
-        return $this->redirect(['action' => 'coaches']);
-      }
-      $this->Flash->error(__('The coaches of {0} could not be saved: a member cannot be coach and help coach of the same team.', implode(', ', $failed)));
-    }
-
-    $coaches = $teamsCoaches->coachesByTeam(array_keys($teams));
+    $coaches = $teamsCoaches->rowsByTeam(array_keys($teams));
     $candidates = $teamsCoaches->candidates();
-    // A coach without account anymore stays selectable, otherwise saving would remove them silently
-    foreach ($coaches as $byType) {
-      foreach ($byType as $members) {
-        foreach ($members as $member) {
-          $candidates[$member->id] ??= $member->fullName;
-        }
+
+    $this->set(compact('teams', 'coaches', 'candidates'));
+  }
+
+  /**
+   * Assign a member (having a user account) as coach or help-coach of an active team
+   * POST data: team_id, member_id, type
+   */
+  public function addCoach()
+  {
+    $this->request->allowMethod(['post']);
+    $this->Authorization->authorize($this->Teams->newEmptyEntity(), 'assignCoaches');
+    $teamsCoaches = $this->fetchTable('TeamsCoaches');
+    $teamId = (int)$this->request->getData('team_id');
+    $memberId = (int)$this->request->getData('member_id');
+    $teams = $this->getTeamsActiv(scoped: false);
+    $candidates = $teamsCoaches->candidates();
+
+    if (!isset($teams[$teamId]) || !isset($candidates[$memberId])) {
+      $this->Flash->error(__('The coach could not be added.'));
+    } else {
+      $row = $teamsCoaches->addCoach($teamId, $memberId, (int)$this->request->getData('type'));
+      if (!$row->hasErrors()) {
+        $this->Flash->success(__('{0} is now coach of {1}.', $candidates[$memberId], $teams[$teamId]));
+      } elseif ($row->getError('member_id')) {
+        $this->Flash->error(__('{0} is already a coach of {1}.', $candidates[$memberId], $teams[$teamId]));
+      } else {
+        $this->Flash->error(__('The coach could not be added.'));
       }
     }
-    $this->set(compact('teams', 'coaches', 'candidates'));
+
+    return $this->redirect(['action' => 'coaches', '#' => 'team-' . $teamId]);
+  }
+
+  /**
+   * Remove a coach or help-coach from a team
+   * @param int|null $id teams_coaches id
+   */
+  public function removeCoach(int|null $id = null)
+  {
+    $this->request->allowMethod(['post', 'delete']);
+    $this->Authorization->authorize($this->Teams->newEmptyEntity(), 'assignCoaches');
+    $teamsCoaches = $this->fetchTable('TeamsCoaches');
+    $row = $teamsCoaches->get($id, contain: ['Members', 'Teams']);
+
+    if ($teamsCoaches->delete($row)) {
+      $this->Flash->success(__('{0} is no longer coach of {1}.', $row->member->fullName, $row->team->name));
+    } else {
+      $this->Flash->error(__('The coach could not be removed.'));
+    }
+
+    return $this->redirect(['action' => 'coaches', '#' => 'team-' . $row->team_id]);
   }
 
   public function addMember(int|null $teamId = null, int|null $memberId = null)

@@ -3403,14 +3403,43 @@ msgstr "Limité aux équipes coachées"
 msgid "No active team."
 msgstr "Aucune équipe active."
 
-msgid "The coaches have been saved."
-msgstr "Les coachs ont été enregistrés."
 
-msgid "The coaches of {0} could not be saved: a member cannot be coach and help coach of the same team."
-msgstr "Les coachs de {0} n'ont pas pu être enregistrés : un membre ne peut pas être coach et aide-coach de la même équipe."
 
 msgid "Only the members having a user account can be chosen. Coaches and help coaches have the same access to their teams."
 msgstr "Seuls les membres ayant un compte utilisateur peuvent être choisis. Les coachs et aide-coachs ont le même accès à leurs équipes."
 
 msgid "This member is in none of your teams: you will not see them until you add them to one of your teams from the Teams page."
 msgstr "Ce membre n'est dans aucune de tes équipes : tu ne le verras pas tant que tu ne l'auras pas ajouté à une de tes équipes depuis la page Équipes."
+
+msgid "Add"
+msgstr "Ajouter"
+
+msgid "Remove"
+msgstr "Retirer"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Choose a member"
+msgstr "Choisis un membre"
+
+msgid "No coach"
+msgstr "Aucun coach"
+
+msgid "Remove {0} from the coaches of {1}?"
+msgstr "Retirer {0} des coachs de {1} ?"
+
+msgid "The coach could not be added."
+msgstr "Le coach n'a pas pu être ajouté."
+
+msgid "The coach could not be removed."
+msgstr "Le coach n'a pas pu être retiré."
+
+msgid "{0} is now coach of {1}."
+msgstr "{0} est maintenant coach de {1}."
+
+msgid "{0} is already a coach of {1}."
+msgstr "{0} est déjà coach de {1}."
+
+msgid "{0} is no longer coach of {1}."
+msgstr "{0} n'est plus coach de {1}."

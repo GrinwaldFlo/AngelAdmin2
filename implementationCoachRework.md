@@ -37,6 +37,7 @@ Narrows access to only their teams and don't show teams they are not coach or he
 | 18 | Assignment page | `TeamScoped` users can't assign coaches, even with `MemberEditAll` |
 | 19 | Mailings actions | A coach creates mailings for their teams only, because the send page shows the recipients' email addresses. They can send (`send`/`sendNext`) and `delete` only mailings whose teams are all coached; other listed mailings (admin or multi-team) are read-only in the list |
 | 20 | Teams edition | Team settings (`Teams/edit`) become `Admin` only. Adding/removing a member to/from a team stays `MemberEditAll` (scoped for coaches) |
+| 21 | Old members | Coaches only see **active** members of their teams: inactive members (`active = 0`) are hidden everywhere (lists, member page/edit, bills). The "Alumni" and "No team" filters are hidden for coaches |
 
 ## Access model
 
@@ -76,7 +77,7 @@ Legend: **Scoped** = available to coaches, restricted to their teams. **No coach
 
 | Controller | Actions | Current check | Change |
 |------------|---------|---------------|--------|
-| Members | `index`, `list`, `listEmail`, `birthdays`, `pictures`, `familyReduction`, `invite`, `batchRegister` | `MemberViewAll` | Team dropdown and members limited to coached teams. "All teams" = all coached teams. `batchRegister` POST also checks the posted `memberId` is in scope (no check today) |
+| Members | `index`, `list`, `listEmail`, `birthdays`, `pictures`, `invite`, `batchRegister` | `MemberViewAll` | Team dropdown and members limited to coached teams. "All teams" = all coached teams. `batchRegister` POST also checks the posted `memberId` is in scope (no check today) |
 | Members | `view` | `MemberViewAll` or own | Only members of coached teams (+ own) |
 | Members | `edit`, `addPhoto`, `addPhotoId` | `MemberEditAll` or own | Only members of coached teams (+ own). Team selector shows all active teams, the coach can add/remove any of them |
 | Members | `add` | `MemberEditAll` | Allowed. A new member is only visible to the coach once in one of their teams |
@@ -92,6 +93,7 @@ Legend: **Scoped** = available to coaches, restricted to their teams. **No coach
 | Controller | Actions | Current check |
 |------------|---------|---------------|
 | Admin | `dashboard`, `newYear`, `resetMembership`, `resetRegistration`, `generateMembership`, `viewLog`, `subventions*` | `Admin` |
+| Members | `familyReduction` | `Admin` (was `MemberViewAll`) |
 | Members | `newMembers` (registration validation, admin only), `signatures` | `MemberViewAll` / `MemberEditAll` |
 | Teams | `add`, `edit` | `Admin` (`edit` was `MemberEditAll`) |
 | Teams | **new** `coaches` | `MemberEditAll` and not `TeamScoped` |
@@ -122,7 +124,7 @@ Legend: **Scoped** = available to coaches, restricted to their teams. **No coach
 - Nav menu (`layout/default.php`): "Emails to teams" for `Admin` or `MemberEditAll`; show Members / Meetings / Teams / Bills entries to coaches according to their flags; hide admin-only entries and entries refused to `TeamScoped` (New members, shop/orders, coach assignment).
 - Teams view: list coaches and help-coaches.
 - Members index (`/members`, `templates/Members/index.php`): a single line above the list, e.g. `Coach: Anna Muller, Marc Rossi · Help coach: Luc Favre` (full names), for the selected team. Hidden when "all teams" is selected. Rendered by a reusable element/helper method (shared with the Teams view) and styled with a CSS class. A label is omitted when its list is empty.
-- **New page `Teams/coaches`** (`MemberEditAll`, not `TeamScoped`): list of all active teams (filtered by selected site), for each team two multi-selects "Coaches" and "Help-coaches" proposing only active members with a user account. A member selected in both lists of the same team is refused (unique `team_id`/`member_id`). Assignments of inactive teams are kept but not shown. Linked from the Teams index and the nav menu.
+- **New page `Teams/coaches`** (`MemberEditAll`, not `TeamScoped`): list of all active teams (filtered by selected site), for each team the list of its coaches and help-coaches with a remove button, and an add form (member dropdown proposing only active members with a user account not already assigned to the team, type dropdown, Add button). A member can only have one type per team (unique `team_id`/`member_id`). Assignments of inactive teams are kept but not shown. Linked from the Teams index and the nav menu.
 - Translations: new strings in fr/de/es/it `.po`.
 
 ## Tests
