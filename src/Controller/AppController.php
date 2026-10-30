@@ -121,6 +121,8 @@ class AppController extends Controller
 
         // Coaches: hide the links refused to them
         $this->set('isScoped', TeamScope::isScoped($this->curUser));
+        $this->set('canAssignCoaches', $this->curUser !== null
+            && $this->Authorization->can($this->fetchTable('Teams')->newEmptyEntity(), 'assignCoaches'));
 
         if ($this->curRole !== null && ($this->curRole->MemberViewAll || $this->curRole->BillViewAll)) {
             $this->set("navSites", PrefResult::getSites());

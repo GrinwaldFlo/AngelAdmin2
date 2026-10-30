@@ -2,6 +2,9 @@
 declare(strict_types=1);
 namespace App\Controller;
 
+use App\Policy\TeamScope;
+use Cake\Http\Exception\ForbiddenException;
+
 /**
  * Teams Controller
  *
@@ -35,9 +38,8 @@ class TeamsController extends AppController
     if ($coachedTeamIds !== null) {
       $teams->where(['Teams.id IN' => $coachedTeamIds ?: [0]]);
     }
-    $canAssignCoaches = $this->Authorization->can($this->Teams->newEmptyEntity(), 'assignCoaches');
 
-    $this->set(compact('teams', 'canAssignCoaches'));
+    $this->set(compact('teams'));
   }
 
   /**
@@ -226,6 +228,10 @@ class TeamsController extends AppController
     $member = $this->Members->get($memberId, [
       'contain' => ['Teams']
     ]);
+    // Coaches do not see the old members, so they cannot add them either
+    if (!$member->active && TeamScope::isScoped($this->curUser)) {
+      throw new ForbiddenException();
+    }
 
     $this->Members->Teams->link($member, [$team]);
     return $this->redirect(['action' => 'view', $teamId]);

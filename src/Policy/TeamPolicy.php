@@ -33,6 +33,6 @@ class TeamPolicy
 
   public function canAssignCoaches(IdentityInterface $user, Team $team)
   {
-    return $user->Role->MemberEditAll && !TeamScope::isScoped($user);
+    return TeamScope::canUnscoped($user, 'MemberEditAll');
   }
 }

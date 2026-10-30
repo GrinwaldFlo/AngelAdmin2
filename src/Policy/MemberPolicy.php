@@ -31,13 +31,13 @@ class MemberPolicy
   // Not for the coaches: pages about all the members (signatures validation)
   public function canEditAll(?IdentityInterface $user, Member $member)
   {
-    return $user !== null && $user->Role->MemberEditAll && !TeamScope::isScoped($user);
+    return TeamScope::canUnscoped($user, 'MemberEditAll');
   }
 
   // Members to validate (without team): not for the coaches
   public function canViewNew(?IdentityInterface $user, Member $member)
   {
-    return $user !== null && $user->Role->MemberViewAll && !TeamScope::isScoped($user);
+    return TeamScope::canUnscoped($user, 'MemberViewAll');
   }
 
   // Same roles as the ones seeing the site (city) menu

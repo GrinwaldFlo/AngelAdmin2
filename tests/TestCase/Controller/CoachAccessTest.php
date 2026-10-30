@@ -417,6 +417,31 @@ class CoachAccessTest extends TestCase
         $this->assertResponseNotContains('/bills/overview');
     }
 
+    public function testMenuShowsCoachesLinkToMemberEditAll(): void
+    {
+        $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0, 'MemberEditAll' => 1], ['id' => 1]);
+        $this->login();
+        $this->get('/members/index/0/1');
+
+        $this->assertResponseOk();
+        $this->assertResponseContains('/teams/coaches');
+    }
+
+    public function testInviteHidesNoTeamFilterForCoaches(): void
+    {
+        $this->loginCoach();
+        $this->get('/members/invite/0/0');
+        $this->assertResponseOk();
+        $this->assertResponseNotContains('/members/invite/0/5');
+        $this->assertResponseNotContains('/members/invite/0/1');
+        $this->assertResponseContains('/members/invite/0/3');
+
+        $this->getTableLocator()->get('Roles')->updateAll(['TeamScoped' => 0], ['id' => 1]);
+        $this->get('/members/invite/0/0');
+        $this->assertResponseContains('/members/invite/0/5');
+        $this->assertResponseContains('/members/invite/0/1');
+    }
+
     public function testBillsOverviewIsForbidden(): void
     {
         $this->loginCoach();
@@ -494,6 +519,28 @@ class CoachAccessTest extends TestCase
 
         $this->assertResponseCode(403);
         $this->assertFalse($this->getTableLocator()->get('TeamsMembers')->exists(['team_id' => 3, 'member_id' => 100]));
+    }
+
+    public function testAddOldMemberToCoachedTeamIsForbidden(): void
+    {
+        $this->addMember(104, [3]);
+        $this->getTableLocator()->get('Members')->updateAll(['active' => false], ['id' => 104]);
+        $this->loginCoach();
+        $this->get('/teams/add-member/2/104');
+
+        $this->assertResponseCode(403);
+        $this->assertFalse($this->getTableLocator()->get('TeamsMembers')->exists(['team_id' => 2, 'member_id' => 104]));
+    }
+
+    public function testAdminAddsOldMemberToTeam(): void
+    {
+        $this->addMember(104, [3]);
+        $this->getTableLocator()->get('Members')->updateAll(['active' => false], ['id' => 104]);
+        $this->login();
+        $this->get('/teams/add-member/2/104');
+
+        $this->assertRedirect(['controller' => 'Teams', 'action' => 'view', 2]);
+        $this->assertTrue($this->getTableLocator()->get('TeamsMembers')->exists(['team_id' => 2, 'member_id' => 104]));
     }
 
     public function testRemoveMemberFromOtherTeamIsForbidden(): void
@@ -652,6 +699,36 @@ class CoachAccessTest extends TestCase
 
         $this->assertResponseCode(403);
         $this->assertSame(2, $this->getTableLocator()->get('Meetings')->get(20)->team_id);
+    }
+
+    public function testCreateMeetingWithoutTeamIsRefused(): void
+    {
+        $this->loginCoach();
+        $this->post('/meetings/add-multiple', ['team_id' => '', 'name' => 'Training', 'mode' => 'once', 'date' => '2026-11-10', 'time' => '18:00']);
+
+        $this->assertResponseOk();
+        $this->assertFlashMessage('The meeting could not be saved.');
+        $this->assertSame(0, $this->getTableLocator()->get('Meetings')->find()->where(['name' => 'Training'])->count());
+    }
+
+    public function testEditMeetingWithoutTeamIsRefused(): void
+    {
+        $this->addMeeting(20, 2);
+        $this->loginCoach();
+        $this->post('/meetings/edit/20', ['team_id' => '']);
+
+        $this->assertResponseOk();
+        $this->assertFlashMessage('The meeting could not be saved.');
+        $this->assertSame(2, $this->getTableLocator()->get('Meetings')->get(20)->team_id);
+    }
+
+    public function testEditMeetingWithoutTeamOfOtherTeamIsForbidden(): void
+    {
+        $this->addMeeting(20, 3);
+        $this->loginCoach();
+        $this->post('/meetings/edit/20', ['team_id' => '']);
+
+        $this->assertResponseCode(403);
     }
 
     // ---------------------------------------------------------------- Mailings

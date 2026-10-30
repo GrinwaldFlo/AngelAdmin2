@@ -21,6 +21,16 @@ class TeamScope
     }
 
     /**
+     * Role permission refused to the scoped roles (pages about all the members: shop, orders, coaches, ...)
+     * @param \Authorization\IdentityInterface|\App\Model\Entity\User|null $user
+     * @param string $permission Role flag, e.g. 'MemberEditAll'
+     */
+    public static function canUnscoped(?object $user, string $permission): bool
+    {
+        return $user !== null && $user->Role->{$permission} && !self::isScoped($user);
+    }
+
+    /**
      * Teams the user can access
      * @param \Authorization\IdentityInterface|\App\Model\Entity\User|null $user
      * @return int[]|null null = all teams, [] = none (coach without team)

@@ -123,6 +123,7 @@ if (Configure::read('debug')) {
 
 <?php if ($isLogged): ?>
     <?php $isScoped ??= false; // coaches: links refused to them are hidden ?>
+    <?php $canAssignCoaches ??= false; ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <a class="navbar-brand" href="#">
             <?=
@@ -205,7 +206,7 @@ if (Configure::read('debug')) {
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <?= $this->Html->link(__('Teams'), ['controller' => 'Teams', 'action' => 'index'], ['class' => 'dropdown-item']); ?>
-                            <?= $curRole->MemberEditAll && !$isScoped ? $this->Html->link(__('Coaches'), ['controller' => 'Teams', 'action' => 'coaches'], ['class' => 'dropdown-item']) : '' ?>
+                            <?= $canAssignCoaches ? $this->Html->link(__('Coaches'), ['controller' => 'Teams', 'action' => 'coaches'], ['class' => 'dropdown-item']) : '' ?>
                             <?= !$isScoped ? $this->Html->link(__('Shop items'), ['controller' => 'ShopItems', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Dashboard'), ['controller' => 'Admin', 'action' => 'dashboard'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Users'), ['controller' => 'Users', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>

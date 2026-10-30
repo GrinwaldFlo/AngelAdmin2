@@ -299,6 +299,34 @@ class MyHelper extends Helper
         return '<span class="' . h($class) . '"' . $style . '>' . h($name) . '</span>';
     }
 
+    /**
+     * Member status filter buttons, a pressed filter links back to 0 (no filter)
+     * Coaches only see the active members of their teams: Active, Alumni and No team are hidden to them
+     * @param array $url Url without the filter, which is appended as last param
+     * @param int|null $memberFilter Current filter
+     * @param int[] $filters Filters to show (1 Active, 2 Alumni, 3 Membership not paid, 4 Non inscrit, 5 No team)
+     */
+    public function memberFilterLinks(array $url, $memberFilter, array $filters = [1, 2, 3]): string
+    {
+        $labels = [1 => __('Active'), 2 => __('Alumni'), 3 => __('Membership not paid'), 4 => __('Non inscrit'), 5 => __('No team')];
+        $scopedHidden = [1, 2, 5];
+        $isScoped = (bool)$this->getView()->get('isScoped', false);
+
+        $links = '';
+        foreach ($filters as $filter) {
+            if ($isScoped && in_array($filter, $scopedHidden, true)) {
+                continue;
+            }
+            $isCurrent = $memberFilter == $filter;
+            $links .= $this->getView()->Html->link(
+                $labels[$filter],
+                array_merge($url, [$isCurrent ? 0 : $filter]),
+                ['class' => 'btn btn-primary btn-sm' . ($isCurrent ? ' pressed' : '')]
+            ) . "\n";
+        }
+        return $links;
+    }
+
     public function teamLinks(PrefResult $pref, string $action): string
     {
         $links = '';

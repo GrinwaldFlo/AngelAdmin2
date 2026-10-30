@@ -16,7 +16,7 @@ class BillPolicy
   // Coaches do not see the overview of all the bills
   public function canOverview(IdentityInterface $user, Bill $bill)
   {
-    return $user->Role->BillViewAll && !TeamScope::isScoped($user);
+    return TeamScope::canUnscoped($user, 'BillViewAll');
   }
 
   public function canEdit(IdentityInterface $user, Bill $bill)
