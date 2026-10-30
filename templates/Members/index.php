@@ -34,6 +34,7 @@ $teams = $pref->teams;
             <?php endif; ?>
             <h3 class="d-inline"><?= __('Members') ?></h3>
             <div class="d-inline"><?= '(' . count($members) . ')' ?></div>
+            <?= $this->element('Teams/coaches_line', compact('teamCoaches')) ?>
             <table class="table table-striped table-hover table-sm" id="membersTable">
                 <thead>
                     <tr>

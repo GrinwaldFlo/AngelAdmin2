@@ -3390,3 +3390,27 @@ msgstr "Le pack contient un email par commune, avec sa lettre en pièce jointe. 
 
 msgid "Select a site to create membership fees"
 msgstr "Sélectionne un emplacement pour créer les cotisations"
+
+msgid "Help coach"
+msgstr "Aide-coach"
+
+msgid "Coaches"
+msgstr "Coachs"
+
+msgid "Limited to coached teams"
+msgstr "Limité aux équipes coachées"
+
+msgid "No active team."
+msgstr "Aucune équipe active."
+
+msgid "The coaches have been saved."
+msgstr "Les coachs ont été enregistrés."
+
+msgid "The coaches of {0} could not be saved: a member cannot be coach and help coach of the same team."
+msgstr "Les coachs de {0} n'ont pas pu être enregistrés : un membre ne peut pas être coach et aide-coach de la même équipe."
+
+msgid "Only the members having a user account can be chosen. Coaches and help coaches have the same access to their teams."
+msgstr "Seuls les membres ayant un compte utilisateur peuvent être choisis. Les coachs et aide-coachs ont le même accès à leurs équipes."
+
+msgid "This member is in none of your teams: you will not see them until you add them to one of your teams from the Teams page."
+msgstr "Ce membre n'est dans aucune de tes équipes : tu ne le verras pas tant que tu ne l'auras pas ajouté à une de tes équipes depuis la page Équipes."

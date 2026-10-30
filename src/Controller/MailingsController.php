@@ -23,10 +23,17 @@ class MailingsController extends AppController
     public function index()
     {
         $this->Authorization->authorize($this->Mailings->newEmptyEntity(), 'send');
-        $mailings = $this->paginate($this->Mailings->find()->orderBy(['Mailings.created' => 'DESC', 'Mailings.id' => 'DESC']));
+        // Coaches: mailings sent to at least one of their teams
+        $query = $this->Mailings->whereForTeams($this->Mailings->find(), $this->getCoachedTeamIds());
+        $mailings = $this->paginate($query->orderBy(['Mailings.created' => 'DESC', 'Mailings.id' => 'DESC']));
         $counts = $this->Mailings->MailingItems->countsByMailing(array_map(fn ($mailing) => $mailing->id, $mailings->toArray()));
+        // Coaches only send or delete the mailings whose teams are all theirs
+        $manageable = [];
+        foreach ($mailings as $mailing) {
+            $manageable[$mailing->id] = $this->Authorization->can($mailing, 'manage');
+        }
 
-        $this->set(compact('mailings', 'counts'));
+        $this->set(compact('mailings', 'counts', 'manageable'));
     }
 
     /**
@@ -38,12 +45,17 @@ class MailingsController extends AppController
         $this->Authorization->authorize($this->Mailings->newEmptyEntity(), 'send');
         $mailing = $this->Mailings->newEmptyEntity();
         $teamIds = [];
+        $teams = $this->getTeamsActiv($this->getSiteId());
+        // Coaches only choose their teams
+        $allowedTeamIds = $this->getCoachedTeamIds();
+        $keepAllowed = fn (array $ids) => $allowedTeamIds === null ? $ids : array_values(array_intersect($ids, $allowedTeamIds));
         if ($sourceId !== null && !$this->request->is('post')) {
             [$mailing, $teamIds] = $this->Mailings->copy($this->Mailings->get($sourceId));
+            $teamIds = $keepAllowed($teamIds);
         }
 
         if ($this->request->is('post')) {
-            $teamIds = array_map('intval', (array)$this->request->getData('team_ids'));
+            $teamIds = $keepAllowed(array_map('intval', (array)$this->request->getData('team_ids')));
             $mailing = $this->Mailings->newForTeams($this->request->getData(), $teamIds);
             if (!$mailing->hasErrors() && $this->Mailings->save($mailing)) {
                 return $this->redirect(['action' => 'send', $mailing->id]);
@@ -51,7 +63,6 @@ class MailingsController extends AppController
             $this->Flash->error(__('The mailing could not be saved.'));
         }
 
-        $teams = $this->getTeamsActiv($this->getSiteId());
         $placeholders = $mailing::placeholders();
         $this->set(compact('mailing', 'teams', 'teamIds', 'placeholders'));
     }
@@ -61,8 +72,8 @@ class MailingsController extends AppController
      */
     public function send(int|null $id = null)
     {
-        $this->Authorization->authorize($this->Mailings->newEmptyEntity(), 'send');
         $mailing = $this->Mailings->get($id);
+        $this->Authorization->authorize($mailing, 'manage');
         $counts = $this->Mailings->MailingItems->countsByMailing([$mailing->id])[$mailing->id];
         $items = $this->Mailings->MailingItems->find()
             ->contain(['Members'])
@@ -80,8 +91,8 @@ class MailingsController extends AppController
     public function delete(int|null $id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $this->Authorization->authorize($this->Mailings->newEmptyEntity(), 'send');
         $mailing = $this->Mailings->get($id);
+        $this->Authorization->authorize($mailing, 'manage');
 
         if ($this->Mailings->MailingItems->countsByMailing([$mailing->id])[$mailing->id]['sent'] > 0) {
             $this->Flash->error(__('Emails of this mailing have already been sent, it cannot be deleted.'));
@@ -103,8 +114,8 @@ class MailingsController extends AppController
     public function sendNext(int|null $id = null)
     {
         $this->request->allowMethod(['post']);
-        $this->Authorization->authorize($this->Mailings->newEmptyEntity(), 'send');
         $mailing = $this->Mailings->get($id);
+        $this->Authorization->authorize($mailing, 'manage');
 
         $result = $this->Mail->sendMailing($mailing, self::CHUNK_SIZE);
 

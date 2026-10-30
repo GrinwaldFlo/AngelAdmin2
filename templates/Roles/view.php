@@ -57,6 +57,10 @@
           <th><?= __x('person', 'Editor') ?></th>
           <td><?= $role->Editor ? __('Yes') : __('No'); ?></td>
         </tr>
+        <tr>
+          <th><?= __('Limited to coached teams') ?></th>
+          <td><?= $role->TeamScoped ? __('Yes') : __('No'); ?></td>
+        </tr>
       </table>
       <div class="related">
         <h4><?= __('Users') ?></h4>

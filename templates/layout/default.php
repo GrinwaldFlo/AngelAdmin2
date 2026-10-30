@@ -122,6 +122,7 @@ if (Configure::read('debug')) {
 <?php endif; ?>
 
 <?php if ($isLogged): ?>
+    <?php $isScoped ??= false; // coaches: links refused to them are hidden ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <a class="navbar-brand" href="#">
             <?=
@@ -165,9 +166,13 @@ if (Configure::read('debug')) {
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMembers">
                             <li><?= $this->Html->link(__('List'), ['controller' => 'Members', 'action' => 'index'], ['class' => 'dropdown-item']); ?></li>
-                            <li><?= $this->Html->link(__('Signatures validation'), ['controller' => 'Members', 'action' => 'signatures'], ['class' => 'dropdown-item']); ?></li>
+                            <?php if (!$isScoped): ?>
+                                <li><?= $this->Html->link(__('Signatures validation'), ['controller' => 'Members', 'action' => 'signatures'], ['class' => 'dropdown-item']); ?></li>
+                            <?php endif; ?>
                             <li><?= $this->Html->link(__('Invite'), ['controller' => 'Members', 'action' => 'invite'], ['class' => 'dropdown-item']); ?></li>
-                            <li><?= $this->Html->link(__('Ordered items'), ['controller' => 'MemberOrders', 'action' => 'index'], ['class' => 'dropdown-item']); ?></li>
+                            <?php if (!$isScoped): ?>
+                                <li><?= $this->Html->link(__('Ordered items'), ['controller' => 'MemberOrders', 'action' => 'index'], ['class' => 'dropdown-item']); ?></li>
+                            <?php endif; ?>
                         </ul>
                     </li>
                 <?php endif; ?>
@@ -200,12 +205,13 @@ if (Configure::read('debug')) {
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <?= $this->Html->link(__('Teams'), ['controller' => 'Teams', 'action' => 'index'], ['class' => 'dropdown-item']); ?>
-                            <?= $this->Html->link(__('Shop items'), ['controller' => 'ShopItems', 'action' => 'index'], ['class' => 'dropdown-item']); ?>
+                            <?= $curRole->MemberEditAll && !$isScoped ? $this->Html->link(__('Coaches'), ['controller' => 'Teams', 'action' => 'coaches'], ['class' => 'dropdown-item']) : '' ?>
+                            <?= !$isScoped ? $this->Html->link(__('Shop items'), ['controller' => 'ShopItems', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Dashboard'), ['controller' => 'Admin', 'action' => 'dashboard'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Users'), ['controller' => 'Users', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Roles'), ['controller' => 'Roles', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Contents'), ['controller' => 'Contents', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
-                            <?= $curRole->Admin ? $this->Html->link(__('Emails to teams'), ['controller' => 'Mailings', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
+                            <?= $curRole->Admin || $curRole->MemberEditAll ? $this->Html->link(__('Emails to teams'), ['controller' => 'Mailings', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Configuration'), ['controller' => 'Configurations', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('New year'), ['controller' => 'Admin', 'action' => 'new_year'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Invoice Templates'), ['controller' => 'BillTemplates', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>

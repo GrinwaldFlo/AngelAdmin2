@@ -54,14 +54,16 @@ class Team extends Entity
     return $this->cacheNbMembers;
   }
 
+  /**
+   * Coaches then help-coaches of the team
+   * @return \App\Model\Entity\Member[]
+   */
   protected function _getCoachs()
   {
     if (!empty($this->cacheCoachs))
       return $this->cacheCoachs;
-    $membersTable = TableRegistry::getTableLocator()->get('Members');
-    $this->cacheCoachs = $membersTable->find('Members',
-    teamId: $this->id,
-    memberFilter: 1)->where(['Members.coach =' => 1]);
+    $byType = TableRegistry::getTableLocator()->get('TeamsCoaches')->coachesOf($this->id);
+    $this->cacheCoachs = array_merge(...array_values($byType));
     return $this->cacheCoachs;
   }
 

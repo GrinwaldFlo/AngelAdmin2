@@ -37,7 +37,6 @@ $canEdit = $curRole->MemberEditAll;
         echo $canEdit ? $this->Form->control('date_fin', ['label' => __('Date of leaving')]) : '';
         echo $config['showCommMethod'] ? $this->Form->control('communication_method_id', ['options' => $member->CommunicationMethodList, 'label' => __('Communication Method')]) : "";
         echo $canEdit ? $this->Form->control('active', ['label' => __('Active')]) : '';
-        echo $canEdit ? $this->Form->control('coach', ['label' => __('Is coach')]) : '';
         echo $canEdit ? $this->Form->control('registered', ['label' => __('Registered')]) : '';
         echo $config['showBvr'] ? $this->Form->control('bvr', ['label' => __('Payment slip')]) : "";
         echo $canEdit ? $this->Form->control('teams._ids', ['style' => "height:300px", 'label' => __('Team')]) : '';

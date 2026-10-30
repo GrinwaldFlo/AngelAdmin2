@@ -2209,3 +2209,27 @@ msgstr "Subventionen"
 
 msgid "Select a site to create membership fees"
 msgstr "Wähle einen Standort, um Mitgliederbeiträge zu erstellen"
+
+msgid "Help coach"
+msgstr "Hilfstrainer"
+
+msgid "Coaches"
+msgstr "Trainer"
+
+msgid "Limited to coached teams"
+msgstr "Auf die trainierten Gruppen beschränkt"
+
+msgid "No active team."
+msgstr "Keine aktive Gruppe."
+
+msgid "The coaches have been saved."
+msgstr "Die Trainer wurden gespeichert."
+
+msgid "The coaches of {0} could not be saved: a member cannot be coach and help coach of the same team."
+msgstr "Die Trainer von {0} konnten nicht gespeichert werden: ein Mitglied kann nicht Trainer und Hilfstrainer derselben Gruppe sein."
+
+msgid "Only the members having a user account can be chosen. Coaches and help coaches have the same access to their teams."
+msgstr "Nur Mitglieder mit einem Benutzerkonto können gewählt werden. Trainer und Hilfstrainer haben denselben Zugriff auf ihre Gruppen."
+
+msgid "This member is in none of your teams: you will not see them until you add them to one of your teams from the Teams page."
+msgstr "Dieses Mitglied ist in keiner deiner Gruppen: du siehst es erst, wenn du es auf der Seite Gruppen zu einer deiner Gruppen hinzufügst."

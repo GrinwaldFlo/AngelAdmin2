@@ -59,6 +59,10 @@ class TeamsTable extends Table
         $this->hasMany('Meetings', [
             'foreignKey' => 'team_id',
         ]);
+        $this->hasMany('TeamsCoaches', [
+            'foreignKey' => 'team_id',
+            'dependent' => true,
+        ]);
         $this->belongsToMany('Members', [
             'foreignKey' => 'team_id',
             'targetForeignKey' => 'member_id',

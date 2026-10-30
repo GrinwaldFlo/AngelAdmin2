@@ -11,17 +11,17 @@ class MemberOrderPolicy
 {
     public function canViewAll(IdentityInterface $user)
     {
-        return $user->Role->MemberEditAll;
+        return $user->Role->MemberEditAll && !TeamScope::isScoped($user);
     }
 
     public function canEdit(IdentityInterface $user)
     {
-        return $user->Role->MemberEditAll;
+        return $user->Role->MemberEditAll && !TeamScope::isScoped($user);
     }
 
     public function canEditAll(IdentityInterface $user)
     {
-        return $user->Role->MemberEditAll;
+        return $user->Role->MemberEditAll && !TeamScope::isScoped($user);
     }
 
     public function canAdmin(IdentityInterface $user)
@@ -31,17 +31,17 @@ class MemberOrderPolicy
 
     public function canView(IdentityInterface $user)
     {
-        return $user->Role->MemberEditAll;
+        return $user->Role->MemberEditAll && !TeamScope::isScoped($user);
     }
 
     public function canMarkDelivered(IdentityInterface $user)
     {
-        return $user->Role->MemberEditAll;
+        return $user->Role->MemberEditAll && !TeamScope::isScoped($user);
     }
 
     public function canDelete(IdentityInterface $user)
     {
-        return $user->Role->MemberEditAll;
+        return $user->Role->MemberEditAll && !TeamScope::isScoped($user);
     }
 
 

@@ -6,6 +6,7 @@ use Authorization\IdentityInterface;
 
 /**
  * Member policy
+ * A TeamScoped role (coach) only reaches the members of its teams, a new member can always be created
  */
 class MemberPolicy
 {
@@ -20,12 +21,23 @@ class MemberPolicy
       return false;
     }
 
-    return $user->Role->MemberEditAll || ($member->id == $user->member_id && $user->Role->MemberEditOwn);
+    if ($member->id == $user->member_id && $user->Role->MemberEditOwn) {
+      return true;
+    }
+
+    return $user->Role->MemberEditAll && ($member->isNew() || TeamScope::canAccessMember($user, $member->id));
   }
-  
-    public function canEditAll(?IdentityInterface $user, Member $member)
+
+  // Not for the coaches: pages about all the members (signatures validation)
+  public function canEditAll(?IdentityInterface $user, Member $member)
   {
-    return $user !== null && $user->Role->MemberEditAll;
+    return $user !== null && $user->Role->MemberEditAll && !TeamScope::isScoped($user);
+  }
+
+  // Members to validate (without team): not for the coaches
+  public function canViewNew(?IdentityInterface $user, Member $member)
+  {
+    return $user !== null && $user->Role->MemberViewAll && !TeamScope::isScoped($user);
   }
 
   // Same roles as the ones seeing the site (city) menu
@@ -45,10 +57,10 @@ class MemberPolicy
       return false;
     }
 
-    if ($user->Role->MemberViewAll)
-    {
+    if ($user->member_id == $member->id) {
       return true;
     }
-    return $user->member_id == $member->id;
+
+    return $user->Role->MemberViewAll && TeamScope::canAccessMember($user, $member->id);
   }
 }

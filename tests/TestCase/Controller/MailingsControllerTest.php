@@ -126,19 +126,19 @@ class MailingsControllerTest extends TestCase
         $this->assertRedirectContains('/users/login');
     }
 
-    public function testIndexForbiddenWithoutAdmin(): void
+    public function testIndexForbiddenWithoutAdminOrEditAll(): void
     {
-        $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0], ['id' => 1]);
+        $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0, 'MemberEditAll' => 0], ['id' => 1]);
         $this->login();
         $this->get('/mailings');
 
         $this->assertResponseCode(403);
     }
 
-    public function testSendNextForbiddenWithoutAdmin(): void
+    public function testSendNextForbiddenWithoutAdminOrEditAll(): void
     {
         $mailingId = $this->addMailing(['a@example.com']);
-        $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0], ['id' => 1]);
+        $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0, 'MemberEditAll' => 0], ['id' => 1]);
         $this->login();
         $this->post('/mailings/send-next/' . $mailingId);
 
@@ -354,10 +354,10 @@ class MailingsControllerTest extends TestCase
         $this->assertSame(1, $this->getTableLocator()->get('MailingItems')->find()->count());
     }
 
-    public function testDeleteForbiddenWithoutAdmin(): void
+    public function testDeleteForbiddenWithoutAdminOrEditAll(): void
     {
         $mailingId = $this->addMailing(['a@example.com']);
-        $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0], ['id' => 1]);
+        $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0, 'MemberEditAll' => 0], ['id' => 1]);
         $this->login();
         $this->post('/mailings/delete/' . $mailingId);
 

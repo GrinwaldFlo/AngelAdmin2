@@ -21,5 +21,5 @@
     <?php endif; ?>
 </div>
 
-<h1><?= h(($member->coach ? __('Coach') . ' ' : '') . $member->fullName) ?></h1>
+<h1><?= h($member->fullName) ?></h1>
 <h4><?= h($member->activeTeamString) ?></h4>

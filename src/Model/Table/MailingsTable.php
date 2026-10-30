@@ -6,6 +6,7 @@ namespace App\Model\Table;
 
 use App\Model\Entity\Mailing;
 use App\Model\Entity\MailingItem;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -143,18 +144,54 @@ class MailingsTable extends Table
     public function copy(Mailing $source): array
     {
         $mailing = $this->newEntity(['title' => $source->title, 'content' => $source->content], ['validate' => false]);
-        $teamIds = array_values(array_filter(array_map('intval', explode(',', (string)$source->team_id_list))));
+
+        return [$mailing, $this->teamIdsOf($source)];
+    }
+
+    /**
+     * Teams receiving a mailing
+     * @return int[]
+     */
+    public function teamIdsOf(Mailing $mailing): array
+    {
+        $teamIds = array_values(array_filter(array_map('intval', explode(',', (string)$mailing->team_id_list))));
 
         // Mailings created before the ids were kept: find the teams by their names
-        if (empty($teamIds) && $source->teams !== '') {
+        if (empty($teamIds) && (string)$mailing->teams !== '') {
             $teamIds = $this->MailingItems->Members->Teams->find()
                 ->select(['Teams.id'])
-                ->where(['Teams.name IN' => explode(', ', $source->teams)])
+                ->where(['Teams.name IN' => explode(', ', $mailing->teams)])
                 ->all()
                 ->extract('id')
+                ->map(fn ($id) => (int)$id)
                 ->toList();
         }
 
-        return [$mailing, $teamIds];
+        return $teamIds;
+    }
+
+    /**
+     * Keep the mailings sent to at least one of the teams
+     * @param int[]|null $teamIds null = no restriction
+     */
+    public function whereForTeams(SelectQuery $query, ?array $teamIds): SelectQuery
+    {
+        if ($teamIds === null) {
+            return $query;
+        }
+        if (empty($teamIds)) {
+            return $query->where(['1 = 0']);
+        }
+        // team_id_list is "1,2,3": compare with ",id," to avoid matching 1 in 12
+        $list = $query->func()->concat([',', 'Mailings.team_id_list' => 'identifier', ',']);
+
+        return $query->where(function ($exp) use ($list, $teamIds) {
+            $or = $exp->or([]);
+            foreach ($teamIds as $id) {
+                $or->like($list, '%,' . (int)$id . ',%');
+            }
+
+            return $or;
+        });
     }
 }

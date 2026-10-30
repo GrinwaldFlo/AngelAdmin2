@@ -2309,3 +2309,27 @@ msgstr "Sussidi"
 
 msgid "Select a site to create membership fees"
 msgstr "Seleziona una località per creare le quote associative"
+
+msgid "Help coach"
+msgstr "Allenatore in seconda"
+
+msgid "Coaches"
+msgstr "Allenatori"
+
+msgid "Limited to coached teams"
+msgstr "Limitato ai gruppi allenati"
+
+msgid "No active team."
+msgstr "Nessun gruppo attivo."
+
+msgid "The coaches have been saved."
+msgstr "Gli allenatori sono stati salvati."
+
+msgid "The coaches of {0} could not be saved: a member cannot be coach and help coach of the same team."
+msgstr "Non è stato possibile salvare gli allenatori di {0}: un membro non può essere allenatore e allenatore in seconda dello stesso gruppo."
+
+msgid "Only the members having a user account can be chosen. Coaches and help coaches have the same access to their teams."
+msgstr "Possono essere scelti solo i membri con un account utente. Allenatori e allenatori in seconda hanno lo stesso accesso ai loro gruppi."
+
+msgid "This member is in none of your teams: you will not see them until you add them to one of your teams from the Teams page."
+msgstr "Questo membro non è in nessuno dei tuoi gruppi: non lo vedrai finché non lo aggiungi a uno dei tuoi gruppi dalla pagina Gruppi."

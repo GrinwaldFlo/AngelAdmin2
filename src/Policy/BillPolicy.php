@@ -25,10 +25,10 @@ class BillPolicy
 
   public function canView(IdentityInterface $user, Bill $bill)
   {
-    if ($user->Role->BillViewAll)
+    if ($user->member_id == $bill->member_id)
     {
       return true;
     }
-    return $user->member_id == $bill->member_id;
+    return $user->Role->BillViewAll && TeamScope::canAccessMember($user, $bill->member_id);
   }
 }

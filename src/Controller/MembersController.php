@@ -11,6 +11,7 @@ use Cake\Mailer\Mailer;
 use Cake\ORM\TableRegistry;
 use Cake\Log\Log;
 use App\Model\Entity\Role;
+use App\Policy\TeamScope;
 
 /**
  * Members Controller
@@ -61,8 +62,10 @@ class MembersController extends AppController
 
         $pref = new PrefResult($this, $teamId, $memberFilter);
         $members = $this->MemberList->getMembersList($pref, finder: 'MembersExtended');
+        // Coaches of the selected team, not shown for all teams
+        $teamCoaches = $pref->teamId > 0 ? $this->fetchTable('TeamsCoaches')->coachesOf($pref->teamId) : [];
 
-        $this->set(compact('members', 'pref'));
+        $this->set(compact('members', 'pref', 'teamCoaches'));
     }
 
     public function batchRegister(int|null $teamId = null, int|null $memberFilter = null)
@@ -76,6 +79,7 @@ class MembersController extends AppController
 
         if ($this->request->is('post')) {
             $newData = $this->request->getData();
+            $this->Authorization->authorize($this->Members->get((int)$newData['memberId']), 'edit');
             $result = $this->MemberDocument->processBatchRegister($newData['memberId'], $newData, $this->config['year']);
 
             if ($result) {
@@ -100,7 +104,7 @@ class MembersController extends AppController
 
     public function newMembers()
     {
-        $this->Authorization->authorize($this->Members->newEmptyEntity(), 'viewall');
+        $this->Authorization->authorize($this->Members->newEmptyEntity(), 'viewNew');
         $members = $this->MemberList->getNewMembersList();
         $this->set(compact('members'));
     }
@@ -363,7 +367,7 @@ class MembersController extends AppController
         $member = $this->MemberManagement->createMember($this->request->getData());
 
         if ($member && !is_string($member)) {
-            $teams = $this->getTeamsActiv();
+            $teams = $this->getTeamsActiv(scoped: false);
             $this->set(compact('member', 'teams'));
 
             if ($this->request->is('post') && $member->id) {
@@ -516,8 +520,8 @@ class MembersController extends AppController
             return $this->redirect(['action' => 'myPage']);
         }
 
-        // Only show teams for normally authenticated users
-        $teams = $this->getTeamsActiv();
+        // Only show teams for normally authenticated users, all teams: a coach can move a member to any team
+        $teams = $this->getTeamsActiv(scoped: false);
         $this->set(compact('member', 'teams'));
 
         if ($this->request->is(['patch', 'post', 'put']) && $member && $member->id) {
@@ -727,7 +731,13 @@ class MembersController extends AppController
         $this->set(compact('members', 'pref'));
 
         if ($this->request->is('post')) {
-            $this->MemberRegistration->sendInvitations($this->request->getData()['MemberId'], $this->config);
+            // Coaches only invite the members of their teams
+            $memberIds = array_filter(
+                (array)$this->request->getData('MemberId'),
+                fn ($value, $memberId) => TeamScope::canAccessMember($this->curUser, (int)$memberId),
+                ARRAY_FILTER_USE_BOTH
+            );
+            $this->MemberRegistration->sendInvitations($memberIds, $this->config);
         }
     }
 

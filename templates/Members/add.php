@@ -36,7 +36,6 @@
         echo $this->Form->control('date_fin', ['type' => 'hidden']);
         echo $config['showCommMethod'] ? $this->Form->control('communication_method_id', ['options' => $member->CommunicationMethodList, 'label' => __('Communication Method')]) : "";
         echo $this->Form->control('active', ['value' => 1, 'type' => 'hidden']);
-        echo $this->Form->control('coach', ['label' => __('Is coach')]);
         echo $this->Form->control('registered', ['value' => 0, 'type' => 'hidden']);
         echo $config['showBvr'] ? $this->Form->control('bvr', ['label' => __('Payment slip')]) : "";
         echo $this->Form->control('teams._ids', ['style' => "height:300px", 'label' => __('Team')]);

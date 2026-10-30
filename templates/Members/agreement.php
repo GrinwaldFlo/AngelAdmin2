@@ -48,7 +48,7 @@
                 <?= $this->BackButton($refer, true) ?>
             </div>
             <h1><?= __x('Title for signing the membership for this season', 'Registration agreement') ?></h1>
-            <h2><?= h(($member->coach ? __('Coach') . ' ' : '') . $member->fullName) ?></h2>
+            <h2><?= h($member->fullName) ?></h2>
             <h4><?= h($member->teamString) ?></h4>
             <div class="row">
                 <div class="col">

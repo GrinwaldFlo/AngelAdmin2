@@ -30,8 +30,14 @@ class TeamsController extends AppController
     if ($siteId > 0) {
       $teams->where(['Teams.site_id =' => $siteId]);
     }
+    // Coaches: only their teams
+    $coachedTeamIds = $this->getCoachedTeamIds();
+    if ($coachedTeamIds !== null) {
+      $teams->where(['Teams.id IN' => $coachedTeamIds ?: [0]]);
+    }
+    $canAssignCoaches = $this->Authorization->can($this->Teams->newEmptyEntity(), 'assignCoaches');
 
-    $this->set(compact('teams'));
+    $this->set(compact('teams', 'canAssignCoaches'));
   }
 
   /**
@@ -43,12 +49,11 @@ class TeamsController extends AppController
    */
   public function view(int|null $id = null)
   {
-    $this->Authorization->authorize($this->Teams->newEmptyEntity(), 'viewall');
-
     $team = $this->Teams->findById($id)->contain([
       'Meetings' => ['sort' => ['Meetings.meeting_date' => 'DESC']],
       //          'Members' => ['sort' => ['Members.first_name' => 'ASC']],
-    ])->contain(['Sites'])->first();
+    ])->contain(['Sites'])->firstOrFail();
+    $this->Authorization->authorize($team, 'view');
 
     $this->Members = $this->fetchTable('Members');
     $membersIn = $this->Members->find('all', array('order' => array('first_name' => 'asc')))
@@ -73,7 +78,17 @@ class TeamsController extends AppController
       }
     }
 
-    $this->set(compact('team', 'membersIn', 'membersOut', 'membersOutTmp'));
+    // Coaches can add any active member to their team, but only open the members of their teams
+    $coachedTeamIds = $this->getCoachedTeamIds();
+    $visibleMemberIds = [];
+    foreach ($membersOut as $member) {
+      if ($coachedTeamIds === null || array_intersect($member->TeamIds, $coachedTeamIds)) {
+        $visibleMemberIds[$member->id] = true;
+      }
+    }
+    $teamCoaches = $this->fetchTable('TeamsCoaches')->coachesOf($team->id);
+
+    $this->set(compact('team', 'membersIn', 'membersOut', 'membersOutTmp', 'visibleMemberIds', 'teamCoaches'));
   }
 
   /**
@@ -116,7 +131,7 @@ class TeamsController extends AppController
   {
     $team = $this->Teams->get($id, contain: ['Sites']);
 
-    $this->Authorization->authorize($team);
+    $this->Authorization->authorize($team, 'admin');
 
     $sites = $this->Teams->Sites->find('list', [
       'valueField' => function ($site) {
@@ -135,6 +150,47 @@ class TeamsController extends AppController
       }
       $this->Flash->error(__('The team could not be saved.'));
     }
+  }
+
+  /**
+   * Coaches and help-coaches of the active teams (of the selected site)
+   */
+  public function coaches()
+  {
+    $this->Authorization->authorize($this->Teams->newEmptyEntity(), 'assignCoaches');
+    $teamsCoaches = $this->fetchTable('TeamsCoaches');
+    $teams = $this->getTeamsActiv($this->getSiteId(), scoped: false);
+
+    if ($this->request->is(['post', 'put'])) {
+      $failed = [];
+      foreach ((array)$this->request->getData('teams') as $teamId => $memberIdsByType) {
+        $teamId = (int)$teamId;
+        if (!isset($teams[$teamId])) {
+          continue;
+        }
+        if (!$teamsCoaches->saveTeamCoaches($teamId, (array)$memberIdsByType)) {
+          $failed[] = $teams[$teamId];
+        }
+      }
+      if (empty($failed)) {
+        $this->Flash->success(__('The coaches have been saved.'));
+
+        return $this->redirect(['action' => 'coaches']);
+      }
+      $this->Flash->error(__('The coaches of {0} could not be saved: a member cannot be coach and help coach of the same team.', implode(', ', $failed)));
+    }
+
+    $coaches = $teamsCoaches->coachesByTeam(array_keys($teams));
+    $candidates = $teamsCoaches->candidates();
+    // A coach without account anymore stays selectable, otherwise saving would remove them silently
+    foreach ($coaches as $byType) {
+      foreach ($byType as $members) {
+        foreach ($members as $member) {
+          $candidates[$member->id] ??= $member->fullName;
+        }
+      }
+    }
+    $this->set(compact('teams', 'coaches', 'candidates'));
   }
 
   public function addMember(int|null $teamId = null, int|null $memberId = null)

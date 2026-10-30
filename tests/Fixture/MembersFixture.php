@@ -39,7 +39,6 @@ class MembersFixture extends TestFixture
         'active' => ['type' => 'boolean', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'precision' => null, 'null' => true, 'default' => null, 'comment' => ''],
         'modified' => ['type' => 'datetime', 'length' => null, 'precision' => null, 'null' => true, 'default' => null, 'comment' => ''],
-        'coach' => ['type' => 'tinyinteger', 'length' => 4, 'unsigned' => false, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null],
         'registered' => ['type' => 'boolean', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         'bvr' => ['type' => 'boolean', 'length' => null, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null],
         '_indexes' => [
@@ -85,7 +84,6 @@ class MembersFixture extends TestFixture
                 'active' => 1,
                 'created' => '2020-03-29 10:44:14',
                 'modified' => '2020-03-29 10:44:14',
-                'coach' => 1,
                 'registered' => 1,
                 'bvr' => 1,
                 'hash' => '1111111111111111111111111111111111111111',

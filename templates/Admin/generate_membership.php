@@ -37,10 +37,7 @@
           <td><?= $member->date_birth ? h($member->Age) : '' ?></td>
           <td><?= h($member->TeamString) ?></td>
           <td><?= $member->multi_payment ?></td>
-          <td><?=
-            h($member->MembershipFee($site->feeMax))
-            . ($member->coach ? ' ' . __('Coach') : '')
-            ?></td>
+          <td><?= h($member->MembershipFee($site->feeMax)) ?></td>
           <td>
             <?php
             if ($member->HasMembershipFee($config))
