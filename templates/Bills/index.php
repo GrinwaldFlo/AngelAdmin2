@@ -9,9 +9,11 @@
 <div class="row">
   <div class="col">
     <div class="members view content">
-      <?= $this->Html->link(__('Active'), ['action' => 'index', $billStatus, $memberStatus == 1 ? 0 : 1], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 1 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Alumni'), ['action' => 'index', $billStatus, $memberStatus == 2 ? 0 : 2], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 2 ? ' pressed' : '')]) ?>
-      |
+      <?php if (!$isScoped): // Coaches only see the active members ?>
+        <?= $this->Html->link(__('Active'), ['action' => 'index', $billStatus, $memberStatus == 1 ? 0 : 1], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 1 ? ' pressed' : '')]) ?>
+        <?= $this->Html->link(__('Alumni'), ['action' => 'index', $billStatus, $memberStatus == 2 ? 0 : 2], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 2 ? ' pressed' : '')]) ?>
+        |
+      <?php endif; ?>
       <?= $this->Html->link(__('Open'), ['action' => 'index', $billStatus == 1 ? 0 : 1, $memberStatus], ['class' => 'btn btn-primary btn-sm' . ($billStatus == 1 ? ' pressed' : '')]) ?>
       <?= $this->Html->link(__('Late'), ['action' => 'index', $billStatus == 2 ? 0 : 2, $memberStatus], ['class' => 'btn btn-primary btn-sm' . ($billStatus == 2 ? ' pressed' : '')]) ?>
       <?= $this->Html->link(__('Paid'), ['action' => 'index', $billStatus == 3 ? 0 : 3, $memberStatus], ['class' => 'btn btn-primary btn-sm' . ($billStatus == 3 ? ' pressed' : '')]) ?>

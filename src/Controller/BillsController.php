@@ -651,7 +651,7 @@ class BillsController extends AppController
 
     public function overview(int|null $memberStatus = null, int|null $teamId = null, int $year = 0, int $billTemplateId = 0)
     {
-        $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'viewall');
+        $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'overview');
 
         $billTemplates = $this->Get->BillTemplates();
         $memberStatus = $this->getPrefSession('memberStatus', $memberStatus, 1);

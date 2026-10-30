@@ -189,7 +189,7 @@ if (Configure::read('debug')) {
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <?= $curRole->BillViewAll ? $this->Html->link(__('List'), ['controller' => 'Bills', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->BillViewAll ? $this->Html->link(__('Simple'), ['controller' => 'Bills', 'action' => 'simple'], ['class' => 'dropdown-item']) : '' ?>
-                            <?= $curRole->BillViewAll ? $this->Html->link(__('Year Overview'), ['controller' => 'Bills', 'action' => 'overview'], ['class' => 'dropdown-item']) : '' ?>
+                            <?= $curRole->BillViewAll && !$isScoped ? $this->Html->link(__('Year Overview'), ['controller' => 'Bills', 'action' => 'overview'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->BillValidate ? $this->Html->link(__('Batch validation'), ['controller' => 'Bills', 'action' => 'batchValidation'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->BillValidate ? $this->Html->link(__('Send reminders'), ['controller' => 'Bills', 'action' => 'sendReminder'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->BillEditAll ? $this->Html->link(__('Batch add'), ['controller' => 'Bills', 'action' => 'batchAdd'], ['class' => 'dropdown-item']) : '' ?>

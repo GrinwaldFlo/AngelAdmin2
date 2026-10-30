@@ -177,6 +177,7 @@ class CoachAccessTest extends TestCase
         $this->assertResponseContains('First100');
         $this->assertResponseNotContains('First104');
         $this->assertResponseNotContains('/members/index/0/2');
+        $this->assertResponseNotContains('/members/index/0/1');
 
         $this->get('/members/index/0/2');
         $this->assertResponseOk();
@@ -199,6 +200,7 @@ class CoachAccessTest extends TestCase
         $this->assertResponseOk();
         $this->assertResponseContains('First104');
         $this->assertResponseContains('/members/index/0/2');
+        $this->assertResponseContains('/members/index/0/1');
     }
 
     public function testMembersIndexShowsNoTeamFilterForOthers(): void
@@ -412,6 +414,32 @@ class CoachAccessTest extends TestCase
         $this->assertResponseNotContains('Signatures validation');
         $this->assertResponseNotContains('Shop items');
         $this->assertResponseNotContains('/teams/coaches');
+        $this->assertResponseNotContains('/bills/overview');
+    }
+
+    public function testBillsOverviewIsForbidden(): void
+    {
+        $this->loginCoach();
+        $this->get('/bills/overview/1/2/1/0');
+        $this->assertResponseCode(403);
+
+        $this->getTableLocator()->get('Roles')->updateAll(['TeamScoped' => 0], ['id' => 1]);
+        $this->get('/bills/overview/1/2/1/0');
+        $this->assertResponseOk();
+    }
+
+    public function testBillsIndexHidesActiveFilterForCoaches(): void
+    {
+        $this->loginCoach();
+        $this->get('/bills/index/0/0');
+        $this->assertResponseOk();
+        $this->assertResponseNotContains('/bills/index/0/1');
+        $this->assertResponseNotContains('/bills/index/0/2');
+
+        $this->getTableLocator()->get('Roles')->updateAll(['TeamScoped' => 0], ['id' => 1]);
+        $this->get('/bills/index/0/0');
+        $this->assertResponseContains('/bills/index/0/1');
+        $this->assertResponseContains('/bills/index/0/2');
     }
 
     // ---------------------------------------------------------------- Teams

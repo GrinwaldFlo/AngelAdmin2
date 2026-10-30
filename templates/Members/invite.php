@@ -14,8 +14,8 @@ $teams = $pref->teams;
 <div class="row">
   <div class="col">
     <div class="members view content">
-      <?= $this->Html->link(__('Active'), ['action' => $action, $teamId, $memberFilter == 1 ? 0 : 1], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 1 ? ' pressed' : '')]) ?>
-      <?php if (!$isScoped): // Coaches do not see the old members ?>
+      <?php if (!$isScoped): // Coaches only see the active members ?>
+        <?= $this->Html->link(__('Active'), ['action' => $action, $teamId, $memberFilter == 1 ? 0 : 1], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 1 ? ' pressed' : '')]) ?>
         <?= $this->Html->link(__('Alumni'), ['action' => $action, $teamId, $memberFilter == 2 ? 0 : 2], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 2 ? ' pressed' : '')]) ?>
       <?php endif; ?>
       <?= $this->Html->link(__('Membership not paid'), ['action' => $action, $teamId, $memberFilter == 3 ? 0 : 3], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 3 ? ' pressed' : '')]) ?>

@@ -7,8 +7,8 @@
 <div class="row">
   <div class="col">
     <div class="members view content">
-      <?= $this->Html->link(__('Active'), ['action' => 'pictures', $teamId, $memberFilter == 1 ? 0 : 1, $teamId], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 1 ? ' pressed' : '')]) ?>
-      <?php if (!$isScoped): // Coaches do not see the old members ?>
+      <?php if (!$isScoped): // Coaches only see the active members ?>
+        <?= $this->Html->link(__('Active'), ['action' => 'pictures', $teamId, $memberFilter == 1 ? 0 : 1, $teamId], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 1 ? ' pressed' : '')]) ?>
         <?= $this->Html->link(__('Alumni'), ['action' => 'pictures', $teamId, $memberFilter == 2 ? 0 : 2, $teamId], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 2 ? ' pressed' : '')]) ?>
       <?php endif; ?>
       |
