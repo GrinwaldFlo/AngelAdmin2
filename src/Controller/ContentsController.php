@@ -67,7 +67,7 @@ class ContentsController extends AppController
       }
       $this->Flash->error(__('The content could not be saved.'));
     }
-    $teams = $this->getTeamsActiv();
+    $teams = $this->getTeamsActiv(scoped: false);
     $this->set(compact('content', 'teams'));
   }
 
@@ -94,7 +94,7 @@ class ContentsController extends AppController
       }
       $this->Flash->error(__('The content could not be saved.'));
     }
-    $teams = $this->getTeamsActiv();
+    $teams = $this->getTeamsActiv(scoped: false);
     $this->set(compact('content', 'teams'));
   }
 

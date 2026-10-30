@@ -33,7 +33,6 @@ use Cake\Core\Configure;
  * @property int $FegistrationStep
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
- * @property int $coach
  * @property bool $registered
  * @property bool $bvr
  * @property string $fullName Get Surname Name
@@ -89,7 +88,6 @@ class Member extends Entity
     'active' => true,
     'created' => true,
     'modified' => true,
-    'coach' => true,
     'registered' => true,
     'bvr' => true,
     'bills' => true,

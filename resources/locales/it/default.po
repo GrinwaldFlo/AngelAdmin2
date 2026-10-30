@@ -2309,3 +2309,56 @@ msgstr "Sussidi"
 
 msgid "Select a site to create membership fees"
 msgstr "Seleziona una località per creare le quote associative"
+
+msgid "Help coach"
+msgstr "Allenatore in seconda"
+
+msgid "Coaches"
+msgstr "Allenatori"
+
+msgid "Limited to coached teams"
+msgstr "Limitato ai gruppi allenati"
+
+msgid "No active team."
+msgstr "Nessun gruppo attivo."
+
+
+
+msgid "Only the members having a user account can be chosen. Coaches and help coaches have the same access to their teams."
+msgstr "Possono essere scelti solo i membri con un account utente. Allenatori e allenatori in seconda hanno lo stesso accesso ai loro gruppi."
+
+msgid "This member is in none of your teams: you will not see them until you add them to one of your teams from the Teams page."
+msgstr "Questo membro non è in nessuno dei tuoi gruppi: non lo vedrai finché non lo aggiungi a uno dei tuoi gruppi dalla pagina Gruppi."
+
+msgid "Add"
+msgstr "Aggiungi"
+
+msgid "Remove"
+msgstr "Rimuovi"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "Choose a member"
+msgstr "Scegli un membro"
+
+msgid "No coach"
+msgstr "Nessun allenatore"
+
+msgid "Remove {0} from the coaches of {1}?"
+msgstr "Rimuovere {0} dagli allenatori di {1}?"
+
+msgid "The coach could not be added."
+msgstr "Non è stato possibile aggiungere l'allenatore."
+
+msgid "The coach could not be removed."
+msgstr "Non è stato possibile rimuovere l'allenatore."
+
+msgid "{0} is now coach of {1}."
+msgstr "{0} è ora allenatore di {1}."
+
+msgid "{0} is already a coach of {1}."
+msgstr "{0} è già allenatore di {1}."
+
+msgid "{0} is no longer coach of {1}."
+msgstr "{0} non è più allenatore di {1}."

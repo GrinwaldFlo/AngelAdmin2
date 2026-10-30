@@ -83,6 +83,10 @@ class MembersTable extends Table
         $this->hasMany('Registrations', [
             'foreignKey' => 'member_id',
         ]);
+        $this->hasMany('TeamsCoaches', [
+            'foreignKey' => 'member_id',
+            'dependent' => true,
+        ]);
     }
 
     /**
@@ -192,9 +196,6 @@ class MembersTable extends Table
             ->notEmptyString('active');
 
         $validator
-            ->notEmptyString('coach');
-
-        $validator
             ->boolean('registered')
             ->requirePresence('registered', 'create')
             ->notEmptyString('registered');
@@ -279,7 +280,6 @@ class MembersTable extends Table
             'Members.postcode',
             'Members.phone_mobile',
             'Members.multi_payment',
-            'Members.coach',
             'Users.username',
             'Users.lastLogin',
             'Users.role_id',
@@ -338,7 +338,6 @@ class MembersTable extends Table
             'Members.postcode',
             'Members.phone_mobile',
             'Members.multi_payment',
-            'Members.coach',
             'Users.username',
             'Users.lastLogin',
             'Users.role_id',
@@ -462,6 +461,48 @@ class MembersTable extends Table
             $query->where(['Members.id IN' => $inSite]);
         }
         return $query;
+    }
+
+    /**
+     * Keep only the rows whose member is active and in one of the teams (used to limit the access of coaches)
+     * @param int[]|null $teamIds null = no restriction
+     * @param string $field member id column of the query
+     */
+    public function whereActiveInTeams(SelectQuery $query, ?array $teamIds, string $field = 'Members.id'): SelectQuery
+    {
+        if ($teamIds === null) {
+            return $query;
+        }
+
+        return $query->where([$field . ' IN' => $this->activeIdsInTeams($teamIds)]);
+    }
+
+    /**
+     * True if the member is active and in one of the teams
+     * @param int[]|null $teamIds null = no restriction
+     */
+    public function isActiveInTeams(?int $memberId, ?array $teamIds): bool
+    {
+        if ($teamIds === null) {
+            return true;
+        }
+        if ($memberId === null) {
+            return false;
+        }
+
+        return !$this->activeIdsInTeams($teamIds)->where(['Members.id' => $memberId])->all()->isEmpty();
+    }
+
+    /**
+     * Ids of the active members of the teams
+     * @param int[] $teamIds
+     */
+    private function activeIdsInTeams(array $teamIds): SelectQuery
+    {
+        return $this->find()
+            ->select(['Members.id'])
+            ->where(['Members.active' => true])
+            ->innerJoinWith('Teams', fn ($q) => $q->where(['Teams.id IN' => $teamIds ?: [0]]));
     }
 
     public function findwithTeams(Query $query, array $options)

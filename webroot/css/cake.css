@@ -286,6 +286,11 @@ th {
   color: #cc1f1a;
   border-color: #ef5753;
 }
+.message.warning {
+  background: #fff8e1;
+  color: #8a6100;
+  border-color: #f6c343;
+}
 
 /* Forms */
 .input.radio,

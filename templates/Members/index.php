@@ -15,11 +15,7 @@ $teams = $pref->teams;
 <div class="row p-0 m-0 mb-1">
     <div class="col p-0 m-0">
         <div class="members view content">
-            <?= $this->Html->link(__('Active'), ['action' => 'index', $teamId, $memberFilter == 1 ? 0 : 1], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 1 ? ' pressed' : '')]) ?>
-            <?= $this->Html->link(__('Alumni'), ['action' => 'index', $teamId, $memberFilter == 2 ? 0 : 2], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 2 ? ' pressed' : '')]) ?>
-            <?= $this->Html->link(__('Membership not paid'), ['action' => 'index', $teamId, $memberFilter == 3 ? 0 : 3], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 3 ? ' pressed' : '')]) ?>
-            <?= $this->Html->link(__('Non inscrit'), ['action' => 'index', $teamId, $memberFilter == 4 ? 0 : 4], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 4 ? ' pressed' : '')]) ?>
-            <?= $this->Html->link(__('No team'), ['action' => 'index', $teamId, $memberFilter == 5 ? 0 : 5], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 5 ? ' pressed' : '')]) ?>
+            <?= $this->my->memberFilterLinks(['action' => 'index', $teamId], $memberFilter, [1, 2, 3, 4, 5]) ?>
             <br />
             <?= $this->my->teamLinks($pref, 'index') ?>
         </div>
@@ -34,6 +30,7 @@ $teams = $pref->teams;
             <?php endif; ?>
             <h3 class="d-inline"><?= __('Members') ?></h3>
             <div class="d-inline"><?= '(' . count($members) . ')' ?></div>
+            <?= $this->element('Teams/coaches_line', compact('teamCoaches')) ?>
             <table class="table table-striped table-hover table-sm" id="membersTable">
                 <thead>
                     <tr>

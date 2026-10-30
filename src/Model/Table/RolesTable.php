@@ -99,6 +99,9 @@ class RolesTable extends Table
       ->requirePresence('Editor', 'create')
       ->notEmptyString('Editor');
 
+    $validator
+      ->boolean('TeamScoped');
+
     
     return $validator;
   }

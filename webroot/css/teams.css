@@ -1,0 +1,49 @@
+/* Teams and their coaches (templates/Teams, element/Teams) */
+
+.team-coaches {
+  margin: 0.25rem 0 0.75rem;
+  color: #606c76;
+}
+
+.team-coaches-label {
+  font-weight: 600;
+}
+
+.team-coaches-sep {
+  margin: 0 0.5rem;
+}
+
+.teams-coaches-team {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.teams-coaches-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.5rem;
+}
+
+.teams-coaches-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.teams-coaches-type {
+  min-width: 7rem;
+  color: #606c76;
+}
+
+.teams-coaches-add {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.teams-coaches-add .mb-3,
+.teams-coaches-add .input {
+  margin-bottom: 0;
+}

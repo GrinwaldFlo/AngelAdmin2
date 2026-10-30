@@ -9,8 +9,7 @@ $monthStr = [0 => '', 1 => __('January'), 2 => __('February'), 3 => __('March'),
 <div class="row">
   <div class="col">
     <div class="members view content">
-      <?= $this->Html->link(__('Active'), ['action' => 'birthdays', $teamId, $memberFilter == 1 ? 0 : 1, $teamId], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 1 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Alumni'), ['action' => 'birthdays', $teamId, $memberFilter == 2 ? 0 : 2, $teamId], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 2 ? ' pressed' : '')]) ?>
+      <?= $this->my->memberFilterLinks(['action' => 'birthdays', $teamId], $memberFilter, [1, 2]) ?>
       |
       <?php foreach ($teams as $key => $team): ?>
         <?= $this->Html->link(h($team), ['action' => 'birthdays', $teamId == $key ? 0 : $key, $memberFilter], ['class' => 'btn btn-primary btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      

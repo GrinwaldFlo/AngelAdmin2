@@ -122,6 +122,8 @@ if (Configure::read('debug')) {
 <?php endif; ?>
 
 <?php if ($isLogged): ?>
+    <?php $isScoped ??= false; // coaches: links refused to them are hidden ?>
+    <?php $canAssignCoaches ??= false; ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <a class="navbar-brand" href="#">
             <?=
@@ -165,9 +167,13 @@ if (Configure::read('debug')) {
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMembers">
                             <li><?= $this->Html->link(__('List'), ['controller' => 'Members', 'action' => 'index'], ['class' => 'dropdown-item']); ?></li>
-                            <li><?= $this->Html->link(__('Signatures validation'), ['controller' => 'Members', 'action' => 'signatures'], ['class' => 'dropdown-item']); ?></li>
+                            <?php if (!$isScoped): ?>
+                                <li><?= $this->Html->link(__('Signatures validation'), ['controller' => 'Members', 'action' => 'signatures'], ['class' => 'dropdown-item']); ?></li>
+                            <?php endif; ?>
                             <li><?= $this->Html->link(__('Invite'), ['controller' => 'Members', 'action' => 'invite'], ['class' => 'dropdown-item']); ?></li>
-                            <li><?= $this->Html->link(__('Ordered items'), ['controller' => 'MemberOrders', 'action' => 'index'], ['class' => 'dropdown-item']); ?></li>
+                            <?php if (!$isScoped): ?>
+                                <li><?= $this->Html->link(__('Ordered items'), ['controller' => 'MemberOrders', 'action' => 'index'], ['class' => 'dropdown-item']); ?></li>
+                            <?php endif; ?>
                         </ul>
                     </li>
                 <?php endif; ?>
@@ -184,7 +190,7 @@ if (Configure::read('debug')) {
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <?= $curRole->BillViewAll ? $this->Html->link(__('List'), ['controller' => 'Bills', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->BillViewAll ? $this->Html->link(__('Simple'), ['controller' => 'Bills', 'action' => 'simple'], ['class' => 'dropdown-item']) : '' ?>
-                            <?= $curRole->BillViewAll ? $this->Html->link(__('Year Overview'), ['controller' => 'Bills', 'action' => 'overview'], ['class' => 'dropdown-item']) : '' ?>
+                            <?= $curRole->BillViewAll && !$isScoped ? $this->Html->link(__('Year Overview'), ['controller' => 'Bills', 'action' => 'overview'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->BillValidate ? $this->Html->link(__('Batch validation'), ['controller' => 'Bills', 'action' => 'batchValidation'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->BillValidate ? $this->Html->link(__('Send reminders'), ['controller' => 'Bills', 'action' => 'sendReminder'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->BillEditAll ? $this->Html->link(__('Batch add'), ['controller' => 'Bills', 'action' => 'batchAdd'], ['class' => 'dropdown-item']) : '' ?>
@@ -200,18 +206,19 @@ if (Configure::read('debug')) {
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <?= $this->Html->link(__('Teams'), ['controller' => 'Teams', 'action' => 'index'], ['class' => 'dropdown-item']); ?>
-                            <?= $this->Html->link(__('Shop items'), ['controller' => 'ShopItems', 'action' => 'index'], ['class' => 'dropdown-item']); ?>
+                            <?= $canAssignCoaches ? $this->Html->link(__('Coaches'), ['controller' => 'Teams', 'action' => 'coaches'], ['class' => 'dropdown-item']) : '' ?>
+                            <?= !$isScoped ? $this->Html->link(__('Shop items'), ['controller' => 'ShopItems', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Dashboard'), ['controller' => 'Admin', 'action' => 'dashboard'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Users'), ['controller' => 'Users', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Roles'), ['controller' => 'Roles', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Contents'), ['controller' => 'Contents', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
-                            <?= $curRole->Admin ? $this->Html->link(__('Emails to teams'), ['controller' => 'Mailings', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
+                            <?= $curRole->Admin || $curRole->MemberEditAll ? $this->Html->link(__('Emails to teams'), ['controller' => 'Mailings', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Configuration'), ['controller' => 'Configurations', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('New year'), ['controller' => 'Admin', 'action' => 'new_year'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Invoice Templates'), ['controller' => 'BillTemplates', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Subsidies'), ['controller' => 'Admin', 'action' => 'subventions'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $this->Html->link(__('List'), ['controller' => 'Members', 'action' => 'list'], ['class' => 'dropdown-item']); ?>
-                            <?= $this->Html->link(__('Familly discount'), ['controller' => 'Members', 'action' => 'familyReduction'], ['class' => 'dropdown-item']); ?>
+                            <?= $curRole->Admin ? $this->Html->link(__('Familly discount'), ['controller' => 'Members', 'action' => 'familyReduction'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $this->Html->link(__('Birthdays'), ['controller' => 'Members', 'action' => 'birthdays'], ['class' => 'dropdown-item']); ?>
                             <?= $this->Html->link(__('Pictures'), ['controller' => 'Members', 'action' => 'pictures'], ['class' => 'dropdown-item']); ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Log'), ['controller' => 'Admin', 'action' => 'view_log'], ['class' => 'dropdown-item']) : '' ?>

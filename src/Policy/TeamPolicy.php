@@ -6,6 +6,7 @@ use Authorization\IdentityInterface;
 
 /**
  * Team policy
+ * A TeamScoped role (coach) only reaches the teams it coaches
  */
 class TeamPolicy
 {
@@ -14,9 +15,10 @@ class TeamPolicy
     return $user->Role->MemberViewAll;
   }
 
+  // Add / remove members of the team
   public function canEdit(IdentityInterface $user, Team $team)
   {
-    return $user->Role->MemberEditAll;
+    return $user->Role->MemberEditAll && TeamScope::canAccessTeam($user, $team->id);
   }
 
   public function canAdmin(IdentityInterface $user, Team $team)
@@ -26,7 +28,11 @@ class TeamPolicy
 
   public function canView(IdentityInterface $user, Team $team)
   {
-    return $user->Role->MemberViewAll;
+    return $user->Role->MemberViewAll && TeamScope::canAccessTeam($user, $team->id);
   }
 
+  public function canAssignCoaches(IdentityInterface $user, Team $team)
+  {
+    return TeamScope::canUnscoped($user, 'MemberEditAll');
+  }
 }

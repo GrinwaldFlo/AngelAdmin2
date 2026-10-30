@@ -2,14 +2,17 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Team $team
+ * @var array $teamCoaches members by type
+ * @var bool[] $visibleMemberIds [member id => true] members of $membersOut whose page can be opened
  */
 ?>
 <div class="row">
   <div class="col">
     <div class="teams view content">
       <h3><?= h($team->name) ?></h3>
+      <?= $this->element('Teams/coaches_line', compact('teamCoaches')) ?>
       <div class="icon float-end">
-        <?php if ($curRole->MemberEditAll) : ?>
+        <?php if ($curRole->Admin) : ?>
           <?= $this->Html->link('<i class="gg-pen"></i>', ['action' => 'edit', $team->id], ['escape' => false]) ?>
         <?php endif; ?>
         <?= $curRole->MemberViewAll ? $this->backButtonCtrl('Teams', 'index') : $this->BackButton('/') ?>
@@ -107,7 +110,11 @@
             <div class="d-flex flex-wrap gap-2">
             <?php foreach ($membersOut as $member) : ?>
               <div class="d-flex align-items-center mb-2">
-                <?= $this->Html->link($member->FullName." (".$member->Age.")", ['controller' => 'Members', 'action' => 'view', $member->id], ['class' => 'me-1']) ?>
+                <?php if (isset($visibleMemberIds[$member->id])) : ?>
+                  <?= $this->Html->link($member->FullName." (".$member->Age.")", ['controller' => 'Members', 'action' => 'view', $member->id], ['class' => 'me-1']) ?>
+                <?php else : ?>
+                  <span class="me-1"><?= h($member->FullName." (".$member->Age.")") ?></span>
+                <?php endif; ?>
                 <?= $this->Html->link('+', ['action' => 'addMember', $team->id, $member->id], [
                   'escape' => false,
                   'class' => 'btn btn-success btn-sm',

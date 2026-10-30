@@ -19,6 +19,7 @@ namespace App\Controller;
 use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
 use App\Model\Table\MembersTable;
+use App\Policy\TeamScope;
 use Cake\ORM\TableRegistry;
 use Cake\I18n\I18n;
 use Cake\ORM\Query\SelectQuery;
@@ -117,6 +118,11 @@ class AppController extends Controller
     public function beforeRender(EventInterface $event)
     {
         parent::beforeRender($event);
+
+        // Coaches: hide the links refused to them
+        $this->set('isScoped', TeamScope::isScoped($this->curUser));
+        $this->set('canAssignCoaches', $this->curUser !== null
+            && $this->Authorization->can($this->fetchTable('Teams')->newEmptyEntity(), 'assignCoaches'));
 
         if ($this->curRole !== null && ($this->curRole->MemberViewAll || $this->curRole->BillViewAll)) {
             $this->set("navSites", PrefResult::getSites());
@@ -255,8 +261,9 @@ class AppController extends Controller
         // If normally authenticated, check if user can access this member
         if ($this->Authentication->getIdentity()) {
             $curUser = $this->Authentication->getIdentity();
-            // User can access their own data or if they have edit permissions
-            return $curUser->member_id == $memberId || $this->curRole->MemberEditAll;
+            // User can access their own data or if they have edit permissions (coaches: members of their teams)
+            return $curUser->member_id == $memberId
+                || ($this->curRole->MemberEditAll && TeamScope::canAccessMember($curUser, $memberId));
         }
 
         // If hash authenticated, check if hash belongs to this member
@@ -401,6 +408,9 @@ class AppController extends Controller
         //We never show canceled bills
         $bills->where(['Bills.canceled =' => 0]);
 
+        // Coaches: bills of the active members of their teams
+        TableRegistry::getTableLocator()->get('Members')->whereActiveInTeams($bills, $this->getCoachedTeamIds(), 'Bills.member_id');
+
         $bills->where(['Bills.site_id =' => $siteId]);
         return $bills;
     }
@@ -452,20 +462,38 @@ class AppController extends Controller
         return $bills;
     }
 
-    public function getTeamsActiv($siteId = 0): array
+    /**
+     * Teams the current user can access
+     * @return int[]|null null = all teams, [] = none (coach without team)
+     */
+    public function getCoachedTeamIds(): ?array
     {
-        // Use siteId as cache key
-        if (isset($this->teamCache[$siteId])) {
-            return $this->teamCache[$siteId];
+        return TeamScope::teamIds($this->curUser);
+    }
+
+    /**
+     * Active teams
+     * @param int $siteId 0 = all sites
+     * @param bool $scoped true = only the teams of a coach, false = all teams (e.g. to choose the teams of a member)
+     * @return array<int, string> name by id
+     */
+    public function getTeamsActiv($siteId = 0, bool $scoped = true): array
+    {
+        $teamIds = $scoped ? $this->getCoachedTeamIds() : null;
+        $cacheKey = $siteId . ($teamIds === null ? '' : '-scoped');
+        if (isset($this->teamCache[$cacheKey])) {
+            return $this->teamCache[$cacheKey];
         }
         $teams = TableRegistry::getTableLocator()->get('Teams');
+        $query = $teams->find('list')->where(['active =' => 1])->orderBy(['name' => 'ASC']);
         if ($siteId > 0) {
-            $result = $teams->find('list')->where(['active =' => 1, 'site_id =' => $siteId])->orderBy(['name' => 'ASC'])->toArray();
-        } else {
-            $result = $teams->find('list')->where(['active =' => 1])->orderBy(['name' => 'ASC'])->toArray();
+            $query->where(['site_id =' => $siteId]);
         }
-        $this->teamCache[$siteId] = $result;
-        return $result;
+        if ($teamIds !== null) {
+            $query->where(['id IN' => $teamIds ?: [0]]);
+        }
+        $this->teamCache[$cacheKey] = $query->toArray();
+        return $this->teamCache[$cacheKey];
     }
 
     /**
@@ -478,12 +506,20 @@ class AppController extends Controller
     public function getMembers($teamId, $memberFilter, $siteId = 0): SelectQuery
     {
         $membersTable = TableRegistry::getTableLocator()->get('Members');
-        return $membersTable->find(
+        return $this->scopeMembers($membersTable->find(
             'Members',
             teamId: $teamId,
             memberFilter: $memberFilter,
             siteId: $siteId
-        )->contain('Teams')->orderBy(['first_name' => 'ASC', 'last_name' => 'ASC']);
+        )->contain('Teams')->orderBy(['first_name' => 'ASC', 'last_name' => 'ASC']));
+    }
+
+    /**
+     * Coaches: keep only the active members of their teams
+     */
+    public function scopeMembers(SelectQuery $query): SelectQuery
+    {
+        return TableRegistry::getTableLocator()->get('Members')->whereActiveInTeams($query, $this->getCoachedTeamIds());
     }
 
     public function getData($dataType, $param = null)

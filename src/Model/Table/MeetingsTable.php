@@ -85,6 +85,11 @@ class MeetingsTable extends Table
       ->notEmptyString('name');
 
     $validator
+      ->integer('team_id')
+      ->requirePresence('team_id', 'create')
+      ->notEmptyString('team_id');
+
+    $validator
       ->scalar('url')
       ->maxLength('url', 250)
       ->allowEmptyString('url')

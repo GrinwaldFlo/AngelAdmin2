@@ -6,6 +6,7 @@
 ?>
 <div class="teams index content">
   <?= $curRole->Admin ? $this->Html->link(__('New Team'), ['action' => 'add'], ['class' => 'button float-end']) : '' ?>
+  <?= $canAssignCoaches ? $this->Html->link(__('Coaches'), ['action' => 'coaches'], ['class' => 'button float-end me-2']) : '' ?>
   <h3><?= __('Teams') ?></h3>
   <table class="table table-striped table-hover table-sm">
     <thead>
@@ -28,7 +29,7 @@
           <td><?= h($team->site->city) ?></td>
           <td class="actions">
             <div class="icon">
-              <?= $curRole->MemberEditAll ? $this->Html->link('<i class="gg-pen"></i>', ['controller' => 'Teams', 'action' => 'edit', $team->id], ['escape' => false]) : '' ?>
+              <?= $curRole->Admin ? $this->Html->link('<i class="gg-pen"></i>', ['controller' => 'Teams', 'action' => 'edit', $team->id], ['escape' => false]) : '' ?>
             </div>
           </td>
         </tr>

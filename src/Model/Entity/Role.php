@@ -17,6 +17,7 @@ use Cake\ORM\Entity;
  * @property bool $BillEditAll
  * @property bool $BillValidate
  * @property bool $Editor
+ * @property bool $TeamScoped Access limited to the teams coached by the member (see TeamsCoaches)
  * @property bool $Admin Is admin
  *
  * @property \App\Model\Entity\User[] $users
@@ -47,6 +48,15 @@ class Role extends Entity
         'BillValidate' => true,
         'Admin' => true,
         'Editor' => true,
+        'TeamScoped' => true,
         'users' => true,
     ];
+
+    /**
+     * True if the access is limited to the coached teams, an admin always has full access
+     */
+    public function isScoped(): bool
+    {
+        return (bool)$this->TeamScoped && !$this->Admin;
+    }
 }

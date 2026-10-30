@@ -11,17 +11,17 @@ class ShopItemPolicy
 {
     public function canViewAll(IdentityInterface $user)
     {
-        return $user->Role->MemberEditAll;
+        return TeamScope::canUnscoped($user, 'MemberEditAll');
     }
 
     public function canEdit(IdentityInterface $user)
     {
-        return $user->Role->MemberEditAll;
+        return TeamScope::canUnscoped($user, 'MemberEditAll');
     }
 
     public function canEditAll(IdentityInterface $user)
     {
-        return $user->Role->MemberEditAll;
+        return TeamScope::canUnscoped($user, 'MemberEditAll');
     }
 
     public function canAdmin(IdentityInterface $user)
@@ -31,6 +31,6 @@ class ShopItemPolicy
 
     public function canView(IdentityInterface $user)
     {
-        return $user->Role->MemberEditAll;
+        return TeamScope::canUnscoped($user, 'MemberEditAll');
     }
 }

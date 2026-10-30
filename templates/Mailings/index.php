@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Mailing[]|\Cake\Collection\CollectionInterface $mailings
  * @var array $counts [mailing_id => ['total', 'pending', 'sent', 'invalid']]
+ * @var bool[] $manageable [mailing_id => can be sent / deleted], false for a coach when other teams receive it
  */
 $this->Html->css('mailings', ['block' => true]);
 ?>
@@ -35,7 +36,9 @@ $this->Html->css('mailings', ['block' => true]);
           </td>
           <td><?= $mailing->isDone() ? __('Done') : __('{0} pending', $count['pending']) ?></td>
           <td class="actions">
-            <?= $this->Html->link($mailing->isDone() ? __('View') : __('Resume'), ['action' => 'send', $mailing->id]) ?>
+            <?php if ($manageable[$mailing->id]) : ?>
+              <?= $this->Html->link($mailing->isDone() ? __('View') : __('Resume'), ['action' => 'send', $mailing->id]) ?>
+            <?php endif; ?>
             <?= $this->Html->link(__('New'), ['action' => 'add', $mailing->id], ['title' => __('New email with the same subject, content and teams')]) ?>
           </td>
         </tr>

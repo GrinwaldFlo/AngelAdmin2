@@ -4,6 +4,7 @@ namespace App\Controller\Component;
 use App\Controller\PrefResult;
 use Cake\Controller\Component;
 use App\Model\Table\MembersTable;
+use App\Policy\TeamScope;
 
 /**
  * Member Management Component
@@ -53,6 +54,10 @@ class MemberManagementComponent extends Component
                 return null;
             } elseif ($controller->Members->save($member)) {
                 $controller->Flash->success(__('The member has been saved.'));
+                // Coaches only see the members of their teams
+                if (!TeamScope::canAccessMember($controller->Authentication->getIdentity(), $member->id)) {
+                    $controller->Flash->warning(__('This member is in none of your teams: you will not see them until you add them to one of your teams from the Teams page.'));
+                }
                 return $member;
             }
 

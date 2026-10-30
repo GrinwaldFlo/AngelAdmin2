@@ -18,12 +18,12 @@ class MemberListComponent extends Component
     {
         $controller = $this->getController();
         
-        return $controller->paginate($controller->Members->find(
+        return $controller->paginate($controller->scopeMembers($controller->Members->find(
             $finder,
             teamId: $pref->teamId,
             memberFilter: $pref->memberFilter,
             siteId: $pref->siteId
-        )->contain($contain));
+        )->contain($contain)));
     }
 
     /**
@@ -33,11 +33,11 @@ class MemberListComponent extends Component
     {
         $controller = $this->getController();
         
-        return $controller->Members->find(
+        return $controller->scopeMembers($controller->Members->find(
             'Members',
             teamId: $teamId,
             memberFilter: $memberFilter
-        )->contain('Teams')->orderBy(['DAYOFYEAR(date_birth)' => 'ASC']);
+        )->contain('Teams')->orderBy(['DAYOFYEAR(date_birth)' => 'ASC']));
     }
 
     /**
@@ -61,12 +61,12 @@ class MemberListComponent extends Component
     {
         $controller = $this->getController();
         
-        return $controller->paginate($controller->Members->find(
+        return $controller->paginate($controller->scopeMembers($controller->Members->find(
             'Members',
             teamId: $teamId,
             memberFilter: $memberFilter,
             contain: ['Teams', 'Fields' => ['FieldTypes']]
-        )->contain('Teams'));
+        )->contain('Teams')));
     }
 
     /**
@@ -75,7 +75,7 @@ class MemberListComponent extends Component
     public function getFamilyReductionList()
     {
         $controller = $this->getController();
-        $members = $controller->paginate($controller->Members->find('Members', memberFilter: 1)->contain('Teams'));
+        $members = $controller->paginate($controller->scopeMembers($controller->Members->find('Members', memberFilter: 1)->contain('Teams')));
 
         $members2 = array();
         foreach ($members as $member) {
@@ -97,11 +97,11 @@ class MemberListComponent extends Component
     {
         $controller = $this->getController();
         
-        return $controller->paginate($controller->Members->find(
+        return $controller->paginate($controller->scopeMembers($controller->Members->find(
             'Members',
             teamId: $teamId,
             memberFilter: $memberFilter
-        )->contain('Teams'));
+        )->contain('Teams')));
     }
 
     /**
@@ -112,12 +112,12 @@ class MemberListComponent extends Component
         $controller = $this->getController();
         $pref->memberFilter = 4; // Not registered for this year
 
-        return $controller->paginate($controller->Members->find(
+        return $controller->paginate($controller->scopeMembers($controller->Members->find(
             'Members',
             teamId: $pref->teamId,
             memberFilter: $pref->memberFilter,
             siteId: $pref->siteId
-        )->contain('Teams'));
+        )->contain('Teams')));
     }
 
     /**

@@ -71,7 +71,7 @@ use Cake\Error\Debugger;
             </div>
         <?php endif; ?>
         <div class="col">
-            <h1><?= h(($curMember->coach ? __('Coach') . ' ' : '') . $curMember->fullName) ?></h1>
+            <h1><?= h($curMember->fullName) ?></h1>
             <h4><?= h($curMember->teamString) ?></h4>
         </div>
     </div>

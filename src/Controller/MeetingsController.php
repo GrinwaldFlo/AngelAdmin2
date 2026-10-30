@@ -96,6 +96,8 @@ class MeetingsController extends AppController
       ];
       // Validate the common fields once, on the first date, to show the errors in the form
       $meeting = $this->Meetings->newEntity($common + ['meeting_date' => $dates[0] ?? null]);
+      // Coaches only create meetings for their teams
+      $this->Authorization->authorize($meeting, 'edit');
 
       if (empty($dates)) {
         $this->Flash->error(__('Choose at least one date and a time.'));
@@ -133,6 +135,8 @@ class MeetingsController extends AppController
 
     if ($this->request->is(['patch', 'post', 'put'])) {
       $meeting = $this->Meetings->patchEntity($meeting, $this->request->getData());
+      // The team may have changed: coaches only move it to one of their teams
+      $this->Authorization->authorize($meeting, 'edit');
       if ($this->Meetings->save($meeting)) {
         $this->Flash->success(__('The meeting has been saved.'));
 
