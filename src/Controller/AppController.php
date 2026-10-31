@@ -297,6 +297,9 @@ class AppController extends Controller
         $this->config['showInfo'] ??= 0;
         $this->config['showCommMethod'] ??= 0;
         $this->config['showBvr'] ??= 0;
+        $this->config['allowResiliation'] ??= 0;
+        // null = date format of the language
+        $this->config['dateEvent'] ??= null;
 
         foreach (['fr', 'de', 'en', 'es', 'it'] as $lang) {
             $this->config[$lang] ??= 1;

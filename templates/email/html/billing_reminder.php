@@ -31,8 +31,8 @@
 
 <p>
     Salutations,<br>
-    <strong><?= $site->sender ?></strong><br>
-    <?= $site->sender_phone ?>
+    <strong><?= h($site->sender) ?></strong><br>
+    <?= h($site->sender_phone) ?>
 </p>
 
 <p class="footer">

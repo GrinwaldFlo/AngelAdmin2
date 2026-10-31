@@ -12,6 +12,8 @@ use Cake\I18n\DateTime;
  */
 class MeetingsController extends AppController
 {
+  private const FORM_FIELDS = ['meeting_date', 'team_id', 'name', 'big_event', 'url', 'doodle'];
+
   /** Number of meetings shown before "show more" */
   private const PAGE_SIZE = 20;
   private const MAX_PAGE_SIZE = 500;
@@ -134,7 +136,8 @@ class MeetingsController extends AppController
     $this->Authorization->authorize($meeting, 'edit');
 
     if ($this->request->is(['patch', 'post', 'put'])) {
-      $meeting = $this->Meetings->patchEntity($meeting, $this->request->getData());
+      // Not the team itself nor the presences (set on the attendance page)
+      $meeting = $this->Meetings->patchEntity($meeting, $this->request->getData(), ['fields' => self::FORM_FIELDS]);
       // The team may have changed: coaches only move it to one of their teams
       $this->Authorization->authorize($meeting, 'edit');
       if ($this->Meetings->save($meeting)) {

@@ -1,4 +1,4 @@
-<?= __('Hello {0},', $name); ?>
+<?= h(__('Hello {0},', $name)); ?>
 </br>
 <?= __('Thank you for registering. Please click on the url below to create your login'); ?>
 

@@ -71,6 +71,8 @@ class AppControllerTest extends TestCase
         $this->assertSame(0, $config['showInfo']);
         $this->assertSame(0, $config['showCommMethod']);
         $this->assertSame(0, $config['showBvr']);
+        $this->assertSame(0, $config['allowResiliation']);
+        $this->assertArrayHasKey('dateEvent', $config);
         foreach (['fr', 'de', 'en', 'es', 'it'] as $lang) {
             $this->assertSame(1, $config[$lang]);
         }

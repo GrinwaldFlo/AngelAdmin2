@@ -31,6 +31,11 @@ use Cake\Http\Exception\ForbiddenException;
  */
 class MembersController extends AppController
 {
+    /**
+     * Maximum quantity of an item in a shop order (as in the form)
+     */
+    private const SHOP_MAX_QUANTITY = 10;
+
     public $MemberDocs = null;
 
     public array $paginate = [
@@ -205,8 +210,9 @@ class MembersController extends AppController
      */
     private function handleShopOrder($member, string $redirectAction = 'view')
     {
-        // Handle shop order submission
-        if ($this->request->is('post')) {
+        // Handle shop order submission: as on the page, only a registered member orders for itself
+        $isOwn = $redirectAction === 'myPage' || ($this->curUser !== null && $this->curUser->member_id == $member->id);
+        if ($this->request->is('post') && $isOwn && $member->registered) {
             $orderData = $this->request->getData('shop_order');
             if (!empty($orderData)) {
                 $orderSuccess = $this->processShopOrder($member, $orderData);
@@ -293,9 +299,15 @@ class MembersController extends AppController
         $orders = [];
         $totalAmount = 0;
 
-        foreach ($orderData as $shopItemId => $quantity) {
+        foreach ((array)$orderData as $shopItemId => $quantity) {
+            // Same limits as the form: whole numbers up to 10, only the items still for sale
+            $quantity = $quantity === "" ? 0 : filter_var($quantity, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0, 'max_range' => self::SHOP_MAX_QUANTITY]]);
+            $shopItem = $quantity ? $shopItemsTable->find('active')->where(['ShopItems.id' => (int)$shopItemId])->first() : null;
+            if ($quantity === false || ($quantity > 0 && $shopItem === null)) {
+                $this->Flash->error(__('The order is not valid. Please try again.'));
+                return false;
+            }
             if ($quantity > 0) {
-                $shopItem = $shopItemsTable->get($shopItemId);
                 $itemTotal = $shopItem->price * $quantity;
                 $totalAmount += $itemTotal;
 
@@ -548,6 +560,7 @@ class MembersController extends AppController
 
     public function checked(int|null $id = null)
     {
+        $this->request->allowMethod(['post']);
         $isHashValid = $this->hashAccess($id);
 
         $this->MemberManagement->setMemberChecked($id, $isHashValid);
@@ -558,6 +571,7 @@ class MembersController extends AppController
 
     public function active(int|null $id = null)
     {
+        $this->request->allowMethod(['post']);
         $isHashValid = $this->hashAccess($id);
 
         $this->MemberManagement->setMemberActive($id, $isHashValid);
@@ -636,10 +650,13 @@ class MembersController extends AppController
 
     public function agreementPdf(int|null $member_id = 0, int|null $reg_id = 0)
     {
-        $this->Authorization->skipAuthorization();
         $registrations = TableRegistry::getTableLocator()->get('Registrations');
 
         $member = $this->Members->findById($member_id)->contain('Teams')->first();
+        // The member itself (link or account) or the roles editing it
+        if (!$this->hashAccess($member_id)) {
+            $this->Authorization->authorize($member ?? $this->Members->newEmptyEntity(), 'edit');
+        }
         $agreements = $this->getData('agreement');
         $reg = $registrations->findById($reg_id)->first();
 
@@ -693,15 +710,6 @@ class MembersController extends AppController
         }
 
         $this->set(compact('registration'));
-    }
-
-    public function test($p1 = null, $p2 = null)
-    {
-        $this->Authorization->skipAuthorization();
-        $this->viewBuilder()->setHelpers(['Html']);
-        $url = Router::url(array('controller' => 'Users', 'action' => 'register', $this->curMember->hash), true);
-        $url = '<a href="' . $url . '">' . $url . '</a>';
-        $this->Mail->mailNotif(__('New member registered'), __('The member has just registred. You need to validate the signature.'), $this->curMember);
     }
 
     public function invite(int|null $teamId = null, int|null $memberFilter = null)

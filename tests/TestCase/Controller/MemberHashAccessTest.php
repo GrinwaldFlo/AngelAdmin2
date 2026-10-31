@@ -151,4 +151,46 @@ class MemberHashAccessTest extends TestCase
         $this->assertRedirectContains('/users/login');
         $this->assertFalse($this->member(100)->checked);
     }
+
+    public function testEditByLinkIgnoresStaffFields(): void
+    {
+        $this->asMember100();
+
+        $this->post('/members/edit/100', ['first_name' => 'Changed', 'membership_fee_paid' => 1, 'discount' => 50, 'teams' => ['_ids' => [1]]]);
+
+        $member = $this->getTableLocator()->get('Members')->get(100, contain: ['Teams']);
+        $this->assertSame('Changed', $member->first_name);
+        $this->assertSame(0, $member->membership_fee_paid);
+        $this->assertSame(0, $member->discount);
+        $this->assertCount(1, $member->teams);
+    }
+
+    /**
+     * A link or a picture of another site must not change the member (GET requests)
+     */
+    public function testChangesNeedAPost(): void
+    {
+        $this->asMember100();
+
+        $this->get('/members/checked/100');
+        $this->assertResponseCode(405);
+        $this->get('/members/active/100');
+        $this->assertResponseCode(405);
+        $this->assertFalse($this->member(100)->checked);
+    }
+
+    public function testAgreementPdfOfAnotherMemberRefused(): void
+    {
+        $this->getTableLocator()->get('Registrations')->insertQuery()
+            ->insert(['id', 'member_id', 'year'])
+            ->values(['id' => 50, 'member_id' => 1, 'year' => 2026])
+            ->execute();
+
+        $this->get('/members/agreement-pdf/1/50');
+        $this->assertResponseCode(403);
+
+        $this->asMember100();
+        $this->get('/members/agreement-pdf/1/50');
+        $this->assertResponseCode(403);
+    }
 }

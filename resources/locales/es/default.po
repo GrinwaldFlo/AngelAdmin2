@@ -2231,3 +2231,12 @@ msgstr "Este enlace no da acceso a este miembro."
 
 msgid "This signature was already handled."
 msgstr "Esta firma ya fue procesada."
+
+msgid "The password must have at least 8 characters"
+msgstr "La contraseña debe tener al menos 8 caracteres"
+
+msgid "You already have an account, use your username to log in."
+msgstr "Ya tienes una cuenta, usa tu nombre de usuario para iniciar sesión."
+
+msgid "The order is not valid. Please try again."
+msgstr "El pedido no es válido. Inténtalo de nuevo."

@@ -3455,3 +3455,12 @@ msgstr "Ce lien ne donne pas accès à ce membre."
 
 msgid "This signature was already handled."
 msgstr "Cette signature a déjà été traitée."
+
+msgid "The password must have at least 8 characters"
+msgstr "Le mot de passe doit contenir au moins 8 caractères"
+
+msgid "You already have an account, use your username to log in."
+msgstr "Tu as déjà un compte, utilise ton nom d'utilisateur pour te connecter."
+
+msgid "The order is not valid. Please try again."
+msgstr "La commande n'est pas valable. Merci de réessayer."

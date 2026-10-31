@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
@@ -464,5 +465,24 @@ class MeetingsControllerTest extends TestCase
 
         $this->assertRedirect(['controller' => 'Meetings', 'action' => 'index', 1]);
         $this->assertSame(0, $this->getTableLocator()->get('Meetings')->find()->count());
+    }
+
+    /**
+     * The edit form only changes the meeting, not its team nor the presences
+     */
+    public function testEditIgnoresTeamAndPresences(): void
+    {
+        $this->enableCsrfToken();
+        $this->login();
+        $this->getTableLocator()->get('Presences')->deleteAll([]);
+
+        $this->post('/meetings/edit/1', [
+            'meeting_date' => '2020-03-30T19:15', 'team_id' => 1, 'name' => 'Renamed', 'big_event' => '0', 'doodle' => '0', 'url' => '',
+            'team' => ['id' => 1, 'name' => 'Hacked'], 'presences' => [['member_id' => 1, 'state' => 1]],
+        ]);
+
+        $this->assertRedirect(['controller' => 'Meetings', 'action' => 'view', 1]);
+        $this->assertNotSame('Hacked', $this->getTableLocator()->get('Teams')->get(1)->name);
+        $this->assertSame(0, $this->getTableLocator()->get('Presences')->find()->count());
     }
 }

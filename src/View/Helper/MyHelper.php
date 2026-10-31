@@ -200,7 +200,7 @@ class MyHelper extends Helper
             if ($curRole->MemberViewAll) {
                 $label = $this->getView()->Html->link(__('{0} - {1}', $meet->meeting_date->i18nFormat($config['dateEvent']), $meet->name), ['controller' => 'Meetings', 'action' => 'view', $meet->id]);
             } else {
-                $label = __('{0} - {1}', $meet->meeting_date->i18nFormat($config['dateEvent']), $meet->name);
+                $label = h(__('{0} - {1}', $meet->meeting_date->i18nFormat($config['dateEvent']), $meet->name));
             }
 
             if ($meet->webUrl())

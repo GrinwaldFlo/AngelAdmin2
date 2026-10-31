@@ -195,4 +195,57 @@ class MemberManagementComponentTest extends TestCase
         $this->assertTrue($management->setMemberSite(0));
         $this->assertSame(0, $this->member(1)->pref_site_id);
     }
+
+    private const STAFF_DATA = ['membership_fee_paid' => 1, 'discount' => 30, 'registered' => 1, 'active' => 0, 'teams' => ['_ids' => [3]]];
+
+    public function testUpdateOwnMemberIgnoresStaffFields(): void
+    {
+        $this->getTableLocator()->get('Members')->updateAll(['registered' => 0, 'membership_fee_paid' => 0, 'discount' => 0], ['id' => 1]);
+
+        $this->management(['MemberEditOwn'], ['params' => ['action' => 'edit']])->updateMember(1, ['first_name' => 'Mine'] + self::STAFF_DATA);
+
+        $member = $this->getTableLocator()->get('Members')->get(1, contain: ['Teams']);
+        $this->assertSame('Mine', $member->first_name);
+        $this->assertSame(0, $member->membership_fee_paid);
+        $this->assertSame(0, $member->discount);
+        $this->assertFalse($member->registered);
+        $this->assertTrue($member->active);
+        $this->assertSame([1], array_map(fn ($team) => $team->id, $member->teams));
+    }
+
+    public function testUpdateByMemberLinkIgnoresStaffFields(): void
+    {
+        $this->Controller = $this->controller(MembersController::class);
+
+        $this->Controller->MemberManagement->updateMember(100, ['first_name' => 'ByLink'] + self::STAFF_DATA, true);
+
+        $member = $this->getTableLocator()->get('Members')->get(100, contain: ['Teams']);
+        $this->assertSame('ByLink', $member->first_name);
+        $this->assertSame(0, $member->discount);
+        $this->assertSame([2], array_map(fn ($team) => $team->id, $member->teams));
+    }
+
+    public function testStaffUpdatesTheMembership(): void
+    {
+        $this->management(['MemberEditAll'], ['params' => ['action' => 'edit']])->updateMember(101, self::STAFF_DATA + ['hash' => str_repeat('b', 40)]);
+
+        $member = $this->getTableLocator()->get('Members')->get(101, contain: ['Teams']);
+        $this->assertSame(1, $member->membership_fee_paid);
+        $this->assertSame(30, $member->discount);
+        $this->assertTrue($member->registered);
+        $this->assertFalse($member->active);
+        $this->assertSame([3], array_map(fn ($team) => $team->id, $member->teams));
+        // Never from a form
+        $this->assertSame(sha1('member101'), $member->hash);
+    }
+
+    public function testCancelRegistrationOnlyKeepsTheComment(): void
+    {
+        $this->management(['MemberEditAll'])->cancelMemberRegistration(100, ['leaving_comment' => 'Bye', 'discount' => 99, 'first_name' => 'Changed']);
+
+        $member = $this->member(100);
+        $this->assertSame('Bye', $member->leaving_comment);
+        $this->assertSame(0, $member->discount);
+        $this->assertSame('First100', $member->first_name);
+    }
 }

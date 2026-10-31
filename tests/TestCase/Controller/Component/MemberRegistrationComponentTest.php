@@ -217,4 +217,25 @@ class MemberRegistrationComponentTest extends TestCase
         $this->assertStringContainsString('"ip":"10.0.0.1"', $logs[0]);
         $this->assertStringContainsString('"hash":"abc"', $logs[0]);
     }
+
+    /**
+     * The public form must not give a paid membership, a discount, the registration or a team
+     */
+    public function testRegisterIgnoresStaffFields(): void
+    {
+        $this->registration(false)->registerMember($this->memberForm([
+            'membership_fee_paid' => 1, 'discount' => 50, 'registered' => 1, 'email_valid' => 1, 'teams' => ['_ids' => [1]],
+            'hash' => str_repeat('b', 40), 'users' => [['username' => 'evil', 'password' => 'long enough', 'role_id' => 1]],
+        ]), []);
+
+        $member = $this->getTableLocator()->get('Members')->find()->where(['first_name' => 'New'])->contain(['Teams', 'Users'])->firstOrFail();
+        $this->assertSame(0, $member->membership_fee_paid);
+        $this->assertSame(0, $member->discount);
+        $this->assertFalse($member->registered);
+        $this->assertFalse($member->email_valid);
+        $this->assertSame([], $member->teams);
+        $this->assertEmpty($member->users);
+        $this->assertFalse($this->getTableLocator()->get('Users')->exists(['username' => 'evil']));
+        $this->assertNotSame(str_repeat('b', 40), $member->hash);
+    }
 }

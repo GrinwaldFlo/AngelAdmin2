@@ -282,4 +282,18 @@ class MyHelperTest extends TestCase
         $this->assertStringContainsString('href="/members/index/0/1" class="btn btn-primary btn-sm pressed"', $html);
         $this->assertStringContainsString('href="/members/index/3/1"', $html);
     }
+
+    /**
+     * Meeting names are typed by the coaches: escaped for the members without link
+     */
+    public function testShowEventEscapesTheMeetingName(): void
+    {
+        $meeting = new Meeting(['id' => 5, 'name' => '<script>x</script>', 'meeting_date' => new DateTime('2026-11-10 18:00'), 'doodle' => false], ['guard' => false]);
+
+        foreach ([true, false] as $viewAll) {
+            $html = $this->captured(fn () => $this->My->showEvent('Events', '', [$meeting], new Role(['MemberViewAll' => $viewAll]), ['dateEvent' => 'dd.MM.yyyy']));
+            $this->assertStringNotContainsString('<script>', $html);
+            $this->assertStringContainsString('&lt;script&gt;', $html);
+        }
+    }
 }

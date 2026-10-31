@@ -49,7 +49,7 @@
     $this->my->respGrid(__(''), ($member->bvr) ? $this->my->tags("span", __('Payment slip'), ['class' => "badge bg-info"]) : '');
     ?>
     <br />
-    <?= $allowEdit && !$member->checked ? $this->Html->link(__('The information is correct'), ['action' => 'checked', $member->id], ['class' => 'btn btn-primary btn-sm']) : '' ?>
+    <?= $allowEdit && !$member->checked ? $this->Form->postLink(__('The information is correct'), ['action' => 'checked', $member->id], ['class' => 'btn btn-primary btn-sm']) : '' ?>
     <?= $allowQuit && $member->active ? $this->Html->link(__('Quit membership'), ['action' => 'cancelRegistration', $member->id], ['class' => 'btn btn-primary btn-sm']) : '' ?>
     <?= $allowEdit ? $this->Html->link(__('Edit'), ['action' => 'edit', $member->id], ['class' => 'btn btn-primary btn-sm']) : '' ?>
 </div>

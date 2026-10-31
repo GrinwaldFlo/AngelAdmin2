@@ -2374,3 +2374,12 @@ msgstr "Questo link non dà accesso a questo membro."
 
 msgid "This signature was already handled."
 msgstr "Questa firma è già stata gestita."
+
+msgid "The password must have at least 8 characters"
+msgstr "La password deve avere almeno 8 caratteri"
+
+msgid "You already have an account, use your username to log in."
+msgstr "Hai già un account, usa il tuo nome utente per accedere."
+
+msgid "The order is not valid. Please try again."
+msgstr "L'ordine non è valido. Riprova."

@@ -12,7 +12,7 @@
     <?php if (!$isLogged): ?>
         <?php if (!empty($member->user)): ?>
             <?= $this->Html->link(__('Login'), ['action' => 'view', $member->id], ['class' => 'btn btn-primary btn-sm', 'style' => 'width:300px;height:32px']) ?>
-            <?= __('Your user name is {0}', $member->user->username) ?>
+            <?= h(__('Your user name is {0}', $member->user->username)) ?>
         <?php else: ?>
             <?= $this->Html->link(__('Create account with this member'), ['controller' => 'Users', 'action' => 'register', $member->hash], ['class' => 'btn btn-primary btn-sm', 'style' => 'width:300px;height:32px']) ?>
         <?php endif; ?>

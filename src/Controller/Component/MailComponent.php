@@ -46,7 +46,8 @@ class MailComponent extends Component
     }
 
     $title = $this->getController()->config['clubName'] . ' - ' . $title;
-    $content = __("Dear")." ".$member->FullName.",\n".$content;
+    // The content may contain links (HTML): the name typed by the member is escaped
+    $content = __("Dear")." ".h($member->FullName).",\n".$content;
 
     $this->deliver($member->email, $member->FullName, $title, ['content' => $content]);
 //    echo "Mail sent to member";

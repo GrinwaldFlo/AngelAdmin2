@@ -134,4 +134,19 @@ class MailComponentTest extends TestCase
         $item = $this->getTableLocator()->get('MailingItems')->find()->where(['mailing_id' => $mailing->id, 'status' => MailingItem::PENDING])->orderBy(['attempts' => 'DESC'])->firstOrFail();
         $this->assertSame(1, $item->attempts);
     }
+
+    /**
+     * The name is typed by the member, the content may contain links
+     */
+    public function testMailToMemberEscapesTheName(): void
+    {
+        $member = $this->getTableLocator()->get('Members')->get(100);
+        $member->first_name = '<b>Ana</b> &';
+
+        $this->Mail->mailToMember('Hello', 'See <a href="https://example.com">your page</a>', $member);
+
+        $this->assertMailContainsHtml('&lt;b&gt;Ana&lt;/b&gt; &amp;');
+        $this->assertMailContainsHtml('<a href="https://example.com">your page</a>');
+        $this->assertMailContainsText('Dear <b>Ana</b> & Last100');
+    }
 }

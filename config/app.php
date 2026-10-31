@@ -465,7 +465,8 @@ return [
         'ini' => [
             'session.cookie_lifetime' => 1814400, // 21 days in seconds
             'session.gc_maxlifetime' => 1814400, // 21 days garbage collection
-            'session.cookie_secure' => false,
+            // Only sent over HTTPS when the site uses it (SESSION_COOKIE_SECURE overrides the detection, e.g. behind a proxy)
+            'session.cookie_secure' => filter_var(env('SESSION_COOKIE_SECURE', env('HTTPS', false)), FILTER_VALIDATE_BOOLEAN),
             'session.cookie_httponly' => true, // Prevent XSS attacks
             'session.cookie_samesite' => 'Lax', // Use Lax in order to allows link check from Google / Outlook to work
             'session.use_strict_mode' => true, // Session security
