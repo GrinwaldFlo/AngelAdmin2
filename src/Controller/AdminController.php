@@ -56,6 +56,10 @@ class AdminController extends AppController
 
     public function resetMembership(int $validation = 0)
     {
+        // Shown with GET, the reset itself is a POST
+        if ($validation != 0) {
+            $this->request->allowMethod(['post']);
+        }
         $membersReg = TableRegistry::getTableLocator()->get('Members');
         $members = $membersReg->find('all')->where(['membership_fee_paid >' => 0]);
 
@@ -77,6 +81,10 @@ class AdminController extends AppController
 
     public function resetRegistration(int $validation = 0)
     {
+        // Shown with GET, the reset itself is a POST
+        if ($validation != 0) {
+            $this->request->allowMethod(['post']);
+        }
         $membersReg = TableRegistry::getTableLocator()->get('Members');
         $members = $membersReg->find('all')->where(['registered >' => 0]);
 

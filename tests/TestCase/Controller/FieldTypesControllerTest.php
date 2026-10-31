@@ -1,79 +1,24 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\FieldTypesController;
-use Cake\TestSuite\IntegrationTestTrait;
-use Cake\TestSuite\TestCase;
+use App\Test\TestSuite\CrudControllerTestCase;
 
 /**
- * App\Controller\FieldTypesController Test Case
- *
  * @uses \App\Controller\FieldTypesController
  */
-class FieldTypesControllerTest extends TestCase
+class FieldTypesControllerTest extends CrudControllerTestCase
 {
-    use IntegrationTestTrait;
+    protected string $url = '/field-types';
 
-    /**
-     * Fixtures
-     *
-     * @var array
-     */
-    protected array $fixtures = [
-        'app.FieldTypes',
-        'app.Fields',
-        'app.Members',
-    ];
+    protected string $table = 'FieldTypes';
 
-    /**
-     * Test index method
-     *
-     * @return void
-     */
-    public function testIndex(): void
+    protected string $field = 'label';
+
+    protected function validData(): array
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test view method
-     *
-     * @return void
-     */
-    public function testView(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test add method
-     *
-     * @return void
-     */
-    public function testAdd(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+        return ['label' => 'Allergies', 'style' => 0, 'member_edit' => 1, 'sort' => 3, 'hidden' => 0, 'mandatory' => 0];
     }
 }

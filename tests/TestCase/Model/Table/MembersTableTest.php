@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
@@ -78,16 +79,6 @@ class MembersTableTest extends TestCase
         $this->assertArrayHasKey('last_name', $errors);
         $this->assertArrayHasKey('email', $errors);
         $this->assertArrayHasKey('multi_payment', $errors);
-    }
-
-    /**
-     * Test buildRules method
-     *
-     * @return void
-     */
-    public function testBuildRules(): void
-    {
-        $this->markTestSkipped('MembersTable::buildRules currently returns rules unchanged. Add assertions when integrity rules are introduced.');
     }
 
     /**

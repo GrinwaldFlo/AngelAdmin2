@@ -234,4 +234,40 @@ class UserAccountSecurityTest extends TestCase
         $this->assertRedirect('/');
         $this->assertFlashElement('flash/error');
     }
+
+    public function testLogout(): void
+    {
+        $this->session(['Auth' => $this->user(1)]);
+
+        $this->get('/users/logout');
+
+        $this->assertRedirect(['controller' => 'Users', 'action' => 'login']);
+        $this->assertSessionNotHasKey('Auth');
+    }
+
+    public function testEmailLoginSendsTheLinkOfTheMember(): void
+    {
+        $this->post('/users/email-login', ['full_name' => ' lorem ipsum dolor sit amet Lorem ipsum dolor sit amet ']);
+
+        $this->assertRedirect(['controller' => 'Users', 'action' => 'login']);
+        $this->assertMailSentTo('m1@example.com');
+        $this->assertMailContains('/members/my-page/');
+    }
+
+    public function testEmailLoginOfUnknownNameOnlyWarnsTheClub(): void
+    {
+        $this->post('/users/email-login', ['full_name' => 'Nobody <b>Here</b>']);
+
+        // Same message: nobody learns if the member exists
+        $this->assertFlashElement('flash/success');
+        $this->assertMailCount(1);
+        $this->assertMailSentTo('club@example.com');
+    }
+
+    public function testEmailLoginNeedsAPost(): void
+    {
+        $this->get('/users/email-login');
+
+        $this->assertResponseCode(405);
+    }
 }

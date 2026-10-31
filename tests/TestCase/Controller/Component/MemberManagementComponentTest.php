@@ -248,4 +248,23 @@ class MemberManagementComponentTest extends TestCase
         $this->assertSame(0, $member->discount);
         $this->assertSame('First100', $member->first_name);
     }
+
+    public function testSetMemberLanguageDisabledInTheConfiguration(): void
+    {
+        $this->getTableLocator()->get('Configurations')->insertQuery()->insert(['label', 'value'])
+            ->values(['label' => 'de', 'value' => '0'])->execute();
+
+        $this->assertFalse($this->management([])->setMemberLanguage('de'));
+        $this->assertSame('en', $this->member(1)->language);
+    }
+
+    public function testSetLanguageWithoutLoginOnlyInSession(): void
+    {
+        $this->Controller = $this->controller(MembersController::class);
+
+        $this->assertTrue($this->Controller->MemberManagement->setMemberLanguage('it'));
+
+        $this->assertSame('it', $this->Controller->getRequest()->getSession()->read('lng'));
+        $this->assertSame('en', $this->member(1)->language);
+    }
 }

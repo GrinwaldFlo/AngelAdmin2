@@ -54,7 +54,7 @@ class MembersController extends AppController
         $this->loadComponent('MemberDocument');
         $this->loadComponent('MemberRegistration');
         $this->loadComponent('MemberData');
-        $this->Authentication->addUnauthenticatedActions(['myPage', 'register', 'checked', 'agreement', 'agreementPdf', 'active', 'cancelRegistration', 'edit', 'addPhoto', 'addPhotoId']);
+        $this->Authentication->addUnauthenticatedActions(['myPage', 'register', 'checked', 'agreement', 'agreementPdf', 'active', 'cancelRegistration', 'edit', 'addPhoto', 'addPhotoId', 'setLanguage']);
     }
 
     /**
@@ -736,6 +736,17 @@ class MembersController extends AppController
      * Save the site (city) chosen in the menu as preference of the current member
      * @param int $siteId 0 = all sites
      */
+    /**
+     * Language of the menu: kept by the logged member, in the session otherwise
+     */
+    public function setLanguage(string|null $lng = null)
+    {
+        $this->Authorization->skipAuthorization();
+        $this->MemberManagement->setMemberLanguage($lng);
+
+        return $this->redirect($this->referer());
+    }
+
     public function setSite(int $siteId = 0)
     {
         $this->request->allowMethod(['post']);

@@ -2240,3 +2240,6 @@ msgstr "Ya tienes una cuenta, usa tu nombre de usuario para iniciar sesión."
 
 msgid "The order is not valid. Please try again."
 msgstr "El pedido no es válido. Inténtalo de nuevo."
+
+msgid "Add Configuration"
+msgstr "Añadir una configuración"

@@ -8,13 +8,13 @@
  * @var bool $isOwn
  */
 ?>
-<div class="icon float-end" style="width: 400px">
+<div class="icon float-end member-header-actions">
     <?php if (!$isLogged): ?>
         <?php if (!empty($member->user)): ?>
-            <?= $this->Html->link(__('Login'), ['action' => 'view', $member->id], ['class' => 'btn btn-primary btn-sm', 'style' => 'width:300px;height:32px']) ?>
+            <?= $this->Html->link(__('Login'), ['action' => 'view', $member->id], ['class' => 'btn btn-primary btn-sm member-header-button']) ?>
             <?= h(__('Your user name is {0}', $member->user->username)) ?>
         <?php else: ?>
-            <?= $this->Html->link(__('Create account with this member'), ['controller' => 'Users', 'action' => 'register', $member->hash], ['class' => 'btn btn-primary btn-sm', 'style' => 'width:300px;height:32px']) ?>
+            <?= $this->Html->link(__('Create account with this member'), ['controller' => 'Users', 'action' => 'register', $member->hash], ['class' => 'btn btn-primary btn-sm member-header-button']) ?>
         <?php endif; ?>
     <?php else: ?>
         <?= $curRole->MemberEditAll ? $this->backButtonCtrl('Members', 'index') : $this->BackButton('/') ?>

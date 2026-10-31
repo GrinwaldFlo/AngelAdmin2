@@ -2383,3 +2383,6 @@ msgstr "Hai già un account, usa il tuo nome utente per accedere."
 
 msgid "The order is not valid. Please try again."
 msgstr "L'ordine non è valido. Riprova."
+
+msgid "Add Configuration"
+msgstr "Aggiungi una configurazione"

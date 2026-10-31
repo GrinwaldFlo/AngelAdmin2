@@ -466,6 +466,15 @@ th {
   display: inline-block;
 }
 
+/* element/Members/header.php */
+.member-header-actions {
+  width: 400px;
+}
+.member-header-button {
+  width: 300px;
+  height: 32px;
+}
+
 /* AppView::backButtonCtrl */
 .back-button {
   width: 60px;

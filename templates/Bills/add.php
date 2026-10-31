@@ -57,17 +57,17 @@ $dateBill->add($interval);
   });
   $("#Membership").click(function () {
     $("#label").val("<?= $feeLabel ?>");
-    $("#amount").val("<?= $curMember->MembershipFee($config['feeMax']) ?>");
+    $("#amount").val("<?= $curMember->MembershipFee($feeMax) ?>");
     $("#membership_fee").prop('checked', true);
   });
   $("#Membership1_2").click(function () {
     $("#label").val("<?= $feeLabel ?> 1/2");
-    $("#amount").val("<?= $curMember->MembershipFee($config['feeMax']) / 2 ?>");
+    $("#amount").val("<?= $curMember->MembershipFee($feeMax) / 2 ?>");
     $("#membership_fee").prop('checked', true);
   });
   $("#Membership2_2").click(function () {
     $("#label").val("<?= $feeLabel ?> 2/2");
-    $("#amount").val("<?= $curMember->MembershipFee($config['feeMax']) / 2 ?>");
+    $("#amount").val("<?= $curMember->MembershipFee($feeMax) / 2 ?>");
     $("#membership_fee").prop('checked', true);
   });
 <?php

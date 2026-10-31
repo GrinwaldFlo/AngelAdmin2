@@ -206,13 +206,16 @@ class MemberManagementComponent extends Component
     {
         $controller = $this->getController();
         
-        if ($lng == null || !in_array($lng, ['en', 'fr', 'de', 'es', 'it'])) {
+        // Only the languages enabled in the configuration
+        if ($lng == null || !in_array($lng, ['en', 'fr', 'de', 'es', 'it'], true) || empty($controller->config[$lng])) {
             $controller->Flash->error(__("This language doesn't exists"));
             return false;
         }
 
-        $controller->curMember->language = $lng;
-        $controller->Members->save($controller->curMember);
+        if ($controller->curMember !== null) {
+            $controller->curMember->language = $lng;
+            $controller->fetchTable('Members')->updateAll(['language' => $lng], ['id' => $controller->curMember->id]);
+        }
         $controller->getPrefSessionStr('lng', $lng, 'fr');
         
         return true;

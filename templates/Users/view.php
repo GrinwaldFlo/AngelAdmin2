@@ -28,14 +28,6 @@
           <td><?= $user->has('member') ? $this->Html->link($user->member->FullName, ['controller' => 'Members', 'action' => 'view', $user->member->id]) : '' ?></td>
         </tr>
         <tr>
-          <th><?= __('Pass Key') ?></th>
-          <td><?= h($user->pass_key) ?></td>
-        </tr>
-        <tr>
-          <th><?= __('Tokenhash') ?></th>
-          <td><?= h($user->tokenhash) ?></td>
-        </tr>
-        <tr>
           <th><?= __('Id') ?></th>
           <td><?= $this->Number->format($user->id) ?></td>
         </tr>

@@ -2283,3 +2283,6 @@ msgstr "Du hast bereits ein Konto, melde dich mit deinem Benutzernamen an."
 
 msgid "The order is not valid. Please try again."
 msgstr "Die Bestellung ist ungültig. Bitte versuche es nochmals."
+
+msgid "Add Configuration"
+msgstr "Konfiguration hinzufügen"
