@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
@@ -111,5 +112,38 @@ class MembersControllerTest extends TestCase
         $this->enableCsrfToken();
         $this->post('/members/delete/1');
         $this->assertResponseCode(302);
+    }
+
+    /**
+     * Language menu of the layout
+     */
+    public function testSetLanguageOfTheLoggedMember(): void
+    {
+        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1)]);
+        $this->configRequest(['environment' => ['HTTP_REFERER' => 'http://localhost/members/view/1']]);
+
+        $this->get('/members/set-language/de');
+
+        $this->assertRedirect('/members/view/1');
+        $this->assertSame('de', $this->getTableLocator()->get('Members')->get(1)->language);
+        $this->assertSession('de', 'lng');
+    }
+
+    public function testSetLanguageWithoutLogin(): void
+    {
+        $this->get('/members/set-language/it');
+
+        $this->assertRedirect('/');
+        $this->assertSession('it', 'lng');
+    }
+
+    public function testSetUnknownLanguage(): void
+    {
+        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1)]);
+
+        $this->get('/members/set-language/xx');
+
+        $this->assertRedirect('/');
+        $this->assertSame('fr', $this->getTableLocator()->get('Members')->get(1)->language);
     }
 }

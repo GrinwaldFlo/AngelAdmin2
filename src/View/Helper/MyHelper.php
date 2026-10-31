@@ -200,7 +200,7 @@ class MyHelper extends Helper
             if ($curRole->MemberViewAll) {
                 $label = $this->getView()->Html->link(__('{0} - {1}', $meet->meeting_date->i18nFormat($config['dateEvent']), $meet->name), ['controller' => 'Meetings', 'action' => 'view', $meet->id]);
             } else {
-                $label = __('{0} - {1}', $meet->meeting_date->i18nFormat($config['dateEvent']), $meet->name);
+                $label = h(__('{0} - {1}', $meet->meeting_date->i18nFormat($config['dateEvent']), $meet->name));
             }
 
             if ($meet->webUrl())
@@ -261,16 +261,13 @@ class MyHelper extends Helper
     public function butPhotoAddEdit($edit, $action, $memberId)
     {
         $iconPhoto = $edit ? '<i class="gg-pen"></i>' : '<i class="gg-add-r"></i>';
-        $iconStyle = $edit ? 'position: absolute;right: 0px;top: 0px;background-color: #ffffff78;border-radius: 10%;padding-top: 25px;padding-left: 20px;width: 50px;height: 50px;'
-            : 'position: absolute;right: 0px;top: 0px;background-color: #ffffff78;border-radius: 10%;padding-top: 15px;padding-left: 15px;width: 50px;height: 50px;';
 
         return $this->getView()->Html->link(
             $iconPhoto,
             ['action' => $action, $memberId],
             [
-                'class' => 'ml-auto mr-3',
+                'class' => 'ml-auto mr-3 photo-btn ' . ($edit ? 'photo-btn-edit' : 'photo-btn-add'),
                 'escape' => false,
-                'style' => $iconStyle
             ]
         );
     }
@@ -284,19 +281,14 @@ class MyHelper extends Helper
         return '<span class="' . h($class) . '">' . h($name) . '</span>';
     }
 
-    public function symbol($name, $options = [], $color = null): string
+    public function symbol($name, $options = []): string
     {
         $class = 'material-symbols';
         if (!empty($options['class'])) {
             $class .= ' ' . $options['class'];
         }
-        
-        $style = '';
-        if ($color !== null) {
-            $style = ' style="color: ' . h($color) . '"';
-        }
-        
-        return '<span class="' . h($class) . '"' . $style . '>' . h($name) . '</span>';
+
+        return '<span class="' . h($class) . '">' . h($name) . '</span>';
     }
 
     /**
@@ -339,7 +331,7 @@ class MyHelper extends Helper
             ];
             $class = 'btn btn-primary btn-sm' . ($isCurrent ? ' pressed' : '');
             $links .= $this->getView()->Html->link(
-                h($team),
+                $team,
                 $url,
                 ['class' => $class]
             );

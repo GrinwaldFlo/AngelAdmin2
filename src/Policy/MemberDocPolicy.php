@@ -20,6 +20,8 @@ class MemberDocPolicy
      */
     public function canCreate(IdentityInterface $user, MemberDoc $memberDoc)
     {
+        // Not used yet: refused
+        return false;
     }
 
     /**
@@ -31,6 +33,8 @@ class MemberDocPolicy
      */
     public function canUpdate(IdentityInterface $user, MemberDoc $memberDoc)
     {
+        // Not used yet: refused
+        return false;
     }
 
     /**
@@ -42,6 +46,8 @@ class MemberDocPolicy
      */
     public function canDelete(IdentityInterface $user, MemberDoc $memberDoc)
     {
+        // Not used yet: refused
+        return false;
     }
 
     /**
@@ -53,5 +59,7 @@ class MemberDocPolicy
      */
     public function canView(IdentityInterface $user, MemberDoc $memberDoc)
     {
+        // Not used yet: refused
+        return false;
     }
 }

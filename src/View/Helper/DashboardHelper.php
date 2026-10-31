@@ -87,7 +87,7 @@ class DashboardHelper extends Helper
 
     public function money(int|float $amount): string
     {
-        return $this->Number->format($amount, ['places' => 0]) . ' CHF';
+        return $this->Number->format($amount, ['places' => 0, 'precision' => 0]) . ' CHF';
     }
 
     /**

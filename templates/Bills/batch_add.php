@@ -25,7 +25,7 @@ $dateBill->add($interval);
       <div>
         <div class="btn btn-primary btn-sm" id="clear"><?= __("Clear") ?></div>
         <?php foreach ($billTemplates as $value) : ?>
-          <div class="btn btn-primary btn-sm" id="<?= $value->id ?>"><?= $value->label ?></div>
+          <div class="btn btn-primary btn-sm" id="<?= $value->id ?>"><?= h($value->label) ?></div>
         <?php endforeach; ?>
       </div>
       <hr>  

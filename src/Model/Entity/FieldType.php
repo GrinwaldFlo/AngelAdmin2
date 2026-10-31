@@ -51,7 +51,7 @@ class FieldType extends Entity
 
   protected function _getStyleStr()
   {
-    return isset($styleList[$this->style]) ? $this->_getStyleList() : '';
+    return $this->_getStyleList()[$this->style] ?? '';
   }
 
 }

@@ -23,7 +23,8 @@ class FieldTypePolicy
    */
   public function canCreate(IdentityInterface $user, FieldType $fieldType)
   {
-    
+    // Not used yet: refused
+    return false;
   }
 
   /**
@@ -35,7 +36,8 @@ class FieldTypePolicy
    */
   public function canUpdate(IdentityInterface $user, FieldType $fieldType)
   {
-    
+    // Not used yet: refused
+    return false;
   }
 
   /**
@@ -47,7 +49,8 @@ class FieldTypePolicy
    */
   public function canDelete(IdentityInterface $user, FieldType $fieldType)
   {
-    
+    // Not used yet: refused
+    return false;
   }
 
   /**
@@ -59,7 +62,8 @@ class FieldTypePolicy
    */
   public function canView(IdentityInterface $user, FieldType $fieldType)
   {
-    
+    // Not used yet: refused
+    return false;
   }
 
 }

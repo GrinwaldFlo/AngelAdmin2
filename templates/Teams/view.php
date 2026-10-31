@@ -94,7 +94,7 @@
             <?php foreach ($membersIn as $member) : ?>
               <div class="d-flex align-items-center mb-2">
                 <?= $this->Html->link($member->FullName, ['controller' => 'Members', 'action' => 'view', $member->id], ['class' => 'me-1']) ?>
-                <?= $this->Html->link('-', ['action' => 'removeMember', $team->id, $member->id], [
+                <?= $this->Form->postLink('-', ['action' => 'removeMember', $team->id, $member->id], [
                   'escape' => false,
                   'class' => 'btn btn-danger btn-sm',
                   'title' => __('Remove member')
@@ -115,7 +115,7 @@
                 <?php else : ?>
                   <span class="me-1"><?= h($member->FullName." (".$member->Age.")") ?></span>
                 <?php endif; ?>
-                <?= $this->Html->link('+', ['action' => 'addMember', $team->id, $member->id], [
+                <?= $this->Form->postLink('+', ['action' => 'addMember', $team->id, $member->id], [
                   'escape' => false,
                   'class' => 'btn btn-success btn-sm',
                   'title' => __('Add member')

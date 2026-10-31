@@ -2362,3 +2362,27 @@ msgstr "{0} è già allenatore di {1}."
 
 msgid "{0} is no longer coach of {1}."
 msgstr "{0} non è più allenatore di {1}."
+
+msgid "This item has orders, disable it instead."
+msgstr "Questo articolo ha degli ordini, disattivalo invece."
+
+msgid "The QR code of the invoice {0} could not be created: {1}"
+msgstr "Impossibile creare il codice QR della fattura {0}: {1}"
+
+msgid "This link does not give access to this member."
+msgstr "Questo link non dà accesso a questo membro."
+
+msgid "This signature was already handled."
+msgstr "Questa firma è già stata gestita."
+
+msgid "The password must have at least 8 characters"
+msgstr "La password deve avere almeno 8 caratteri"
+
+msgid "You already have an account, use your username to log in."
+msgstr "Hai già un account, usa il tuo nome utente per accedere."
+
+msgid "The order is not valid. Please try again."
+msgstr "L'ordine non è valido. Riprova."
+
+msgid "Add Configuration"
+msgstr "Aggiungi una configurazione"

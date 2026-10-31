@@ -19,36 +19,8 @@ class MemberDataComponent extends Component
         $controller = $this->getController();
         $controller->Members->getAssociation('Fields')->AddMissing($member);
 
-        // Calculate late bills sum for this member
-        $lateBillsSum = $controller->Members->Bills->find()
-            ->select([
-                'late_bills_sum' => $controller->Members->Bills->find()->func()->coalesce([
-                    $controller->Members->Bills->find()->func()->sum('Bills.amount'),
-                    0
-                ])
-            ])
-            ->where([
-                'Bills.member_id' => $member->id,
-                'Bills.paid' => false,
-                'Bills.canceled' => false,
-                'Bills.due_date <' => \Cake\I18n\FrozenDate::today()
-            ])
-            ->first();
-
-        // Add the late_bills_sum as a virtual property
-        $member->late_bills_sum = $lateBillsSum ? $lateBillsSum->late_bills_sum : 0;
-
-
-        $memberDocs = $controller->fetchTable('MemberDocs');
-        $docs = $memberDocs->find('all', order: ['title' => 'asc']);
-
-        $files = [];
-        foreach ($docs as $key => $value) {
-            if ($member->DocExists($value->name)) {
-                $files[$value->name]['url'] = $member->GetDocUrl($value->name);
-                $files[$value->name]['title'] = $value->title;
-            }
-        }
+        $member->late_bills_sum = $this->lateBillsSum($member->id);
+        $files = $this->memberFiles($member);
 
         $attendance = $this->buildAttendance($member, $config);
 
@@ -60,6 +32,42 @@ class MemberDataComponent extends Component
             'title' => $member->fullName,
             'attendance' => $attendance
         ];
+    }
+
+    /**
+     * Sum of the late bills (unpaid, not canceled, due date passed)
+     */
+    private function lateBillsSum(int $memberId)
+    {
+        $bills = $this->getController()->Members->Bills;
+        $query = $bills->find();
+        $row = $query
+            ->select(['late_bills_sum' => $query->func()->coalesce([$query->func()->sum('Bills.amount'), 0])])
+            ->where([
+                'Bills.member_id' => $memberId,
+                'Bills.paid' => false,
+                'Bills.canceled' => false,
+                'Bills.due_date <' => \Cake\I18n\Date::today()
+            ])
+            ->first();
+
+        return $row ? $row->late_bills_sum : 0;
+    }
+
+    /**
+     * Documents of the member that exist, by name
+     * @return array<string, array{url: string, title: string}>
+     */
+    private function memberFiles($member): array
+    {
+        $files = [];
+        foreach ($this->getController()->fetchTable('MemberDocs')->find('all', order: ['title' => 'asc']) as $doc) {
+            if ($member->DocExists($doc->name)) {
+                $files[$doc->name] = ['url' => $member->GetDocUrl($doc->name), 'title' => $doc->title];
+            }
+        }
+
+        return $files;
     }
 
     /**
@@ -93,26 +101,8 @@ class MemberDataComponent extends Component
             $member = $controller->Members->findByHash($hash)
                 ->contain(['Teams', 'Bills', 'Presences', 'Users', 'Presences.Meetings', 'Bills.Members', 'Fields' => ['FieldTypes'], 'Bills.Sites'])
                 ->FirstOrFail();
-                
-            // Calculate late bills sum for this member
-            $lateBillsSum = $controller->Members->Bills->find()
-                ->select([
-                    'late_bills_sum' => $controller->Members->Bills->find()->func()->coalesce([
-                        $controller->Members->Bills->find()->func()->sum('Bills.amount'),
-                        0
-                    ])
-                ])
-                ->where([
-                    'Bills.member_id' => $member->id,
-                    'Bills.paid' => false,
-                    'Bills.canceled' => false,
-                    'Bills.due_date <' => \Cake\I18n\FrozenDate::today()
-                ])
-                ->first();
-            
-            // Add the late_bills_sum as a virtual property
-            $member->late_bills_sum = $lateBillsSum ? $lateBillsSum->late_bills_sum : 0;
-                
+
+            $member->late_bills_sum = $this->lateBillsSum($member->id);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             return [
                 'error' => 'hash_not_found',
@@ -121,22 +111,11 @@ class MemberDataComponent extends Component
             ];
         }
 
-        $memberDocs = $controller->fetchTable('MemberDocs');
-        $docs = $memberDocs->find('all', order: ['title' => 'asc']);
-
-        $files = array();
-        foreach ($docs as $key => $value) {
-            if ($member->DocExists($value->name)) {
-                $files[$value->name]['url'] = $member->GetDocUrl($value->name);
-                $files[$value->name]['title'] = $value->title;
-            }
-        }
-
         $attendance = $this->buildAttendance($member, $config);
 
         return [
             'member' => $member,
-            'files' => $files,
+            'files' => $this->memberFiles($member),
             'title' => $member->FullName,
             'attendance' => $attendance,
             'contactEmail' => $config['email'] ?? 'not@found.com'
@@ -156,15 +135,15 @@ class MemberDataComponent extends Component
 
         foreach ($mfs as $mf) {
             $this->createField($fieldReg, $mf->member_id, 1, trim($mf->contact1_first_name . " " . $mf->contact1_last_name));
-            $this->createField($fieldReg, $mf->member_id, 2, trim($mf->contact1_natel));
-            $this->createField($fieldReg, $mf->member_id, 3, trim($mf->contact1_email));
+            $this->createField($fieldReg, $mf->member_id, 2, trim((string)$mf->contact1_natel));
+            $this->createField($fieldReg, $mf->member_id, 3, trim((string)$mf->contact1_email));
             $this->createField($fieldReg, $mf->member_id, 4, trim($mf->contact2_first_name . " " . $mf->contact2_last_name));
-            $this->createField($fieldReg, $mf->member_id, 5, trim($mf->contact2_natel));
-            $this->createField($fieldReg, $mf->member_id, 6, trim($mf->contact2_email));
-            $this->createField($fieldReg, $mf->member_id, 7, trim($mf->facebook));
-            $this->createField($fieldReg, $mf->member_id, 8, trim($mf->problemes_medicaux));
-            $this->createField($fieldReg, $mf->member_id, 9, trim($mf->remarque));
-            $this->createField($fieldReg, $mf->member_id, 10, trim($mf->a_connu_le_club_de));
+            $this->createField($fieldReg, $mf->member_id, 5, trim((string)$mf->contact2_natel));
+            $this->createField($fieldReg, $mf->member_id, 6, trim((string)$mf->contact2_email));
+            $this->createField($fieldReg, $mf->member_id, 7, trim((string)$mf->facebook));
+            $this->createField($fieldReg, $mf->member_id, 8, trim((string)$mf->problemes_medicaux));
+            $this->createField($fieldReg, $mf->member_id, 9, trim((string)$mf->remarque));
+            $this->createField($fieldReg, $mf->member_id, 10, trim((string)$mf->a_connu_le_club_de));
         }
     }
 

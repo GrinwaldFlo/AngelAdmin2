@@ -123,6 +123,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // https://book.cakephp.org/5/en/security/csrf.html#cross-site-request-forgery-csrf-middleware
             ->add(new CsrfProtectionMiddleware([
                 'httponly' => true,
+                'secure' => (bool)(Configure::read('Session.ini')['session.cookie_secure'] ?? false),
             ]))
             
             ;

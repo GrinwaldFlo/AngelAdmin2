@@ -12,7 +12,7 @@ $dateBill->add($interval);
     <div class="bills form content">
       <?= $this->Form->create($bill) ?>
       <fieldset>
-        <legend><?= __('Add invoice to {0}', $curMember->full_name) ?></legend>
+        <legend><?= h(__('Add invoice to {0}', $curMember->full_name)) ?></legend>
         <?php
         echo $this->Form->control('member_id', ['type' => 'hidden', 'value' => $curMember->id]);
         echo $this->Form->control('label', ['label' => __x('Label on the invoice','Denomination'), 'id' => 'label']);
@@ -43,7 +43,7 @@ $dateBill->add($interval);
       </div>
       <div>
         <?php foreach ($billTemplates as $value) : ?>
-          <div class="btn btn-primary btn-sm" id="<?= $value->id ?>"><?= $value->label ?></div>
+          <div class="btn btn-primary btn-sm" id="<?= $value->id ?>"><?= h($value->label) ?></div>
         <?php endforeach; ?>
       </div>
     </div>
@@ -57,17 +57,17 @@ $dateBill->add($interval);
   });
   $("#Membership").click(function () {
     $("#label").val("<?= $feeLabel ?>");
-    $("#amount").val("<?= $curMember->MembershipFee($config['feeMax']) ?>");
+    $("#amount").val("<?= $curMember->MembershipFee($feeMax) ?>");
     $("#membership_fee").prop('checked', true);
   });
   $("#Membership1_2").click(function () {
     $("#label").val("<?= $feeLabel ?> 1/2");
-    $("#amount").val("<?= $curMember->MembershipFee($config['feeMax']) / 2 ?>");
+    $("#amount").val("<?= $curMember->MembershipFee($feeMax) / 2 ?>");
     $("#membership_fee").prop('checked', true);
   });
   $("#Membership2_2").click(function () {
     $("#label").val("<?= $feeLabel ?> 2/2");
-    $("#amount").val("<?= $curMember->MembershipFee($config['feeMax']) / 2 ?>");
+    $("#amount").val("<?= $curMember->MembershipFee($feeMax) / 2 ?>");
     $("#membership_fee").prop('checked', true);
   });
 <?php

@@ -6,6 +6,7 @@ namespace App\Model\Table;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Utility\Security;
 use Cake\Validation\Validator;
 
 /**
@@ -81,6 +82,28 @@ class UsersTable extends Table
             ->allowEmptyString('password');
 
         return $validator;
+    }
+
+    /**
+     * Registration and password reset: a new password is required
+     */
+    public function validationPassword(Validator $validator): Validator
+    {
+        $validator = $this->validationDefault($validator);
+        $validator
+            ->requirePresence('password')
+            ->notEmptyString('password')
+            ->minLength('password', 8, __('The password must have at least 8 characters'));
+
+        return $validator;
+    }
+
+    /**
+     * New random token for the password reset link
+     */
+    public static function newResetToken(): string
+    {
+        return Security::randomString(40);
     }
 
     /**

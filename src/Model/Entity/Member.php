@@ -199,8 +199,9 @@ class Member extends Entity
   {
     $folder = $this->memberPath;
 
+    // The members folder itself is not in git
     if (!file_exists($folder))
-      mkdir($folder);
+      mkdir($folder, 0755, true);
 
     return $folder;
   }

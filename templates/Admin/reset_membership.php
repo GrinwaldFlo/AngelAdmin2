@@ -13,11 +13,11 @@
       <tbody>
         <?php foreach ($members as $member): ?>
           <tr>
-            <td><?= $this->Html->link($member->fullName, ['action' => 'view', $member->id]) ?></td>
+            <td><?= $this->Html->link($member->fullName, ['controller' => 'Members', 'action' => 'view', $member->id]) ?></td>
             <td><?= h($member->membership_fee_paid) ?></td>
           </tr>
         <?php endforeach; ?>
       </tbody>
     </table>
-    <?= $this->Html->link(__('Reset membership fees').' !', ['action' => 'resetMembership', $resetValidation], ['class' => 'btn btn-primary btn-sm']) ?>
+    <?= $this->Form->postLink(__('Reset membership fees').' !', ['action' => 'resetMembership', $resetValidation], ['class' => 'btn btn-primary btn-sm']) ?>
 </div>

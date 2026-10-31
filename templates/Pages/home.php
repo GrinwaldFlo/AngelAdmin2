@@ -29,7 +29,7 @@ use Cake\Error\Debugger;
                 <br />
                 <?php if ($curMember->RegistrationStep($config['year']) == 1): ?>
                     <strong><?= __('Please check your contact information') ?></strong>
-                    <?= $this->Html->link(__('The information is correct'), ['controller' => 'Members', 'action' => 'checked', $curMember->id], ['class' => 'btn btn-primary btn-sm']) ?>
+                    <?= $this->Form->postLink(__('The information is correct'), ['controller' => 'Members', 'action' => 'checked', $curMember->id], ['class' => 'btn btn-primary btn-sm']) ?>
 
                     <?php if (isset($contactEmail)): ?>
                         <a href="mailto:<?= h($contactEmail) ?>?subject=<?= urlencode(__('Ask for modifications')) ?>" class="btn btn-secondary">
@@ -37,7 +37,7 @@ use Cake\Error\Debugger;
                         </a>
                     <?php endif; ?>
                 <?php elseif ($curMember->RegistrationStep($config['year']) == 2): ?>
-                    <?= $this->Html->link(__('You are a past member, click here if you want to start again'), ['controller' => 'Members', 'action' => 'active', $curMember->id]) ?>
+                    <?= $this->Form->postLink(__('You are a past member, click here if you want to start again'), ['controller' => 'Members', 'action' => 'active', $curMember->id]) ?>
                 <?php elseif ($curMember->RegistrationStep($config['year']) == 3): ?>
                     <?php if (!$isMobile): ?>
                         <?= __('You will need to sign the aggreement for this year. A mobile phone is recomended') ?>

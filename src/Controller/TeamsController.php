@@ -220,6 +220,7 @@ class TeamsController extends AppController
 
   public function addMember(int|null $teamId = null, int|null $memberId = null)
   {
+    $this->request->allowMethod(['post']);
     $team = $this->Teams->get($teamId, contain: ['Sites']);
 
     $this->Authorization->authorize($team, 'edit');
@@ -239,6 +240,7 @@ class TeamsController extends AppController
 
   public function removeMember(int|null $teamId = null, int|null $memberId = null)
   {
+    $this->request->allowMethod(['post']);
     $team = $this->Teams->get($teamId, contain: ['Sites']);
 
     $this->Authorization->authorize($team, 'edit');

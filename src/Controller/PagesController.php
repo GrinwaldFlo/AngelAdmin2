@@ -159,6 +159,8 @@ class PagesController extends AppController
       keyField: 'location',
       valueField: 'text'
     )->where(['location IN' => [5, 6, 7, 8, 9, 10]])->toArray();
+    // Titles and comments of the events not written yet are empty
+    $contentEvent += array_fill_keys([5, 6, 7, 8, 9, 10], '');
 
     $slackMessages = $this->Slack->getSlack();
 

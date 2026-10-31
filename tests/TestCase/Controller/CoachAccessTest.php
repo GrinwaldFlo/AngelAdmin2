@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
@@ -506,7 +507,7 @@ class CoachAccessTest extends TestCase
     public function testAddMemberOfOtherTeamToCoachedTeam(): void
     {
         $this->loginCoach();
-        $this->get('/teams/add-member/2/101');
+        $this->post('/teams/add-member/2/101');
 
         $this->assertRedirect(['controller' => 'Teams', 'action' => 'view', 2]);
         $this->assertTrue($this->getTableLocator()->get('TeamsMembers')->exists(['team_id' => 2, 'member_id' => 101]));
@@ -515,7 +516,7 @@ class CoachAccessTest extends TestCase
     public function testAddMemberToOtherTeamIsForbidden(): void
     {
         $this->loginCoach();
-        $this->get('/teams/add-member/3/100');
+        $this->post('/teams/add-member/3/100');
 
         $this->assertResponseCode(403);
         $this->assertFalse($this->getTableLocator()->get('TeamsMembers')->exists(['team_id' => 3, 'member_id' => 100]));
@@ -526,7 +527,7 @@ class CoachAccessTest extends TestCase
         $this->addMember(104, [3]);
         $this->getTableLocator()->get('Members')->updateAll(['active' => false], ['id' => 104]);
         $this->loginCoach();
-        $this->get('/teams/add-member/2/104');
+        $this->post('/teams/add-member/2/104');
 
         $this->assertResponseCode(403);
         $this->assertFalse($this->getTableLocator()->get('TeamsMembers')->exists(['team_id' => 2, 'member_id' => 104]));
@@ -537,7 +538,7 @@ class CoachAccessTest extends TestCase
         $this->addMember(104, [3]);
         $this->getTableLocator()->get('Members')->updateAll(['active' => false], ['id' => 104]);
         $this->login();
-        $this->get('/teams/add-member/2/104');
+        $this->post('/teams/add-member/2/104');
 
         $this->assertRedirect(['controller' => 'Teams', 'action' => 'view', 2]);
         $this->assertTrue($this->getTableLocator()->get('TeamsMembers')->exists(['team_id' => 2, 'member_id' => 104]));
@@ -546,7 +547,7 @@ class CoachAccessTest extends TestCase
     public function testRemoveMemberFromOtherTeamIsForbidden(): void
     {
         $this->loginCoach();
-        $this->get('/teams/remove-member/3/101');
+        $this->post('/teams/remove-member/3/101');
 
         $this->assertResponseCode(403);
     }
@@ -812,5 +813,21 @@ class CoachAccessTest extends TestCase
 
         $this->assertResponseOk();
         $this->assertResponseContains('To seniors');
+    }
+
+    /**
+     * A link or a picture of another site must not change the teams (GET requests)
+     */
+    public function testTeamMembersChangeNeedsAPost(): void
+    {
+        $this->loginCoach();
+
+        $this->get('/teams/add-member/2/101');
+        $this->assertResponseCode(405);
+        $this->get('/teams/remove-member/2/100');
+        $this->assertResponseCode(405);
+
+        $this->assertFalse($this->getTableLocator()->get('TeamsMembers')->exists(['team_id' => 2, 'member_id' => 101]));
+        $this->assertTrue($this->getTableLocator()->get('TeamsMembers')->exists(['team_id' => 2, 'member_id' => 100]));
     }
 }

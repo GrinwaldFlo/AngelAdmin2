@@ -12,10 +12,10 @@
       <tbody>
         <?php foreach ($members as $member): ?>
           <tr>
-            <td><?= $this->Html->link($member->fullName, ['action' => 'view', $member->id]) ?></td>
+            <td><?= $this->Html->link($member->fullName, ['controller' => 'Members', 'action' => 'view', $member->id]) ?></td>
           </tr>
         <?php endforeach; ?>
       </tbody>
     </table>
-    <?= $this->Html->link(__('Reset registration').' !', ['action' => 'resetRegistration', $resetValidation], ['class' => 'btn btn-primary btn-sm']) ?>
+    <?= $this->Form->postLink(__('Reset registration').' !', ['action' => 'resetRegistration', $resetValidation], ['class' => 'btn btn-primary btn-sm']) ?>
 </div>

@@ -21,7 +21,7 @@ if (!($isOwn && $member->RegistrationStep($config['year']) > 0)) {
         <br /><br />
         <?php if ($member->RegistrationStep($config['year']) == 1): ?>
             <strong><?= __('Please check your contact information') ?></strong>
-            <?= $this->Html->link(__('The information is correct'), ['action' => 'checked', $member->id], ['class' => 'btn btn-primary btn-sm']) ?>
+            <?= $this->Form->postLink(__('The information is correct'), ['action' => 'checked', $member->id], ['class' => 'btn btn-primary btn-sm']) ?>
 
             <?php if (isset($contactEmail)): ?>
                 <a href="mailto:<?= h($contactEmail) ?>?subject=<?= urlencode(__('Ask for modifications')) ?>" class="btn btn-secondary">
@@ -30,7 +30,7 @@ if (!($isOwn && $member->RegistrationStep($config['year']) > 0)) {
             <?php endif; ?>
         <?php elseif ($member->RegistrationStep($config['year']) == 2): ?>
             <?= __('You are a past member') ?>
-            <?= $this->Html->link(__('I want to start again !'), ['controller' => 'Members', 'action' => 'active', $member->id], ['class' => 'btn btn-primary btn-sm']) ?>
+            <?= $this->Form->postLink(__('I want to start again !'), ['controller' => 'Members', 'action' => 'active', $member->id], ['class' => 'btn btn-primary btn-sm']) ?>
         <?php elseif ($member->RegistrationStep($config['year']) == 3): ?>
             <?php if (!$isMobile): ?>
                 <?= __('You will need to sign the aggreement for this year. A mobile phone is recomended') ?>

@@ -1,78 +1,24 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\BillTemplatesController;
-use Cake\TestSuite\IntegrationTestTrait;
-use Cake\TestSuite\TestCase;
+use App\Test\TestSuite\CrudControllerTestCase;
 
 /**
- * App\Controller\BillTemplatesController Test Case
- *
  * @uses \App\Controller\BillTemplatesController
  */
-class BillTemplatesControllerTest extends TestCase
+class BillTemplatesControllerTest extends CrudControllerTestCase
 {
-    use IntegrationTestTrait;
+    protected string $url = '/bill-templates';
 
-    /**
-     * Fixtures
-     *
-     * @var array
-     */
-    protected array $fixtures = [
-        'app.BillTemplates',
-        'app.Sites',
-    ];
+    protected string $table = 'BillTemplates';
 
-    /**
-     * Test index method
-     *
-     * @return void
-     */
-    public function testIndex(): void
+    protected string $field = 'label';
+
+    protected function validData(): array
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test view method
-     *
-     * @return void
-     */
-    public function testView(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test add method
-     *
-     * @return void
-     */
-    public function testAdd(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+        return ['label' => 'Shirt', 'amount' => 30, 'membership_fee' => 0, 'site_id' => 1];
     }
 }

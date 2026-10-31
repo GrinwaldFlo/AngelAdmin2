@@ -14,9 +14,10 @@ class PresencePolicy
     return $user->Role->MemberEditAll;
   }
 
+  // Coaches: members of their teams
   public function canEdit(IdentityInterface $user, Presence $presence)
   {
-    return $user->Role->MemberEditAll;
+    return $user->Role->MemberEditAll && TeamScope::canAccessMember($user, $presence->member_id);
   }
 
   public function canAdmin(IdentityInterface $user, Presence $presence)
@@ -26,7 +27,7 @@ class PresencePolicy
 
   public function canView(IdentityInterface $user, Presence $presence)
   {
-    return $user->Role->MemberViewAll;
+    return $user->Role->MemberViewAll && TeamScope::canAccessMember($user, $presence->member_id);
   }
 
 }

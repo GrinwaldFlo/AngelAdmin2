@@ -37,7 +37,7 @@ class MemberManagementComponent extends Component
         $controller->Authorization->authorize($member, 'edit');
 
         if (!empty($data)) {
-            $member = $controller->Members->patchEntity($member, $data);
+            $member = $controller->Members->patchEntity($member, $data, ['fields' => MembersTable::STAFF_FIELDS]);
             $member->date_arrival = new \Cake\I18n\Date();
             $member->hash = MembersTable::newHash();
             
@@ -86,7 +86,9 @@ class MemberManagementComponent extends Component
         }
 
         if (!empty($data)) {
-            $member = $controller->Members->patchEntity($member, $data);
+            // Member links and own account: not the membership, status and teams
+            $staff = !$isAllowed && $controller->curRole !== null && $controller->curRole->MemberEditAll;
+            $member = $controller->Members->patchEntity($member, $data, ['fields' => $staff ? MembersTable::STAFF_FIELDS : MembersTable::OWN_FIELDS]);
             if (array_key_exists('field', $data)) {
                 $controller->Members->getAssociation('Fields')->saveFields($member, $data['field']);
             }
@@ -164,7 +166,7 @@ class MemberManagementComponent extends Component
         }
 
         if (!empty($data)) {
-            $member = $controller->Members->patchEntity($member, $data);
+            $member = $controller->Members->patchEntity($member, $data, ['fields' => ['leaving_comment']]);
             $member->registered = false;
             $member->active = false;
             $member->date_fin = new \Cake\I18n\Date();
@@ -204,13 +206,16 @@ class MemberManagementComponent extends Component
     {
         $controller = $this->getController();
         
-        if ($lng == null || !in_array($lng, ['en', 'fr', 'de', 'es', 'it'])) {
+        // Only the languages enabled in the configuration
+        if ($lng == null || !in_array($lng, ['en', 'fr', 'de', 'es', 'it'], true) || empty($controller->config[$lng])) {
             $controller->Flash->error(__("This language doesn't exists"));
             return false;
         }
 
-        $controller->curMember->language = $lng;
-        $controller->Members->save($controller->curMember);
+        if ($controller->curMember !== null) {
+            $controller->curMember->language = $lng;
+            $controller->fetchTable('Members')->updateAll(['language' => $lng], ['id' => $controller->curMember->id]);
+        }
         $controller->getPrefSessionStr('lng', $lng, 'fr');
         
         return true;

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
@@ -89,5 +90,21 @@ class UsersTableTest extends TestCase
 
         $this->assertFalse((bool)$this->Users->save($entity));
         $this->assertNotEmpty($entity->getErrors());
+    }
+
+    public function testNewResetTokenIsRandom(): void
+    {
+        $token = UsersTable::newResetToken();
+
+        $this->assertMatchesRegularExpression('/^[0-9a-f]{40}$/', $token);
+        $this->assertNotSame($token, UsersTable::newResetToken());
+    }
+
+    public function testValidationPassword(): void
+    {
+        $this->assertSame([], $this->Users->newEntity(['username' => 'ana', 'password' => 'long enough'], ['validate' => 'password'])->getErrors());
+        $this->assertArrayHasKey('password', $this->Users->newEntity(['username' => 'ana'], ['validate' => 'password'])->getErrors());
+        $this->assertArrayHasKey('password', $this->Users->newEntity(['password' => ''], ['validate' => 'password'])->getErrors());
+        $this->assertArrayHasKey('minLength', $this->Users->newEntity(['password' => 'short'], ['validate' => 'password'])->getError('password'));
     }
 }

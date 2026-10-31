@@ -1,100 +1,48 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\ContentsController;
-use Cake\TestSuite\IntegrationTestTrait;
-use Cake\TestSuite\TestCase;
+use App\Test\TestSuite\CrudControllerTestCase;
 
 /**
- * App\Controller\ContentsController Test Case
- *
  * @uses \App\Controller\ContentsController
  */
-class ContentsControllerTest extends TestCase
+class ContentsControllerTest extends CrudControllerTestCase
 {
-    use IntegrationTestTrait;
+    protected string $url = '/contents';
 
-    /**
-     * Fixtures
-     *
-     * @var array
-     */
-    protected array $fixtures = [
-        'app.Contents',
-        'app.Teams',
-        'app.Sites',
-        'app.Members',
-        'app.Users',
-        'app.Roles',
-        'app.TeamsMembers',
-        'app.Configurations',
-    ];
+    protected string $table = 'Contents';
 
-    protected function setUp(): void
+    protected string $field = 'text';
+
+    protected string $right = 'Editor';
+
+    protected function validData(): array
     {
-        parent::setUp();
-        $this->enableCsrfToken();
-        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1)]);
+        return ['text' => 'Hello', 'location' => 12, 'url' => '', 'team_id' => '', 'sort' => 1];
     }
 
     /**
-     * Test index method
-     *
-     * @return void
+     * No team is saved as 0, the column is not nullable
      */
-    public function testIndex(): void
+    public function testAddWithoutTeam(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
+        $this->login();
 
-    /**
-     * Test view method
-     *
-     * @return void
-     */
-    public function testView(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
+        $this->post('/contents/add', $this->validData());
 
-    /**
-     * Test add method
-     *
-     * @return void
-     */
-    public function testAdd(): void
-    {
-        $this->post('/contents/add', ['text' => 'Hello', 'location' => 12, 'url' => '', 'team_id' => '', 'sort' => 1]);
-        $this->assertRedirect(['action' => 'index']);
-        // No team is saved as 0, the column is not nullable
         $content = $this->getTableLocator()->get('Contents')->find()->where(['location' => 12])->firstOrFail();
         $this->assertSame(0, $content->team_id);
-        $this->assertSame('Hello', $content->text);
     }
 
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit(): void
+    public function testInfoPage(): void
     {
-        $this->post('/contents/edit/1', ['text' => 'Changed', 'location' => 1, 'url' => '', 'team_id' => '', 'sort' => 0]);
-        $this->assertRedirect(['action' => 'index']);
-        $content = $this->getTableLocator()->get('Contents')->get(1);
-        $this->assertSame(0, $content->team_id);
-        $this->assertSame('Changed', $content->text);
-    }
+        $this->login([]);
 
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/contents/info');
+
+        $this->assertResponseOk();
     }
 }

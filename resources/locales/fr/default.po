@@ -3443,3 +3443,27 @@ msgstr "{0} est déjà coach de {1}."
 
 msgid "{0} is no longer coach of {1}."
 msgstr "{0} n'est plus coach de {1}."
+
+msgid "This item has orders, disable it instead."
+msgstr "Cet article a des commandes, désactive-le plutôt."
+
+msgid "The QR code of the invoice {0} could not be created: {1}"
+msgstr "Le code QR de la facture {0} n'a pas pu être créé : {1}"
+
+msgid "This link does not give access to this member."
+msgstr "Ce lien ne donne pas accès à ce membre."
+
+msgid "This signature was already handled."
+msgstr "Cette signature a déjà été traitée."
+
+msgid "The password must have at least 8 characters"
+msgstr "Le mot de passe doit contenir au moins 8 caractères"
+
+msgid "You already have an account, use your username to log in."
+msgstr "Tu as déjà un compte, utilise ton nom d'utilisateur pour te connecter."
+
+msgid "The order is not valid. Please try again."
+msgstr "La commande n'est pas valable. Merci de réessayer."
+
+msgid "Add Configuration"
+msgstr "Ajouter une configuration"

@@ -12,6 +12,7 @@ use Cake\ORM\TableRegistry;
 use Cake\Log\Log;
 use App\Model\Entity\Role;
 use App\Policy\TeamScope;
+use Cake\Http\Exception\ForbiddenException;
 
 /**
  * Members Controller
@@ -30,6 +31,11 @@ use App\Policy\TeamScope;
  */
 class MembersController extends AppController
 {
+    /**
+     * Maximum quantity of an item in a shop order (as in the form)
+     */
+    private const SHOP_MAX_QUANTITY = 10;
+
     public $MemberDocs = null;
 
     public array $paginate = [
@@ -48,7 +54,7 @@ class MembersController extends AppController
         $this->loadComponent('MemberDocument');
         $this->loadComponent('MemberRegistration');
         $this->loadComponent('MemberData');
-        $this->Authentication->addUnauthenticatedActions(['myPage', 'register', 'checked', 'agreement', 'agreementPdf', 'active', 'cancelRegistration', 'edit', 'addPhoto', 'addPhotoId']);
+        $this->Authentication->addUnauthenticatedActions(['myPage', 'register', 'checked', 'agreement', 'agreementPdf', 'active', 'cancelRegistration', 'edit', 'addPhoto', 'addPhotoId', 'setLanguage']);
     }
 
     /**
@@ -178,6 +184,24 @@ class MembersController extends AppController
     }
 
     /**
+     * Access with a member link (hash): only to the member of the link
+     * @return bool true for a member link, false for a logged user (normal authorization)
+     * @throws \Cake\Http\Exception\ForbiddenException link of another member
+     */
+    private function hashAccess(int|null $id): bool
+    {
+        if (!$this->isHashAuthenticated()) {
+            return false;
+        }
+        if (!$this->canAccessMember((int)$id)) {
+            throw new ForbiddenException(__('This link does not give access to this member.'));
+        }
+        $this->Authorization->skipAuthorization();
+
+        return true;
+    }
+
+    /**
      * Handle shop order functionality for any member
      * 
      * @param object $member The member entity
@@ -186,8 +210,9 @@ class MembersController extends AppController
      */
     private function handleShopOrder($member, string $redirectAction = 'view')
     {
-        // Handle shop order submission
-        if ($this->request->is('post')) {
+        // Handle shop order submission: as on the page, only a registered member orders for itself
+        $isOwn = $redirectAction === 'myPage' || ($this->curUser !== null && $this->curUser->member_id == $member->id);
+        if ($this->request->is('post') && $isOwn && $member->registered) {
             $orderData = $this->request->getData('shop_order');
             if (!empty($orderData)) {
                 $orderSuccess = $this->processShopOrder($member, $orderData);
@@ -274,9 +299,15 @@ class MembersController extends AppController
         $orders = [];
         $totalAmount = 0;
 
-        foreach ($orderData as $shopItemId => $quantity) {
+        foreach ((array)$orderData as $shopItemId => $quantity) {
+            // Same limits as the form: whole numbers up to 10, only the items still for sale
+            $quantity = $quantity === "" ? 0 : filter_var($quantity, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0, 'max_range' => self::SHOP_MAX_QUANTITY]]);
+            $shopItem = $quantity ? $shopItemsTable->find('active')->where(['ShopItems.id' => (int)$shopItemId])->first() : null;
+            if ($quantity === false || ($quantity > 0 && $shopItem === null)) {
+                $this->Flash->error(__('The order is not valid. Please try again.'));
+                return false;
+            }
             if ($quantity > 0) {
-                $shopItem = $shopItemsTable->get($shopItemId);
                 $itemTotal = $shopItem->price * $quantity;
                 $totalAmount += $itemTotal;
 
@@ -501,16 +532,10 @@ class MembersController extends AppController
             return $this->redirect(['controller' => 'Users', 'action' => 'login']);
         }
 
-        if ($this->isHashAuthenticated()) {
-            $this->Authorization->skipAuthorization();
+        if ($this->hashAccess($id)) {
             $curRole = $this->getHashCurRole();
             $curUser = $this->getHashCurUser($id);
             $this->set(compact('curRole', 'curUser'));
-        }
-
-        // Check if user has access to this member (for regular authenticated users)
-        if (!$this->canAccessMember($id)) {
-            // Let normal authorization handle it
         }
 
         $member = $this->MemberManagement->updateMember($id, $this->request->getData(), $this->isHashAuthenticated());
@@ -535,41 +560,23 @@ class MembersController extends AppController
 
     public function checked(int|null $id = null)
     {
-        $isHashValid = false;
-        $workingHash = $this->getCurrentHash();
-
-        if ($workingHash != null) {
-            $pageData = $this->MemberData->prepareMyPageData($workingHash, $this->config);
-
-            if (!isset($pageData['error'])) {
-                $this->Authorization->skipAuthorization();
-                $isHashValid = true;
-            }
-        }
+        $this->request->allowMethod(['post']);
+        $isHashValid = $this->hashAccess($id);
 
         $this->MemberManagement->setMemberChecked($id, $isHashValid);
         if ($isHashValid)
-            $this->redirect(['action' => 'myPage']);
+            return $this->redirect(['action' => 'myPage']);
         return $this->redirect(['action' => 'view', $id]);
     }
 
     public function active(int|null $id = null)
     {
-        $isHashValid = false;
-        $workingHash = $this->getCurrentHash();
-
-        if ($workingHash != null) {
-            $pageData = $this->MemberData->prepareMyPageData($workingHash, $this->config);
-
-            if (!isset($pageData['error'])) {
-                $this->Authorization->skipAuthorization();
-                $isHashValid = true;
-            }
-        }
+        $this->request->allowMethod(['post']);
+        $isHashValid = $this->hashAccess($id);
 
         $this->MemberManagement->setMemberActive($id, $isHashValid);
         if ($isHashValid)
-            $this->redirect(['action' => 'myPage']);
+            return $this->redirect(['action' => 'myPage']);
         return $this->redirect('/');
     }
 
@@ -643,10 +650,13 @@ class MembersController extends AppController
 
     public function agreementPdf(int|null $member_id = 0, int|null $reg_id = 0)
     {
-        $this->Authorization->skipAuthorization();
         $registrations = TableRegistry::getTableLocator()->get('Registrations');
 
         $member = $this->Members->findById($member_id)->contain('Teams')->first();
+        // The member itself (link or account) or the roles editing it
+        if (!$this->hashAccess($member_id)) {
+            $this->Authorization->authorize($member ?? $this->Members->newEmptyEntity(), 'edit');
+        }
         $agreements = $this->getData('agreement');
         $reg = $registrations->findById($reg_id)->first();
 
@@ -672,23 +682,13 @@ class MembersController extends AppController
 
     public function cancelRegistration(int|null $id = null)
     {
-        $isHashValid = false;
-        $workingHash = $this->getCurrentHash();
-
-        if ($workingHash != null) {
-            $pageData = $this->MemberData->prepareMyPageData($workingHash, $this->config);
-
-            if (!isset($pageData['error'])) {
-                $this->Authorization->skipAuthorization();
-                $isHashValid = true;
-            }
-        }
+        $isHashValid = $this->hashAccess($id);
 
         $result = $this->MemberManagement->cancelMemberRegistration($id, $this->request->getData(), $isHashValid);
 
         if (is_bool($result) && $result) {
             if ($isHashValid) {
-                $this->redirect(['action' => 'myPage']);
+                return $this->redirect(['action' => 'myPage']);
             }
             return $this->redirect(['action' => 'view', $id]);
         } elseif (is_array($result)) {
@@ -710,15 +710,6 @@ class MembersController extends AppController
         }
 
         $this->set(compact('registration'));
-    }
-
-    public function test($p1 = null, $p2 = null)
-    {
-        $this->Authorization->skipAuthorization();
-        $this->viewBuilder()->setHelpers(['Html']);
-        $url = Router::url(array('controller' => 'Users', 'action' => 'register', $this->curMember->hash), true);
-        $url = '<a href="' . $url . '">' . $url . '</a>';
-        $this->Mail->mailNotif(__('New member registered'), __('The member has just registred. You need to validate the signature.'), $this->curMember);
     }
 
     public function invite(int|null $teamId = null, int|null $memberFilter = null)
@@ -745,6 +736,17 @@ class MembersController extends AppController
      * Save the site (city) chosen in the menu as preference of the current member
      * @param int $siteId 0 = all sites
      */
+    /**
+     * Language of the menu: kept by the logged member, in the session otherwise
+     */
+    public function setLanguage(string|null $lng = null)
+    {
+        $this->Authorization->skipAuthorization();
+        $this->MemberManagement->setMemberLanguage($lng);
+
+        return $this->redirect($this->referer());
+    }
+
     public function setSite(int $siteId = 0)
     {
         $this->request->allowMethod(['post']);

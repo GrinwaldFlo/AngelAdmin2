@@ -1,13 +1,19 @@
 <?php
 declare(strict_types=1);
 namespace App\Controller;
-use Cake\Utility\Security;
+use App\Model\Table\UsersTable;
 use Cake\Routing\Router;
 use Cake\Mailer\Mailer;
 use Cake\Core\Configure;
 
 class UsersController extends AppController
 {
+    /**
+     * Fields a user can change on its own account, the others (role, member) are for the admins
+     */
+    private const OWN_FIELDS = ['username', 'password'];
+    private const ADMIN_FIELDS = ['username', 'password', 'role_id', 'member_id'];
+
     public array $paginate = [
         'limit' => 500,
         'maxLimit' => 1000,
@@ -47,9 +53,8 @@ class UsersController extends AppController
             // Regenerate session ID for security on successful login
             $this->getRequest()->getSession()->renew();
 
-            // redirect to /articles after login success
-            $redirect = $this->request->getQuery('redirect', '/');
-            $redirect = str_replace(Configure::read('domain') . "/", "/", $redirect);
+            // Only a local page: a link like ?redirect=https://other.site must not leave the site
+            $redirect = $this->Authentication->getLoginRedirect() ?? '/';
             $curUser = $this->Users->get($this->Authentication->getIdentity()->id);
             $curUser->lastLogin = new \DateTime();
             $this->Users->save($curUser);
@@ -103,7 +108,7 @@ class UsersController extends AppController
         $this->Authorization->authorize($user, 'admin');
 
         if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+            $user = $this->Users->patchEntity($user, $this->request->getData(), ['fields' => self::ADMIN_FIELDS]);
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
@@ -122,13 +127,14 @@ class UsersController extends AppController
             'contain' => [],
         ]);
         $this->Authorization->authorize($user, 'edit');
+        $isAdmin = (bool)$this->curRole->Admin;
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+            $user = $this->Users->patchEntity($user, $this->request->getData(), ['fields' => $isAdmin ? self::ADMIN_FIELDS : self::OWN_FIELDS]);
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect($isAdmin ? ['action' => 'index'] : ['action' => 'view', $user->id]);
             }
             $this->Flash->error(__('The user could not be saved.'));
         }
@@ -147,14 +153,19 @@ class UsersController extends AppController
         $this->Authorization->skipAuthorization();
         $user = $this->Users->newEmptyEntity();
         $member = $this->Users->Members->findByHash($memberHash)->FirstOrFail();
+        // One account per member: the link must not create a second one
+        if ($this->Users->exists(['member_id' => $member->id])) {
+            $this->Flash->error(__('You already have an account, use your username to log in.'));
+            return $this->redirect(['action' => 'login']);
+        }
 
         if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+            $user = $this->Users->patchEntity($user, $this->request->getData(), ['fields' => self::OWN_FIELDS, 'validate' => 'password']);
             $user->member_id = $member->id;
             $user->role_id = 4;
             $user->pass_key = "";
             $user->tokenhash = "";
-            $passwordMatch = $this->request->getData()['password'] == $this->request->getData()['passwordConfirmation'];
+            $passwordMatch = $this->request->getData('password') === $this->request->getData('passwordConfirmation');
 
             if (!$passwordMatch) {
                 $this->Flash->error(__('Please enter twice the same passowrd'));
@@ -186,7 +197,7 @@ class UsersController extends AppController
             ])->first();
 
             if (!empty($user)) {
-                $user->tokenhash = Security::hash('CakePHP Framework', 'sha1', $user->username . rand(0, 100));
+                $user->tokenhash = UsersTable::newResetToken();
                 $this->Users->save($user);
 
                 $url = Router::url(array('controller' => 'users', 'action' => 'reset', $user->tokenhash), true);
@@ -226,7 +237,9 @@ class UsersController extends AppController
         $user = $this->Users->findByTokenhash($token)->Contain('Members')->firstOrFail();
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+            // Only the password, the link can be used once
+            $user = $this->Users->patchEntity($user, $this->request->getData(), ['fields' => ['password'], 'validate' => 'password']);
+            $user->tokenhash = '';
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('Your password has been updated'));
 

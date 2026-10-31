@@ -51,7 +51,7 @@ class TestHeicCommand extends Command
             $io->out('');
             $io->out('<warning>Requirements to enable HEIC support:</warning>');
             foreach ($supportInfo['requirements'] as $requirement) {
-                $io->out('  • ' . $requirement);
+                $io->out('  â€¢ ' . $requirement);
             }
         }
         

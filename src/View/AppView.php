@@ -77,7 +77,7 @@ class AppView extends UIView
       return $this->Html->link('<i class="gg-arrow-left-r"></i>', ['controller' => $controler, 'action' => $action], ['escape' => false]);
     }
 
-    return $this->Html->link('<i class="gg-arrow-left-r"></i>', ['controller' => $controler, 'action' => $action], ['escape' => false, 'style' => 'width: 60px;']);
+    return $this->Html->link('<i class="gg-arrow-left-r"></i>', ['controller' => $controler, 'action' => $action], ['escape' => false, 'class' => 'back-button']);
   }
 
 }

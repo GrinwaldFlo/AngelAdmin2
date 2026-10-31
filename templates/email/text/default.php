@@ -14,4 +14,5 @@
  * @var \App\View\AppView $this
  */
 
-echo strip_tags($content);
+// The content is HTML (links, escaped names): back to plain text
+echo html_entity_decode(strip_tags($content), ENT_QUOTES);

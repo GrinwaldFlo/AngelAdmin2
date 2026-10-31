@@ -35,6 +35,22 @@ use Cake\Validation\Validator;
 class MembersTable extends Table
 {
     /**
+     * Fields a member can change on its own data (own account, member link, registration form)
+     */
+    public const OWN_FIELDS = [
+        'first_name', 'last_name', 'date_birth', 'gender_id', 'address', 'postcode', 'city', 'phone_mobile', 'phone_home',
+        'email', 'nationality', 'multi_payment', 'communication_method_id', 'bvr',
+    ];
+
+    /**
+     * Fields of the roles editing all the members: also the membership, the status and the teams
+     */
+    public const STAFF_FIELDS = [
+        ...self::OWN_FIELDS,
+        'email_valid', 'date_arrival', 'membership_fee_paid', 'discount', 'date_fin', 'active', 'registered', 'teams',
+    ];
+
+    /**
      * Initialize method
      *
      * @param array $config The configuration for the Table.
@@ -243,11 +259,13 @@ class MembersTable extends Table
 
     public function beforeSave($event, $entity, $options)
     {
-        $entity->first_name = trim($entity->first_name);
-        $entity->last_name = trim($entity->last_name);
-        $entity->address = trim($entity->address);
-        $entity->city = trim($entity->city);
-        $entity->email = trim($entity->email);
+        // Address, city and phone are optional (null)
+        $trim = fn($value) => $value === null ? null : trim((string)$value);
+        $entity->first_name = $trim($entity->first_name);
+        $entity->last_name = $trim($entity->last_name);
+        $entity->address = $trim($entity->address);
+        $entity->city = $trim($entity->city);
+        $entity->email = $trim($entity->email);
         $entity->phone_mobile = $this->formatTel($entity->phone_mobile);
         //$entity->phone_home = $this->formatTel($entity->phone_home);
         $entity->address = $this->formatAddress($entity->address);

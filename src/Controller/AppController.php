@@ -294,6 +294,12 @@ class AppController extends Controller
         $this->config['domain'] ??= '@example.com';
         $this->config['email'] ??= 'noreply@example.com';
         $this->config['emailName'] ??= 'Club Admin';
+        $this->config['showInfo'] ??= 0;
+        $this->config['showCommMethod'] ??= 0;
+        $this->config['showBvr'] ??= 0;
+        $this->config['allowResiliation'] ??= 0;
+        // null = date format of the language
+        $this->config['dateEvent'] ??= null;
 
         foreach (['fr', 'de', 'en', 'es', 'it'] as $lang) {
             $this->config[$lang] ??= 1;
@@ -522,19 +528,18 @@ class AppController extends Controller
         return TableRegistry::getTableLocator()->get('Members')->whereActiveInTeams($query, $this->getCoachedTeamIds());
     }
 
+    /**
+     * @return \Cake\Datasource\ResultSetInterface|\App\Model\Entity\Data all the rows of the type, or the row of $param (empty if missing)
+     */
     public function getData($dataType, $param = null)
     {
         $data = TableRegistry::getTableLocator()->get('Data');
 
         if (empty($param)) {
-            $result = $data->find('all')->where(['data_type' => $dataType])->orderBy('param');
-        } else {
-            $result = $data->find('all')->where(['data_type' => $dataType, 'param' => $param])->first();
-            if ($result == null)
-                $result = $data->newEmptyEntity();
+            return $data->find('all')->where(['data_type' => $dataType])->orderBy('param')->all();
         }
 
-        return $result->all();
+        return $data->find('all')->where(['data_type' => $dataType, 'param' => $param])->first() ?? $data->newEmptyEntity();
     }
 
     public function memberIsInSite($member, $siteId)

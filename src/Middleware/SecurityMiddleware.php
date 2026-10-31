@@ -122,11 +122,16 @@ class SecurityMiddleware implements MiddlewareInterface
         }
         
         // Log requests with suspicious parameters
-        $queryParams = $request->getQueryParams();
+        // Array parameters (ids[]=1) are checked value by value
+        $queryParams = [];
+        $rawParams = $request->getQueryParams();
+        array_walk_recursive($rawParams, function ($value, $param) use (&$queryParams) {
+            $queryParams[] = [$param, (string)$value];
+        });
         $suspiciousParams = ['union', 'select', 'drop', 'insert', 'update', 'delete', '<script', 'javascript:'];
-        
-        foreach ($queryParams as $param => $value) {
-            $lowerValue = strtolower((string)$value);
+
+        foreach ($queryParams as [$param, $value]) {
+            $lowerValue = strtolower($value);
             foreach ($suspiciousParams as $suspicious) {
                 if (strpos($lowerValue, $suspicious) !== false) {
                     \Cake\Log\Log::write('warning',

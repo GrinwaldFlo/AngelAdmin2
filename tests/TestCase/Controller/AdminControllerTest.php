@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
@@ -186,5 +187,63 @@ class AdminControllerTest extends TestCase
             ->firstOrFail();
         $this->assertSame(1, $bill->site_id);
         $this->assertEquals(300, $bill->amount);
+    }
+
+    public function testResetMembershipNeedsTheCodeOfThePage(): void
+    {
+        $this->enableCsrfToken();
+        $members = $this->getTableLocator()->get('Members');
+        $members->updateAll(['membership_fee_paid' => 1], ['id' => 1]);
+        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1), 'resetValidation' => 1234]);
+
+        $this->get('/admin/reset-membership');
+        $this->assertResponseOk();
+        $this->assertSame(1, $members->get(1)->membership_fee_paid);
+
+        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1), 'resetValidation' => 1234]);
+        $this->post('/admin/reset-membership/999');
+        $this->assertSame(1, $members->get(1)->membership_fee_paid);
+
+        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1), 'resetValidation' => 1234]);
+        $this->post('/admin/reset-membership/1234');
+        $this->assertSame(0, $members->get(1)->membership_fee_paid);
+    }
+
+    /**
+     * A link of another site must not reset the members (GET request)
+     */
+    public function testResetNeedsAPost(): void
+    {
+        $this->getTableLocator()->get('Members')->updateAll(['registered' => 1], ['id' => 1]);
+        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1), 'resetValidation' => 1234]);
+
+        $this->get('/admin/reset-registration/1234');
+
+        $this->assertResponseCode(405);
+        $this->assertTrue($this->getTableLocator()->get('Members')->get(1)->registered);
+    }
+
+    public function testResetForbiddenToNonAdmin(): void
+    {
+        $this->enableCsrfToken();
+        $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0], ['id' => 1]);
+        $this->getTableLocator()->get('Members')->updateAll(['registered' => 1], ['id' => 1]);
+        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1), 'resetValidation' => 1234]);
+
+        $this->post('/admin/reset-registration/1234');
+
+        $this->assertRedirect('/');
+        $this->assertTrue($this->getTableLocator()->get('Members')->get(1)->registered);
+    }
+
+    public function testViewLog(): void
+    {
+        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1)]);
+
+        $this->get('/admin/view-log/error');
+        $this->assertResponseOk();
+
+        $this->get('/admin/view-log/..%2F..%2Fconfig%2Fapp');
+        $this->assertResponseCode(404);
     }
 }

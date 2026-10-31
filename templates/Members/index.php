@@ -66,7 +66,7 @@ $teams = $pref->teams;
                                 }
 
                                 if ($member->registered) {
-                                    echo $this->my->symbol('check_circle', color: "green");
+                                    echo $this->my->symbol('check_circle', ['class' => 'text-success']);
                                 }
 
                                 ?>

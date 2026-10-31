@@ -6,7 +6,6 @@ use Cake\Routing\Router;
 use Cake\Mailer\Mailer;
 use Cake\I18n\I18n;
 use Cake\ORM\TableRegistry;
-use Sprain\SwissQrBill as QrBill;
 use \Exception;
 
 /**
@@ -19,6 +18,14 @@ use \Exception;
  */
 class BillsController extends AppController
 {
+    /**
+     * Fields of the invoice form: not the member nor the site themselves (associations)
+     */
+    private const FORM_FIELDS = [
+        'label', 'amount', 'printed', 'paid', 'reminder', 'due_date', 'due_date_ori', 'canceled', 'state_id',
+        'confirmation', 'link_membership_fee', 'site_id',
+    ];
+
     public array $paginate = [
         'limit' => 500,
         'maxLimit' => 1000,
@@ -141,7 +148,9 @@ class BillsController extends AppController
         // Default site of the form: the one chosen in the menu
         $bill->site_id = $this->getSiteId(true);
         if ($this->request->is('post')) {
-            $bill = $this->Bills->patchEntity($bill, $this->request->getData());
+            $bill = $this->Bills->patchEntity($bill, $this->request->getData(), ['fields' => self::FORM_FIELDS]);
+            // The member of the page, whatever the form sends
+            $bill->member_id = $member->id;
             $bill->due_date_ori = $bill->due_date;
             $bill->tokenhash = Text::uuid();
             $bill->state_id = 0;
@@ -154,6 +163,8 @@ class BillsController extends AppController
             $this->Flash->error(__('The invoice could not be saved.'));
         }
         $this->set('feeLabel', $this->Bills->GetFeeLabel($this->config));
+        // Maximum membership fee of the site of the form, as for the generated fees
+        $this->set('feeMax', PrefResult::getSite((int)$bill->site_id)?->feeMax);
         $this->set(compact('bill', 'sites'));
     }
 
@@ -172,7 +183,7 @@ class BillsController extends AppController
             if ($bill->paid && !$this->curRole->Admin) {
                 $this->Flash->error(__("The invoice is already paid and can't be edited anymore"));
             } else {
-                $bill = $this->Bills->patchEntity($bill, $this->request->getData());
+                $bill = $this->Bills->patchEntity($bill, $this->request->getData(), ['fields' => self::FORM_FIELDS]);
                 $bill->printed = false;
 
                 if ($this->Bills->save($bill)) {
@@ -194,80 +205,6 @@ class BillsController extends AppController
         ]);
 
         $this->set(compact('bill', 'sites'));
-    }
-
-    public function testQR()
-    {
-        $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'edit');
-
-        // Create a new instance of QrBill, containing default headers with fixed values
-        $qrBill = QrBill\QrBill::create();
-
-        // Add creditor information
-// Who will receive the payment and to which bank account?
-        $qrBill->setCreditor(
-            QrBill\DataGroup\Element\CombinedAddress::create(
-                'Robert Schneider AG',
-                'Rue du Lac 1268',
-                '2501 Biel',
-                'CH'
-            )
-        );
-
-        $qrBill->setCreditorInformation(
-            QrBill\DataGroup\Element\CreditorInformation::create(
-                'CH6009000000102282462' // This is a special QR-IBAN. Classic IBANs will not be valid here.
-            )
-        );
-
-        // Add debtor information
-// Who has to pay the invoice? This part is optional.
-//
-// Notice how you can use two different styles of addresses: CombinedAddress or StructuredAddress.
-// They are interchangeable for creditor as well as debtor.
-        $qrBill->setUltimateDebtor(
-            QrBill\DataGroup\Element\StructuredAddress::createWithStreet(
-                'Pia-Maria Rutschmann-Schnyder',
-                'Grosse Marktgasse',
-                '28',
-                '9400',
-                'Rorschach',
-                'CH'
-            )
-        );
-
-        // Add payment amount information
-// What amount is to be paid?
-        $qrBill->setPaymentAmountInformation(
-            QrBill\DataGroup\Element\PaymentAmountInformation::create(
-                'CHF',
-                2500.25
-            )
-        );
-
-        $qrBill->setPaymentReference(
-            QrBill\DataGroup\Element\PaymentReference::create(
-                QrBill\DataGroup\Element\PaymentReference::TYPE_NON
-            )
-        );
-
-        // Optionally, add some human-readable information about what the bill is for.
-        $qrBill->setAdditionalInformation(
-            QrBill\DataGroup\Element\AdditionalInformation::create(
-                'Invoice 123456, Gardening work'
-            )
-        );
-
-        // Now get the QR code image and save it as a file.
-        try {
-            $qrBill->getQrCode()->writeFile(WWW_ROOT . '/qr.png');
-            //$qrBill->getQrCode()->writeFile(__DIR__ . '/qr.svg');
-        } catch (Exception $e) {
-            foreach ($qrBill->getViolations() as $violation) {
-                print $violation->getMessage() . "\n";
-            }
-            exit;
-        }
     }
 
     /**
@@ -392,10 +329,10 @@ class BillsController extends AppController
 
         if ($this->request->is('post')) {
             $result = $this->request->getData();
-            $penalty = $result['Penalty'];
+            $penalty = !empty($result['Penalty']);
 
             // debug($result);
-            foreach ($result['BillId'] as $billId => $value) {
+            foreach ((array)($result['BillId'] ?? []) as $billId => $value) {
                 if ($value == 1) {
                     $bill = $this->Bills->get($billId, contain: ['Members', 'Sites']);
 
@@ -511,30 +448,32 @@ class BillsController extends AppController
             }
 
             $result = $this->request->getData();
-            foreach ($result['MemberId'] as $memberId => $value) {
+            foreach ((array)($result['MemberId'] ?? []) as $memberId => $value) {
 
                 if ($value == 1) {
-                    $bill = $this->Bills->newEmptyEntity();
-                    $bill->due_date = $result['due_date'];
-                    $bill->link_membership_fee = $result['link_membership_fee'];
-                    $bill->member_id = $memberId;
-                    $bill->amount = $result['amount'];
-                    $bill->label = $result['label'];
-                    $bill->printed = false;
-                    $bill->paid = false;
-                    $bill->reminder = 0;
-                    $bill->due_date_ori = $bill->due_date;
-                    $bill->canceled = false;
-                    $bill->state_id = 0;
-                    $bill->tokenhash = Text::uuid();
-                    $bill->confirmation = 0;
-                    $bill->site_id = $siteId;
+                    // Through the validation: a wrong amount or date is reported, not saved
+                    $bill = $this->Bills->newEntity([
+                        'due_date' => $result['due_date'] ?? null,
+                        'due_date_ori' => $result['due_date'] ?? null,
+                        'link_membership_fee' => $result['link_membership_fee'] ?? 0,
+                        'member_id' => $memberId,
+                        'amount' => $result['amount'] ?? null,
+                        'label' => $result['label'] ?? '',
+                        'printed' => false,
+                        'paid' => false,
+                        'reminder' => 0,
+                        'canceled' => false,
+                        'state_id' => 0,
+                        'tokenhash' => Text::uuid(),
+                        'confirmation' => null,
+                        'site_id' => $siteId,
+                    ]);
 
-                    $this->Bills->save($bill);
-
-                    $member = $this->Bills->Members->findById($bill->member_id)->firstOrFail();
-
-                    $this->Flash->success(__('Invoices has been created'));
+                    if ($this->Bills->save($bill)) {
+                        $this->Flash->success(__('Invoices has been created'));
+                    } else {
+                        $this->Flash->error(__('The invoice could not be saved.'));
+                    }
                 }
             }
             return $this->redirect(['controller' => 'Bills', 'action' => 'pdf', -1]);
@@ -555,12 +494,12 @@ class BillsController extends AppController
         if ($this->request->is('post')) {
             $result = $this->request->getData();
 
-            if ($result['AcceptSend'] != 1) {
+            if (($result['AcceptSend'] ?? 0) != 1) {
                 $this->Flash->error(__('Send checkbox has not been checked'));
-                return;
+                return $this->redirect(['action' => 'mailSend']);
             }
             try {
-                foreach ($result['BillId'] as $billId => $value) {
+                foreach ((array)($result['BillId'] ?? []) as $billId => $value) {
                     if ($value == 1) {
                         $bill = $this->Bills->get($billId, contain: ['Members', 'Sites']);
 

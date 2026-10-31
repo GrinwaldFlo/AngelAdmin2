@@ -30,12 +30,17 @@ class MemberRegistrationComponent extends Component
             return $member;
         }
 
-        $member = $controller->Members->patchEntity($member, $data);
+        // Public form: the membership and the status are set here, never from the form
+        $member = $controller->Members->patchEntity($member, $data, ['fields' => MembersTable::OWN_FIELDS]);
         $member->date_arrival = new \Cake\I18n\Date();
         $member->hash = MembersTable::newHash();
         $member->leaving_comment = '';
         $member->active = true;
         $member->checked = true;
+        $member->registered = false;
+        $member->email_valid = false;
+        $member->membership_fee_paid = 0;
+        $member->discount = 0;
 
         $checkMember = $controller->Members->find('all')
             ->where(['first_name =' => $member->first_name, 'last_name =' => $member->last_name])
@@ -126,7 +131,8 @@ class MemberRegistrationComponent extends Component
             return false;
         }
 
-        $regId = $controller->saveSignature($member->id, $data['signatureMember'], $data['signatureParent'], $year);
+        // Adults have no parent signature
+        $regId = $controller->saveSignature($member->id, $data['signatureMember'], $data['signatureParent'] ?? null, $year);
 
         if ($regId > 0) {
             $controller->Flash->success(__('You are now registered, it will be validated by a coach'));
@@ -156,7 +162,10 @@ class MemberRegistrationComponent extends Component
 
             $curMember = $controller->Members->findById($curMemberId)->first();
 
-            if (!$delete) {
+            if ($curReg === null || $curMember === null) {
+                // Already validated or refused (sent twice)
+                $controller->Flash->error(__('This signature was already handled.'));
+            } elseif (!$delete) {
                 $curReg->validation_id = $controller->curMember->id;
                 $registrations->save($curReg);
 

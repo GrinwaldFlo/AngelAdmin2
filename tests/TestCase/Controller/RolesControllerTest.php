@@ -1,79 +1,26 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\RolesController;
-use Cake\TestSuite\IntegrationTestTrait;
-use Cake\TestSuite\TestCase;
+use App\Test\TestSuite\CrudControllerTestCase;
 
 /**
- * App\Controller\RolesController Test Case
- *
  * @uses \App\Controller\RolesController
  */
-class RolesControllerTest extends TestCase
+class RolesControllerTest extends CrudControllerTestCase
 {
-    use IntegrationTestTrait;
+    protected string $url = '/roles';
 
-    /**
-     * Fixtures
-     *
-     * @var array
-     */
-    protected array $fixtures = [
-        'app.Roles',
-        'app.Users',
-        'app.Members',
-    ];
+    protected string $table = 'Roles';
 
-    /**
-     * Test index method
-     *
-     * @return void
-     */
-    public function testIndex(): void
+    protected string $field = 'name';
+
+    protected bool $canDelete = false;
+
+    protected function validData(): array
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test view method
-     *
-     * @return void
-     */
-    public function testView(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test add method
-     *
-     * @return void
-     */
-    public function testAdd(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+        return ['name' => 'Coach', 'MemberViewAll' => 1, 'MemberEditAll' => 0, 'MemberEditOwn' => 1, 'BillViewAll' => 0, 'BillEditAll' => 0, 'BillValidate' => 0, 'Editor' => 0, 'Admin' => 0];
     }
 }

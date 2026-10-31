@@ -14,9 +14,13 @@ class MemberField1Policy
     return $user->Role->MemberViewAll;
   }
 
+  // Coaches: members of their teams
   public function canEdit(IdentityInterface $user, MemberField1 $memberField1)
   {
-    return $user->Role->MemberEditAll || ($memberField1->member_id == $user->member_id && $user->Role->MemberEditOwn);
+    if ($memberField1->member_id == $user->member_id && $user->Role->MemberEditOwn) {
+      return true;
+    }
+    return $user->Role->MemberEditAll && TeamScope::canAccessMember($user, $memberField1->member_id);
   }
 
   public function canAdmin(IdentityInterface $user, MemberField1 $memberField1)
@@ -26,11 +30,11 @@ class MemberField1Policy
 
   public function canView(IdentityInterface $user, MemberField1 $memberField1)
   {
-    if ($user->Role->MemberViewAll)
+    if ($user->member_id == $memberField1->member_id)
     {
       return true;
     }
-    return $user->member_id == $memberField1->member_id;
+    return $user->Role->MemberViewAll && TeamScope::canAccessMember($user, $memberField1->member_id);
   }
 
  
