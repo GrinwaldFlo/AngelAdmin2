@@ -6,7 +6,7 @@ class ToolsBehavior extends Behavior
 {
     function formatTel($val)
     {
-        if (strlen($val) < 10)
+        if ($val === null || strlen($val) < 10)
             return $val;
 
         $val = str_replace(" ", "", $val);
@@ -26,7 +26,7 @@ class ToolsBehavior extends Behavior
 
     function formatAddress($val)
     {
-        if (strlen($val) < 5)
+        if ($val === null || strlen($val) < 5)
             return $val;
 
         $val = str_replace("Avenue ", "Av. ", $val);

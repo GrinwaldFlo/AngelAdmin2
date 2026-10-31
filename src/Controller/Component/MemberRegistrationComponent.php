@@ -126,7 +126,8 @@ class MemberRegistrationComponent extends Component
             return false;
         }
 
-        $regId = $controller->saveSignature($member->id, $data['signatureMember'], $data['signatureParent'], $year);
+        // Adults have no parent signature
+        $regId = $controller->saveSignature($member->id, $data['signatureMember'], $data['signatureParent'] ?? null, $year);
 
         if ($regId > 0) {
             $controller->Flash->success(__('You are now registered, it will be validated by a coach'));
@@ -156,7 +157,10 @@ class MemberRegistrationComponent extends Component
 
             $curMember = $controller->Members->findById($curMemberId)->first();
 
-            if (!$delete) {
+            if ($curReg === null || $curMember === null) {
+                // Already validated or refused (sent twice)
+                $controller->Flash->error(__('This signature was already handled.'));
+            } elseif (!$delete) {
                 $curReg->validation_id = $controller->curMember->id;
                 $registrations->save($curReg);
 

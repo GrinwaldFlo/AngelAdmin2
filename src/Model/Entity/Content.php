@@ -66,7 +66,7 @@ class Content extends Entity
 
   protected function _getLocationStr()
   {
-    return $this->getLocationList()[$this->location];
+    return $this->getLocationList()[$this->location] ?? '';
   }
 
 }

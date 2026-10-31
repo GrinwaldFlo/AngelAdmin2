@@ -12,6 +12,7 @@ use Cake\ORM\TableRegistry;
 use Cake\Log\Log;
 use App\Model\Entity\Role;
 use App\Policy\TeamScope;
+use Cake\Http\Exception\ForbiddenException;
 
 /**
  * Members Controller
@@ -175,6 +176,24 @@ class MembersController extends AppController
         $curUser = (object) [];
         $curUser->member_id = $id;
         return $curUser;
+    }
+
+    /**
+     * Access with a member link (hash): only to the member of the link
+     * @return bool true for a member link, false for a logged user (normal authorization)
+     * @throws \Cake\Http\Exception\ForbiddenException link of another member
+     */
+    private function hashAccess(int|null $id): bool
+    {
+        if (!$this->isHashAuthenticated()) {
+            return false;
+        }
+        if (!$this->canAccessMember((int)$id)) {
+            throw new ForbiddenException(__('This link does not give access to this member.'));
+        }
+        $this->Authorization->skipAuthorization();
+
+        return true;
     }
 
     /**
@@ -501,16 +520,10 @@ class MembersController extends AppController
             return $this->redirect(['controller' => 'Users', 'action' => 'login']);
         }
 
-        if ($this->isHashAuthenticated()) {
-            $this->Authorization->skipAuthorization();
+        if ($this->hashAccess($id)) {
             $curRole = $this->getHashCurRole();
             $curUser = $this->getHashCurUser($id);
             $this->set(compact('curRole', 'curUser'));
-        }
-
-        // Check if user has access to this member (for regular authenticated users)
-        if (!$this->canAccessMember($id)) {
-            // Let normal authorization handle it
         }
 
         $member = $this->MemberManagement->updateMember($id, $this->request->getData(), $this->isHashAuthenticated());
@@ -535,41 +548,21 @@ class MembersController extends AppController
 
     public function checked(int|null $id = null)
     {
-        $isHashValid = false;
-        $workingHash = $this->getCurrentHash();
-
-        if ($workingHash != null) {
-            $pageData = $this->MemberData->prepareMyPageData($workingHash, $this->config);
-
-            if (!isset($pageData['error'])) {
-                $this->Authorization->skipAuthorization();
-                $isHashValid = true;
-            }
-        }
+        $isHashValid = $this->hashAccess($id);
 
         $this->MemberManagement->setMemberChecked($id, $isHashValid);
         if ($isHashValid)
-            $this->redirect(['action' => 'myPage']);
+            return $this->redirect(['action' => 'myPage']);
         return $this->redirect(['action' => 'view', $id]);
     }
 
     public function active(int|null $id = null)
     {
-        $isHashValid = false;
-        $workingHash = $this->getCurrentHash();
-
-        if ($workingHash != null) {
-            $pageData = $this->MemberData->prepareMyPageData($workingHash, $this->config);
-
-            if (!isset($pageData['error'])) {
-                $this->Authorization->skipAuthorization();
-                $isHashValid = true;
-            }
-        }
+        $isHashValid = $this->hashAccess($id);
 
         $this->MemberManagement->setMemberActive($id, $isHashValid);
         if ($isHashValid)
-            $this->redirect(['action' => 'myPage']);
+            return $this->redirect(['action' => 'myPage']);
         return $this->redirect('/');
     }
 
@@ -672,23 +665,13 @@ class MembersController extends AppController
 
     public function cancelRegistration(int|null $id = null)
     {
-        $isHashValid = false;
-        $workingHash = $this->getCurrentHash();
-
-        if ($workingHash != null) {
-            $pageData = $this->MemberData->prepareMyPageData($workingHash, $this->config);
-
-            if (!isset($pageData['error'])) {
-                $this->Authorization->skipAuthorization();
-                $isHashValid = true;
-            }
-        }
+        $isHashValid = $this->hashAccess($id);
 
         $result = $this->MemberManagement->cancelMemberRegistration($id, $this->request->getData(), $isHashValid);
 
         if (is_bool($result) && $result) {
             if ($isHashValid) {
-                $this->redirect(['action' => 'myPage']);
+                return $this->redirect(['action' => 'myPage']);
             }
             return $this->redirect(['action' => 'view', $id]);
         } elseif (is_array($result)) {

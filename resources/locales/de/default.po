@@ -2262,3 +2262,15 @@ msgstr "{0} ist bereits Trainer von {1}."
 
 msgid "{0} is no longer coach of {1}."
 msgstr "{0} ist nicht mehr Trainer von {1}."
+
+msgid "This item has orders, disable it instead."
+msgstr "Dieser Artikel hat Bestellungen, deaktiviere ihn stattdessen."
+
+msgid "The QR code of the invoice {0} could not be created: {1}"
+msgstr "Der QR-Code der Rechnung {0} konnte nicht erstellt werden: {1}"
+
+msgid "This link does not give access to this member."
+msgstr "Dieser Link gibt keinen Zugriff auf dieses Mitglied."
+
+msgid "This signature was already handled."
+msgstr "Diese Unterschrift wurde bereits bearbeitet."

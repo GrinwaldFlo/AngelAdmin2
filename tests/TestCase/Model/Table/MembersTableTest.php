@@ -210,4 +210,39 @@ class MembersTableTest extends TestCase
         $this->assertSame($hash, $member->hash);
         $this->assertSame($hash, $this->Members->get(1)->hash);
     }
+
+    public function testSaveTrimsAndFormats(): void
+    {
+        $member = $this->Members->get(1);
+        $member->first_name = ' Ana ';
+        $member->city = ' Renens ';
+        $member->address = 'Avenue du Lac 4 ';
+        $member->phone_mobile = '+41 79 123 45 67';
+
+        $this->Members->saveOrFail($member);
+
+        $saved = $this->Members->get(1);
+        $this->assertSame('Ana', $saved->first_name);
+        $this->assertSame('Renens', $saved->city);
+        $this->assertSame('Av. du Lac 4', $saved->address);
+        $this->assertSame('079 123 45 67', $saved->phone_mobile);
+    }
+
+    /**
+     * Address, city and phone are optional
+     */
+    public function testSaveWithoutAddressCityPhone(): void
+    {
+        $member = $this->Members->get(1);
+        $member->address = null;
+        $member->city = null;
+        $member->phone_mobile = null;
+
+        $this->Members->saveOrFail($member);
+
+        $saved = $this->Members->get(1);
+        $this->assertNull($saved->address);
+        $this->assertNull($saved->city);
+        $this->assertNull($saved->phone_mobile);
+    }
 }

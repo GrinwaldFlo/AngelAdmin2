@@ -124,18 +124,15 @@ class SlackComponent extends Component
                 'Authorization' => 'Bearer ' . $slackToken,
             ]
         ]);
-        if ($userResponse->isOk()) {
-            $userData = $userResponse->getJson();
-            if (!empty($userData['user']['real_name'])) {
-                $realName = $userData['user']['real_name'];
-                $this->userCache[$userId] = $realName;
-                file_put_contents($this->cacheFile, json_encode($this->userCache));
-                return $realName;
-            } else {
-                return $userResponse->getStringBody();
-            }
-        } else {
-            return $userResponse->getReasonPhrase();
+        $userData = $userResponse->isOk() ? $userResponse->getJson() : null;
+        if (empty($userData['user']['real_name'])) {
+            // Unknown user or Slack error: the id is shown instead of the name
+            return $userId;
         }
+
+        $realName = $userData['user']['real_name'];
+        $this->userCache[$userId] = $realName;
+        file_put_contents($this->cacheFile, json_encode($this->userCache));
+        return $realName;
     }
 }

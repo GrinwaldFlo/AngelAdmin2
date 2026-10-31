@@ -11,6 +11,9 @@ namespace App\Controller;
  */
 class MemberOrdersController extends AppController
 {
+    // An order keeps its line when its bill is deleted (bill_id set to null): its site must not be required
+    private const CONTAIN = ['ShopItems', 'Members', 'Bills' => ['Sites' => ['joinType' => 'LEFT']]];
+
     public array $paginate = [
         'limit' => 500,
         'maxLimit' => 1000
@@ -35,7 +38,7 @@ class MemberOrdersController extends AppController
         $paidFilter = $this->getPrefSession('memberOrdersPaidFilter', $paidFilter, 0);
         
         // Build the query with contains
-        $query = $this->MemberOrders->find()->contain(['ShopItems', 'Members', 'Bills' => ['Sites']]);
+        $query = $this->MemberOrders->find()->contain(self::CONTAIN);
         
         // Apply category filter
         if ($categoryFilter > 0) {
@@ -53,7 +56,8 @@ class MemberOrdersController extends AppController
         if ($paidFilter == 1) {
             $query->where(['Bills.paid' => true]);
         } elseif ($paidFilter == 2) {
-            $query->where(['Bills.paid' => false]);
+            // Orders without bill are not paid either
+            $query->where(['OR' => ['Bills.paid' => false, 'Bills.id IS' => null]]);
         }
 
         $memberOrders = $this->paginate($query);
@@ -74,7 +78,7 @@ class MemberOrdersController extends AppController
      */
     public function view($id = null)
     {
-        $memberOrder = $this->MemberOrders->get($id, contain: ['ShopItems', 'Members', 'Bills' => ['Sites']]);
+        $memberOrder = $this->MemberOrders->get($id, contain: self::CONTAIN);
         $this->Authorization->authorize($memberOrder);
 
         $this->set(compact('memberOrder'));

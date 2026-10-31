@@ -127,7 +127,8 @@ class Bill extends Entity
 
   public function DeleteBillPdf()
   {
-    unlink($this->BillPath);
+    if (file_exists($this->BillPath))
+      unlink($this->BillPath);
   }
 
   protected function _getStateList()
@@ -137,7 +138,7 @@ class Bill extends Entity
 
   protected function _getStateStr()
   {
-    return $this->_getStateList()[$this->state_id];
+    return $this->_getStateList()[$this->state_id] ?? '';
   }
 
   protected function _getReference()

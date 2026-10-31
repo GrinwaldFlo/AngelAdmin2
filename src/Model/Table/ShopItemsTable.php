@@ -91,6 +91,16 @@ class ShopItemsTable extends Table
     }
 
     /**
+     * An ordered item can't be deleted, it can only be disabled
+     */
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->addDelete($rules->isNotLinkedTo('MemberOrders', 'member_orders', __('This item has orders, disable it instead.')));
+
+        return $rules;
+    }
+
+    /**
      * Get category options for forms
      *
      * @return array

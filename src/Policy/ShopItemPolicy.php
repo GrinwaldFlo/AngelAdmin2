@@ -33,4 +33,9 @@ class ShopItemPolicy
     {
         return TeamScope::canUnscoped($user, 'MemberEditAll');
     }
+
+    public function canDelete(IdentityInterface $user)
+    {
+        return TeamScope::canUnscoped($user, 'MemberEditAll');
+    }
 }

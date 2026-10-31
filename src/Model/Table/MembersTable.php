@@ -243,11 +243,13 @@ class MembersTable extends Table
 
     public function beforeSave($event, $entity, $options)
     {
-        $entity->first_name = trim($entity->first_name);
-        $entity->last_name = trim($entity->last_name);
-        $entity->address = trim($entity->address);
-        $entity->city = trim($entity->city);
-        $entity->email = trim($entity->email);
+        // Address, city and phone are optional (null)
+        $trim = fn($value) => $value === null ? null : trim((string)$value);
+        $entity->first_name = $trim($entity->first_name);
+        $entity->last_name = $trim($entity->last_name);
+        $entity->address = $trim($entity->address);
+        $entity->city = $trim($entity->city);
+        $entity->email = $trim($entity->email);
         $entity->phone_mobile = $this->formatTel($entity->phone_mobile);
         //$entity->phone_home = $this->formatTel($entity->phone_home);
         $entity->address = $this->formatAddress($entity->address);

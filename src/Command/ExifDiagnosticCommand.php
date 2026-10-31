@@ -160,12 +160,12 @@ class ExifDiagnosticCommand extends Command
             $orientationLabels = [
                 1 => 'Normal (no rotation)',
                 2 => 'Horizontal flip',
-                3 => '180° rotation',
+                3 => '180Â° rotation',
                 4 => 'Vertical flip',
-                5 => 'Vertical flip + 90° rotation',
-                6 => '90° clockwise rotation',
-                7 => 'Horizontal flip + 90° rotation',
-                8 => '90° counter-clockwise rotation'
+                5 => 'Vertical flip + 90Â° rotation',
+                6 => '90Â° clockwise rotation',
+                7 => 'Horizontal flip + 90Â° rotation',
+                8 => '90Â° counter-clockwise rotation'
             ];
             
             $label = $orientationLabels[$orientation] ?? 'Unknown orientation value';

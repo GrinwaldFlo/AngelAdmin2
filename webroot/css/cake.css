@@ -466,6 +466,30 @@ th {
   display: inline-block;
 }
 
+/* AppView::backButtonCtrl */
+.back-button {
+  width: 60px;
+}
+
+/* Add / edit button over a member photo (MyHelper::butPhotoAddEdit) */
+.photo-btn {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  background-color: #ffffff78;
+  border-radius: 10%;
+  width: 50px;
+  height: 50px;
+}
+.photo-btn-edit {
+  padding-top: 25px;
+  padding-left: 20px;
+}
+.photo-btn-add {
+  padding-top: 15px;
+  padding-left: 15px;
+}
+
 .dateItem {
   width: 120px;
   display: inline-block;

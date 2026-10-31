@@ -82,7 +82,7 @@ class Presence extends Entity
 
   public function Season($firstDayOfYear): string
   {
-    $curYear = $this->meeting->meeting_date->i18nFormat('YYYY');
+    $curYear = (int)$this->meeting->meeting_date->format('Y');
     
     $firstDay = new \DateTime($firstDayOfYear . '.' . $curYear);
     

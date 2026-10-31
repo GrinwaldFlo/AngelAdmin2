@@ -42,7 +42,7 @@ class PdfHelper extends Helper
         $txt = $txt . $site->sender_email . "\r\n";
         $txt = $txt . $site->sender_phone . "\r\n";
 
-        $txt = $txt . "\r\n\r\nRenens le " . date("d.m.Y");
+        $txt = $txt . "\r\n\r\n" . $site->city . " le " . date("d.m.Y");
 
         $this->setFontText();
         $this->pdf->SetXY(15, 15);
@@ -483,7 +483,10 @@ class PdfHelper extends Helper
         $this->pdf->Line(0, 195, 208, 195, $style);
         $this->pdf->Line(60.5, 195, 60.5, 300, $style);
 
-        unlink($bill->QRPath);
+        // No QR code below 1 CHF
+        if (file_exists($bill->QRPath)) {
+            unlink($bill->QRPath);
+        }
     }
 
     public function CreateQR($bill)
@@ -554,11 +557,11 @@ class PdfHelper extends Helper
         try {
             $qrBill->getQrCode()->writeFile($bill->QRPath);
         } catch (\Exception $e) {
+            $messages = [];
             foreach ($qrBill->getViolations() as $violation) {
-                print $violation->getMessage() . "\n";
-                debug($bill);
+                $messages[] = $violation->getMessage();
             }
-            exit;
+            throw new \RuntimeException(__('The QR code of the invoice {0} could not be created: {1}', $bill->Reference, implode(' ', $messages) ?: $e->getMessage()), 0, $e);
         }
     }
 

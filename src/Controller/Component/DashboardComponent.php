@@ -163,7 +163,9 @@ class DashboardComponent extends Component
         $named = [];
         foreach ($result as $genderId => $nb) {
             if ($nb > 0) {
-                $named[$labels[$genderId] ?? $labels[0]] = $nb;
+                // Unexpected ids are added to the unknown ones
+                $label = $labels[$genderId] ?? $labels[0];
+                $named[$label] = ($named[$label] ?? 0) + $nb;
             }
         }
         return $named;

@@ -83,9 +83,7 @@ class MemberListComponent extends Component
             array_push($members2, $member);
         }
 
-        usort($members2, function ($a, $b) {
-            return $a['FullAddress'] > $b['FullAddress'];
-        });
+        usort($members2, fn($a, $b) => strcmp($a['FullAddress'], $b['FullAddress']));
 
         return $members2;
     }
@@ -129,7 +127,7 @@ class MemberListComponent extends Component
     private function cleanAddress($address)
     {
         // Remove dots and commas
-        $cleaned = str_replace(['.', ',', '-'], ' ', $address);
+        $cleaned = str_replace(['.', ',', '-'], ' ', (string)$address);
         
         // Convert to lowercase
         $cleaned = strtolower($cleaned);

@@ -2219,3 +2219,15 @@ msgstr "{0} ya es entrenador de {1}."
 
 msgid "{0} is no longer coach of {1}."
 msgstr "{0} ya no es entrenador de {1}."
+
+msgid "This item has orders, disable it instead."
+msgstr "Este artículo tiene pedidos, desactívalo en su lugar."
+
+msgid "The QR code of the invoice {0} could not be created: {1}"
+msgstr "No se pudo crear el código QR de la factura {0}: {1}"
+
+msgid "This link does not give access to this member."
+msgstr "Este enlace no da acceso a este miembro."
+
+msgid "This signature was already handled."
+msgstr "Esta firma ya fue procesada."
