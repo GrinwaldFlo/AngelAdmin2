@@ -16,6 +16,9 @@
         <?php else: ?>
             <?= $this->Html->link(__('Create account with this member'), ['controller' => 'Users', 'action' => 'register', $member->hash], ['class' => 'btn btn-primary btn-sm member-header-button']) ?>
         <?php endif; ?>
+        <?php if (!empty($config['secondHandEnabled'])): ?>
+            <?= $this->Html->link(__('Second-hand'), ['controller' => 'SecondHand', 'action' => 'index'], ['class' => 'btn btn-primary btn-sm member-header-button']) ?>
+        <?php endif; ?>
     <?php else: ?>
         <?= $curRole->MemberEditAll ? $this->backButtonCtrl('Members', 'index') : $this->BackButton('/') ?>
     <?php endif; ?>

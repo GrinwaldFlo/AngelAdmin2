@@ -117,7 +117,7 @@ class MailComponent extends Component
    * Send an email from the club address
    * @param array $vars view variables of the template (the default template shows 'content')
    */
-  private function deliver(string $toEmail, string $toName, string $title, array $vars, string $template = 'default'): void
+  public function deliver(string $toEmail, string $toName, string $title, array $vars, string $template = 'default'): void
   {
     $config = $this->getController()->config;
     $mailer = new Mailer();
