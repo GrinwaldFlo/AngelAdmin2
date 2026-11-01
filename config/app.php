@@ -110,7 +110,8 @@ return [
      * enable timestamping regardless of debug value.
      */
     'Asset' => [
-        //'timestamp' => true,
+        // webroot/.htaccess caches assets for 1 year: the timestamp makes browsers fetch updated files
+        'timestamp' => 'force',
         // 'cacheTime' => '+1 year'
     ],
 
