@@ -47,3 +47,13 @@
 .teams-coaches-add .input {
   margin-bottom: 0;
 }
+
+/* Give the button the height of the selects (overrides the global .btn of cake.css) */
+.teams-coaches-add .btn {
+  align-self: stretch;
+  display: inline-flex;
+  align-items: center;
+  height: auto;
+  line-height: normal;
+  margin: 0;
+}
