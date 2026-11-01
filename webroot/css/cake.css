@@ -469,9 +469,11 @@ th {
 /* element/Members/header.php */
 .member-header-actions {
   width: 400px;
+  max-width: 100%;
 }
-.member-header-button {
+.icon a.member-header-button {
   width: 300px;
+  max-width: 100%;
   height: 32px;
 }
 

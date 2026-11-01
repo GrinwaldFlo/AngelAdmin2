@@ -14,6 +14,7 @@ use Cake\ORM\Entity;
  * @property string $content
  * @property string $teams names of the teams that received the mailing
  * @property string $team_id_list ids of the teams that received the mailing, comma separated
+ * @property string $bill_label text searched in the bill labels, '' for a mailing to teams
  * @property int $status
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime $modified
@@ -140,6 +141,22 @@ class Mailing extends Entity
     }
 
     /**
+     * Sent to the members having a bill whose label contains a text (instead of teams)
+     */
+    public function isByBill(): bool
+    {
+        return (string)$this->bill_label !== '';
+    }
+
+    /**
+     * Who received the mailing: the teams, or the searched bill label
+     */
+    public function recipientsLabel(): string
+    {
+        return $this->isByBill() ? __('Bills containing "{0}"', $this->bill_label) : (string)$this->teams;
+    }
+
+    /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
      * @var array<string, bool>
@@ -149,6 +166,7 @@ class Mailing extends Entity
         'content' => true,
         'teams' => true,
         'team_id_list' => true,
+        'bill_label' => true,
         'status' => true,
         'sentDate' => true,
         'mailing_items' => true,

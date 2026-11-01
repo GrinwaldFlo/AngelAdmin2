@@ -30,7 +30,7 @@ class MemberDocumentComponent extends Component
     /**
      * Process image file - convert HEIC to JPEG if needed
      */
-    private function processImageFile($fileobject, $targetPath): bool
+    public function processImageFile($fileobject, $targetPath): bool
     {
         $controller = $this->getController();
         $validation = $this->isValidImageFile($fileobject);

@@ -2286,3 +2286,332 @@ msgstr "Die Bestellung ist ungültig. Bitte versuche es nochmals."
 
 msgid "Add Configuration"
 msgstr "Konfiguration hinzufügen"
+
+msgid "Bills containing \"{0}\""
+msgstr "Rechnungen mit «{0}»"
+
+msgid "Enter a text to search in the bill labels"
+msgstr "Gib einen Text ein, der in den Rechnungsbezeichnungen gesucht wird"
+
+msgid "There is no member with an email having a bill containing this text"
+msgstr "Kein Mitglied mit E-Mail hat eine Rechnung mit diesem Text"
+
+msgid "New email by bill"
+msgstr "Neue E-Mail nach Rechnung"
+
+msgid "New email with the same subject, content and bills"
+msgstr "Neue E-Mail mit gleichem Betreff, Inhalt und Rechnungen"
+
+msgid "The email is sent to the members, active or past, having a bill (not canceled) whose label contains the text."
+msgstr "Die E-Mail wird an aktive und ehemalige Mitglieder gesendet, die eine (nicht stornierte) Rechnung haben, deren Bezeichnung den Text enthält."
+
+msgid "Text in the bill label"
+msgstr "Text in der Rechnungsbezeichnung"
+
+msgid "e.g. {0}"
+msgstr "z. B. {0}"
+
+msgid "Search"
+msgstr "Suchen"
+
+msgid "No bill contains this text."
+msgstr "Keine Rechnung enthält diesen Text."
+
+msgid "{0} emails will be sent."
+msgstr "{0} E-Mails werden gesendet."
+
+msgid "{0} members without email will not receive it."
+msgstr "{0} Mitglieder ohne E-Mail erhalten sie nicht."
+
+msgid "Bills"
+msgstr "Rechnungen"
+
+msgid "No email, not sent"
+msgstr "Keine E-Mail, nicht gesendet"
+
+msgid "Past member"
+msgstr "Ehemaliges Mitglied"
+
+# Second-hand items
+
+msgid "Add an item"
+msgstr "Artikel hinzufügen"
+
+msgid "All communication happens outside this website."
+msgstr "Die gesamte Kommunikation findet ausserhalb dieser Website statt."
+
+msgid "All fields are required."
+msgstr "Alle Felder sind erforderlich."
+
+msgid "Buy"
+msgstr "Kaufen"
+
+msgid "Buy and sell used items (uniforms, shoes, ...) with other members."
+msgstr "Kaufe und verkaufe gebrauchte Artikel (Uniformen, Schuhe, ...) mit anderen Mitgliedern."
+
+msgid "Buyers and sellers arrange to meet or ship the item on their own."
+msgstr "Käufer und Verkäufer vereinbaren selbst ein Treffen oder den Versand des Artikels."
+
+msgid "Buyers see these details to contact you."
+msgstr "Käufer sehen diese Angaben, um dich zu kontaktieren."
+
+msgid "Call {0}"
+msgstr "{0} anrufen"
+
+msgid "Categories"
+msgstr "Kategorien"
+
+msgid "Category"
+msgstr "Kategorie"
+
+msgid "Change my details"
+msgstr "Meine Angaben ändern"
+
+msgid "Change my details or send the link again"
+msgstr "Meine Angaben ändern oder den Link erneut senden"
+
+msgid "Choose a category"
+msgstr "Wähle eine Kategorie"
+
+msgid "Confirm your email address"
+msgstr "Bestätige deine E-Mail-Adresse"
+
+msgid "Continue"
+msgstr "Weiter"
+
+msgid "Delete the category {0}?"
+msgstr "Kategorie {0} löschen?"
+
+msgid "Delete this item for good?"
+msgstr "Diesen Artikel endgültig löschen?"
+
+msgid "Deleted by the admin"
+msgstr "Vom Admin gelöscht"
+
+msgid "Edit category"
+msgstr "Kategorie bearbeiten"
+
+msgid "Enable the second-hand page"
+msgstr "Second-Hand-Seite aktivieren"
+
+msgid "Expired"
+msgstr "Abgelaufen"
+
+msgid "Failed to process image"
+msgstr "Das Bild konnte nicht verarbeitet werden"
+
+msgid "For sale"
+msgstr "Zu verkaufen"
+
+msgid "For sale since {0}"
+msgstr "Zu verkaufen seit {0}"
+
+msgid "Hello {0},\n\nI am interested in your item on the second-hand page of {1}:\n{2}, size {3}, {4}\n\nIs it still available?\n\nThank you"
+msgstr "Hallo {0},\n\nIch interessiere mich für deinen Artikel auf der Second-Hand-Seite von {1}:\n{2}, Grösse {3}, {4}\n\nIst er noch verfügbar?\n\nDanke"
+
+msgid "I accept these rules"
+msgstr "Ich akzeptiere diese Regeln"
+
+msgid "If you use another email than the one of your member account, you will get a link to confirm it."
+msgstr "Wenn du eine andere E-Mail-Adresse als die deines Mitgliedskontos verwendest, erhältst du einen Link, um sie zu bestätigen."
+
+msgid "Item"
+msgstr "Artikel"
+
+msgid "Items"
+msgstr "Artikel"
+
+msgid "Items are removed from the list after {0} months."
+msgstr "Artikel werden nach {0} Monaten von der Liste entfernt."
+
+msgid "Items expire after (months)"
+msgstr "Artikel laufen ab nach (Monate)"
+
+msgid "Log of the items"
+msgstr "Protokoll der Artikel"
+
+msgid "Log of the second-hand items"
+msgstr "Protokoll der Second-Hand-Artikel"
+
+msgid "Mark as sold"
+msgstr "Als verkauft markieren"
+
+msgid "My items"
+msgstr "Meine Artikel"
+
+msgid "My seller details"
+msgstr "Meine Verkäuferangaben"
+
+msgid "Name shown to buyers"
+msgstr "Für Käufer angezeigter Name"
+
+msgid "New category"
+msgstr "Neue Kategorie"
+
+msgid "No items for sale right now."
+msgstr "Zurzeit gibt es keine Artikel zu verkaufen."
+
+msgid "No money goes through the club."
+msgstr "Es fliesst kein Geld über den Verein."
+
+msgid "No money goes through the club: you arrange the payment and the delivery with the seller."
+msgstr "Es fliesst kein Geld über den Verein: Du vereinbarst Zahlung und Übergabe direkt mit dem Verkäufer."
+
+msgid "Open the second-hand page"
+msgstr "Second-Hand-Seite öffnen"
+
+msgid "Phone number"
+msgstr "Telefonnummer"
+
+msgid "Picture"
+msgstr "Foto"
+
+msgid "Please accept the rules to continue."
+msgstr "Bitte akzeptiere die Regeln, um fortzufahren."
+
+msgid "Please add a picture."
+msgstr "Bitte füge ein Foto hinzu."
+
+msgid "Please confirm your email address to sell items on the second-hand page:"
+msgstr "Bitte bestätige deine E-Mail-Adresse, um Artikel auf der Second-Hand-Seite zu verkaufen:"
+
+msgid "Please confirm your email address {0} with the link we sent you. Your items are not shown to buyers until then."
+msgstr "Bitte bestätige deine E-Mail-Adresse {0} über den Link, den wir dir geschickt haben. Bis dahin sind deine Artikel für Käufer nicht sichtbar."
+
+msgid "Please fill in your seller details and confirm your email address first."
+msgstr "Fülle zuerst deine Verkäuferangaben aus und bestätige deine E-Mail-Adresse."
+
+msgid "Please log in or use the link of your personal page."
+msgstr "Melde dich an oder verwende den Link deiner persönlichen Seite."
+
+msgid "Prefer to be contacted by WhatsApp"
+msgstr "Ich möchte lieber per WhatsApp kontaktiert werden"
+
+msgid "Price"
+msgstr "Preis"
+
+msgid "Price (CHF)"
+msgstr "Preis (CHF)"
+
+msgid "Put up for sale"
+msgstr "Zum Verkauf anbieten"
+
+msgid "Remove this item for good?"
+msgstr "Diesen Artikel endgültig entfernen?"
+
+msgid "Removed by the seller"
+msgstr "Vom Verkäufer entfernt"
+
+msgid "Rules"
+msgstr "Regeln"
+
+msgid "Second-hand"
+msgstr "Second-Hand"
+
+msgid "Second-hand: {0}"
+msgstr "Second-Hand: {0}"
+
+msgid "Sell"
+msgstr "Verkaufen"
+
+msgid "Seller"
+msgstr "Verkäufer"
+
+msgid "Send an email"
+msgstr "E-Mail senden"
+
+msgid "Settings"
+msgstr "Einstellungen"
+
+msgid "Shown to buyers as {0}, {1}"
+msgstr "Für Käufer angezeigt als {0}, {1}"
+
+msgid "Size"
+msgstr "Grösse"
+
+msgid "Sold"
+msgstr "Verkauft"
+
+msgid "The category could not be deleted."
+msgstr "Die Kategorie konnte nicht gelöscht werden."
+
+msgid "The category could not be saved."
+msgstr "Die Kategorie konnte nicht gespeichert werden."
+
+msgid "The category has been deleted."
+msgstr "Die Kategorie wurde gelöscht."
+
+msgid "The category has been saved."
+msgstr "Die Kategorie wurde gespeichert."
+
+msgid "The duration must be between 1 and 120 months."
+msgstr "Die Dauer muss zwischen 1 und 120 Monaten liegen."
+
+msgid "The email could not be sent: {0}"
+msgstr "Die E-Mail konnte nicht gesendet werden: {0}"
+
+msgid "The item could not be saved. Please check the form."
+msgstr "Der Artikel konnte nicht gespeichert werden. Bitte prüfe das Formular."
+
+msgid "The item has been deleted."
+msgstr "Der Artikel wurde gelöscht."
+
+msgid "The item has been removed."
+msgstr "Der Artikel wurde entfernt."
+
+msgid "The item is marked as sold."
+msgstr "Der Artikel ist als verkauft markiert."
+
+msgid "The rules could not be saved. Please try again."
+msgstr "Die Regeln konnten nicht gespeichert werden. Bitte versuche es erneut."
+
+msgid "The settings have been saved."
+msgstr "Die Einstellungen wurden gespeichert."
+
+msgid "This category still has items, it cannot be deleted."
+msgstr "Diese Kategorie enthält noch Artikel und kann nicht gelöscht werden."
+
+msgid "This item is not for sale anymore."
+msgstr "Dieser Artikel steht nicht mehr zum Verkauf."
+
+msgid "This item is not shown to buyers (sold, expired or email not confirmed)."
+msgstr "Dieser Artikel wird Käufern nicht angezeigt (verkauft, abgelaufen oder E-Mail nicht bestätigt)."
+
+msgid "This item is not yours."
+msgstr "Dieser Artikel gehört nicht dir."
+
+msgid "This link is not valid or was already used."
+msgstr "Dieser Link ist ungültig oder wurde bereits verwendet."
+
+msgid "This phone number is not valid"
+msgstr "Diese Telefonnummer ist ungültig"
+
+msgid "This picture is too large. The maximum size is {0}."
+msgstr "Dieses Foto ist zu gross. Die maximale Grösse beträgt {0}."
+
+msgid "This platform only puts buyers and sellers in contact."
+msgstr "Diese Plattform bringt Käufer und Verkäufer nur miteinander in Kontakt."
+
+msgid "We recommend meeting in person, so you can check the item and handle the payment safely."
+msgstr "Wir empfehlen ein persönliches Treffen, damit du den Artikel prüfen und sicher bezahlen kannst."
+
+msgid "We sent you an email. Click the link in it to confirm your email address."
+msgstr "Wir haben dir eine E-Mail geschickt. Klicke auf den Link darin, um deine E-Mail-Adresse zu bestätigen."
+
+msgid "WhatsApp"
+msgstr "WhatsApp"
+
+msgid "You have no items for sale."
+msgstr "Du hast keine Artikel zu verkaufen."
+
+msgid "Your email address is confirmed. You can now sell items."
+msgstr "Deine E-Mail-Adresse ist bestätigt. Du kannst jetzt Artikel verkaufen."
+
+msgid "Your item is now for sale."
+msgstr "Dein Artikel steht jetzt zum Verkauf."
+
+msgid "Your seller details could not be saved. Please check the form."
+msgstr "Deine Verkäuferangaben konnten nicht gespeichert werden. Bitte prüfe das Formular."
+
+msgid "Your seller details have been saved."
+msgstr "Deine Verkäuferangaben wurden gespeichert."

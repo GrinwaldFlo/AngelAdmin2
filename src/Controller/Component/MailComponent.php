@@ -54,7 +54,7 @@ class MailComponent extends Component
   }
 
   /**
-   * Send the next pending emails of a mailing to teams
+   * Send the next pending emails of a mailing
    * Stops at the first sending error (the SMTP server often refuses every next email, e.g. Gmail sending limit):
    * the failed email stays pending and is retried after the other pending ones on the next call
    * @param int $limit maximum number of emails sent by this call
@@ -106,8 +106,8 @@ class MailComponent extends Component
       $mailing->status = Mailing::DONE;
       $mailing->sentDate = DateTime::now();
       TableRegistry::getTableLocator()->get('Mailings')->saveOrFail($mailing);
-      Log::info(sprintf('Mailing #%d "%s" sent to teams %s: %d/%d emails sent, %d invalid addresses',
-        $mailing->id, $mailing->title, $mailing->teams, $counts['sent'], $counts['total'], $counts['invalid']));
+      Log::info(sprintf('Mailing #%d "%s" sent to %s: %d/%d emails sent, %d invalid addresses',
+        $mailing->id, $mailing->title, $mailing->isByBill() ? 'bills "' . $mailing->bill_label . '"' : 'teams ' . $mailing->teams, $counts['sent'], $counts['total'], $counts['invalid']));
     }
 
     return $counts + ['done' => $mailing->isDone(), 'error' => $error];
@@ -117,7 +117,7 @@ class MailComponent extends Component
    * Send an email from the club address
    * @param array $vars view variables of the template (the default template shows 'content')
    */
-  private function deliver(string $toEmail, string $toName, string $title, array $vars, string $template = 'default'): void
+  public function deliver(string $toEmail, string $toName, string $title, array $vars, string $template = 'default'): void
   {
     $config = $this->getController()->config;
     $mailer = new Mailer();

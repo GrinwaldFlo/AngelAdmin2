@@ -160,6 +160,11 @@ if (Configure::read('debug')) {
                 <li class="nav-item">
                     <?= $this->Html->link(__('My account'), ['controller' => 'Members', 'action' => 'view', $curUser->member_id], ['class' => 'nav-link']) ?>
                 </li>
+                <?php if (!empty($config['secondHandEnabled'])): ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Second-hand'), ['controller' => 'SecondHand', 'action' => 'index'], ['class' => 'nav-link']) ?>
+                    </li>
+                <?php endif; ?>
                 <?php if ($curRole->MemberViewAll): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -217,6 +222,7 @@ if (Configure::read('debug')) {
                             <?= $curRole->Admin ? $this->Html->link(__('New year'), ['controller' => 'Admin', 'action' => 'new_year'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Invoice Templates'), ['controller' => 'BillTemplates', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Subsidies'), ['controller' => 'Admin', 'action' => 'subventions'], ['class' => 'dropdown-item']) : '' ?>
+                            <?= $curRole->Admin ? $this->Html->link(__('Second-hand'), ['controller' => 'SecondHandAdmin', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $this->Html->link(__('List'), ['controller' => 'Members', 'action' => 'list'], ['class' => 'dropdown-item']); ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Familly discount'), ['controller' => 'Members', 'action' => 'familyReduction'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $this->Html->link(__('Birthdays'), ['controller' => 'Members', 'action' => 'birthdays'], ['class' => 'dropdown-item']); ?>
