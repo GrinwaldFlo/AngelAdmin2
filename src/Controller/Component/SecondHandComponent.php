@@ -7,8 +7,10 @@ namespace App\Controller\Component;
 use App\Model\Entity\SecondHandItem;
 use App\Model\Entity\SecondHandProfile;
 use Cake\Controller\Component;
+use Cake\I18n\Number;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
+use Cake\Utility\Text;
 use Psr\Http\Message\UploadedFileInterface;
 use Throwable;
 
@@ -67,17 +69,18 @@ class SecondHandComponent extends Component
 
     /**
      * Save the picture of an item (JPEG or HEIC), resized to PICTURE_SIZE at most
-     * Errors are shown with a flash message
+     * Errors are shown with a flash message, and no file is left behind
      */
     public function savePicture(SecondHandItem $item, ?UploadedFileInterface $file): bool
     {
         $controller = $this->getController();
         if ($file === null || $file->getError() !== UPLOAD_ERR_OK) {
-            $controller->Flash->error(__('Please add a picture.'));
+            $controller->Flash->error($this->uploadError($file));
 
             return false;
         }
 
+        $item->ensureHash();
         $folder = $item->folderPath();
         if (!is_dir($folder) && !mkdir($folder, 0755, true)) {
             $controller->Flash->error(__('Failed to send picture'));
@@ -87,6 +90,8 @@ class SecondHandComponent extends Component
 
         $original = $folder . 'original.jpg';
         if (!$this->MemberDocument->processImageFile($file, $original)) {
+            $item->deleteFolder();
+
             return false;
         }
         $this->Image->rotateFromExif($original);
@@ -102,10 +107,23 @@ class SecondHandComponent extends Component
         @unlink($original);
 
         if (!$saved) {
+            $item->deleteFolder();
             $controller->Flash->error(__('Failed to process image'));
         }
 
         return $saved;
+    }
+
+    private function uploadError(?UploadedFileInterface $file): string
+    {
+        return match ($file?->getError() ?? UPLOAD_ERR_NO_FILE) {
+            UPLOAD_ERR_NO_FILE => __('Please add a picture.'),
+            UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE => __(
+                'This picture is too large. The maximum size is {0}.',
+                Number::toReadableSize(Text::parseFileSize((string)ini_get('upload_max_filesize')))
+            ),
+            default => __('Failed to send picture'),
+        };
     }
 
     /**

@@ -103,7 +103,7 @@ class SecondHandController extends AppController
 
         // Category filter of the list the buyer comes from, to go back to it and browse it
         $categoryId = (int)$this->request->getQuery('category', 0);
-        $neighbours = $this->SecondHandItems->neighbours($item->id, $this->SecondHand->expiryMonths(), $categoryId);
+        $neighbours = $this->SecondHandItems->neighbours($item, $this->SecondHand->expiryMonths(), $categoryId);
 
         $this->set(compact('item', 'isOwn', 'isAdmin', 'forSale', 'categoryId', 'neighbours'));
     }
@@ -188,11 +188,13 @@ class SecondHandController extends AppController
         $categories = $this->fetchTable('SecondHandCategories')->listByName();
 
         if ($this->request->is('post')) {
-            $data = $this->request->getData();
-            $item = $this->SecondHandItems->newEntity($data);
+            $item = $this->SecondHandItems->newEntity($this->request->getData());
             $item->profile_id = $this->profile->id;
-            if (!$item->hasErrors() && $this->SecondHandItems->save($item)) {
-                if ($this->SecondHand->savePicture($item, $this->request->getData('picture'))) {
+            if ($item->hasErrors()) {
+                $this->Flash->error(__('The item could not be saved. Please check the form.'));
+            } elseif ($this->SecondHand->savePicture($item, $this->request->getData('picture'))) {
+                // The picture first: no item without its picture
+                if ($this->SecondHandItems->save($item)) {
                     $item->profile = $this->profile;
                     $item->category = $this->SecondHandItems->Categories->get($item->category_id);
                     $this->fetchTable('SecondHandLogs')->record($item);
@@ -200,10 +202,7 @@ class SecondHandController extends AppController
 
                     return $this->redirect(['action' => 'myItems']);
                 }
-                // No item without its picture
-                $this->SecondHandItems->delete($item);
-                $item = $this->SecondHandItems->newEntity($data);
-            } else {
+                $item->deleteFolder();
                 $this->Flash->error(__('The item could not be saved. Please check the form.'));
             }
         }

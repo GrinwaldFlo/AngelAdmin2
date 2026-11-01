@@ -6,6 +6,7 @@ namespace App\Model\Entity;
 
 use Cake\I18n\DateTime;
 use Cake\ORM\Entity;
+use Cake\Utility\Filesystem;
 
 /**
  * SecondHandItem Entity: item for sale, its picture is in a folder named by its hash so its URL cannot be guessed
@@ -42,9 +43,29 @@ class SecondHandItem extends Entity
         return $this->folderPath() . 'picture.jpg';
     }
 
-    public function pictureUrl(): string
+    /**
+     * Path of the picture for HtmlHelper::image(), relative to webroot/img
+     */
+    public function pictureImage(): string
     {
-        return '/img/secondhand/' . $this->hash . '/picture.jpg';
+        return 'secondhand/' . $this->hash . '/picture.jpg';
+    }
+
+    /**
+     * The hash names the picture folder, it is needed before the first save
+     */
+    public function ensureHash(): void
+    {
+        if (empty($this->hash)) {
+            $this->hash = bin2hex(random_bytes(20));
+        }
+    }
+
+    public function deleteFolder(): void
+    {
+        if (!empty($this->hash) && is_dir($this->folderPath())) {
+            (new Filesystem())->deleteDir($this->folderPath());
+        }
     }
 
     /**

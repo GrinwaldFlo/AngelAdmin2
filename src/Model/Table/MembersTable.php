@@ -103,6 +103,12 @@ class MembersTable extends Table
             'foreignKey' => 'member_id',
             'dependent' => true,
         ]);
+        // With the callbacks: the pictures of the items are deleted too
+        $this->hasOne('SecondHandProfiles', [
+            'foreignKey' => 'member_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true,
+        ]);
     }
 
     /**

@@ -3779,3 +3779,6 @@ msgstr "Pas d'email, non envoyé"
 
 msgid "Past member"
 msgstr "Ancien membre"
+
+msgid "This picture is too large. The maximum size is {0}."
+msgstr "Cette photo est trop grande. La taille maximale est de {0}."

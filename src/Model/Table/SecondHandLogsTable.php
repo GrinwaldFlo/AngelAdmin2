@@ -57,4 +57,15 @@ class SecondHandLogsTable extends Table
     {
         $this->updateAll(['status' => $status, 'closed' => DateTime::now()], ['item_id' => $itemId]);
     }
+
+    /**
+     * Final status of the items of a member still for sale, the other ones keep theirs
+     */
+    public function closeForSale(int $memberId, int $status): void
+    {
+        $this->updateAll(
+            ['status' => $status, 'closed' => DateTime::now()],
+            ['member_id' => $memberId, 'status' => SecondHandLog::FOR_SALE]
+        );
+    }
 }

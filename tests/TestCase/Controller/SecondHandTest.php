@@ -8,10 +8,13 @@ use App\Controller\Component\SecondHandComponent;
 use App\Controller\PrefResult;
 use App\Model\Entity\SecondHandLog;
 use App\Test\TestSuite\TestDataTrait;
+use Cake\Core\Configure;
 use Cake\I18n\DateTime;
+use Cake\I18n\Number;
 use Cake\TestSuite\EmailTrait;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
+use Cake\Utility\Text;
 use Laminas\Diactoros\UploadedFile;
 
 /**
@@ -42,6 +45,8 @@ class SecondHandTest extends TestCase
         PrefResult::$sites = null;
         $this->enableCsrfToken();
         $this->enableRetainFlashMessages();
+        // A member using its link gets the language of the session
+        $this->session(['lng' => 'en']);
         $this->upload = TMP . 'second_hand_upload';
         $this->getTableLocator()->get('Configurations')->insertQuery()
             ->insert(['label', 'value'])
@@ -387,6 +392,127 @@ class SecondHandTest extends TestCase
         $this->assertSame('Mum', $log->seller_name);
         $this->assertSame('Shoes', $log->category);
         $this->assertSame(SecondHandLog::FOR_SALE, $log->status);
+    }
+
+    public function testAddItemKeepsNoPictureWhenTheItemCannotBeSaved(): void
+    {
+        if (!extension_loaded('gd')) {
+            $this->markTestSkipped('The GD extension is needed to process the pictures');
+        }
+        $this->addProfile(3, 100);
+        $this->asMember100();
+        file_put_contents($this->upload, file_get_contents(WWW_ROOT . 'img' . DS . 'cheerPlaceholder.jpg'));
+        $picture = new UploadedFile($this->upload, filesize($this->upload), UPLOAD_ERR_OK, 'picture.jpg', 'image/jpeg');
+        $folders = glob(WWW_ROOT . 'img' . DS . 'secondhand' . DS . '*') ?: [];
+
+        // Unknown category: refused when saving, after the picture is processed
+        $this->post('/second-hand/add', ['category_id' => 999, 'description' => 'Shoes', 'size' => '38', 'price' => '25', 'picture' => $picture]);
+        $this->assertResponseOk();
+        $this->assertFlashMessage('The item could not be saved. Please check the form.');
+        $this->assertSame(0, $this->getTableLocator()->get('SecondHandItems')->find()->count());
+        $this->assertSame($folders, glob(WWW_ROOT . 'img' . DS . 'secondhand' . DS . '*') ?: []);
+    }
+
+    public function testAddItemWithInvalidPictureLeavesNothing(): void
+    {
+        $this->addProfile(3, 100);
+        $this->asMember100();
+        file_put_contents($this->upload, 'not an image');
+        $picture = new UploadedFile($this->upload, filesize($this->upload), UPLOAD_ERR_OK, 'picture.jpg', 'image/jpeg');
+        $folders = glob(WWW_ROOT . 'img' . DS . 'secondhand' . DS . '*') ?: [];
+
+        $this->post('/second-hand/add', ['category_id' => 1, 'description' => 'Shoes', 'size' => '38', 'price' => '25', 'picture' => $picture]);
+        $this->assertResponseOk();
+        $this->assertSame(0, $this->getTableLocator()->get('SecondHandItems')->find()->count());
+        $this->assertSame(0, $this->getTableLocator()->get('SecondHandLogs')->find()->count());
+        $this->assertSame($folders, glob(WWW_ROOT . 'img' . DS . 'secondhand' . DS . '*') ?: []);
+    }
+
+    public function testUploadErrorsHaveTheirOwnMessage(): void
+    {
+        $this->addProfile(3, 100);
+        $this->asMember100();
+        $post = fn (int $error) => $this->post('/second-hand/add', [
+            'category_id' => 1, 'description' => 'Top', 'size' => 'S', 'price' => '15',
+            'picture' => new UploadedFile($this->upload, 0, $error, 'picture.jpg', 'image/jpeg'),
+        ]);
+        $maximum = Number::toReadableSize(Text::parseFileSize((string)ini_get('upload_max_filesize')));
+
+        $post(UPLOAD_ERR_INI_SIZE);
+        $this->assertFlashMessage("This picture is too large. The maximum size is $maximum.");
+
+        $post(UPLOAD_ERR_PARTIAL);
+        $this->assertFlashMessage('Failed to send picture');
+
+        $post(UPLOAD_ERR_NO_FILE);
+        $this->assertFlashMessage('Please add a picture.');
+        $this->assertSame(0, $this->getTableLocator()->get('SecondHandItems')->find()->count());
+    }
+
+    public function testPicturesUseTheBasePathOfTheApp(): void
+    {
+        $this->addProfile(3, 100);
+        $this->addItem(1, 3);
+        $this->asMember100();
+        Configure::write('App.base', '/club');
+
+        $this->get('/second-hand/view/1');
+        Configure::delete('App.base');
+        $this->assertResponseOk();
+        $this->assertResponseContains('src="/club/img/secondhand/' . sha1('item1') . '/picture.jpg');
+    }
+
+    public function testNeighboursWithTheSameDate(): void
+    {
+        $this->addProfile(3, 100);
+        $created = DateTime::now()->subDays(2)->format('Y-m-d H:i:s');
+        $this->addItem(1, 3, ['created' => $created]);
+        $this->addItem(2, 3, ['created' => $created, 'category_id' => 2]);
+        $this->addItem(3, 3, ['created' => $created]);
+        $this->addItem(4, 3);
+        $this->addItem(5, 3, ['sold' => '2026-02-01 10:00:00']);
+        $items = $this->getTableLocator()->get('SecondHandItems');
+
+        // Newest first: 4, 3, 2, 1
+        $this->assertSame(['prev' => null, 'next' => 3], $items->neighbours($items->get(4), 6));
+        $this->assertSame(['prev' => 4, 'next' => 2], $items->neighbours($items->get(3), 6));
+        $this->assertSame(['prev' => 3, 'next' => 1], $items->neighbours($items->get(2), 6));
+        $this->assertSame(['prev' => 2, 'next' => null], $items->neighbours($items->get(1), 6));
+        // Only the category: 4, 3, 1
+        $this->assertSame(['prev' => 3, 'next' => null], $items->neighbours($items->get(1), 6, 1));
+        // Not in the list
+        $this->assertSame(['prev' => null, 'next' => null], $items->neighbours($items->get(5), 6));
+        $this->assertSame(['prev' => null, 'next' => null], $items->neighbours($items->get(2), 6, 1));
+    }
+
+    public function testDeletingAMemberDeletesThePicturesAndKeepsTheLog(): void
+    {
+        $this->addProfile(3, 100);
+        $this->addItem(1, 3);
+        $this->addItem(2, 3, ['sold' => '2026-02-01 10:00:00']);
+        $items = $this->getTableLocator()->get('SecondHandItems');
+        $picture = $items->get(1);
+        mkdir($picture->folderPath(), 0755, true);
+        touch($picture->picturePath());
+        $logs = $this->getTableLocator()->get('SecondHandLogs');
+        foreach ([1 => SecondHandLog::FOR_SALE, 2 => SecondHandLog::SOLD] as $itemId => $status) {
+            $logs->insertQuery()
+                ->insert(['item_id', 'member_id', 'seller_name', 'category', 'description', 'size', 'price', 'status'])
+                ->values(['item_id' => $itemId, 'member_id' => 100, 'seller_name' => 'S', 'category' => 'C', 'description' => 'D', 'size' => 'M', 'price' => 20, 'status' => $status])
+                ->execute();
+        }
+
+        $members = $this->getTableLocator()->get('Members');
+        $this->assertTrue($members->delete($members->get(100)));
+
+        $this->assertDirectoryDoesNotExist($picture->folderPath());
+        $this->assertSame(0, $items->find()->count());
+        $this->assertNull($this->profileOf(100));
+        $this->assertSame(2, $logs->find()->count());
+        $forSale = $logs->find()->where(['item_id' => 1])->firstOrFail();
+        $this->assertSame(SecondHandLog::DELETED, $forSale->status);
+        $this->assertNotNull($forSale->closed);
+        $this->assertSame(SecondHandLog::SOLD, $logs->find()->where(['item_id' => 2])->firstOrFail()->status);
     }
 
     public function testMarkAsSold(): void

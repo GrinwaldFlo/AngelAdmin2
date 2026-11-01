@@ -4,15 +4,20 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\SecondHandLog;
 use App\Model\Entity\SecondHandProfile;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\EventInterface;
 use Cake\I18n\DateTime;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
  * SecondHandProfiles Model: second-hand terms accepted by each member, and its seller details
  *
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Members
+ * @property \App\Model\Table\SecondHandItemsTable&\Cake\ORM\Association\HasMany $SecondHandItems
  */
 class SecondHandProfilesTable extends Table
 {
@@ -30,6 +35,19 @@ class SecondHandProfilesTable extends Table
             'foreignKey' => 'member_id',
             'joinType' => 'INNER',
         ]);
+        $this->hasMany('SecondHandItems', [
+            'foreignKey' => 'profile_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true,
+        ]);
+    }
+
+    /**
+     * The log is kept, the items still for sale are closed as they do not exist anymore
+     */
+    public function afterDelete(EventInterface $event, EntityInterface $entity, \ArrayObject $options): void
+    {
+        TableRegistry::getTableLocator()->get('SecondHandLogs')->closeForSale($entity->member_id, SecondHandLog::DELETED);
     }
 
     /**

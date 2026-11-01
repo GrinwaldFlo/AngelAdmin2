@@ -9,7 +9,6 @@ use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
-use Cake\Utility\Filesystem;
 use Cake\Validation\Validator;
 
 /**
@@ -85,8 +84,9 @@ class SecondHandItemsTable extends Table
      */
     public function beforeSave(EventInterface $event, EntityInterface $entity, \ArrayObject $options): void
     {
-        if ($entity->isNew() && empty($entity->hash)) {
-            $entity->hash = bin2hex(random_bytes(20));
+        /** @var \App\Model\Entity\SecondHandItem $entity */
+        if ($entity->isNew()) {
+            $entity->ensureHash();
         }
     }
 
@@ -96,9 +96,7 @@ class SecondHandItemsTable extends Table
     public function afterDelete(EventInterface $event, EntityInterface $entity, \ArrayObject $options): void
     {
         /** @var \App\Model\Entity\SecondHandItem $entity */
-        if (!empty($entity->hash) && is_dir($entity->folderPath())) {
-            (new Filesystem())->deleteDir($entity->folderPath());
-        }
+        $entity->deleteFolder();
     }
 
     /**
@@ -123,19 +121,45 @@ class SecondHandItemsTable extends Table
      * @param int $categoryId 0 = all categories
      * @return array{prev: int|null, next: int|null} null when there is none (or the item is not in the list)
      */
-    public function neighbours(int $id, int $months, int $categoryId = 0): array
+    public function neighbours(SecondHandItem $item, int $months, int $categoryId = 0): array
+    {
+        $inList = $this->forSaleIds($months, $categoryId)->where(['SecondHandItems.id' => $item->id])->first();
+        if ($inList === null) {
+            return ['prev' => null, 'next' => null];
+        }
+
+        return [
+            'prev' => $this->adjacentId($this->forSaleIds($months, $categoryId), $item, '>', 'ASC'),
+            'next' => $this->adjacentId($this->forSaleIds($months, $categoryId), $item, '<', 'DESC'),
+        ];
+    }
+
+    private function forSaleIds(int $months, int $categoryId): SelectQuery
     {
         $query = $this->find('forSale', months: $months)->select(['SecondHandItems.id'])->disableHydration();
         if ($categoryId > 0) {
             $query->where(['SecondHandItems.category_id' => $categoryId]);
         }
-        $ids = array_map('intval', $query->all()->extract('id')->toList());
-        $pos = array_search($id, $ids, true);
-        if ($pos === false) {
-            return ['prev' => null, 'next' => null];
-        }
 
-        return ['prev' => $ids[$pos - 1] ?? null, 'next' => $ids[$pos + 1] ?? null];
+        return $query;
+    }
+
+    /**
+     * Closest item on one side of an item, the list being ordered by date then id
+     * @param string $operator '>' for the newer items, '<' for the older ones
+     * @param string $direction 'ASC' from the closest newer item, 'DESC' from the closest older one
+     */
+    private function adjacentId(SelectQuery $query, SecondHandItem $item, string $operator, string $direction): ?int
+    {
+        $row = $query
+            ->where(['OR' => [
+                "SecondHandItems.created $operator" => $item->created,
+                'AND' => ['SecondHandItems.created' => $item->created, "SecondHandItems.id $operator" => $item->id],
+            ]])
+            ->orderBy(['SecondHandItems.created' => $direction, 'SecondHandItems.id' => $direction], true)
+            ->first();
+
+        return $row === null ? null : (int)$row['id'];
     }
 
     /**

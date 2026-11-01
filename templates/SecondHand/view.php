@@ -41,7 +41,7 @@ $mailto = 'mailto:' . $seller->email . '?subject=' . rawurlencode($subject) . '&
     <?php endif; ?>
     <div class="row">
         <div class="col-md-7">
-            <img class="sh-picture" src="<?= h($item->pictureUrl()) ?>" alt="<?= h($item->category->name) ?>" />
+            <?= $this->Html->image($item->pictureImage(), ['class' => 'sh-picture', 'alt' => $item->category->name]) ?>
         </div>
         <div class="col-md-5">
             <h3><?= h($item->category->name) ?></h3>

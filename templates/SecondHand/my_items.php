@@ -48,7 +48,7 @@ $this->Html->css('second-hand', ['block' => true]);
                 <?php foreach ($items as $item): ?>
                     <?php $expired = $item->isExpired($months); ?>
                     <tr>
-                        <td><img class="sh-thumb" src="<?= h($item->pictureUrl()) ?>" alt="" loading="lazy" /></td>
+                        <td><?= $this->Html->image($item->pictureImage(), ['class' => 'sh-thumb', 'alt' => '', 'loading' => 'lazy']) ?></td>
                         <td>
                             <?= $this->Html->link($item->category->name, ['action' => 'view', $item->id]) ?>
                             <div class="sh-muted"><?= __('Size') ?> <?= h($item->size) ?></div>
