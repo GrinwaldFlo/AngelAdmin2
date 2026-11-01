@@ -223,11 +223,60 @@ class MemberHashAccessTest extends TestCase
     {
         $this->loginWith();
 
-        $this->get('/members/my-page/' . sha1('member100'));
+        $this->get('/members/my-page/' . $this->member(1)->hash);
 
         $this->assertResponseOk();
+        $this->assertSessionHasKey('Auth');
         $this->assertResponseContains('href="/members/set-language/de"');
         $this->assertResponseNotContains('/users/set-language/');
+    }
+
+    /**
+     * The link of another member replaces the logged account: no mix of both
+     */
+    public function testMyPageLinkOfAnotherMemberLogsOut(): void
+    {
+        $page = '/members/my-page/' . sha1('member100');
+        $this->loginWith();
+
+        $this->get($page);
+
+        $this->assertRedirect($page);
+        $this->assertSessionNotHasKey('Auth');
+
+        // Next request of the browser, without the account
+        $this->_session = [];
+        $this->get($page);
+        $this->assertResponseOk();
+        $this->assertCookie(sha1('member100'), 'member_hash');
+        $this->assertResponseContains('href="/members/edit/100"');
+        $this->assertResponseContains('/users/set-language/');
+        $this->assertResponseNotContains('/members/set-language/');
+
+        $this->asMember100();
+        $this->get('/members/edit/100');
+        $this->assertResponseOk();
+    }
+
+    public function testMyPageLoggedUserIgnoresOldCookie(): void
+    {
+        $this->asMember100();
+        $this->loginWith();
+
+        $this->get('/members/my-page');
+
+        $this->assertRedirect(['controller' => 'Pages', 'action' => 'Home']);
+        $this->assertSessionHasKey('Auth');
+    }
+
+    public function testMyPageUnknownLinkKeepsTheAccount(): void
+    {
+        $this->loginWith();
+
+        $this->get('/members/my-page/' . str_repeat('f', 40));
+
+        $this->assertResponseOk();
+        $this->assertSessionHasKey('Auth');
     }
 
     private function disableLanguages(array $languages): void

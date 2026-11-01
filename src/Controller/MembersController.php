@@ -239,9 +239,19 @@ class MembersController extends AppController
     {
         $this->Authorization->skipAuthorization();
 
+        // The link of another member replaces the logged account: reload the page without it
+        if ($hash !== null && $this->curUser !== null) {
+            $linkMember = $this->getHashAuthenticatedMember($hash);
+            if ($linkMember !== null && $linkMember->id != $this->curUser->member_id) {
+                $this->Authentication->logout();
+
+                return $this->redirect(['action' => 'myPage', $hash]);
+            }
+        }
+
         // If hash is provided in URL, it will be handled by AppController initialization
-        // Otherwise, try to get from cookie
-        $workingHash = $hash ?? $this->getCurrentHash();
+        // Otherwise, try to get from cookie (ignored for a logged user, it can be an old link of another member)
+        $workingHash = $hash ?? ($this->curUser === null ? $this->getCurrentHash() : null);
 
         if (!$workingHash) {
             $this->Flash->error(__('Invalid access link.'));
