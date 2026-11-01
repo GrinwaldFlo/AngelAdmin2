@@ -6,6 +6,7 @@ namespace App\Test\TestCase\Controller;
 
 use App\Controller\PrefResult;
 use App\Test\TestSuite\TestDataTrait;
+use Cake\I18n\I18n;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
@@ -177,6 +178,66 @@ class MemberHashAccessTest extends TestCase
         $this->get('/members/active/100');
         $this->assertResponseCode(405);
         $this->assertFalse($this->member(100)->checked);
+    }
+
+    public function testMyPageShowsTheEnabledLanguages(): void
+    {
+        $this->disableLanguages(['it']);
+
+        $this->get('/members/my-page/' . sha1('member100'));
+
+        $this->assertResponseOk();
+        $this->assertResponseContains('href="/users/set-language/de"');
+        $this->assertResponseNotContains('href="/users/set-language/it"');
+    }
+
+    public function testMyPageHidesTheLanguagesWithOnlyOneEnabled(): void
+    {
+        $this->disableLanguages(['de', 'en', 'es', 'it']);
+
+        $this->get('/members/my-page/' . sha1('member100'));
+
+        $this->assertResponseOk();
+        $this->assertResponseNotContains('/users/set-language/');
+    }
+
+    public function testMyPageKeepsTheChosenLanguage(): void
+    {
+        $locale = I18n::getLocale();
+        $page = '/members/my-page/' . sha1('member100');
+
+        $this->configRequest(['headers' => ['Referer' => 'http://localhost' . $page]]);
+        $this->get('/users/set-language/de');
+        $this->assertRedirect($page);
+        $this->assertSession('de', 'lng');
+
+        $this->session(['lng' => 'de']);
+        $this->get($page);
+        $this->assertResponseOk();
+        $this->assertSame('de', I18n::getLocale());
+
+        I18n::setLocale($locale);
+    }
+
+    public function testMyPageLoggedUserUsesTheMenu(): void
+    {
+        $this->loginWith();
+
+        $this->get('/members/my-page/' . sha1('member100'));
+
+        $this->assertResponseOk();
+        $this->assertResponseContains('href="/members/set-language/de"');
+        $this->assertResponseNotContains('/users/set-language/');
+    }
+
+    private function disableLanguages(array $languages): void
+    {
+        foreach ($languages as $language) {
+            $this->getTableLocator()->get('Configurations')->insertQuery()
+                ->insert(['label', 'value'])
+                ->values(['label' => $language, 'value' => '0'])
+                ->execute();
+        }
     }
 
     public function testAgreementPdfOfAnotherMemberRefused(): void
