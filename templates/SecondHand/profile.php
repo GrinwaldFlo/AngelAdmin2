@@ -8,6 +8,7 @@
 $this->Html->css('second-hand', ['block' => true]);
 ?>
 <div class="content">
+    <h3><?= __('Second-hand') ?></h3>
     <?= $this->element('SecondHand/nav', ['active' => 'myItems', 'isHashUser' => $isHashUser]) ?>
     <h3><?= __('My seller details') ?></h3>
     <p><?= __('Buyers see these details to contact you.') ?></p>
