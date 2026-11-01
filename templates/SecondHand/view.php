@@ -7,8 +7,20 @@
  * @var bool $isAdmin
  * @var bool $forSale
  * @var bool $isHashUser
+ * @var int $categoryId category filter of the list the buyer comes from (0 = all)
+ * @var array{prev: int|null, next: int|null} $neighbours
  */
 $this->Html->css('second-hand', ['block' => true]);
+$query = $categoryId > 0 ? ['category' => $categoryId] : [];
+$backUrl = $categoryId > 0 ? ['action' => 'index', $categoryId] : ['action' => 'index'];
+// Previous / next item, disabled at the ends of the list
+$stepLink = function (string $label, ?int $id) use ($query): string {
+    if ($id === null) {
+        return $this->Html->tag('a', h($label), ['class' => 'btn btn-primary btn-sm disabled', 'aria-disabled' => 'true']);
+    }
+
+    return $this->Html->link($label, ['action' => 'view', $id, '?' => $query], ['class' => 'btn btn-primary btn-sm']);
+};
 $seller = $item->profile;
 $price = $this->Number->currency($item->price, 'CHF');
 $subject = __('Second-hand: {0}', $item->category->name . ' (' . __('Size') . ' ' . $item->size . ')');
@@ -17,6 +29,13 @@ $mailto = 'mailto:' . $seller->email . '?subject=' . rawurlencode($subject) . '&
 ?>
 <div class="content">
     <?= $this->element('SecondHand/nav', ['active' => '', 'isHashUser' => $isHashUser]) ?>
+    <div class="sh-pager">
+        <?= $this->Html->link('< ' . __('Back'), $backUrl, ['class' => 'btn btn-secondary btn-sm']) ?>
+        <span class="sh-pager-steps">
+            <?= $stepLink('< ' . __('previous'), $neighbours['prev']) ?>
+            <?= $stepLink(__('next') . ' >', $neighbours['next']) ?>
+        </span>
+    </div>
     <?php if (!$forSale): ?>
         <div class="alert alert-warning"><?= __('This item is not shown to buyers (sold, expired or email not confirmed).') ?></div>
     <?php endif; ?>

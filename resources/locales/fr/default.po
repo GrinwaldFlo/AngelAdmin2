@@ -1184,6 +1184,10 @@ msgstr "premier"
 msgid "previous"
 msgstr "précédent"
 
+#: templates/SecondHand/view.php:25
+msgid "Back"
+msgstr "Retour"
+
 #: templates/BillTemplates/index.php:43 templates/Bills/index.php:103
 #: templates/Configurations/index.php:38 templates/Contents/index.php:43
 #: templates/FieldTypes/index.php:47 templates/Fields/index.php:39
@@ -3069,8 +3073,6 @@ msgstr "{0} ans"
 #~ msgstr ""
 #~ "Merci d'utiliser un téléphone portable pour pouvoir signer l'inscription"
 
-#~ msgid "Back"
-#~ msgstr "Retour"
 
 #~ msgid "Passive"
 #~ msgstr "Passif"

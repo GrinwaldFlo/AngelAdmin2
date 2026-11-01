@@ -118,6 +118,27 @@ class SecondHandItemsTable extends Table
     }
 
     /**
+     * Previous and next items for sale around an item, in the order of the list
+     * @param int $months expiration duration
+     * @param int $categoryId 0 = all categories
+     * @return array{prev: int|null, next: int|null} null when there is none (or the item is not in the list)
+     */
+    public function neighbours(int $id, int $months, int $categoryId = 0): array
+    {
+        $query = $this->find('forSale', months: $months)->select(['SecondHandItems.id'])->disableHydration();
+        if ($categoryId > 0) {
+            $query->where(['SecondHandItems.category_id' => $categoryId]);
+        }
+        $ids = array_map('intval', $query->all()->extract('id')->toList());
+        $pos = array_search($id, $ids, true);
+        if ($pos === false) {
+            return ['prev' => null, 'next' => null];
+        }
+
+        return ['prev' => $ids[$pos - 1] ?? null, 'next' => $ids[$pos + 1] ?? null];
+    }
+
+    /**
      * Items of a seller, the ones for sale first
      */
     public function findOfProfile(SelectQuery $query, int $profileId): SelectQuery

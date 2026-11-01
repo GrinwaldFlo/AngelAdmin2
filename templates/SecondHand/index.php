@@ -10,8 +10,8 @@
 $this->Html->css('second-hand', ['block' => true]);
 ?>
 <div class="content">
-    <?= $this->element('SecondHand/nav', ['active' => 'index', 'isHashUser' => $isHashUser]) ?>
     <h3><?= __('Second-hand') ?></h3>
+    <?= $this->element('SecondHand/nav', ['active' => 'index', 'isHashUser' => $isHashUser]) ?>
 
     <div class="sh-filters">
         <?= $this->Html->link(__('All'), ['action' => 'index'], ['class' => 'btn btn-primary btn-sm' . ($categoryId == 0 ? ' pressed' : '')]) ?>
@@ -25,7 +25,7 @@ $this->Html->css('second-hand', ['block' => true]);
     <?php else: ?>
         <div class="sh-grid">
             <?php foreach ($items as $item): ?>
-                <?= $this->element('SecondHand/item_card', compact('item')) ?>
+                <?= $this->element('SecondHand/item_card', compact('item', 'categoryId')) ?>
             <?php endforeach; ?>
         </div>
         <?php if ($this->Paginator->total() > 1): ?>

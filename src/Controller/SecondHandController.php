@@ -101,7 +101,11 @@ class SecondHandController extends AppController
             throw new NotFoundException(__('This item is not for sale anymore.'));
         }
 
-        $this->set(compact('item', 'isOwn', 'isAdmin', 'forSale'));
+        // Category filter of the list the buyer comes from, to go back to it and browse it
+        $categoryId = (int)$this->request->getQuery('category', 0);
+        $neighbours = $this->SecondHandItems->neighbours($item->id, $this->SecondHand->expiryMonths(), $categoryId);
+
+        $this->set(compact('item', 'isOwn', 'isAdmin', 'forSale', 'categoryId', 'neighbours'));
     }
 
     /**

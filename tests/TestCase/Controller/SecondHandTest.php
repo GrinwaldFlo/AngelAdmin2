@@ -192,11 +192,46 @@ class SecondHandTest extends TestCase
         }
 
         $this->get('/second-hand/index/2');
-        $this->assertResponseContains('/second-hand/view/5"');
-        $this->assertResponseNotContains('/second-hand/view/1"');
+        $this->assertResponseContains('/second-hand/view/5?category=2"');
+        $this->assertResponseNotContains('/second-hand/view/1');
 
         $this->get('/second-hand/view/2');
         $this->assertResponseCode(404);
+    }
+
+    public function testDetailBrowsesTheCategoryOfTheList(): void
+    {
+        $this->addProfile(1, 101);
+        $now = DateTime::now();
+        $this->addItem(1, 1, ['created' => $now->subDays(3)->format('Y-m-d H:i:s')]);
+        $this->addItem(2, 1, ['created' => $now->subDays(2)->format('Y-m-d H:i:s'), 'category_id' => 2]);
+        $this->addItem(3, 1, ['created' => $now->subDays(1)->format('Y-m-d H:i:s')]);
+        $this->addProfile(3, 100);
+        $this->asMember100();
+
+        // The list keeps its filter in the links of the items
+        $this->get('/second-hand/index/1');
+        $this->assertResponseContains('/second-hand/view/3?category=1"');
+
+        // Newest first: 3, (2), 1
+        $this->get('/second-hand/view/3?category=1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('href="/second-hand/index/1"');
+        $this->assertResponseContains('/second-hand/view/1?category=1"');
+        $this->assertResponseNotContains('/second-hand/view/2');
+        // First of the list: previous is disabled, not hidden
+        $this->assertResponseContains('<a class="btn btn-primary btn-sm disabled" aria-disabled="true">&lt; ');
+
+        $this->get('/second-hand/view/1?category=1');
+        $this->assertResponseContains('/second-hand/view/3?category=1"');
+
+        // From the whole list, all the categories
+        $this->get('/second-hand/view/3');
+        $this->assertResponseContains('href="/second-hand" class="btn btn-secondary');
+        $this->assertResponseContains('/second-hand/view/2"');
+        $this->get('/second-hand/view/2');
+        $this->assertResponseContains('/second-hand/view/3"');
+        $this->assertResponseContains('/second-hand/view/1"');
     }
 
     public function testExpirationDurationIsSetByTheAdmin(): void
