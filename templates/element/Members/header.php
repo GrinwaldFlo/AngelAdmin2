@@ -24,5 +24,9 @@
     <?php endif; ?>
 </div>
 
+<?php if (!$isLogged && count($this->my->Languages($config)) > 1): ?>
+    <div class="mb-2"><?= $this->my->LanguageLinks($config) ?></div>
+<?php endif; ?>
+
 <h1><?= h($member->fullName) ?></h1>
 <h4><?= h($member->activeTeamString) ?></h4>
