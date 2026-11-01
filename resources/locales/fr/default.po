@@ -3734,3 +3734,48 @@ msgstr "Tes informations de vendeur n'ont pas pu être enregistrées. Vérifie l
 
 msgid "Your seller details have been saved."
 msgstr "Tes informations de vendeur ont été enregistrées."
+
+msgid "Bills containing \"{0}\""
+msgstr "Factures contenant «{0}»"
+
+msgid "Enter a text to search in the bill labels"
+msgstr "Saisis un texte à chercher dans les libellés des factures"
+
+msgid "There is no member with an email having a bill containing this text"
+msgstr "Aucun membre avec un email n'a de facture contenant ce texte"
+
+msgid "New email by bill"
+msgstr "Nouvel email par facture"
+
+msgid "New email with the same subject, content and bills"
+msgstr "Nouvel email avec le même sujet, contenu et factures"
+
+msgid "The email is sent to the members, active or past, having a bill (not canceled) whose label contains the text."
+msgstr "L'email est envoyé aux membres, actifs ou anciens, ayant une facture (non annulée) dont le libellé contient le texte."
+
+msgid "Text in the bill label"
+msgstr "Texte dans le libellé de la facture"
+
+msgid "e.g. {0}"
+msgstr "p. ex. {0}"
+
+msgid "Search"
+msgstr "Chercher"
+
+msgid "No bill contains this text."
+msgstr "Aucune facture ne contient ce texte."
+
+msgid "{0} emails will be sent."
+msgstr "{0} emails seront envoyés."
+
+msgid "{0} members without email will not receive it."
+msgstr "{0} membres sans email ne le recevront pas."
+
+msgid "Bills"
+msgstr "Factures"
+
+msgid "No email, not sent"
+msgstr "Pas d'email, non envoyé"
+
+msgid "Past member"
+msgstr "Ancien membre"

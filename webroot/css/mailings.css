@@ -1,4 +1,4 @@
-/* Emails to teams (templates/Mailings) */
+/* Emails to teams or by bill (templates/Mailings) */
 
 .ml-muted {
   color: #6b717a;
@@ -81,4 +81,22 @@
 .ml-failed-title,
 .ml-recipients-title {
   margin-top: 1.5rem;
+}
+
+.ml-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Text searched in the bill labels, with its button on the same line */
+.ml-search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0 0.5rem;
+}
+
+.ml-search > div {
+  flex: 1 1 16rem;
 }

@@ -1878,9 +1878,6 @@ msgstr "{0} anni"
 #~ msgid "Linked to an equipment"
 #~ msgstr "Collegato ad un'apparecchiatura"
 
-#~ msgid "Bills"
-#~ msgstr "Fatture"
-
 #~ msgid "Draft bills"
 #~ msgstr "Progetti di legge"
 
@@ -2386,3 +2383,48 @@ msgstr "L'ordine non è valido. Riprova."
 
 msgid "Add Configuration"
 msgstr "Aggiungi una configurazione"
+
+msgid "Bills containing \"{0}\""
+msgstr "Fatture contenenti «{0}»"
+
+msgid "Enter a text to search in the bill labels"
+msgstr "Inserisci un testo da cercare nelle descrizioni delle fatture"
+
+msgid "There is no member with an email having a bill containing this text"
+msgstr "Nessun membro con email ha una fattura contenente questo testo"
+
+msgid "New email by bill"
+msgstr "Nuova email per fattura"
+
+msgid "New email with the same subject, content and bills"
+msgstr "Nuova email con lo stesso oggetto, contenuto e fatture"
+
+msgid "The email is sent to the members, active or past, having a bill (not canceled) whose label contains the text."
+msgstr "L'email viene inviata ai membri, attivi o ex, che hanno una fattura (non annullata) la cui descrizione contiene il testo."
+
+msgid "Text in the bill label"
+msgstr "Testo nella descrizione della fattura"
+
+msgid "e.g. {0}"
+msgstr "es. {0}"
+
+msgid "Search"
+msgstr "Cerca"
+
+msgid "No bill contains this text."
+msgstr "Nessuna fattura contiene questo testo."
+
+msgid "{0} emails will be sent."
+msgstr "Verranno inviate {0} email."
+
+msgid "{0} members without email will not receive it."
+msgstr "{0} membri senza email non la riceveranno."
+
+msgid "Bills"
+msgstr "Fatture"
+
+msgid "No email, not sent"
+msgstr "Nessuna email, non inviata"
+
+msgid "Past member"
+msgstr "Ex membro"

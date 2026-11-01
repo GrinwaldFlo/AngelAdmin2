@@ -11,7 +11,7 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Mailings Model: emails sent to teams, one mailing per batch
+ * Mailings Model: emails sent to teams or to the members having some bills, one mailing per batch
  *
  * @property \App\Model\Table\MailingItemsTable&\Cake\ORM\Association\HasMany $MailingItems
  * @method \App\Model\Entity\Mailing newEmptyEntity()
@@ -74,6 +74,10 @@ class MailingsTable extends Table
             ->scalar('team_id_list')
             ->maxLength('team_id_list', 255);
 
+        $validator
+            ->scalar('bill_label')
+            ->maxLength('bill_label', 200);
+
         return $validator;
     }
 
@@ -111,26 +115,16 @@ class MailingsTable extends Table
             ->innerJoinWith('Teams', fn ($q) => $q->where(['Teams.id IN' => array_keys($teams) ?: [0]]))
             ->where(['Members.active' => true, 'Members.email !=' => ''])
             ->orderBy(['Members.id' => 'ASC'])
-            ->disableHydration()
             ->all();
 
-        $items = [];
-        foreach ($members as $member) {
-            $items[] = ['member_id' => $member['id'], 'email' => trim($member['email']), 'status' => MailingItem::PENDING];
-        }
-
-        $mailing = $this->newEntity([
-            'title' => $data['title'] ?? '',
-            'content' => $data['content'] ?? '',
+        $mailing = $this->newForMembers($data, $members, [
             'teams' => mb_substr(implode(', ', $teams), 0, 1000),
             'team_id_list' => implode(',', array_keys($teams)),
-            'status' => Mailing::IN_PROGRESS,
-            'mailing_items' => $items,
-        ], ['associated' => ['MailingItems']]);
+        ]);
 
         if (empty($teams)) {
             $mailing->setError('team_ids', __('Select at least one team'));
-        } elseif (empty($items)) {
+        } elseif (empty($mailing->mailing_items)) {
             $mailing->setError('team_ids', __('There is no active member with an email in these teams'));
         }
 
@@ -138,12 +132,82 @@ class MailingsTable extends Table
     }
 
     /**
-     * New mailing with the subject, content and teams of an existing one (not saved)
+     * Members, active or not, having a bill (not canceled) whose label contains a text, anywhere in the label
+     * @param string $search text searched in the bill labels
+     * @return \App\Model\Entity\Member[] with their matching bills, by name
+     */
+    public function billRecipients(string $search): array
+    {
+        $search = trim($search);
+        if ($search === '') {
+            return [];
+        }
+        $bills = $this->MailingItems->Members->Bills;
+        $matching = ['Bills.label LIKE' => '%' . $search . '%', 'Bills.canceled' => false];
+
+        return $this->MailingItems->Members->find()
+            ->select(['Members.id', 'Members.first_name', 'Members.last_name', 'Members.email', 'Members.active'])
+            ->where(['Members.id IN' => $bills->find()->select(['Bills.member_id'])->where($matching)])
+            ->contain(['Bills' => fn ($q) => $q
+                ->select(['Bills.id', 'Bills.member_id', 'Bills.label'])
+                ->where($matching)
+                ->orderBy(['Bills.id' => 'ASC'])])
+            ->orderBy(['Members.last_name' => 'ASC', 'Members.first_name' => 'ASC', 'Members.id' => 'ASC'])
+            ->all()
+            ->toList();
+    }
+
+    /**
+     * Build a mailing to the members (active or past, with an email) having a bill whose label contains a text
+     * @param array $data subject and content of the mailing ('title', 'content')
+     * @param string $search text searched in the bill labels
+     * @return \App\Model\Entity\Mailing not saved, with validation errors if any
+     */
+    public function newForBills(array $data, string $search): Mailing
+    {
+        $search = trim($search);
+        $members = array_filter($this->billRecipients($search), fn ($member) => trim((string)$member->email) !== '');
+        $mailing = $this->newForMembers($data, $members, ['bill_label' => mb_substr($search, 0, 200)]);
+
+        if ($search === '') {
+            $mailing->setError('bill_label', __('Enter a text to search in the bill labels'));
+        } elseif (empty($mailing->mailing_items)) {
+            $mailing->setError('bill_label', __('There is no member with an email having a bill containing this text'));
+        }
+
+        return $mailing;
+    }
+
+    /**
+     * Build a mailing queuing an email to each member
+     * @param iterable<\App\Model\Entity\Member> $members recipients, with their email
+     * @param array $fields fields telling who receives the mailing (teams or bill label)
+     */
+    private function newForMembers(array $data, iterable $members, array $fields): Mailing
+    {
+        $items = [];
+        foreach ($members as $member) {
+            $items[] = ['member_id' => $member->id, 'email' => trim($member->email), 'status' => MailingItem::PENDING];
+        }
+
+        return $this->newEntity([
+            'title' => $data['title'] ?? '',
+            'content' => $data['content'] ?? '',
+            'status' => Mailing::IN_PROGRESS,
+            'mailing_items' => $items,
+        ] + $fields, ['associated' => ['MailingItems']]);
+    }
+
+    /**
+     * New mailing with the subject, content and recipients (teams or bill label) of an existing one (not saved)
      * @return array [\App\Model\Entity\Mailing, team ids]
      */
     public function copy(Mailing $source): array
     {
-        $mailing = $this->newEntity(['title' => $source->title, 'content' => $source->content], ['validate' => false]);
+        $mailing = $this->newEntity(
+            ['title' => $source->title, 'content' => $source->content, 'bill_label' => (string)$source->bill_label],
+            ['validate' => false],
+        );
 
         return [$mailing, $this->teamIdsOf($source)];
     }

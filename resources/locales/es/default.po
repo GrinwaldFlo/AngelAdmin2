@@ -2243,3 +2243,48 @@ msgstr "El pedido no es válido. Inténtalo de nuevo."
 
 msgid "Add Configuration"
 msgstr "Añadir una configuración"
+
+msgid "Bills containing \"{0}\""
+msgstr "Facturas que contienen «{0}»"
+
+msgid "Enter a text to search in the bill labels"
+msgstr "Escribe un texto para buscar en los conceptos de las facturas"
+
+msgid "There is no member with an email having a bill containing this text"
+msgstr "Ningún miembro con email tiene una factura que contenga este texto"
+
+msgid "New email by bill"
+msgstr "Nuevo correo por factura"
+
+msgid "New email with the same subject, content and bills"
+msgstr "Nuevo correo con el mismo asunto, contenido y facturas"
+
+msgid "The email is sent to the members, active or past, having a bill (not canceled) whose label contains the text."
+msgstr "El correo se envía a los miembros, activos o antiguos, que tienen una factura (no anulada) cuyo concepto contiene el texto."
+
+msgid "Text in the bill label"
+msgstr "Texto en el concepto de la factura"
+
+msgid "e.g. {0}"
+msgstr "p. ej. {0}"
+
+msgid "Search"
+msgstr "Buscar"
+
+msgid "No bill contains this text."
+msgstr "Ninguna factura contiene este texto."
+
+msgid "{0} emails will be sent."
+msgstr "Se enviarán {0} correos."
+
+msgid "{0} members without email will not receive it."
+msgstr "{0} miembros sin email no lo recibirán."
+
+msgid "Bills"
+msgstr "Facturas"
+
+msgid "No email, not sent"
+msgstr "Sin email, no enviado"
+
+msgid "Past member"
+msgstr "Antiguo miembro"

@@ -23,7 +23,7 @@ $startLabel = $counts['sent'] + $counts['invalid'] > 0 || !$failedItems->isEmpty
   <?= $this->Html->link(__('Emails to teams'), ['action' => 'index'], ['class' => 'button float-end']) ?>
   <h3><?= h($mailing->title) ?></h3>
   <p class="ml-muted">
-    <?= h($mailing->created->i18nFormat('dd.MM.yyyy HH:mm')) ?> · <?= __('Teams') ?>: <?= h($mailing->teams) ?>
+    <?= h($mailing->created->i18nFormat('dd.MM.yyyy HH:mm')) ?> · <?= $mailing->isByBill() ? '' : __('Teams') . ': ' ?><?= h($mailing->recipientsLabel()) ?>
   </p>
   <iframe class="ml-preview" sandbox srcdoc="<?= h(Mailing::lineBreaks($mailing->content)) ?>" title="<?= h(__('Content')) ?>"></iframe>
 

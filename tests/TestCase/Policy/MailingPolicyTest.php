@@ -59,4 +59,16 @@ class MailingPolicyTest extends TestCase
         // Without any team
         $this->assertFalse($user->can('manage', $this->mailing('')));
     }
+
+    public function testOnlyAdminSendsAndManagesByBill(): void
+    {
+        $byBill = $this->entity(Mailing::class, ['team_id_list' => '', 'teams' => '', 'bill_label' => 'Uniforme']);
+
+        $this->assertTrue($this->identity(['Admin'])->can('sendByBill', $byBill));
+        $this->assertTrue($this->identity(['Admin'])->can('manage', $byBill));
+        foreach ([['MemberEditAll'], ['MemberEditAll', 'BillViewAll', 'BillEditAll'], ['MemberEditAll', 'TeamScoped']] as $rights) {
+            $this->assertFalse($this->identity($rights)->can('sendByBill', $byBill));
+            $this->assertFalse($this->identity($rights)->can('manage', $byBill));
+        }
+    }
 }

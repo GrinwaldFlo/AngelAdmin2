@@ -9,6 +9,7 @@ use App\Controller\PrefResult;
 use App\Model\Entity\Mailing;
 use App\Model\Entity\MailingItem;
 use App\Test\TestSuite\FailingTransport;
+use App\Test\TestSuite\TestDataTrait;
 use Cake\Mailer\TransportFactory;
 use Cake\TestSuite\EmailTrait;
 use Cake\TestSuite\IntegrationTestTrait;
@@ -24,6 +25,8 @@ class MailingsControllerTest extends TestCase
 {
     use EmailTrait;
     use IntegrationTestTrait;
+    // Only addBill() is used: addMember() and addTeam() of this class have their own defaults
+    use TestDataTrait;
 
     protected array $fixtures = [
         'app.Members',
@@ -35,6 +38,7 @@ class MailingsControllerTest extends TestCase
         'app.Configurations',
         'app.Mailings',
         'app.MailingItems',
+        'app.Bills',
     ];
 
     protected function setUp(): void
@@ -100,6 +104,24 @@ class MailingsControllerTest extends TestCase
         $mailings->saveOrFail($mailing);
 
         return $mailing->id;
+    }
+
+    /**
+     * Members 10 (active) and 11 (past) bought the uniform, 12 too but without email, 13 has a canceled bill, 14 another bill
+     */
+    private function addUniformBills(): void
+    {
+        $this->addMember(10, [], 'active@example.com');
+        $this->addMember(11, [], 'past@example.com', false);
+        $this->addMember(12, [], '');
+        $this->addMember(13, [], 'canceled@example.com');
+        $this->addMember(14, [], 'other@example.com');
+        $this->addBill(10, 10, ['label' => 'Cotisation 2026']);
+        $this->addBill(11, 10, ['label' => 'Uniforme 2025 - taille M']);
+        $this->addBill(12, 11, ['label' => 'Commande Uniforme 2025']);
+        $this->addBill(13, 12, ['label' => 'Uniforme 2025']);
+        $this->addBill(14, 13, ['label' => 'Uniforme 2025', 'canceled' => true]);
+        $this->addBill(15, 14, ['label' => 'Uniforme 2024']);
     }
 
     private function items(int $mailingId): array
@@ -539,5 +561,172 @@ class MailingsControllerTest extends TestCase
         $this->assertResponseContains('<iframe class="ml-preview" sandbox srcdoc="Dear {full_name}&lt;br&gt;');
         $this->assertResponseContains('data-url="/mailings/send-next/' . $mailingId . '"');
         $this->assertNoMailSent();
+    }
+
+    public function testAddByBillForbiddenWithoutAdmin(): void
+    {
+        $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0, 'MemberEditAll' => 1], ['id' => 1]);
+        $this->login();
+        $this->get('/mailings/add-by-bill');
+        $this->assertResponseCode(403);
+
+        $this->get('/mailings');
+        $this->assertResponseOk();
+        $this->assertResponseNotContains('/mailings/add-by-bill');
+    }
+
+    public function testIndexLinksToAddByBillForAdmin(): void
+    {
+        $this->login();
+        $this->get('/mailings');
+
+        $this->assertResponseOk();
+        $this->assertResponseContains('href="/mailings/add-by-bill"');
+    }
+
+    public function testAddByBillShowsPlaceholders(): void
+    {
+        $this->login();
+        $this->get('/mailings/add-by-bill');
+
+        $this->assertResponseOk();
+        $this->assertSame([], $this->viewVariable('recipients'));
+        foreach (array_keys(Mailing::placeholders()) as $placeholder) {
+            $this->assertResponseContains('data-placeholder="' . $placeholder . '"');
+        }
+    }
+
+    public function testAddByBillSearchShowsRecipients(): void
+    {
+        $this->addUniformBills();
+        $this->login();
+        $this->post('/mailings/add-by-bill', ['step' => 'search', 'bill_label' => ' uniforme 2025 ', 'title' => 'Typed', 'content' => 'Kept']);
+
+        $this->assertResponseOk();
+        $this->assertSame(0, $this->getTableLocator()->get('Mailings')->find()->count());
+        $recipients = $this->viewVariable('recipients');
+        // Contained anywhere in the label, case insensitive, active and past members, canceled bills ignored
+        $this->assertSame([10, 11, 12], array_map(fn ($member) => $member->id, $recipients));
+        $this->assertSame(['Uniforme 2025 - taille M'], array_map(fn ($bill) => $bill->label, $recipients[0]->bills));
+        $this->assertResponseContains('Recipients (2)');
+        $this->assertResponseContains('active@example.com');
+        $this->assertResponseContains('past@example.com');
+        $this->assertResponseContains('Past member');
+        $this->assertResponseContains('No email, not sent');
+        $this->assertResponseContains('1 members without email will not receive it.');
+        $this->assertResponseNotContains('canceled@example.com');
+        $this->assertResponseNotContains('other@example.com');
+        $this->assertResponseContains('name="searched" value="uniforme 2025"');
+        // What was typed is kept
+        $this->assertResponseContains('value="Typed"');
+        $this->assertResponseContains('>Kept</textarea>');
+    }
+
+    public function testAddByBillQueuesRecipientsWithEmail(): void
+    {
+        $this->addUniformBills();
+        $this->login();
+        $this->post('/mailings/add-by-bill', [
+            'step' => 'next', 'bill_label' => 'Uniforme 2025', 'searched' => 'Uniforme 2025',
+            'title' => 'Uniform {first_name}', 'content' => 'See {my_page}',
+        ]);
+
+        $mailing = $this->getTableLocator()->get('Mailings')->find()->firstOrFail();
+        $this->assertRedirect(['controller' => 'Mailings', 'action' => 'send', $mailing->id]);
+        $this->assertSame('Uniforme 2025', $mailing->bill_label);
+        $this->assertSame('', $mailing->teams);
+        $this->assertTrue($mailing->isByBill());
+        $items = $this->items($mailing->id);
+        $this->assertSame([10, 11], array_map(fn ($item) => $item->member_id, $items));
+        $this->assertNoMailSent();
+
+        $this->get('/mailings/send/' . $mailing->id);
+        $this->assertResponseOk();
+        $this->assertResponseContains('Bills containing &quot;Uniforme 2025&quot;');
+
+        $this->sendNext($mailing->id);
+        $this->assertMailCount(2);
+        $this->assertMailSentToAt(1, 'past@example.com');
+        $this->assertMailContainsHtml('<a href="http://localhost/members/my-page/' . sha1('member11') . '">My page</a>');
+    }
+
+    public function testAddByBillChangedSearchShowsRecipientsFirst(): void
+    {
+        $this->addUniformBills();
+        $this->login();
+        $this->post('/mailings/add-by-bill', [
+            'step' => 'next', 'bill_label' => 'Uniforme 2024', 'searched' => 'Uniforme 2025', 'title' => 'Hi', 'content' => 'Hello',
+        ]);
+
+        $this->assertResponseOk();
+        $this->assertSame(0, $this->getTableLocator()->get('Mailings')->find()->count());
+        $this->assertSame([14], array_map(fn ($member) => $member->id, $this->viewVariable('recipients')));
+    }
+
+    public function testAddByBillRequiresRecipients(): void
+    {
+        $this->addUniformBills();
+        $this->login();
+        $this->post('/mailings/add-by-bill', ['step' => 'next', 'bill_label' => 'Nothing', 'searched' => 'Nothing', 'title' => 'Hi', 'content' => 'Hello']);
+
+        $this->assertResponseOk();
+        $this->assertResponseContains('There is no member with an email having a bill containing this text');
+        $this->assertResponseContains('No bill contains this text.');
+        $this->assertSame(0, $this->getTableLocator()->get('Mailings')->find()->count());
+
+        $this->post('/mailings/add-by-bill', ['step' => 'next', 'bill_label' => '', 'searched' => '', 'title' => 'Hi', 'content' => 'Hello']);
+        $this->assertResponseContains('Enter a text to search in the bill labels');
+        $this->assertSame(0, $this->getTableLocator()->get('Mailings')->find()->count());
+    }
+
+    public function testAddByBillRejectsInvalidPlaceholders(): void
+    {
+        $this->addUniformBills();
+        $this->login();
+        $this->post('/mailings/add-by-bill', [
+            'step' => 'next', 'bill_label' => 'Uniforme', 'searched' => 'Uniforme', 'title' => 'Hi {firstname}', 'content' => 'Hello',
+        ]);
+
+        $this->assertResponseOk();
+        $this->assertResponseContains('Invalid placeholders: {firstname}');
+        $this->assertSame(0, $this->getTableLocator()->get('Mailings')->find()->count());
+    }
+
+    public function testAddByBillFromSource(): void
+    {
+        $this->addUniformBills();
+        $mailings = $this->getTableLocator()->get('Mailings');
+        $source = $mailings->newForBills(['title' => 'Uniform', 'content' => 'Ready'], 'Uniforme 2025');
+        $mailings->saveOrFail($source);
+        $this->login();
+        $this->get('/mailings');
+        $this->assertResponseContains('href="/mailings/add-by-bill/' . $source->id . '"');
+        $this->assertResponseContains('Bills containing &quot;Uniforme 2025&quot;');
+
+        $this->get('/mailings/add-by-bill/' . $source->id);
+
+        $this->assertResponseOk();
+        $this->assertSame('Uniforme 2025', $this->viewVariable('search'));
+        $this->assertCount(3, $this->viewVariable('recipients'));
+        $this->assertResponseContains('value="Uniform"');
+    }
+
+    public function testBillMailingManagedOnlyByAdmin(): void
+    {
+        $this->addUniformBills();
+        $mailings = $this->getTableLocator()->get('Mailings');
+        $mailing = $mailings->newForBills(['title' => 'Uniform', 'content' => 'Ready'], 'Uniforme 2025');
+        $mailings->saveOrFail($mailing);
+        $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0, 'MemberEditAll' => 1], ['id' => 1]);
+        $this->login();
+
+        $this->post('/mailings/send-next/' . $mailing->id);
+        $this->assertResponseCode(403);
+        $this->assertNoMailSent();
+
+        $this->get('/mailings');
+        $this->assertResponseOk();
+        $this->assertResponseNotContains('/mailings/send/' . $mailing->id);
+        $this->assertResponseNotContains('/mailings/add-by-bill/' . $mailing->id);
     }
 }

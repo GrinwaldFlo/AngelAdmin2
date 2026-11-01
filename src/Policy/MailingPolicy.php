@@ -20,10 +20,21 @@ class MailingPolicy
     }
 
     /**
+     * Mailing to the members (active or past) having some bills: only for admins
+     */
+    public function canSendByBill(IdentityInterface $user, Mailing $mailing)
+    {
+        return (bool)$user->Role->Admin;
+    }
+
+    /**
      * Send or delete an existing mailing: every team of the mailing must be accessible
      */
     public function canManage(IdentityInterface $user, Mailing $mailing)
     {
+        if ($mailing->isByBill()) {
+            return $this->canSendByBill($user, $mailing);
+        }
         if (!$this->canSend($user, $mailing)) {
             return false;
         }

@@ -2286,3 +2286,48 @@ msgstr "Die Bestellung ist ungültig. Bitte versuche es nochmals."
 
 msgid "Add Configuration"
 msgstr "Konfiguration hinzufügen"
+
+msgid "Bills containing \"{0}\""
+msgstr "Rechnungen mit «{0}»"
+
+msgid "Enter a text to search in the bill labels"
+msgstr "Gib einen Text ein, der in den Rechnungsbezeichnungen gesucht wird"
+
+msgid "There is no member with an email having a bill containing this text"
+msgstr "Kein Mitglied mit E-Mail hat eine Rechnung mit diesem Text"
+
+msgid "New email by bill"
+msgstr "Neue E-Mail nach Rechnung"
+
+msgid "New email with the same subject, content and bills"
+msgstr "Neue E-Mail mit gleichem Betreff, Inhalt und Rechnungen"
+
+msgid "The email is sent to the members, active or past, having a bill (not canceled) whose label contains the text."
+msgstr "Die E-Mail wird an aktive und ehemalige Mitglieder gesendet, die eine (nicht stornierte) Rechnung haben, deren Bezeichnung den Text enthält."
+
+msgid "Text in the bill label"
+msgstr "Text in der Rechnungsbezeichnung"
+
+msgid "e.g. {0}"
+msgstr "z. B. {0}"
+
+msgid "Search"
+msgstr "Suchen"
+
+msgid "No bill contains this text."
+msgstr "Keine Rechnung enthält diesen Text."
+
+msgid "{0} emails will be sent."
+msgstr "{0} E-Mails werden gesendet."
+
+msgid "{0} members without email will not receive it."
+msgstr "{0} Mitglieder ohne E-Mail erhalten sie nicht."
+
+msgid "Bills"
+msgstr "Rechnungen"
+
+msgid "No email, not sent"
+msgstr "Keine E-Mail, nicht gesendet"
+
+msgid "Past member"
+msgstr "Ehemaliges Mitglied"

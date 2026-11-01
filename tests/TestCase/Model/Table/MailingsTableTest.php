@@ -19,7 +19,7 @@ class MailingsTableTest extends TestCase
 {
     use TestDataTrait;
 
-    protected array $fixtures = ['app.Members', 'app.Mailings', 'app.MailingItems', 'app.Teams', 'app.TeamsMembers', 'app.Sites'];
+    protected array $fixtures = ['app.Members', 'app.Mailings', 'app.MailingItems', 'app.Teams', 'app.TeamsMembers', 'app.Sites', 'app.Bills'];
 
     private MailingsTable $Mailings;
 
@@ -84,6 +84,47 @@ class MailingsTableTest extends TestCase
         $this->assertFalse($this->Mailings->save($mailing));
     }
 
+    public function testBillRecipients(): void
+    {
+        $this->addMember(100, [], ['last_name' => 'Zed']);
+        $this->addMember(101, [], ['active' => false]);
+        $this->addMember(102);
+        $this->addMember(103);
+        $this->addBill(10, 100, ['label' => 'Uniforme 2025 taille S']);
+        $this->addBill(11, 100, ['label' => 'Pantalon UNIFORME 2025']);
+        $this->addBill(12, 100, ['label' => 'Cotisation']);
+        $this->addBill(13, 101, ['label' => 'Uniforme 2025']);
+        $this->addBill(14, 102, ['label' => 'Uniforme 2025', 'canceled' => true]);
+        $this->addBill(15, 103, ['label' => 'Uniforme 2024']);
+
+        $members = $this->Mailings->billRecipients(' Uniforme 2025 ');
+
+        // By name, active and past members, each once with the matching bills only
+        $this->assertSame([101, 100], array_map(fn ($member) => $member->id, $members));
+        $this->assertSame(['Uniforme 2025 taille S', 'Pantalon UNIFORME 2025'], array_map(fn ($bill) => $bill->label, $members[1]->bills));
+        $this->assertSame([], $this->Mailings->billRecipients('  '));
+    }
+
+    public function testNewForBills(): void
+    {
+        $this->addMember(100, [], ['email' => ' a@example.com ', 'active' => false]);
+        $this->addMember(101, [], ['email' => '']);
+        $this->addBill(10, 100, ['label' => 'Uniforme 2025']);
+        $this->addBill(11, 101, ['label' => 'Uniforme 2025']);
+
+        $mailing = $this->Mailings->newForBills(['title' => 'Hello', 'content' => 'Hi'], ' Uniforme ');
+
+        $this->assertSame([], $mailing->getErrors());
+        $this->assertSame('Uniforme', $mailing->bill_label);
+        $this->assertSame('', (string)$mailing->teams);
+        $this->assertSame([[100, 'a@example.com']], array_map(fn ($item) => [$item->member_id, $item->email], $mailing->mailing_items));
+        $this->assertTrue($mailing->isByBill());
+        $this->assertSame('Bills containing "Uniforme"', $mailing->recipientsLabel());
+
+        $this->assertNotEmpty($this->Mailings->newForBills(['title' => 'a', 'content' => 'b'], ' ')->getError('bill_label'));
+        $this->assertNotEmpty($this->Mailings->newForBills(['title' => 'a', 'content' => 'b'], 'Nothing')->getError('bill_label'));
+    }
+
     public function testCopyKeepsTextAndTeams(): void
     {
         $source = $this->entity(Mailing::class, ['title' => 'Hello', 'content' => 'Hi', 'team_id_list' => '2,12', 'status' => Mailing::DONE]);
@@ -95,6 +136,10 @@ class MailingsTableTest extends TestCase
         $this->assertSame('Hi', $mailing->content);
         $this->assertNull($mailing->status);
         $this->assertSame([2, 12], $teamIds);
+        $this->assertFalse($mailing->isByBill());
+
+        [$mailing] = $this->Mailings->copy($this->entity(Mailing::class, ['title' => 'Hello', 'content' => 'Hi', 'bill_label' => 'Uniforme']));
+        $this->assertSame('Uniforme', $mailing->bill_label);
     }
 
     public function testTeamIdsOf(): void

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 /**
- * Mailings Controller: emails to the members of teams
+ * Mailings Controller: emails to the members of teams, or to the members having some bills
  * The emails are queued when the mailing is created, then sent by small chunks from the send page
  * so a batch stopped by the SMTP server (e.g. Gmail sending limit) can be continued later
  *
@@ -32,8 +32,9 @@ class MailingsController extends AppController
         foreach ($mailings as $mailing) {
             $manageable[$mailing->id] = $this->Authorization->can($mailing, 'manage');
         }
+        $canSendByBill = $this->Authorization->can($this->Mailings->newEmptyEntity(), 'sendByBill');
 
-        $this->set(compact('mailings', 'counts', 'manageable'));
+        $this->set(compact('mailings', 'counts', 'manageable', 'canSendByBill'));
     }
 
     /**
@@ -65,6 +66,41 @@ class MailingsController extends AppController
 
         $placeholders = $mailing::placeholders();
         $this->set(compact('mailing', 'teams', 'teamIds', 'placeholders'));
+    }
+
+    /**
+     * Write a mailing to the members (active or past) having a bill whose label contains a text, and queue its emails
+     * The "Search" button shows the recipients; the mailing is only created for the text of the shown recipients
+     * @param int|null $sourceId mailing whose subject, content and searched text are copied
+     */
+    public function addByBill(int|null $sourceId = null)
+    {
+        $this->Authorization->authorize($this->Mailings->newEmptyEntity(), 'sendByBill');
+        $mailing = $this->Mailings->newEmptyEntity();
+        $search = '';
+        if ($sourceId !== null && !$this->request->is('post')) {
+            [$mailing] = $this->Mailings->copy($this->Mailings->get($sourceId));
+            $search = $mailing->bill_label;
+        }
+
+        if ($this->request->is('post')) {
+            $search = trim((string)$this->request->getData('bill_label'));
+            $data = ['title' => (string)$this->request->getData('title'), 'content' => (string)$this->request->getData('content')];
+            // The text has been changed since the last search: show the new recipients first
+            if ($this->request->getData('step') === 'next' && $search === (string)$this->request->getData('searched')) {
+                $mailing = $this->Mailings->newForBills($data, $search);
+                if (!$mailing->hasErrors() && $this->Mailings->save($mailing)) {
+                    return $this->redirect(['action' => 'send', $mailing->id]);
+                }
+                $this->Flash->error(__('The mailing could not be saved.'));
+            } else {
+                $mailing = $this->Mailings->newEntity($data + ['bill_label' => $search], ['validate' => false]);
+            }
+        }
+
+        $recipients = $this->Mailings->billRecipients($search);
+        $placeholders = $mailing::placeholders();
+        $this->set(compact('mailing', 'search', 'recipients', 'placeholders'));
     }
 
     /**
