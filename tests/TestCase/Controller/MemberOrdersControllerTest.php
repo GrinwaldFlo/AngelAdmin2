@@ -63,13 +63,23 @@ class MemberOrdersControllerTest extends TestCase
      */
     private function listedIds(string $url): array
     {
+        $ids = $this->orderedIds($url);
+        sort($ids);
+
+        return $ids;
+    }
+
+    /**
+     * @return int[] ids of the listed orders, in the listed order
+     */
+    private function orderedIds(string $url): array
+    {
         $this->get($url);
         $this->assertResponseOk();
         $ids = [];
         foreach ($this->viewVariable('memberOrders') as $order) {
             $ids[] = $order->id;
         }
-        sort($ids);
 
         return $ids;
     }
@@ -117,6 +127,64 @@ class MemberOrdersControllerTest extends TestCase
         $this->loginWith(self::MANAGER, ['memberOrdersDeliveredFilter' => 2]);
         $this->assertSame([2, 3], $this->listedIds('/member-orders'));
         $this->assertSame(2, $this->viewVariable('deliveredFilter'));
+    }
+
+    public function testIndexSortsOnEveryColumn(): void
+    {
+        $this->loginWith(self::MANAGER);
+        $orders = $this->getTableLocator()->get('MemberOrders');
+        $orders->updateAll(['quantity' => 5], ['id' => 2]);
+        $orders->updateAll(['created' => '2026-03-01 10:00:00'], ['id' => 3]);
+        $orders->updateAll(['created' => '2026-01-01 10:00:00'], ['id !=' => 3]);
+
+        $expected = [
+            'id' => [3, 2, 1],
+            'ShopItems.label' => [2, 1, 3],
+            'Bills.id' => [2, 1, 3],
+        ];
+        foreach ($expected as $field => $ids) {
+            $this->assertSame($ids, $this->orderedIds("/member-orders/index/0/0/0?sort=$field&direction=desc"), $field);
+        }
+
+        // Several orders share these values: only the first one is decisive
+        $expectedFirst = [
+            'ShopItems.category' => [2, 'asc'],
+            'quantity' => [2, 'desc'],
+            'delivered' => [1, 'desc'],
+            'created' => [3, 'desc'],
+        ];
+        foreach ($expectedFirst as $field => [$id, $direction]) {
+            $this->assertSame($id, $this->orderedIds("/member-orders/index/0/0/0?sort=$field&direction=$direction")[0], $field);
+        }
+    }
+
+    public function testIndexSortsOnMember(): void
+    {
+        $this->loginWith(self::MANAGER);
+        $this->getTableLocator()->get('Members')->updateAll(['first_name' => 'Adam'], ['id' => 1]);
+        $this->addMember(5, [], ['first_name' => 'Zoe']);
+        $this->getTableLocator()->get('MemberOrders')->updateAll(['member_id' => 5], ['id' => 2]);
+
+        $this->assertSame(2, $this->orderedIds('/member-orders/index/0/0/0?sort=Members.first_name&direction=desc')[0]);
+    }
+
+    public function testFiltersKeepTheSort(): void
+    {
+        $this->loginWith(self::MANAGER);
+
+        $this->get('/member-orders/index/0/0/0?sort=ShopItems.label&direction=desc');
+
+        $this->assertResponseContains('/member-orders/index/0/2/0?sort=ShopItems.label&amp;direction=desc');
+    }
+
+    public function testIndexShowsTheTotalOfAllPages(): void
+    {
+        $this->loginWith(self::MANAGER);
+
+        $this->get('/member-orders/index/0/0/0?limit=2');
+
+        $this->assertCount(2, $this->viewVariable('memberOrders'));
+        $this->assertResponseContains('<span class="mo-count">(3)</span>');
     }
 
     public function testForbiddenWithoutEditAllOrForCoaches(): void

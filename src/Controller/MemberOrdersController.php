@@ -16,7 +16,12 @@ class MemberOrdersController extends AppController
 
     public array $paginate = [
         'limit' => 500,
-        'maxLimit' => 1000
+        'maxLimit' => 1000,
+        // Columns of the associated tables are only sortable when they are listed
+        'sortableFields' => [
+            'id', 'quantity', 'delivered', 'created',
+            'Members.first_name', 'ShopItems.label', 'ShopItems.category', 'Bills.id',
+        ],
         ];
 
 
