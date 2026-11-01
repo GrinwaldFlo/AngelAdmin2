@@ -8,6 +8,7 @@ use App\Model\Entity\Mailing;
 use App\Model\Entity\MailingItem;
 use App\Model\Table\MailingsTable;
 use App\Test\TestSuite\TestDataTrait;
+use Cake\I18n\I18n;
 use Cake\TestSuite\TestCase;
 
 /**
@@ -26,11 +27,18 @@ class MailingsTableTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        I18n::setLocale('en');
         $this->Mailings = $this->getTableLocator()->get('Mailings');
         $this->addTeam(2, 'Juniors');
         $this->addTeam(3, 'Seniors');
         $this->addTeam(4, 'Old', false);
         $this->addTeam(12, 'Minis');
+    }
+
+    protected function tearDown(): void
+    {
+        I18n::setLocale(I18n::getDefaultLocale());
+        parent::tearDown();
     }
 
     public function testValidationDefault(): void
