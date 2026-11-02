@@ -42,7 +42,7 @@ class MeetingsControllerTest extends TestCase
     {
         // Texts are checked in English, whatever translations exist
         $this->getTableLocator()->get('Members')->updateAll(['language' => 'en'], ['id' => 1]);
-        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1)] + $session);
+        $this->session(['Auth' => 1] + $session);
     }
 
     private function removeRight(string $right): void

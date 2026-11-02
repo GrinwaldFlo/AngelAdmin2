@@ -68,7 +68,7 @@ class MembersControllerTest extends TestCase
             $presences->saveOrFail($presences->newEntity(['meeting_id' => $meeting->id, 'member_id' => 1, 'state' => 1]));
         }
 
-        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1)]);
+        $this->session(['Auth' => 1]);
         $this->get('/members/view/1');
 
         $this->assertResponseOk();
@@ -119,7 +119,7 @@ class MembersControllerTest extends TestCase
      */
     public function testSetLanguageOfTheLoggedMember(): void
     {
-        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1)]);
+        $this->session(['Auth' => 1]);
         $this->configRequest(['environment' => ['HTTP_REFERER' => 'http://localhost/members/view/1']]);
 
         $this->get('/members/set-language/de');
@@ -139,7 +139,7 @@ class MembersControllerTest extends TestCase
 
     public function testSetUnknownLanguage(): void
     {
-        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1)]);
+        $this->session(['Auth' => 1]);
 
         $this->get('/members/set-language/xx');
 

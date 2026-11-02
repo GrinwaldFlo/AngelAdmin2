@@ -49,7 +49,7 @@ class SubventionsTest extends TestCase
 
     private function login(): void
     {
-        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1)]);
+        $this->session(['Auth' => 1]);
     }
 
     private function postEmail(string $email): void

@@ -184,6 +184,6 @@ trait TestDataTrait
             $this->setRole($rights);
         }
         $this->getTableLocator()->get('Members')->updateAll(['language' => 'en'], ['id' => 1]);
-        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1)] + $session);
+        $this->session(['Auth' => 1] + $session);
     }
 }
