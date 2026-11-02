@@ -18,7 +18,7 @@
         "symfony/emoji": "^7.3",
         "symfony/string": "^7.3",
         "tecnickcom/tcpdf": "^6.10",
-        "tinymce/tinymce": "^7.9"
+        "tinymce/tinymce": "^8.5.1"
     },
     "require-dev": {
         "cakephp/bake": "^3.0.0",
@@ -57,6 +57,7 @@
     },
     "scripts": {
         "post-install-cmd": "App\\Console\\Installer::postInstall",
+        "post-update-cmd": "App\\Console\\Installer::postUpdate",
         "post-create-project-cmd": "App\\Console\\Installer::postInstall",
         "check": [
             "@test",

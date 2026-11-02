@@ -23,6 +23,7 @@ if (!defined('STDIN')) {
 use Cake\Codeception\Console\Installer as CodeceptionInstaller;
 use Composer\IO\IOInterface;
 use Composer\Script\Event;
+use Composer\Util\Filesystem;
 use Exception;
 
 /**
@@ -48,6 +49,15 @@ class Installer
     ];
 
     /**
+     * Assets of Composer packages served from the webroot, as package directory => public directory
+     *
+     * @var array<string, string>
+     */
+    public const PUBLIC_ASSETS = [
+        'vendor/tinymce/tinymce' => 'webroot/js/tinymce',
+    ];
+
+    /**
      * Does some routine installation tasks so people don't have to.
      *
      * @param \Composer\Script\Event $event The composer event object.
@@ -64,8 +74,42 @@ class Installer
 
         static::setFolderPermissions($rootDir, $io);
 
+        static::copyPublicAssets($rootDir, $io);
+
         if (class_exists(CodeceptionInstaller::class)) {
             CodeceptionInstaller::customizeCodeceptionBinary($event);
+        }
+    }
+
+    /**
+     * Keeps the public assets in line with the packages after a `composer update`.
+     *
+     * @param \Composer\Script\Event $event The composer event object.
+     * @return void
+     */
+    public static function postUpdate(Event $event): void
+    {
+        static::copyPublicAssets(dirname(__DIR__, 2), $event->getIO());
+    }
+
+    /**
+     * Replace the public copy of the package assets, so no file of an older version is left.
+     *
+     * @param string $dir The application's root directory.
+     * @param \Composer\IO\IOInterface $io IO interface to write to console.
+     * @return void
+     */
+    public static function copyPublicAssets(string $dir, IOInterface $io): void
+    {
+        $filesystem = new Filesystem();
+        foreach (static::PUBLIC_ASSETS as $source => $target) {
+            if (!is_dir($dir . '/' . $source)) {
+                $io->writeError('<warning>Package assets not found: `' . $source . '`</warning>');
+                continue;
+            }
+            $filesystem->remove($dir . '/' . $target);
+            $filesystem->copy($dir . '/' . $source, $dir . '/' . $target);
+            $io->write('Copied `' . $source . '` to `' . $target . '`');
         }
     }
 

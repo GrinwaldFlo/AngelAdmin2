@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c0c54e3b75f7a4d928b05809345d4151",
+    "content-hash": "d4139e2380c9adabcdfa8885d5dfda8f",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -3030,16 +3030,16 @@
         },
         {
             "name": "tinymce/tinymce",
-            "version": "7.9.1",
+            "version": "8.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tinymce/tinymce-dist.git",
-                "reference": "3d6219296c9a92c87337bb38fb502a469ac1167f"
+                "reference": "2389164632e1b6e23cc8a9322fc16776d6985192"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/3d6219296c9a92c87337bb38fb502a469ac1167f",
-                "reference": "3d6219296c9a92c87337bb38fb502a469ac1167f",
+                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/2389164632e1b6e23cc8a9322fc16776d6985192",
+                "reference": "2389164632e1b6e23cc8a9322fc16776d6985192",
                 "shasum": ""
             },
             "type": "component",
@@ -3064,7 +3064,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL-2.0-or-later"
+                "SEE LICENSE IN license.md"
             ],
             "description": "Web based JavaScript HTML WYSIWYG editor control.",
             "homepage": "https://www.tiny.cloud/",
@@ -3083,9 +3083,9 @@
                 "wysiwyg"
             ],
             "support": {
-                "source": "https://github.com/tinymce/tinymce-dist/tree/7.9.1"
+                "source": "https://github.com/tinymce/tinymce-dist/tree/8.10.1"
             },
-            "time": "2025-05-29T02:22:36+00:00"
+            "time": "2026-10-28T04:04:23+00:00"
         }
     ],
     "packages-dev": [
