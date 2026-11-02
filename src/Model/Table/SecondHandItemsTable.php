@@ -136,7 +136,7 @@ class SecondHandItemsTable extends Table
 
     private function forSaleIds(int $months, int $categoryId): SelectQuery
     {
-        $query = $this->find('forSale', months: $months)->select(['SecondHandItems.id'])->disableHydration();
+        $query = $this->unhydratedFind('forSale', months: $months)->select(['SecondHandItems.id']);
         if ($categoryId > 0) {
             $query->where(['SecondHandItems.category_id' => $categoryId]);
         }

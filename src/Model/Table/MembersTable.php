@@ -272,9 +272,10 @@ class MembersTable extends Table
         $entity->address = $trim($entity->address);
         $entity->city = $trim($entity->city);
         $entity->email = $trim($entity->email);
-        $entity->phone_mobile = $this->formatTel($entity->phone_mobile);
-        //$entity->phone_home = $this->formatTel($entity->phone_home);
-        $entity->address = $this->formatAddress($entity->address);
+        $tools = $this->getBehavior('Tools');
+        $entity->phone_mobile = $tools->formatTel($entity->phone_mobile);
+        //$entity->phone_home = $tools->formatTel($entity->phone_home);
+        $entity->address = $tools->formatAddress($entity->address);
     }
 
     /**

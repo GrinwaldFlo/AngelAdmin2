@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Migrations\AbstractMigration;
+use Migrations\BaseMigration;
 
-class AddMailingBillLabel extends AbstractMigration
+class AddMailingBillLabel extends BaseMigration
 {
     /**
      * Mailings to the members having a bill whose label contains a text: the searched text

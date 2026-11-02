@@ -5,7 +5,7 @@ This guide will help you install and set up AngelAdmin2 on your local developmen
 ## Prerequisites
 
 ### System Requirements
-- **PHP 8.1 or higher** with the following extensions:
+- **PHP 8.4 or higher** with the following extensions:
   - mbstring
   - intl
   - simplexml
@@ -96,7 +96,7 @@ Key settings to update:
 bin/cake migrations migrate
 
 # (Optional) Seed the database with initial data
-bin/cake migrations seed
+bin/cake seeds run
 ```
 
 ### 6. Set Permissions
@@ -163,7 +163,7 @@ server {
     }
 
     location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php8.4-fpm.sock;
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
@@ -211,7 +211,7 @@ sudo chmod -R 777 /path/to/AngelAdmin2/logs
 #### Missing PHP Extensions
 ```bash
 # Install missing extensions (Ubuntu/Debian)
-sudo apt-get install php8.1-mbstring php8.1-intl php8.1-xml php8.1-mysql php8.1-gd
+sudo apt-get install php8.4-mbstring php8.4-intl php8.4-xml php8.4-mysql php8.4-gd
 
 # For CentOS/RHEL
 sudo yum install php-mbstring php-intl php-xml php-mysqlnd php-gd

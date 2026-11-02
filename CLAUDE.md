@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-AngelAdmin2 is a CakePHP 5.2 (PHP 8.1+) server-rendered app for sports-club administration: members, teams, sites (cities), meetings/attendance, billing with Swiss QR bills, shop orders. UI is BootstrapUI + Bootstrap + jQuery. `.github/copilot-instructions.md` holds the full agent rule set; the important parts are summarized below.
+AngelAdmin2 is a CakePHP 5.4 (PHP 8.4+) server-rendered app for sports-club administration: members, teams, sites (cities), meetings/attendance, billing with Swiss QR bills, shop orders. UI is BootstrapUI + Bootstrap + jQuery. `.github/copilot-instructions.md` holds the full agent rule set; the important parts are summarized below.
 
 ## Commands
 
@@ -22,7 +22,7 @@ bin/cake i18n extract --paths src,templates --output resources/locales/src --ove
 resources/build-locales.sh       # compile all .po -> .mo (needs gettext/msgfmt)
 ```
 
-The root `_*.bat` files are Windows wrappers for the same commands. CI (`.github/workflows/phpunit.yml`) runs `composer test` on PHP 8.3.
+The root `_*.bat` files are Windows wrappers for the same commands. CI (`.github/workflows/phpunit.yml`) runs `composer test` on PHP 8.4.
 
 ## Tests
 

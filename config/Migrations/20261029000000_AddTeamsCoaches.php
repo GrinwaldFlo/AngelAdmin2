@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-use Migrations\AbstractMigration;
+use Migrations\BaseMigration;
 
-class AddTeamsCoaches extends AbstractMigration
+class AddTeamsCoaches extends BaseMigration
 {
     /**
      * Coaches and help-coaches of each team, the access of a TeamScoped role is limited to these teams
