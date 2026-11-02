@@ -168,29 +168,35 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             AbstractIdentifier::CREDENTIAL_PASSWORD => 'password'
         ];
 
-        // Identifier configuration to be shared by authenticators
+        // Resolver to be shared by identifiers
+        $resolver = [
+            'className' => 'Authentication.Orm',
+            'userModel' => 'Users',
+            'finder' => 'withRoleMembers'
+        ];
+
         $identifierConfig = [
             'fields' => $fields,
             'passwordHasher' => [
                 'className' => \Authentication\PasswordHasher\DefaultPasswordHasher::class,
                 'hashType' => 'bcrypt',
             ],
-            'resolver' => [
-                'className' => 'Authentication.Orm',
-                'userModel' => 'Users',
-                'finder' => 'withRoleMembers'
-            ],
+            'resolver' => $resolver,
         ];
-        
+
         // Load the authenticators. Session should be first.
-        $service->loadAuthenticator('Authentication.Session', [
+        // The session only holds the user id: the user is reloaded on each request
+        $service->loadAuthenticator('UserSession', [
             'sessionKey' => 'Auth',
-            'identify' => true, // Re-verify identity on each request
             'identifier' => [
-                'Authentication.Password' => $identifierConfig
+                'Authentication.Token' => [
+                    'tokenField' => 'id',
+                    'dataField' => 'key',
+                    'resolver' => $resolver,
+                ]
             ]
         ]);
-        
+
         $service->loadAuthenticator('Authentication.Form', [
             'fields' => $fields,
             'loginUrl' => Router::url([

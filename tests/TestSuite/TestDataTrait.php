@@ -44,12 +44,13 @@ trait TestDataTrait
      */
     protected function addMember(int $id, array $teamIds = [], array $fields = []): void
     {
+        $values = $fields + [
+            'id' => $id, 'first_name' => 'First' . $id, 'last_name' => 'Last' . $id, 'gender_id' => 1, 'email' => "m$id@example.com",
+            'email_valid' => 1, 'date_arrival' => '2026-01-01', 'hash' => sha1('member' . $id), 'active' => true, 'language' => 'en',
+        ];
         $this->getTableLocator()->get('Members')->insertQuery()
-            ->insert(['id', 'first_name', 'last_name', 'gender_id', 'email', 'email_valid', 'date_arrival', 'hash', 'active', 'language', ...array_keys($fields)])
-            ->values($fields + [
-                'id' => $id, 'first_name' => 'First' . $id, 'last_name' => 'Last' . $id, 'gender_id' => 1, 'email' => "m$id@example.com",
-                'email_valid' => 1, 'date_arrival' => '2026-01-01', 'hash' => sha1('member' . $id), 'active' => true, 'language' => 'en',
-            ])
+            ->insert(array_keys($values))
+            ->values($values)
             ->execute();
         foreach ($teamIds as $teamId) {
             $this->getTableLocator()->get('TeamsMembers')->insertQuery()
@@ -174,6 +175,15 @@ trait TestDataTrait
     }
 
     /**
+     * Open a session as the given user
+     * @param array $session other values of the session
+     */
+    protected function sessionAs(int $userId, array $session = []): void
+    {
+        $this->session(['Auth' => $userId] + $session);
+    }
+
+    /**
      * Log in user 1 (member 1) with only the given rights, texts are checked in English
      * @param string[]|null $rights null = keep the fixture role (all rights)
      */
@@ -183,6 +193,6 @@ trait TestDataTrait
             $this->setRole($rights);
         }
         $this->getTableLocator()->get('Members')->updateAll(['language' => 'en'], ['id' => 1]);
-        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1)] + $session);
+        $this->sessionAs(1, $session);
     }
 }

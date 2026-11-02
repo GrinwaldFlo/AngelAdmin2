@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Migrations\AbstractMigration;
+use Migrations\BaseMigration;
 
-class CreateSubventionCities extends AbstractMigration
+class CreateSubventionCities extends BaseMigration
 {
     /**
      * Email address of the municipality of each city, to send the subsidy requests

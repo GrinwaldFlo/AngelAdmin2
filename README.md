@@ -1,10 +1,10 @@
 # AngelAdmin2
 
-[![CakePHP](https://img.shields.io/badge/CakePHP-5.2-red.svg?style=flat-square)](https://cakephp.org)
-[![PHP](https://img.shields.io/badge/PHP-8.1+-blue.svg?style=flat-square)](https://php.net)
+[![CakePHP](https://img.shields.io/badge/CakePHP-5.4-red.svg?style=flat-square)](https://cakephp.org)
+[![PHP](https://img.shields.io/badge/PHP-8.4+-blue.svg?style=flat-square)](https://php.net)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
 
-A comprehensive membership and team management system built with CakePHP 5.2, designed for sports clubs and organizations. AngelAdmin2 provides a complete solution for managing members, teams, meetings, billing, and administrative tasks.
+A comprehensive membership and team management system built with CakePHP 5.4, designed for sports clubs and organizations. AngelAdmin2 provides a complete solution for managing members, teams, meetings, billing, and administrative tasks.
 
 ## ✨ Features
 
@@ -56,7 +56,7 @@ A comprehensive membership and team management system built with CakePHP 5.2, de
 
 ### Prerequisites
 
-- **PHP 8.1+** with required extensions
+- **PHP 8.4+** with required extensions
 - **MySQL/MariaDB** database
 - **Composer** for dependency management
 - **Web server** (Apache/Nginx) with URL rewriting support
@@ -243,7 +243,7 @@ Some generated tests are still marked as incomplete or skipped; they show up as 
 
 ### Continuous integration
 
-GitHub Actions (`.github/workflows/phpunit.yml`) runs `composer test` on PHP 8.3 for every pull request and every push to `master`.
+GitHub Actions (`.github/workflows/phpunit.yml`) runs `composer test` on PHP 8.4 for every pull request and every push to `master`.
 
 ### Code style
 
@@ -258,7 +258,7 @@ composer cs-fix
 ## 📦 Dependencies
 
 ### Core Dependencies
-- **CakePHP 5.2**: Web framework
+- **CakePHP 5.4**: Web framework
 - **Authentication & Authorization**: User management
 - **Migrations**: Database schema management
 - **Bootstrap UI**: Frontend framework integration
@@ -281,7 +281,7 @@ composer cs-fix
 ### Production Deployment
 
 1. **Server Requirements**
-   - PHP 8.1+ with extensions: mbstring, intl, simplexml, PDO
+   - PHP 8.4+ with extensions: mbstring, intl, simplexml, PDO
    - MySQL/MariaDB 5.7+
    - Web server with URL rewriting
 
@@ -310,7 +310,7 @@ A Docker configuration can be added for containerized deployment:
 
 ```dockerfile
 # Example Dockerfile structure
-FROM php:8.1-apache
+FROM php:8.4-apache
 # Install PHP extensions and configure Apache
 # Copy application files
 # Set proper permissions

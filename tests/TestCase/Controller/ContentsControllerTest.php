@@ -37,6 +37,29 @@ class ContentsControllerTest extends CrudControllerTestCase
         $this->assertSame(0, $content->team_id);
     }
 
+    /**
+     * Toolbar names of TinyMCE 6+, the old ones (fontselect, ...) are silently ignored
+     */
+    public function testEditorOnForms(): void
+    {
+        $this->login();
+        $this->getTableLocator()->get('Contents')->insertQuery()
+            ->insert(['id', 'text', 'location', 'url', 'team_id', 'sort'])
+            ->values(['id' => 1000, 'text' => 'Hello', 'location' => 12, 'url' => '', 'team_id' => 0, 'sort' => 1])
+            ->execute();
+
+        foreach (['/contents/add', '/contents/edit/1000'] as $url) {
+            $this->get($url);
+
+            $this->assertResponseOk();
+            $this->assertResponseContains('/js/tinymce/tinymce.min.js');
+            $this->assertResponseContains('fontfamily fontsize blocks');
+            $this->assertResponseContains("toolbar_mode: 'wrap'");
+            $this->assertResponseContains('promotion: false');
+            $this->assertResponseContains('branding: false');
+        }
+    }
+
     public function testInfoPage(): void
     {
         $this->login([]);

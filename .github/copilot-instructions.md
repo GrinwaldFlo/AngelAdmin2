@@ -1,18 +1,18 @@
 # Copilot Instructions
 
 ## Project Overview
-- This repository is AngelAdmin2, a CakePHP 5.2 application for sports-club administration.
+- This repository is AngelAdmin2, a CakePHP 5.4 application for sports-club administration.
 - Main functional domains:
 	- Member lifecycle (profiles, registration, signatures, team assignment).
 	- Meetings and attendance tracking.
 	- Billing and reminders, with Swiss QR bill support.
 	- Shop items and member orders.
 	- Multi-site, role-based administration.
-- PHP baseline: 8.1+.
+- PHP baseline: 8.4+.
 - Line endings: LF.
 
 ## Tech Stack and Dependencies
-- Framework: CakePHP 5.2.x.
+- Framework: CakePHP 5.4.x.
 - AuthN/AuthZ: cakephp/authentication and cakephp/authorization.
 - UI: friendsofcake/bootstrap-ui + Bootstrap + jQuery.
 - Data and infra:

@@ -167,11 +167,10 @@ class MeetingsTable extends Table
     if (empty($meetingIds)) {
       return [];
     }
-    $query = $this->Presences->find();
+    $query = $this->Presences->unhydratedFind();
     $query->select(['meeting_id', 'state', 'nb' => $query->func()->count('*')])
       ->where(['meeting_id IN' => $meetingIds])
-      ->groupBy(['meeting_id', 'state'])
-      ->disableHydration();
+      ->groupBy(['meeting_id', 'state']);
 
     $result = [];
     foreach ($query as $row) {

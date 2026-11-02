@@ -94,9 +94,7 @@ class UsersController extends AppController
 
     public function view($id = null)
     {
-        $user = $this->Users->get($id, [
-            'contain' => ['Roles', 'Members'],
-        ]);
+        $user = $this->Users->get($id, contain: ['Roles', 'Members']);
         $this->Authorization->authorize($user, 'view');
 
         $this->set('user', $user);
@@ -116,16 +114,14 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved.'));
         }
-        $roles = $this->Users->Roles->find('list', ['limit' => 200]);
-        $members = $this->Users->Members->find('list', ['limit' => 200]);
+        $roles = $this->Users->Roles->find('list', limit: 200);
+        $members = $this->Users->Members->find('list', limit: 200);
         $this->set(compact('user', 'roles', 'members'));
     }
 
     public function edit(int|null $id = null)
     {
-        $user = $this->Users->get($id, [
-            'contain' => [],
-        ]);
+        $user = $this->Users->get($id);
         $this->Authorization->authorize($user, 'edit');
         $isAdmin = (bool)$this->curRole->Admin;
 
@@ -139,11 +135,9 @@ class UsersController extends AppController
             $this->Flash->error(__('The user could not be saved.'));
         }
         $roles = $this->Users->Roles->find('list');
-        $members = $this->Users->Members->find('list', [
-            'valueField' => function ($member) {
-                return $member->get('label');
-            }
-        ]);
+        $members = $this->Users->Members->find('list', valueField: function ($member) {
+            return $member->get('label');
+        });
 
         $this->set(compact('user', 'roles', 'members'));
     }
@@ -186,15 +180,15 @@ class UsersController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $emailOrUsername = $this->request->getData('email_or_username');
 
-            $user = $this->Users->find('all', [
-                'conditions' => [
+            $user = $this->Users->find('all',
+                conditions: [
                     'OR' => [
                         'Members.email' => $emailOrUsername,
                         'Users.username' => $emailOrUsername
                     ]
                 ],
-                'contain' => ['Members']
-            ])->first();
+                contain: ['Members']
+            )->first();
 
             if (!empty($user)) {
                 $user->tokenhash = UsersTable::newResetToken();

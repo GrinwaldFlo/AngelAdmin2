@@ -356,7 +356,7 @@ class MembersController extends AppController
             }
 
             // Reload the bill with Members and Sites relationships for PDF generation
-            $billForPdf = $billsTable->get($bill->id, ['contain' => ['Members', 'Sites']]);
+            $billForPdf = $billsTable->get($bill->id, contain: ['Members', 'Sites']);
 
             // Generate PDF for the shop bill
             $this->generateShopBillPdf($billForPdf);

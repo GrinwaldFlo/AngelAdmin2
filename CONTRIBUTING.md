@@ -37,7 +37,7 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 
 ### Prerequisites
 
-- PHP 8.1 or higher
+- PHP 8.4 or higher
 - Composer
 - MySQL/MariaDB
 - Git

@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-use Migrations\AbstractMigration;
+use Migrations\BaseMigration;
 
-class CreateInitialTables extends AbstractMigration
+class CreateInitialTables extends BaseMigration
 {
     /**
      * Up Method.
@@ -219,8 +219,8 @@ class CreateInitialTables extends AbstractMigration
 
         // Create registrations table
         $this->table('registrations')
-            ->addColumn('signature_member', 'blob', ['null' => true])
-            ->addColumn('signature_parent', 'blob', ['null' => true])
+            ->addColumn('signature_member', 'binary', ['null' => true])
+            ->addColumn('signature_parent', 'binary', ['null' => true])
             ->addColumn('member_id', 'integer')
             ->addColumn('validation_id', 'integer', ['default' => 0])
             ->addColumn('year', 'integer', ['default' => 0])
@@ -234,7 +234,7 @@ class CreateInitialTables extends AbstractMigration
             ->addColumn('id', 'char', ['limit' => 40, 'collation' => 'ascii_bin'])
             ->addColumn('created', 'datetime', ['default' => 'CURRENT_TIMESTAMP', 'null' => true])
             ->addColumn('modified', 'datetime', ['default' => 'CURRENT_TIMESTAMP', 'null' => true])
-            ->addColumn('data', 'blob', ['null' => true])
+            ->addColumn('data', 'binary', ['null' => true])
             ->addColumn('expires', 'integer', ['signed' => false, 'null' => true])
             ->create();
 

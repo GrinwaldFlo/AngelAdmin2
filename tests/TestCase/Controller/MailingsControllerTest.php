@@ -54,13 +54,6 @@ class MailingsControllerTest extends TestCase
             ->execute();
     }
 
-    private function login(): void
-    {
-        // Texts are checked in English, whatever translations exist
-        $this->getTableLocator()->get('Members')->updateAll(['language' => 'en'], ['id' => 1]);
-        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1)]);
-    }
-
     private function addTeam(int $id, string $name, bool $active = true): void
     {
         $this->getTableLocator()->get('Teams')->insertQuery()
@@ -151,7 +144,7 @@ class MailingsControllerTest extends TestCase
     public function testIndexForbiddenWithoutAdminOrEditAll(): void
     {
         $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0, 'MemberEditAll' => 0], ['id' => 1]);
-        $this->login();
+        $this->loginWith();
         $this->get('/mailings');
 
         $this->assertResponseCode(403);
@@ -161,7 +154,7 @@ class MailingsControllerTest extends TestCase
     {
         $mailingId = $this->addMailing(['a@example.com']);
         $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0, 'MemberEditAll' => 0], ['id' => 1]);
-        $this->login();
+        $this->loginWith();
         $this->post('/mailings/send-next/' . $mailingId);
 
         $this->assertResponseCode(403);
@@ -171,7 +164,7 @@ class MailingsControllerTest extends TestCase
     public function testIndexShowsRecap(): void
     {
         $mailingId = $this->addMailing(['a@example.com', 'b@example.com']);
-        $this->login();
+        $this->loginWith();
         $this->get('/mailings');
 
         $this->assertResponseOk();
@@ -186,7 +179,7 @@ class MailingsControllerTest extends TestCase
     {
         $this->addTeam(2, 'Juniors');
         $this->addTeam(3, 'Old team', false);
-        $this->login();
+        $this->loginWith();
         $this->get('/mailings/add');
 
         $this->assertResponseOk();
@@ -205,7 +198,7 @@ class MailingsControllerTest extends TestCase
         $this->addMember(12, [2], 'inactive@example.com', false);
         $this->addMember(13, [2], '');
         $this->addMember(14, [4], 'old@example.com');
-        $this->login();
+        $this->loginWith();
         $this->post('/mailings/add', ['title' => 'Training', 'content' => 'No training', 'team_ids' => [2, 3, 4]]);
 
         $mailing = $this->getTableLocator()->get('Mailings')->find()->firstOrFail();
@@ -226,7 +219,7 @@ class MailingsControllerTest extends TestCase
         $this->addTeam(3, 'Seniors');
         $mailingId = $this->addMailing(['a@example.com']);
         $this->getTableLocator()->get('Mailings')->updateAll(['team_id_list' => '2,3'], ['id' => $mailingId]);
-        $this->login();
+        $this->loginWith();
         $this->get('/mailings');
         $this->assertResponseContains('href="/mailings/add/' . $mailingId . '"');
 
@@ -245,7 +238,7 @@ class MailingsControllerTest extends TestCase
     {
         $mailingId = $this->addMailing(['a@example.com']);
         $this->getTableLocator()->get('Mailings')->updateAll(['team_id_list' => ''], ['id' => $mailingId]);
-        $this->login();
+        $this->loginWith();
         $this->get('/mailings/add/' . $mailingId);
 
         $this->assertResponseOk();
@@ -255,7 +248,7 @@ class MailingsControllerTest extends TestCase
     public function testAddFromSourcePostCreatesANewMailing(): void
     {
         $sourceId = $this->addMailing(['a@example.com']);
-        $this->login();
+        $this->loginWith();
         $this->post('/mailings/add/' . $sourceId, ['title' => 'Copy', 'content' => 'Again', 'team_ids' => [2]]);
 
         $mailing = $this->getTableLocator()->get('Mailings')->find()->where(['id !=' => $sourceId])->firstOrFail();
@@ -266,7 +259,7 @@ class MailingsControllerTest extends TestCase
 
     public function testAddRequiresATeam(): void
     {
-        $this->login();
+        $this->loginWith();
         $this->post('/mailings/add', ['title' => 'Training', 'content' => 'No training']);
 
         $this->assertResponseOk();
@@ -277,7 +270,7 @@ class MailingsControllerTest extends TestCase
     public function testAddRequiresRecipients(): void
     {
         $this->addTeam(2, 'Empty team');
-        $this->login();
+        $this->loginWith();
         $this->post('/mailings/add', ['title' => 'Training', 'content' => 'No training', 'team_ids' => [2]]);
 
         $this->assertResponseOk();
@@ -289,7 +282,7 @@ class MailingsControllerTest extends TestCase
     {
         $this->addTeam(2, 'Juniors');
         $this->addMember(10, [2], 'a@example.com');
-        $this->login();
+        $this->loginWith();
         $this->post('/mailings/add', ['title' => '', 'content' => '', 'team_ids' => [2]]);
 
         $this->assertResponseOk();
@@ -302,7 +295,7 @@ class MailingsControllerTest extends TestCase
     {
         $this->addTeam(2, 'Juniors');
         $this->addMember(10, [2], 'a@example.com');
-        $this->login();
+        $this->loginWith();
         $this->post('/mailings/add', [
             'title' => 'Hello {firstname}',
             'content' => "Dear {first_name}\nSee {my_page and {last_name}} {full_name}",
@@ -321,7 +314,7 @@ class MailingsControllerTest extends TestCase
     {
         $this->addTeam(2, 'Juniors');
         $this->addMember(10, [2], 'a@example.com');
-        $this->login();
+        $this->loginWith();
         $this->post('/mailings/add', [
             'title' => '{first_name} {last_name}',
             'content' => "Dear {full_name},\nYour page: {my_page}",
@@ -334,7 +327,7 @@ class MailingsControllerTest extends TestCase
     public function testDeleteUnsentMailing(): void
     {
         $mailingId = $this->addMailing(['a@example.com', 'b@example.com']);
-        $this->login();
+        $this->loginWith();
         $this->get('/mailings/send/' . $mailingId);
         $this->assertResponseContains('/mailings/delete/' . $mailingId);
 
@@ -351,7 +344,7 @@ class MailingsControllerTest extends TestCase
         $mailingId = $this->addMailing(['a@example.com']);
         TransportFactory::drop('default');
         TransportFactory::setConfig('default', ['className' => FailingTransport::class]);
-        $this->login();
+        $this->loginWith();
         $this->sendNext($mailingId);
 
         $this->post('/mailings/delete/' . $mailingId);
@@ -363,7 +356,7 @@ class MailingsControllerTest extends TestCase
     public function testDeleteRefusedOnceAnEmailIsSent(): void
     {
         $mailingId = $this->addMailing(['a@example.com']);
-        $this->login();
+        $this->loginWith();
         $this->sendNext($mailingId);
         $this->get('/mailings/send/' . $mailingId);
         $this->assertResponseNotContains('/mailings/delete/' . $mailingId);
@@ -380,7 +373,7 @@ class MailingsControllerTest extends TestCase
     {
         $mailingId = $this->addMailing(['a@example.com']);
         $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0, 'MemberEditAll' => 0], ['id' => 1]);
-        $this->login();
+        $this->loginWith();
         $this->post('/mailings/delete/' . $mailingId);
 
         $this->assertResponseCode(403);
@@ -390,7 +383,7 @@ class MailingsControllerTest extends TestCase
     public function testDeleteRequiresPost(): void
     {
         $mailingId = $this->addMailing(['a@example.com']);
-        $this->login();
+        $this->loginWith();
         $this->get('/mailings/delete/' . $mailingId);
 
         $this->assertResponseCode(405);
@@ -400,7 +393,7 @@ class MailingsControllerTest extends TestCase
     public function testSendNextReplacesPlaceholders(): void
     {
         $mailingId = $this->addMailing(['a@example.com']);
-        $this->login();
+        $this->loginWith();
         $result = $this->sendNext($mailingId);
 
         $this->assertSame(['total' => 1, 'pending' => 0, 'sent' => 1, 'invalid' => 0, 'done' => true, 'error' => null], $result);
@@ -419,7 +412,7 @@ class MailingsControllerTest extends TestCase
         $mailingId = $this->addMailing(['a@example.com']);
         $members = $this->getTableLocator()->get('Members');
         $members->updateAll(['hash' => ''], ['id' => 100]);
-        $this->login();
+        $this->loginWith();
         $this->sendNext($mailingId);
 
         $hash = $members->get(100)->hash;
@@ -430,7 +423,7 @@ class MailingsControllerTest extends TestCase
     public function testSendNextKeepsHtmlContent(): void
     {
         $mailingId = $this->addMailing(['a@example.com'], 'Hi', "<p>Hello <b>{first_name}</b></p>\n<ul>\n<li>One</li>\n<li>Two</li>\n</ul>\nLine 1\nLine 2");
-        $this->login();
+        $this->loginWith();
         $this->sendNext($mailingId);
 
         $this->assertMailContainsHtml("<p>Hello <b>First100</b></p>\n<ul>\n<li>One</li>\n<li>Two</li>\n</ul>\nLine 1<br>\nLine 2");
@@ -441,7 +434,7 @@ class MailingsControllerTest extends TestCase
     {
         $emails = array_map(fn ($i) => "member$i@example.com", range(1, MailingsController::CHUNK_SIZE + 2));
         $mailingId = $this->addMailing($emails);
-        $this->login();
+        $this->loginWith();
 
         $result = $this->sendNext($mailingId);
         $this->assertSame(MailingsController::CHUNK_SIZE, $result['sent']);
@@ -470,7 +463,7 @@ class MailingsControllerTest extends TestCase
     public function testSendNextSkipsInvalidAddress(): void
     {
         $mailingId = $this->addMailing(['not an email', 'b@example.com']);
-        $this->login();
+        $this->loginWith();
         $result = $this->sendNext($mailingId);
 
         $this->assertSame(['total' => 2, 'pending' => 0, 'sent' => 1, 'invalid' => 1, 'done' => true, 'error' => null], $result);
@@ -491,7 +484,7 @@ class MailingsControllerTest extends TestCase
         $mailingId = $this->addMailing(['a@example.com', 'b@example.com']);
         TransportFactory::drop('default');
         TransportFactory::setConfig('default', ['className' => FailingTransport::class]);
-        $this->login();
+        $this->loginWith();
 
         $result = $this->sendNext($mailingId);
         $this->assertSame(FailingTransport::ERROR, $result['error']);
@@ -521,7 +514,7 @@ class MailingsControllerTest extends TestCase
     {
         $mailingId = $this->addMailing(['a@example.com', 'not an email', 'c@example.com']);
         $this->getTableLocator()->get('Members')->updateAll(['last_name' => 'Zed'], ['id' => 100]);
-        $this->login();
+        $this->loginWith();
         $this->sendNext($mailingId);
         $this->getTableLocator()->get('MailingItems')->updateAll(['status' => MailingItem::PENDING, 'sent' => null], ['member_id' => 102]);
 
@@ -542,7 +535,7 @@ class MailingsControllerTest extends TestCase
     public function testSendNextRequiresPost(): void
     {
         $mailingId = $this->addMailing(['a@example.com']);
-        $this->login();
+        $this->loginWith();
         $this->get('/mailings/send-next/' . $mailingId);
 
         $this->assertResponseCode(405);
@@ -552,7 +545,7 @@ class MailingsControllerTest extends TestCase
     public function testSendPageShowsStartButton(): void
     {
         $mailingId = $this->addMailing(['a@example.com']);
-        $this->login();
+        $this->loginWith();
         $this->get('/mailings/send/' . $mailingId);
 
         $this->assertResponseOk();
@@ -566,7 +559,7 @@ class MailingsControllerTest extends TestCase
     public function testAddByBillForbiddenWithoutAdmin(): void
     {
         $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0, 'MemberEditAll' => 1], ['id' => 1]);
-        $this->login();
+        $this->loginWith();
         $this->get('/mailings/add-by-bill');
         $this->assertResponseCode(403);
 
@@ -577,7 +570,7 @@ class MailingsControllerTest extends TestCase
 
     public function testIndexLinksToAddByBillForAdmin(): void
     {
-        $this->login();
+        $this->loginWith();
         $this->get('/mailings');
 
         $this->assertResponseOk();
@@ -586,7 +579,7 @@ class MailingsControllerTest extends TestCase
 
     public function testAddByBillShowsPlaceholders(): void
     {
-        $this->login();
+        $this->loginWith();
         $this->get('/mailings/add-by-bill');
 
         $this->assertResponseOk();
@@ -599,7 +592,7 @@ class MailingsControllerTest extends TestCase
     public function testAddByBillSearchShowsRecipients(): void
     {
         $this->addUniformBills();
-        $this->login();
+        $this->loginWith();
         $this->post('/mailings/add-by-bill', ['step' => 'search', 'bill_label' => ' uniforme 2025 ', 'title' => 'Typed', 'content' => 'Kept']);
 
         $this->assertResponseOk();
@@ -625,7 +618,7 @@ class MailingsControllerTest extends TestCase
     public function testAddByBillQueuesRecipientsWithEmail(): void
     {
         $this->addUniformBills();
-        $this->login();
+        $this->loginWith();
         $this->post('/mailings/add-by-bill', [
             'step' => 'next', 'bill_label' => 'Uniforme 2025', 'searched' => 'Uniforme 2025',
             'title' => 'Uniform {first_name}', 'content' => 'See {my_page}',
@@ -653,7 +646,7 @@ class MailingsControllerTest extends TestCase
     public function testAddByBillChangedSearchShowsRecipientsFirst(): void
     {
         $this->addUniformBills();
-        $this->login();
+        $this->loginWith();
         $this->post('/mailings/add-by-bill', [
             'step' => 'next', 'bill_label' => 'Uniforme 2024', 'searched' => 'Uniforme 2025', 'title' => 'Hi', 'content' => 'Hello',
         ]);
@@ -666,7 +659,7 @@ class MailingsControllerTest extends TestCase
     public function testAddByBillRequiresRecipients(): void
     {
         $this->addUniformBills();
-        $this->login();
+        $this->loginWith();
         $this->post('/mailings/add-by-bill', ['step' => 'next', 'bill_label' => 'Nothing', 'searched' => 'Nothing', 'title' => 'Hi', 'content' => 'Hello']);
 
         $this->assertResponseOk();
@@ -682,7 +675,7 @@ class MailingsControllerTest extends TestCase
     public function testAddByBillRejectsInvalidPlaceholders(): void
     {
         $this->addUniformBills();
-        $this->login();
+        $this->loginWith();
         $this->post('/mailings/add-by-bill', [
             'step' => 'next', 'bill_label' => 'Uniforme', 'searched' => 'Uniforme', 'title' => 'Hi {firstname}', 'content' => 'Hello',
         ]);
@@ -698,7 +691,7 @@ class MailingsControllerTest extends TestCase
         $mailings = $this->getTableLocator()->get('Mailings');
         $source = $mailings->newForBills(['title' => 'Uniform', 'content' => 'Ready'], 'Uniforme 2025');
         $mailings->saveOrFail($source);
-        $this->login();
+        $this->loginWith();
         $this->get('/mailings');
         $this->assertResponseContains('href="/mailings/add-by-bill/' . $source->id . '"');
         $this->assertResponseContains('Bills containing &quot;Uniforme 2025&quot;');
@@ -718,7 +711,7 @@ class MailingsControllerTest extends TestCase
         $mailing = $mailings->newForBills(['title' => 'Uniform', 'content' => 'Ready'], 'Uniforme 2025');
         $mailings->saveOrFail($mailing);
         $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0, 'MemberEditAll' => 1], ['id' => 1]);
-        $this->login();
+        $this->loginWith();
 
         $this->post('/mailings/send-next/' . $mailing->id);
         $this->assertResponseCode(403);

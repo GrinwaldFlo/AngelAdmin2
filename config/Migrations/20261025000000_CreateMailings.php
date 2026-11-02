@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Migrations\AbstractMigration;
+use Migrations\BaseMigration;
 
-class CreateMailings extends AbstractMigration
+class CreateMailings extends BaseMigration
 {
     /**
      * Emails to teams: a mailing is the log line of a batch, its items are the queue (one per recipient)

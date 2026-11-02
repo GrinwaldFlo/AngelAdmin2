@@ -5,6 +5,7 @@ namespace App\Test\TestCase\Controller;
 
 use App\Controller\PrefResult;
 use App\Controller\TeamsController;
+use App\Test\TestSuite\TestDataTrait;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
@@ -16,6 +17,7 @@ use Cake\TestSuite\TestCase;
 class TeamsControllerTest extends TestCase
 {
     use IntegrationTestTrait;
+    use TestDataTrait;
 
     /**
      * Fixtures
@@ -67,7 +69,7 @@ class TeamsControllerTest extends TestCase
             ->values(['id' => 2, 'name' => 'Second team', 'membership_fee' => 0, 'active' => 1, 'site_id' => 2])
             ->execute();
         $members = $this->getTableLocator()->get('Members');
-        $this->session(['Auth' => $this->getTableLocator()->get('Users')->get(1)]);
+        $this->sessionAs(1);
         $teamIds = fn() => array_map(fn($team) => $team->id, $this->viewVariable('teams')->toArray());
 
         $this->get('/teams');

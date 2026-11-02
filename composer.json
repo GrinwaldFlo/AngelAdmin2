@@ -5,11 +5,11 @@
     "type": "project",
     "homepage": "https://cakephp.org",
     "require": {
-        "php": ">=8.1",
-        "cakephp/authentication": "^3.2",
+        "php": ">=8.4",
+        "cakephp/authentication": "^3.3",
         "cakephp/authorization": "^3.4",
-        "cakephp/cakephp": "5.2.*",
-        "cakephp/migrations": "^4.0.0",
+        "cakephp/cakephp": "5.4.*",
+        "cakephp/migrations": "^5.2",
         "cakephp/plugin-installer": "^2.0",
         "friendsofcake/bootstrap-ui": "^5.1",
         "intervention/image": "^3.11",
@@ -18,7 +18,7 @@
         "symfony/emoji": "^7.3",
         "symfony/string": "^7.3",
         "tecnickcom/tcpdf": "^6.10",
-        "tinymce/tinymce": "^7.9"
+        "tinymce/tinymce": "^8.5.1"
     },
     "require-dev": {
         "cakephp/bake": "^3.0.0",
@@ -50,10 +50,14 @@
             "dealerdirect/phpcodesniffer-composer-installer": true
         },
         "platform-check": true,
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "php": "8.4.0"
+        }
     },
     "scripts": {
         "post-install-cmd": "App\\Console\\Installer::postInstall",
+        "post-update-cmd": "App\\Console\\Installer::postUpdate",
         "post-create-project-cmd": "App\\Console\\Installer::postInstall",
         "check": [
             "@test",

@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-use Migrations\AbstractMigration;
+use Migrations\BaseMigration;
 
-class ClearPasswordResetTokens extends AbstractMigration
+class ClearPasswordResetTokens extends BaseMigration
 {
     /**
      * The old reset links were easy to guess (sha1 of the username and a number up to 100) and never expired:

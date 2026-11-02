@@ -98,12 +98,11 @@ class PresencesTable extends Table
    */
   public function CountStatesByTeam(\DateTimeInterface $from, \DateTimeInterface $to, int $siteId = 0): array
   {
-    $query = $this->find();
+    $query = $this->unhydratedFind();
     $query->select(['team_id' => 'Meetings.team_id', 'state' => 'Presences.state', 'nb' => $query->func()->count('*')])
       ->innerJoinWith('Meetings.Teams')
       ->where(['Meetings.meeting_date >=' => $from, 'Meetings.meeting_date <=' => $to, 'Presences.state IN' => [0, 1, 2, 3]])
-      ->groupBy(['Meetings.team_id', 'Presences.state'])
-      ->disableHydration();
+      ->groupBy(['Meetings.team_id', 'Presences.state']);
     if ($siteId > 0) {
       $query->where(['Teams.site_id =' => $siteId]);
     }

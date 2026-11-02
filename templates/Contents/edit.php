@@ -4,18 +4,8 @@
  * @var \App\Model\Entity\Content $content
  */
 
- $this->prepend('script', $this->Html->script(['/js/tinymce/tinymce.min.js']));
 ?>
-<script>
-  tinymce.init({
-    selector: 'textarea',
-    plugins: 'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap emoticons',
-    menubar: 'edit view insert format table help',
-    toolbar: 'bold italic underline | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | insertfile image media template link',
-    height: 400,
-    license_key: 'gpl'
-  });
-</script>
+<?= $this->element('Contents/editor') ?>
 
 <div class="row">
   <aside class="col-2">

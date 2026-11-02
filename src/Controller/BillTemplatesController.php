@@ -64,7 +64,7 @@ class BillTemplatesController extends AppController
       }
       $this->Flash->error(__('The invoice template could not be saved.'));
     }
-    $sites = $this->BillTemplates->Sites->find('list', ['limit' => 200]);
+    $sites = $this->BillTemplates->Sites->find('list', limit: 200);
     $this->set(compact('billTemplate', 'sites'));
   }
 
@@ -89,7 +89,7 @@ class BillTemplatesController extends AppController
       }
       $this->Flash->error(__('The invoice template could not be saved.'));
     }
-    $sites = $this->BillTemplates->Sites->find('list', ['limit' => 200]);
+    $sites = $this->BillTemplates->Sites->find('list', limit: 200);
     $this->set(compact('billTemplate', 'sites'));
   }
 

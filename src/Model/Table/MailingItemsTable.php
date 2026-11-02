@@ -107,11 +107,10 @@ class MailingItemsTable extends Table
             return $result;
         }
 
-        $query = $this->find();
+        $query = $this->unhydratedFind();
         $rows = $query->select(['mailing_id', 'status', 'nb' => $query->func()->count('*')])
             ->where(['mailing_id IN' => $mailingIds])
             ->groupBy(['mailing_id', 'status'])
-            ->disableHydration()
             ->all();
 
         $keys = [MailingItem::PENDING => 'pending', MailingItem::SENT => 'sent', MailingItem::INVALID => 'invalid'];
