@@ -175,6 +175,15 @@ trait TestDataTrait
     }
 
     /**
+     * Open a session as the given user
+     * @param array $session other values of the session
+     */
+    protected function sessionAs(int $userId, array $session = []): void
+    {
+        $this->session(['Auth' => $userId] + $session);
+    }
+
+    /**
      * Log in user 1 (member 1) with only the given rights, texts are checked in English
      * @param string[]|null $rights null = keep the fixture role (all rights)
      */
@@ -184,6 +193,6 @@ trait TestDataTrait
             $this->setRole($rights);
         }
         $this->getTableLocator()->get('Members')->updateAll(['language' => 'en'], ['id' => 1]);
-        $this->session(['Auth' => 1] + $session);
+        $this->sessionAs(1, $session);
     }
 }

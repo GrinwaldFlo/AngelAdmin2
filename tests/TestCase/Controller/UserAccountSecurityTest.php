@@ -67,7 +67,7 @@ class UserAccountSecurityTest extends TestCase
     private function loginAsMember(): void
     {
         $this->getTableLocator()->get('Users')->updateAll(['role_id' => 4], ['id' => 1]);
-        $this->session(['Auth' => 1]);
+        $this->sessionAs(1);
     }
 
     // ---------------------------------------------------------------- login
@@ -108,7 +108,7 @@ class UserAccountSecurityTest extends TestCase
 
     public function testSessionIsReloadedWithTheRole(): void
     {
-        $this->session(['Auth' => 1]);
+        $this->sessionAs(1);
 
         $this->get('/users/edit/1');
 
@@ -130,11 +130,22 @@ class UserAccountSecurityTest extends TestCase
 
     public function testSessionOfADeletedUserIsRefused(): void
     {
-        $this->session(['Auth' => 99999]);
+        $this->sessionAs(99999);
 
         $this->get('/users/edit/1');
 
         $this->assertRedirectContains('/users/login');
+        $this->assertSessionNotHasKey('Auth');
+    }
+
+    public function testLoginReplacesTheSessionOfADeletedUser(): void
+    {
+        $this->sessionAs(99999);
+
+        $this->post('/users/login', ['username' => 'Lorem ipsum dolor sit amet', 'password' => 'good password']);
+
+        $this->assertRedirect('/');
+        $this->assertSession(1, 'Auth');
     }
 
     // ---------------------------------------------------------------- own account
@@ -168,7 +179,7 @@ class UserAccountSecurityTest extends TestCase
     {
         $this->addMember(100);
         $this->addUser(100, 100, 4);
-        $this->session(['Auth' => 1]);
+        $this->sessionAs(1);
 
         $this->post('/users/edit/100', ['role_id' => 1]);
 
@@ -277,7 +288,7 @@ class UserAccountSecurityTest extends TestCase
 
     public function testLogout(): void
     {
-        $this->session(['Auth' => 1]);
+        $this->sessionAs(1);
 
         $this->get('/users/logout');
 

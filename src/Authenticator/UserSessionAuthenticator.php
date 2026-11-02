@@ -31,6 +31,12 @@ class UserSessionAuthenticator extends PrimaryKeySessionAuthenticator
             $session->write($sessionKey, $stored[$this->getConfig('idField')]);
         }
 
-        return parent::authenticate($request);
+        $result = parent::authenticate($request);
+        if ($result->getStatus() === ResultInterface::FAILURE_IDENTITY_NOT_FOUND) {
+            // persistIdentity() does not overwrite a stored id: a dead one would block the next login
+            $session->delete($sessionKey);
+        }
+
+        return $result;
     }
 }

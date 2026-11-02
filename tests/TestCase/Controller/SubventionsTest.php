@@ -6,6 +6,7 @@ namespace App\Test\TestCase\Controller;
 
 use App\Controller\PrefResult;
 use App\Model\Entity\Content;
+use App\Test\TestSuite\TestDataTrait;
 use Cake\Core\Configure;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
@@ -19,6 +20,7 @@ use ZipArchive;
 class SubventionsTest extends TestCase
 {
     use IntegrationTestTrait;
+    use TestDataTrait;
 
     protected array $fixtures = [
         'app.Members',
@@ -49,7 +51,7 @@ class SubventionsTest extends TestCase
 
     private function login(): void
     {
-        $this->session(['Auth' => 1]);
+        $this->sessionAs(1);
     }
 
     private function postEmail(string $email): void

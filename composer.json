@@ -6,7 +6,7 @@
     "homepage": "https://cakephp.org",
     "require": {
         "php": ">=8.4",
-        "cakephp/authentication": "^3.2",
+        "cakephp/authentication": "^3.3",
         "cakephp/authorization": "^3.4",
         "cakephp/cakephp": "5.4.*",
         "cakephp/migrations": "^5.2",

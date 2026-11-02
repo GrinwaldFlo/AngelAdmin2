@@ -58,11 +58,13 @@ class TeamsController extends AppController
     $this->Authorization->authorize($team, 'view');
 
     $this->Members = $this->fetchTable('Members');
-    $membersIn = $this->Members->find('all', array('order' => array('first_name' => 'asc')))
+    $membersIn = $this->Members->find()
+      ->orderBy(['first_name' => 'asc'])
       ->where(['Members.active =' => 1])
       ->innerJoinWith('Teams')->where(['Teams.id IN' => $id]);
 
-    $membersOutTmp = $this->Members->find('all', array('order' => array('first_name' => 'asc')))
+    $membersOutTmp = $this->Members->find()
+      ->orderBy(['first_name' => 'asc'])
       ->contain('Teams')
       ->where(['Members.active =' => 1]);
 
@@ -102,11 +104,9 @@ class TeamsController extends AppController
   {
     $this->Authorization->authorize($this->Teams->newEmptyEntity(), 'admin');
 
-    $sites = $this->Teams->Sites->find('list', [
-      'valueField' => function ($site) {
-        return $site->city;
-      }
-    ]);
+    $sites = $this->Teams->Sites->find('list', valueField: function ($site) {
+      return $site->city;
+    });
 
     $team = $this->Teams->newEmptyEntity();
     if ($this->request->is('post')) {
@@ -135,11 +135,9 @@ class TeamsController extends AppController
 
     $this->Authorization->authorize($team, 'admin');
 
-    $sites = $this->Teams->Sites->find('list', [
-      'valueField' => function ($site) {
-        return $site->city;
-      }
-    ]);
+    $sites = $this->Teams->Sites->find('list', valueField: function ($site) {
+      return $site->city;
+    });
 
     $this->set(compact('team', 'sites'));
 
@@ -226,9 +224,7 @@ class TeamsController extends AppController
     $this->Authorization->authorize($team, 'edit');
     $this->Members = $this->fetchTable('Members');
 
-    $member = $this->Members->get($memberId, [
-      'contain' => ['Teams']
-    ]);
+    $member = $this->Members->get($memberId, contain: ['Teams']);
     // Coaches do not see the old members, so they cannot add them either
     if (!$member->active && TeamScope::isScoped($this->curUser)) {
       throw new ForbiddenException();
@@ -246,9 +242,7 @@ class TeamsController extends AppController
     $this->Authorization->authorize($team, 'edit');
     $this->Members = $this->fetchTable('Members');
 
-    $member = $this->Members->get($memberId, [
-      'contain' => ['Teams']
-    ]);
+    $member = $this->Members->get($memberId, contain: ['Teams']);
 
     $this->Members->Teams->unlink($member, [$team]);
     return $this->redirect(['action' => 'view', $teamId]);

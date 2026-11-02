@@ -7,6 +7,7 @@ namespace App\Test\TestCase\Controller;
 use App\Controller\PrefResult;
 use App\Model\Entity\Presence;
 use App\Model\Table\MeetingsTable;
+use App\Test\TestSuite\TestDataTrait;
 use Cake\I18n\DateTime;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
@@ -19,6 +20,7 @@ use Cake\TestSuite\TestCase;
 class MeetingsControllerTest extends TestCase
 {
     use IntegrationTestTrait;
+    use TestDataTrait;
 
     protected array $fixtures = [
         'app.Meetings',
@@ -36,13 +38,6 @@ class MeetingsControllerTest extends TestCase
     {
         parent::setUp();
         PrefResult::$sites = null;
-    }
-
-    private function login(array $session = []): void
-    {
-        // Texts are checked in English, whatever translations exist
-        $this->getTableLocator()->get('Members')->updateAll(['language' => 'en'], ['id' => 1]);
-        $this->session(['Auth' => 1] + $session);
     }
 
     private function removeRight(string $right): void
@@ -71,7 +66,7 @@ class MeetingsControllerTest extends TestCase
 
     public function testIndexSelectsTheOnlyTeam(): void
     {
-        $this->login();
+        $this->loginWith();
         $this->get('/meetings');
 
         $this->assertResponseOk();
@@ -85,7 +80,7 @@ class MeetingsControllerTest extends TestCase
     public function testIndexAsksForATeam(): void
     {
         $this->addTeam(2, 'Second team');
-        $this->login();
+        $this->loginWith();
         $this->get('/meetings');
 
         $this->assertResponseOk();
@@ -98,7 +93,7 @@ class MeetingsControllerTest extends TestCase
     public function testIndexTeamSelectLinksToEachTeam(): void
     {
         $this->addTeam(2, 'Second team');
-        $this->login();
+        $this->loginWith();
         $this->get('/meetings/index/1/' . MeetingsTable::FILTER_PAST);
 
         $this->assertResponseOk();
@@ -118,7 +113,7 @@ class MeetingsControllerTest extends TestCase
             ->execute();
         $this->getTableLocator()->get('Teams')->updateAll(['site_id' => 2], ['id' => 2]);
         $this->getTableLocator()->get('Members')->updateAll(['pref_site_id' => 1], ['id' => 1]);
-        $this->login();
+        $this->loginWith();
         $this->get('/meetings/index/2');
 
         $this->assertResponseOk();
@@ -129,7 +124,7 @@ class MeetingsControllerTest extends TestCase
     public function testIndexPast(): void
     {
         $this->addMeeting('2020-04-01 18:00', 'Second training');
-        $this->login();
+        $this->loginWith();
         $this->get('/meetings/index/1/' . MeetingsTable::FILTER_PAST);
 
         $this->assertResponseOk();
@@ -143,7 +138,7 @@ class MeetingsControllerTest extends TestCase
 
     public function testIndexPastLoadsUnknownCountsWithoutSaving(): void
     {
-        $this->login();
+        $this->loginWith();
         $this->get('/meetings/index/1/' . MeetingsTable::FILTER_PAST);
 
         $this->assertResponseOk();
@@ -157,7 +152,7 @@ class MeetingsControllerTest extends TestCase
     {
         $this->addMeeting((new DateTime('today'))->format('Y-m-d') . ' 00:01', 'Training of today');
         $this->addMeeting('+10 days', 'Next training');
-        $this->login();
+        $this->loginWith();
         $this->get('/meetings/index/1/' . MeetingsTable::FILTER_UPCOMING);
 
         $this->assertResponseOk();
@@ -169,7 +164,7 @@ class MeetingsControllerTest extends TestCase
 
     public function testIndexOldTodayFilterBecomesUpcoming(): void
     {
-        $this->login(['meetingFilter' => MeetingsTable::FILTER_TODAY]);
+        $this->loginWith(null, ['meetingFilter' => MeetingsTable::FILTER_TODAY]);
         $this->get('/meetings/index/1');
 
         $this->assertSame(MeetingsTable::FILTER_UPCOMING, $this->viewVariable('meetingFilter'));
@@ -180,7 +175,7 @@ class MeetingsControllerTest extends TestCase
         for ($i = 1; $i <= 21; $i++) {
             $this->addMeeting('+' . $i . ' days');
         }
-        $this->login();
+        $this->loginWith();
         $this->get('/meetings/index/1/' . MeetingsTable::FILTER_UPCOMING);
 
         $this->assertCount(20, $this->viewVariable('meetings'));
@@ -194,7 +189,7 @@ class MeetingsControllerTest extends TestCase
 
     public function testIndexAddButtonNeedsEditRight(): void
     {
-        $this->login();
+        $this->loginWith();
         $this->get('/meetings');
         $this->assertResponseContains('mt-fab');
 
@@ -206,7 +201,7 @@ class MeetingsControllerTest extends TestCase
 
     public function testView(): void
     {
-        $this->login();
+        $this->loginWith();
         $this->get('/meetings/view/1');
 
         $this->assertResponseOk();
@@ -239,7 +234,7 @@ class MeetingsControllerTest extends TestCase
         $presences = $this->getTableLocator()->get('Presences');
         $presences->saveOrFail($presences->newEntity(['meeting_id' => 1, 'member_id' => 2, 'state' => Presence::ABSENT]));
 
-        $this->login();
+        $this->loginWith();
         $this->get('/meetings/view/1');
 
         $this->assertResponseOk();
@@ -255,7 +250,7 @@ class MeetingsControllerTest extends TestCase
         $this->addTeam(2, 'Second team');
         $nextId = $this->addMeeting('2020-04-05 18:00', 'Next one');
         $this->addMeeting('2020-04-05 18:00', 'Other team', 2);
-        $this->login();
+        $this->loginWith();
         $this->get('/meetings/view/1');
 
         $neighbours = $this->viewVariable('neighbours');
@@ -270,7 +265,7 @@ class MeetingsControllerTest extends TestCase
     public function testViewHidesEditActionsWithoutRight(): void
     {
         $this->removeRight('MemberEditAll');
-        $this->login();
+        $this->loginWith();
         $this->get('/meetings/view/1');
 
         $this->assertResponseOk();
@@ -281,7 +276,7 @@ class MeetingsControllerTest extends TestCase
     public function testViewForbiddenWithoutViewRight(): void
     {
         $this->removeRight('MemberViewAll');
-        $this->login();
+        $this->loginWith();
         $this->get('/meetings/view/1');
 
         $this->assertResponseCode(403);
@@ -289,14 +284,14 @@ class MeetingsControllerTest extends TestCase
 
     public function testAddRedirectsToAddMultiple(): void
     {
-        $this->login();
+        $this->loginWith();
         $this->get('/meetings/add');
         $this->assertRedirectContains('/meetings/add-multiple');
     }
 
     public function testAddMultipleForm(): void
     {
-        $this->login(['teamId' => 1]);
+        $this->loginWith(null, ['teamId' => 1]);
         $this->get('/meetings/add-multiple');
 
         $this->assertResponseOk();
@@ -310,7 +305,7 @@ class MeetingsControllerTest extends TestCase
 
     public function testEditFormHasNoSeconds(): void
     {
-        $this->login();
+        $this->loginWith();
         $this->get('/meetings/edit/1');
 
         $this->assertResponseOk();
@@ -322,7 +317,7 @@ class MeetingsControllerTest extends TestCase
     public function testAddMultipleWeekly(): void
     {
         $this->enableCsrfToken();
-        $this->login();
+        $this->loginWith();
         $this->post('/meetings/add-multiple', [
             'mode' => 'weekly',
             'team_id' => 1,
@@ -347,7 +342,7 @@ class MeetingsControllerTest extends TestCase
     public function testAddMultipleOnce(): void
     {
         $this->enableCsrfToken();
-        $this->login();
+        $this->loginWith();
         $this->post('/meetings/add-multiple', [
             'mode' => 'once',
             'team_id' => 1,
@@ -368,7 +363,7 @@ class MeetingsControllerTest extends TestCase
     public function testAddMultipleWithoutDate(): void
     {
         $this->enableCsrfToken();
-        $this->login();
+        $this->loginWith();
         $this->post('/meetings/add-multiple', ['mode' => 'weekly', 'team_id' => 1, 'name' => 'Nothing', 'time' => '18:00']);
 
         $this->assertResponseOk();
@@ -379,7 +374,7 @@ class MeetingsControllerTest extends TestCase
     public function testAddMultipleWithoutName(): void
     {
         $this->enableCsrfToken();
-        $this->login();
+        $this->loginWith();
         $this->post('/meetings/add-multiple', ['mode' => 'weekly', 'team_id' => 1, 'name' => '', 'time' => '18:00', 'dates' => ['2030-01-03']]);
 
         $this->assertResponseOk();
@@ -392,7 +387,7 @@ class MeetingsControllerTest extends TestCase
     public function testAddMultipleForbiddenWithoutEditRight(): void
     {
         $this->removeRight('MemberEditAll');
-        $this->login();
+        $this->loginWith();
         $this->get('/meetings/add-multiple');
 
         $this->assertResponseCode(403);
@@ -401,7 +396,7 @@ class MeetingsControllerTest extends TestCase
     public function testEdit(): void
     {
         $this->enableCsrfToken();
-        $this->login();
+        $this->loginWith();
         $this->post('/meetings/edit/1', ['meeting_date' => '2020-03-30T19:15', 'team_id' => 1, 'name' => 'Renamed', 'big_event' => '0', 'doodle' => '0', 'url' => '']);
 
         $this->assertRedirect(['controller' => 'Meetings', 'action' => 'view', 1]);
@@ -413,7 +408,7 @@ class MeetingsControllerTest extends TestCase
     public function testEditWithWebUrl(): void
     {
         $this->enableCsrfToken();
-        $this->login();
+        $this->loginWith();
         $this->post('/meetings/edit/1', ['meeting_date' => '2020-03-30T19:10', 'team_id' => 1, 'name' => 'Renamed', 'url' => 'https://example.com/event']);
 
         $this->assertRedirect(['controller' => 'Meetings', 'action' => 'view', 1]);
@@ -425,7 +420,7 @@ class MeetingsControllerTest extends TestCase
     public function testEditRejectsScriptUrl(): void
     {
         $this->enableCsrfToken();
-        $this->login();
+        $this->loginWith();
         $this->post('/meetings/edit/1', ['meeting_date' => '2020-03-30T19:15', 'team_id' => 1, 'name' => 'Renamed', 'url' => 'javascript:alert(1)']);
 
         $this->assertResponseOk();
@@ -437,7 +432,7 @@ class MeetingsControllerTest extends TestCase
     {
         $meetings = $this->getTableLocator()->get('Meetings');
         $meetings->updateAll(['url' => 'javascript:alert(1)'], ['id' => 1]);
-        $this->login();
+        $this->loginWith();
         $this->get('/meetings/view/1');
 
         $this->assertResponseOk();
@@ -447,7 +442,7 @@ class MeetingsControllerTest extends TestCase
     public function testJoin(): void
     {
         $this->enableCsrfToken();
-        $this->login();
+        $this->loginWith();
         $this->post('/meetings/join/1');
 
         $this->assertRedirect('/');
@@ -460,7 +455,7 @@ class MeetingsControllerTest extends TestCase
     public function testDelete(): void
     {
         $this->enableCsrfToken();
-        $this->login();
+        $this->loginWith();
         $this->post('/meetings/delete/1');
 
         $this->assertRedirect(['controller' => 'Meetings', 'action' => 'index', 1]);
@@ -473,7 +468,7 @@ class MeetingsControllerTest extends TestCase
     public function testEditIgnoresTeamAndPresences(): void
     {
         $this->enableCsrfToken();
-        $this->login();
+        $this->loginWith();
         $this->getTableLocator()->get('Presences')->deleteAll([]);
 
         $this->post('/meetings/edit/1', [

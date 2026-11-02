@@ -29,7 +29,7 @@ class AdminController extends AppController
         parent::beforeFilter($event);
 
         if ($this->curRole !== null && !$this->curRole->Admin) {
-            return $this->redirect('/');
+            $event->setResult($this->redirect('/'));
         }
     }
 

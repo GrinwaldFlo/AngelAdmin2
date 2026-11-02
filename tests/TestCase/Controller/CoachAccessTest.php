@@ -6,6 +6,7 @@ namespace App\Test\TestCase\Controller;
 
 use App\Controller\PrefResult;
 use App\Model\Entity\TeamsCoach;
+use App\Test\TestSuite\TestDataTrait;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
@@ -21,6 +22,7 @@ use Cake\TestSuite\TestCase;
 class CoachAccessTest extends TestCase
 {
     use IntegrationTestTrait;
+    use TestDataTrait;
 
     protected array $fixtures = [
         'app.Members',
@@ -72,14 +74,7 @@ class CoachAccessTest extends TestCase
             'Admin' => 0, 'TeamScoped' => 1, 'MemberViewAll' => 1, 'MemberEditAll' => 1, 'MemberEditOwn' => 1,
             'BillViewAll' => 1, 'BillEditAll' => 0, 'BillValidate' => 0, 'Editor' => 0,
         ], ['id' => 1]);
-        $this->login();
-    }
-
-    private function login(): void
-    {
-        // Texts are checked in English, whatever translations exist
-        $this->getTableLocator()->get('Members')->updateAll(['language' => 'en'], ['id' => 1]);
-        $this->session(['Auth' => 1]);
+        $this->loginWith();
     }
 
     private function addTeam(int $id, string $name, bool $active = true): void
@@ -195,7 +190,7 @@ class CoachAccessTest extends TestCase
     {
         $this->addMember(104, [2]);
         $this->getTableLocator()->get('Members')->updateAll(['active' => false], ['id' => 104]);
-        $this->login();
+        $this->loginWith();
         $this->get('/members/index/0/2');
 
         $this->assertResponseOk();
@@ -206,7 +201,7 @@ class CoachAccessTest extends TestCase
 
     public function testMembersIndexShowsNoTeamFilterForOthers(): void
     {
-        $this->login();
+        $this->loginWith();
         $this->get('/members/index/0/1');
 
         $this->assertResponseOk();
@@ -236,7 +231,7 @@ class CoachAccessTest extends TestCase
     public function testAdminWithTeamScopedSeesAllMembers(): void
     {
         $this->getTableLocator()->get('Roles')->updateAll(['TeamScoped' => 1], ['id' => 1]);
-        $this->login();
+        $this->loginWith();
         $this->get('/members/index/0/1');
 
         $this->assertResponseOk();
@@ -421,7 +416,7 @@ class CoachAccessTest extends TestCase
     public function testMenuShowsCoachesLinkToMemberEditAll(): void
     {
         $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0, 'MemberEditAll' => 1], ['id' => 1]);
-        $this->login();
+        $this->loginWith();
         $this->get('/members/index/0/1');
 
         $this->assertResponseOk();
@@ -537,7 +532,7 @@ class CoachAccessTest extends TestCase
     {
         $this->addMember(104, [3]);
         $this->getTableLocator()->get('Members')->updateAll(['active' => false], ['id' => 104]);
-        $this->login();
+        $this->loginWith();
         $this->post('/teams/add-member/2/104');
 
         $this->assertRedirect(['controller' => 'Teams', 'action' => 'view', 2]);
@@ -555,7 +550,7 @@ class CoachAccessTest extends TestCase
     public function testTeamEditIsAdminOnly(): void
     {
         $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0], ['id' => 1]);
-        $this->login();
+        $this->loginWith();
         $this->get('/teams/edit/2');
 
         $this->assertResponseCode(403);
@@ -563,7 +558,7 @@ class CoachAccessTest extends TestCase
 
     public function testTeamEditByAdmin(): void
     {
-        $this->login();
+        $this->loginWith();
         $this->get('/teams/edit/2');
 
         $this->assertResponseOk();
@@ -583,7 +578,7 @@ class CoachAccessTest extends TestCase
     {
         $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0], ['id' => 1]);
         $this->addMember(103, [], true);
-        $this->login();
+        $this->loginWith();
         $this->get('/teams/coaches');
 
         $this->assertResponseOk();
@@ -595,7 +590,7 @@ class CoachAccessTest extends TestCase
 
     public function testCoachesPageListsCoachesWithRemoveButton(): void
     {
-        $this->login();
+        $this->loginWith();
         $this->get('/teams/coaches');
 
         $this->assertResponseOk();
@@ -607,7 +602,7 @@ class CoachAccessTest extends TestCase
     public function testAddCoach(): void
     {
         $this->addMember(103, [], true);
-        $this->login();
+        $this->loginWith();
         $this->post('/teams/add-coach', ['team_id' => 3, 'member_id' => 103, 'type' => TeamsCoach::HELP_COACH]);
 
         $this->assertRedirect(['controller' => 'Teams', 'action' => 'coaches', '#' => 'team-3']);
@@ -617,7 +612,7 @@ class CoachAccessTest extends TestCase
 
     public function testAddCoachRefusesMemberWithoutAccount(): void
     {
-        $this->login();
+        $this->loginWith();
         $this->post('/teams/add-coach', ['team_id' => 3, 'member_id' => 100, 'type' => TeamsCoach::COACH]);
 
         $this->assertFlashMessage('The coach could not be added.');
@@ -626,7 +621,7 @@ class CoachAccessTest extends TestCase
 
     public function testAddCoachRefusesSameMemberTwice(): void
     {
-        $this->login();
+        $this->loginWith();
         $this->post('/teams/add-coach', ['team_id' => 2, 'member_id' => 1, 'type' => TeamsCoach::HELP_COACH]);
 
         $this->assertFlashMessage('Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet is already a coach of Juniors.');
@@ -636,7 +631,7 @@ class CoachAccessTest extends TestCase
     public function testRemoveCoach(): void
     {
         $row = $this->getTableLocator()->get('TeamsCoaches')->find()->firstOrFail();
-        $this->login();
+        $this->loginWith();
         $this->post('/teams/remove-coach/' . $row->id);
 
         $this->assertRedirect(['controller' => 'Teams', 'action' => 'coaches', '#' => 'team-2']);
@@ -808,7 +803,7 @@ class CoachAccessTest extends TestCase
     {
         $this->addMailing([3], 'To seniors');
         $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0], ['id' => 1]);
-        $this->login();
+        $this->loginWith();
         $this->get('/mailings');
 
         $this->assertResponseOk();

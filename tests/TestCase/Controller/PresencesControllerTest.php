@@ -5,6 +5,7 @@ namespace App\Test\TestCase\Controller;
 
 use App\Controller\PrefResult;
 use App\Model\Entity\Presence;
+use App\Test\TestSuite\TestDataTrait;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
@@ -16,6 +17,7 @@ use Cake\TestSuite\TestCase;
 class PresencesControllerTest extends TestCase
 {
     use IntegrationTestTrait;
+    use TestDataTrait;
 
     protected array $fixtures = [
         'app.Presences',
@@ -38,7 +40,7 @@ class PresencesControllerTest extends TestCase
 
     private function login(): void
     {
-        $this->session(['Auth' => 1]);
+        $this->sessionAs(1);
     }
 
     private function state(int $meetingId, int $memberId): ?int

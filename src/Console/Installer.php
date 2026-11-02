@@ -58,6 +58,15 @@ class Installer
     ];
 
     /**
+     * Files of each package needed at runtime, the others (composer.json, changelog, ...) stay private
+     *
+     * @var array<string, list<string>>
+     */
+    public const PUBLIC_ASSET_FILES = [
+        'vendor/tinymce/tinymce' => ['tinymce.min.js', 'license.md', 'notices.txt', 'icons', 'models', 'plugins', 'skins', 'themes'],
+    ];
+
+    /**
      * Does some routine installation tasks so people don't have to.
      *
      * @param \Composer\Script\Event $event The composer event object.
@@ -95,6 +104,8 @@ class Installer
     /**
      * Replace the public copy of the package assets, so no file of an older version is left.
      *
+     * The new copy is complete before the swap: when it fails, the current one is still served.
+     *
      * @param string $dir The application's root directory.
      * @param \Composer\IO\IOInterface $io IO interface to write to console.
      * @return void
@@ -107,10 +118,50 @@ class Installer
                 $io->writeError('<warning>Package assets not found: `' . $source . '`</warning>');
                 continue;
             }
-            $filesystem->remove($dir . '/' . $target);
-            $filesystem->copy($dir . '/' . $source, $dir . '/' . $target);
+            $live = $dir . '/' . $target;
+            $staging = $live . '.new';
+            $previous = $live . '.old';
+            $filesystem->remove($staging);
+            $filesystem->remove($previous);
+
+            if (!static::stagePublicAssets($filesystem, $dir . '/' . $source, $staging, static::PUBLIC_ASSET_FILES[$source])) {
+                $filesystem->remove($staging);
+                $io->writeError('<warning>Could not copy `' . $source . '`, `' . $target . '` is left unchanged</warning>');
+                continue;
+            }
+
+            if (is_dir($live)) {
+                rename($live, $previous);
+            }
+            rename($staging, $live);
+            $filesystem->remove($previous);
             $io->write('Copied `' . $source . '` to `' . $target . '`');
         }
+    }
+
+    /**
+     * Copy the runtime files of a package to a new directory.
+     *
+     * @param \Composer\Util\Filesystem $filesystem Composer filesystem.
+     * @param string $source The package directory.
+     * @param string $staging The directory to copy to.
+     * @param list<string> $files Files and directories of the package to copy.
+     * @return bool False if a file could not be copied.
+     */
+    protected static function stagePublicAssets(Filesystem $filesystem, string $source, string $staging, array $files): bool
+    {
+        try {
+            $filesystem->ensureDirectoryExists($staging);
+            foreach ($files as $file) {
+                if (file_exists($source . '/' . $file) && !$filesystem->copy($source . '/' . $file, $staging . '/' . $file)) {
+                    return false;
+                }
+            }
+        } catch (Exception) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

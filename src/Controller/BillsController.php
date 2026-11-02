@@ -138,11 +138,9 @@ class BillsController extends AppController
 
         $this->set('billTemplates', $this->Get->BillTemplates());
 
-        $sites = $this->Bills->Sites->find('list', [
-            'valueField' => function ($site) {
-                return $site->city;
-            }
-        ]);
+        $sites = $this->Bills->Sites->find('list', valueField: function ($site) {
+            return $site->city;
+        });
 
         $bill = $this->Bills->newEmptyEntity();
         // Default site of the form: the one chosen in the menu
@@ -198,11 +196,9 @@ class BillsController extends AppController
             }
         }
 
-        $sites = $this->Bills->Sites->find('list', [
-            'valueField' => function ($site) {
-                return $site->city;
-            }
-        ]);
+        $sites = $this->Bills->Sites->find('list', valueField: function ($site) {
+            return $site->city;
+        });
 
         $this->set(compact('bill', 'sites'));
     }
@@ -571,7 +567,7 @@ class BillsController extends AppController
               {
               //if ($value == 1)
               {
-              $bill = $this->Bills->get($billId, ['contain' => ['Members', 'Sites']]);
+              $bill = $this->Bills->get($billId, contain: ['Members', 'Sites']);
 
               array_push($bills, $bill);
               }
@@ -601,7 +597,7 @@ class BillsController extends AppController
 
         $bills = $this->getBills(0, $memberStatus, $pref->teamId, $pref->siteId)
             ->where(['Bills.created >' => $startDate, 'link_membership_fee =' => 0])
-            ->contain('Members')->order('Members.first_name');
+            ->contain('Members')->orderBy('Members.first_name');
         if ($billTemplateId > 0) {
             $billFilter = $this->Get->BillTemplates($billTemplateId);
             $bills->where(['Bills.label LIKE' => $billFilter->label . '%']);

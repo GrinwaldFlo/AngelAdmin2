@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Controller;
 
 use App\Controller\MembersController;
+use App\Test\TestSuite\TestDataTrait;
 use Cake\I18n\DateTime;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
@@ -17,6 +18,7 @@ use Cake\TestSuite\TestCase;
 class MembersControllerTest extends TestCase
 {
     use IntegrationTestTrait;
+    use TestDataTrait;
 
     /**
      * Fixtures
@@ -68,7 +70,7 @@ class MembersControllerTest extends TestCase
             $presences->saveOrFail($presences->newEntity(['meeting_id' => $meeting->id, 'member_id' => 1, 'state' => 1]));
         }
 
-        $this->session(['Auth' => 1]);
+        $this->sessionAs(1);
         $this->get('/members/view/1');
 
         $this->assertResponseOk();
@@ -119,7 +121,7 @@ class MembersControllerTest extends TestCase
      */
     public function testSetLanguageOfTheLoggedMember(): void
     {
-        $this->session(['Auth' => 1]);
+        $this->sessionAs(1);
         $this->configRequest(['environment' => ['HTTP_REFERER' => 'http://localhost/members/view/1']]);
 
         $this->get('/members/set-language/de');
@@ -139,7 +141,7 @@ class MembersControllerTest extends TestCase
 
     public function testSetUnknownLanguage(): void
     {
-        $this->session(['Auth' => 1]);
+        $this->sessionAs(1);
 
         $this->get('/members/set-language/xx');
 

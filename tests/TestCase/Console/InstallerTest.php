@@ -67,6 +67,57 @@ class InstallerTest extends TestCase
         $this->assertFileDoesNotExist($this->root . '/' . self::TARGET . '/plugins/removed/plugin.min.js');
     }
 
+    public function testOnlyRuntimeFilesAreCopied(): void
+    {
+        $this->write(self::SOURCE . '/tinymce.min.js', 'new');
+        $this->write(self::SOURCE . '/composer.json', '{}');
+        $this->write(self::SOURCE . '/CHANGELOG.md', 'versions');
+
+        Installer::copyPublicAssets($this->root, new BufferIO());
+
+        $this->assertFileExists($this->root . '/' . self::TARGET . '/tinymce.min.js');
+        $this->assertFileDoesNotExist($this->root . '/' . self::TARGET . '/composer.json');
+        $this->assertFileDoesNotExist($this->root . '/' . self::TARGET . '/CHANGELOG.md');
+    }
+
+    public function testRuntimeFilesExistInThePackage(): void
+    {
+        foreach (Installer::PUBLIC_ASSET_FILES[self::SOURCE] as $file) {
+            $this->assertFileExists(ROOT . '/' . self::SOURCE . '/' . $file);
+        }
+    }
+
+    public function testNoTemporaryDirectoryIsLeft(): void
+    {
+        $this->write(self::SOURCE . '/tinymce.min.js', 'new');
+        $this->write(self::TARGET . '/tinymce.min.js', 'old');
+
+        Installer::copyPublicAssets($this->root, new BufferIO());
+
+        $this->assertDirectoryDoesNotExist($this->root . '/' . self::TARGET . '.new');
+        $this->assertDirectoryDoesNotExist($this->root . '/' . self::TARGET . '.old');
+    }
+
+    public function testFailedCopyKeepsThePublicCopyAndWarns(): void
+    {
+        $unreadable = self::SOURCE . '/plugins/link/plugin.min.js';
+        $this->write(self::SOURCE . '/tinymce.min.js', 'new');
+        $this->write($unreadable, 'link');
+        $this->write(self::TARGET . '/tinymce.min.js', 'old');
+        chmod($this->root . '/' . $unreadable, 0);
+        if (is_readable($this->root . '/' . $unreadable)) {
+            $this->markTestSkipped('Files are always readable by this user');
+        }
+        $io = new BufferIO();
+
+        // @ for the warning of copy(): Composer turns it into an exception, not PHPUnit
+        @Installer::copyPublicAssets($this->root, $io);
+
+        $this->assertStringEqualsFile($this->root . '/' . self::TARGET . '/tinymce.min.js', 'old');
+        $this->assertDirectoryDoesNotExist($this->root . '/' . self::TARGET . '.new');
+        $this->assertStringContainsString('Could not copy', $io->getOutput());
+    }
+
     public function testMissingPackageKeepsThePublicCopyAndWarns(): void
     {
         $this->write(self::TARGET . '/tinymce.min.js', 'old');

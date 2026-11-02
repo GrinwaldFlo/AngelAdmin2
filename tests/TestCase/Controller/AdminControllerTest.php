@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Controller;
 
 use App\Controller\PrefResult;
+use App\Test\TestSuite\TestDataTrait;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
@@ -16,6 +17,7 @@ use Cake\TestSuite\TestCase;
 class AdminControllerTest extends TestCase
 {
     use IntegrationTestTrait;
+    use TestDataTrait;
 
     protected array $fixtures = [
         'app.Members',
@@ -41,7 +43,7 @@ class AdminControllerTest extends TestCase
     private function loginAdmin(): void
     {
         $this->disableErrorHandlerMiddleware();
-        $this->session(['Auth' => 1]);
+        $this->sessionAs(1);
     }
 
     public function testDashboardRequiresLogin(): void
@@ -194,17 +196,17 @@ class AdminControllerTest extends TestCase
         $this->enableCsrfToken();
         $members = $this->getTableLocator()->get('Members');
         $members->updateAll(['membership_fee_paid' => 1], ['id' => 1]);
-        $this->session(['Auth' => 1, 'resetValidation' => 1234]);
+        $this->sessionAs(1, ['resetValidation' => 1234]);
 
         $this->get('/admin/reset-membership');
         $this->assertResponseOk();
         $this->assertSame(1, $members->get(1)->membership_fee_paid);
 
-        $this->session(['Auth' => 1, 'resetValidation' => 1234]);
+        $this->sessionAs(1, ['resetValidation' => 1234]);
         $this->post('/admin/reset-membership/999');
         $this->assertSame(1, $members->get(1)->membership_fee_paid);
 
-        $this->session(['Auth' => 1, 'resetValidation' => 1234]);
+        $this->sessionAs(1, ['resetValidation' => 1234]);
         $this->post('/admin/reset-membership/1234');
         $this->assertSame(0, $members->get(1)->membership_fee_paid);
     }
@@ -215,7 +217,7 @@ class AdminControllerTest extends TestCase
     public function testResetNeedsAPost(): void
     {
         $this->getTableLocator()->get('Members')->updateAll(['registered' => 1], ['id' => 1]);
-        $this->session(['Auth' => 1, 'resetValidation' => 1234]);
+        $this->sessionAs(1, ['resetValidation' => 1234]);
 
         $this->get('/admin/reset-registration/1234');
 
@@ -228,7 +230,7 @@ class AdminControllerTest extends TestCase
         $this->enableCsrfToken();
         $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0], ['id' => 1]);
         $this->getTableLocator()->get('Members')->updateAll(['registered' => 1], ['id' => 1]);
-        $this->session(['Auth' => 1, 'resetValidation' => 1234]);
+        $this->sessionAs(1, ['resetValidation' => 1234]);
 
         $this->post('/admin/reset-registration/1234');
 
@@ -238,7 +240,7 @@ class AdminControllerTest extends TestCase
 
     public function testViewLog(): void
     {
-        $this->session(['Auth' => 1]);
+        $this->sessionAs(1);
 
         $this->get('/admin/view-log/error');
         $this->assertResponseOk();

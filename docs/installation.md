@@ -42,6 +42,8 @@ cd AngelAdmin2
 composer install
 ```
 
+This also publishes the TinyMCE editor to `webroot/js/tinymce`, which is not in the repository. On every deployment, run `composer install` without `--no-scripts`, or run `composer run-script post-update-cmd` afterwards. If you upload the files without Composer, include `webroot/js/tinymce`, otherwise the content editor will not load.
+
 ### 3. Database Setup
 
 #### Create Database
