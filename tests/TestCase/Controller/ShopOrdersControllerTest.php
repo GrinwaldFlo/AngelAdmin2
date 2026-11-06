@@ -109,6 +109,11 @@ class ShopOrdersControllerTest extends TestCase
         $this->assertResponseContains('/shop-orders/change-attribute/1');
         $this->assertResponseNotContains('/shop-orders/change-attribute/2');
         $this->assertResponseNotContains('/shop-orders/change-attribute/3');
+        // Style guide (/admin/typography) button classes
+        $this->assertResponseContains('btn btn-sm btn-filter pressed');
+        $this->assertResponseContains('btn btn-sm btn-save');
+        $this->assertResponseContains('btn btn-sm btn-delete');
+        $this->assertResponseNotContains('btn-outline-');
 
         $this->get("/shop-orders/index/{$this->cap}/0");
         $this->assertCount(1, $this->viewVariable('memberOrders'));
@@ -127,6 +132,12 @@ class ShopOrdersControllerTest extends TestCase
             'T-shirt/M' => [2, -2, 0, 2],
             'T-shirt/L' => [0, 0, 0, 0],
         ], $this->summary());
+        // Style guide (/admin/typography) button classes
+        $this->assertResponseContains('btn btn-sm btn-filter pressed');
+        $this->assertResponseContains('btn btn-sm btn-save');
+        $this->assertResponseContains('btn btn-sm btn-add');
+        $this->assertResponseContains('btn btn-sm btn-edit');
+        $this->assertResponseNotContains('btn-outline-');
 
         $this->assertSame(['Cap/', 'T-shirt/M'], array_keys($this->summary('/shop-orders/summary?toOrder=1')));
     }

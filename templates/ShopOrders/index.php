@@ -12,8 +12,8 @@ $this->Html->css('member-orders', ['block' => true]);
 $this->Html->css('shop', ['block' => true]);
 
 $filterGroups = [
-    ['label' => __('Item:'), 'current' => $itemFilter, 'class' => 'btn-outline-primary', 'options' => $itemOptions],
-    ['label' => __('Delivery:'), 'current' => $deliveredFilter, 'class' => 'btn-secondary', 'options' => [1 => __('Delivered'), 2 => __('Not Delivered')]],
+    ['label' => __('Item:'), 'current' => $itemFilter, 'options' => $itemOptions],
+    ['label' => __('Delivery:'), 'current' => $deliveredFilter, 'options' => [1 => __('Delivered'), 2 => __('Not Delivered')]],
 ];
 $filterValues = array_column($filterGroups, 'current');
 $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['sort', 'direction']));
@@ -29,7 +29,7 @@ $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['
                 // Pressing the selected filter again removes it
                 $values[$position] = $group['current'] == $value ? 0 : $value;
                 ?>
-                <?= $this->Html->link($label, ['action' => 'index', ...$values, '?' => $sortQuery], ['class' => 'btn btn-sm ' . $group['class'] . ($group['current'] == $value ? ' pressed' : '')]) ?>
+                <?= $this->Html->link($label, ['action' => 'index', ...$values, '?' => $sortQuery], ['class' => 'btn btn-sm btn-filter' . ($group['current'] == $value ? ' pressed' : '')]) ?>
             <?php endforeach; ?>
         </div>
     <?php endforeach; ?>
@@ -38,7 +38,7 @@ $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['
 <div class="memberOrders index content">
     <?= $this->element('Shop/title', ['title' => __('Orders'), 'shopSite' => $shopSite, 'count' => $memberOrders->totalCount()]) ?>
     <div class="table-responsive">
-        <table class="table table-striped mo-table">
+        <table class="table table-striped table-hover table-sm mo-table">
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
@@ -75,7 +75,7 @@ $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['
                                     'class' => 'form-select form-select-sm',
                                     'aria-label' => __('Attribute'),
                                 ]) ?>
-                                <?= $this->Form->button(__('Change'), ['class' => 'btn btn-sm btn-outline-primary']) ?>
+                                <?= $this->Form->button(__('Change'), ['class' => 'btn btn-sm btn-save']) ?>
                                 <?= $this->Form->end() ?>
                             <?php elseif ($memberOrder->attribute !== null): ?>
                                 <span class="badge bg-light text-dark shop-attribute"><?= h($memberOrder->attribute) ?></span>
@@ -97,7 +97,7 @@ $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['
                                 ? __('Delete this order? Its bill {0} will not be changed: an email will be sent to correct it.', $memberOrder->bill->reference)
                                 : __('Are you sure you want to delete # {0}?', $memberOrder->id);
                             ?>
-                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $memberOrder->id], ['confirm' => $confirm, 'class' => 'btn btn-sm btn-outline-danger mo-action-main']) ?>
+                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $memberOrder->id], ['confirm' => $confirm, 'class' => 'btn btn-sm btn-delete mo-action-main']) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

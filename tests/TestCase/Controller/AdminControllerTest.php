@@ -248,4 +248,44 @@ class AdminControllerTest extends TestCase
         $this->get('/admin/view-log/..%2F..%2Fconfig%2Fapp');
         $this->assertResponseCode(404);
     }
+
+    public function testTypographyRequiresLogin(): void
+    {
+        $this->get('/admin/typography');
+        $this->assertResponseCode(302);
+        $this->assertRedirectContains('/users/login');
+    }
+
+    public function testTypographyRedirectsNonAdmin(): void
+    {
+        $this->getTableLocator()->get('Roles')->updateAll(['Admin' => 0], ['id' => 1]);
+        $this->loginAdmin();
+        $this->get('/admin/typography');
+
+        $this->assertRedirect('/');
+        $this->assertResponseNotContains('tg-page');
+    }
+
+    public function testTypography(): void
+    {
+        $this->loginAdmin();
+        $this->get('/admin/typography');
+
+        $this->assertResponseOk();
+        $this->assertResponseContains('tg-page');
+        $classes = ['btn-save', 'btn-add', 'btn-edit', 'btn-delete', 'btn-nav', 'btn-export', 'btn-bulk', 'btn-filter'];
+        foreach ($classes as $class) {
+            $this->assertResponseContains('class="btn ' . $class . '"');
+        }
+        // Guideline texts containing tags are escaped, not rendered
+        $this->assertResponseContains('&lt;fieldset&gt;');
+        $this->assertResponseContains('/css/theme.css');
+    }
+
+    public function testTypographyMenuLinkForAdmin(): void
+    {
+        $this->loginAdmin();
+        $this->get('/admin/dashboard');
+        $this->assertResponseContains('/admin/typography');
+    }
 }

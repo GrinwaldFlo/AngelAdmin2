@@ -78,6 +78,7 @@ $this->prepend('meta', '<link rel="manifest" href="/site.webmanifest">');
  * Prepend `css` block with Bootstrap stylesheets
  * Change to bootstrap.min to use the compressed version
  */
+$this->prepend('css', $this->Html->css(['theme.css']));
 $this->prepend('css', $this->Html->css(['cake.css']));
 $this->prepend('css', $this->Html->css(['icon.css']));
 $this->prepend('css', $this->Html->css(['mobile-nav']));
@@ -240,6 +241,7 @@ if (Configure::read('debug')) {
                             <?= $this->Html->link(__('Birthdays'), ['controller' => 'Members', 'action' => 'birthdays'], ['class' => 'dropdown-item']); ?>
                             <?= $this->Html->link(__('Pictures'), ['controller' => 'Members', 'action' => 'pictures'], ['class' => 'dropdown-item']); ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Log'), ['controller' => 'Admin', 'action' => 'view_log'], ['class' => 'dropdown-item']) : '' ?>
+                            <?= $curRole->Admin ? $this->Html->link(__('Typography'), ['controller' => 'Admin', 'action' => 'typography'], ['class' => 'dropdown-item']) : '' ?>
                         </div>
                     </li>
                 <?php endif; ?>

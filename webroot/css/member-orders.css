@@ -76,7 +76,7 @@
 
   .mo-table thead a.asc,
   .mo-table thead a.desc {
-    border-color: #9b4dca;
+    border-color: var(--aa-brand);
     font-weight: bold;
   }
 

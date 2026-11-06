@@ -54,6 +54,22 @@ The root `_*.bat` files are Windows wrappers for the same commands. CI (`.github
 ## Conventions
 
 - All user-facing strings are English in source, wrapped in `__()` / `__x()` with `{0}` placeholders; translations in `resources/locales/<lang>/default.po` (fr, de, es, it). French translations use tutoiement.
+- **Follow the style guide** at `/admin/typography` (`templates/Admin/typography.php`, admin only) for every UI change. Tokens and action buttons live in `webroot/css/theme.css` (loaded globally after `cake.css`); keep the page, `theme.css` and this section in sync when a style rule changes.
+  - Colors: use the `--aa-*` CSS variables (brand `--aa-brand`, `--aa-success`, `--aa-danger`, `--aa-warning`, `--aa-info`, `--aa-nav`, neutrals), never a hardcoded hex in templates. Domain CSS files should derive their variables from these tokens.
+  - Buttons: one class per type of action, always `btn` + action class (+ `btn-sm` in toolbars, filters and table rows; default size for form submits):
+    - `btn-save`: submit / save / validate the main action (one per form). `Form->button()` must get `['class' => 'btn btn-save']`, without a class BootstrapUI renders a grey `btn-secondary`.
+    - `btn-add`: create a record or positive state change (New, Add, Join, Mark delivered/paid, Received). "New ..." page links: `btn btn-add btn-sm float-end`.
+    - `btn-edit`: open a record for modification.
+    - `btn-delete`: delete / remove / negative state change, always a `Form->postLink()` with `confirm`.
+    - `btn-nav`: navigation without data change (Back, Cancel, List, My page).
+    - `btn-export`: PDF, download, print, CSV, email pack.
+    - `btn-bulk`: operations on many records or hard to undo (Send all emails, Reset, Generate fees), with a confirm/validation step.
+    - `btn-filter` (+ `pressed` on the current one): filters and toggles (teams, member status, periods).
+    - `btn-touch` for the main action of member-facing mobile pages; wrap button groups in `.btn-bar`.
+    - Don't use the Milligram `.button` class nor raw `btn-primary`/`btn-secondary`/`btn-danger`... in new code; migrate them when touching a page.
+  - Table row actions: gg-* icon links (`gg-pen`, `gg-add-r`, `gg-file-document`) in `<td class="actions"><div class="icon">`; other icons via `$this->my->icon()` / `$this->my->symbol()`.
+  - Status badges: `badge bg-{success|danger|warning|info|dark}`, color computed in the entity (e.g. `Bill::$statusHtml`): success = done/paid, danger = late/problem, warning = draft/waiting, info = in progress, dark = canceled.
+  - Tables: `table table-striped table-hover table-sm` inside `.table-responsive`. Messages: `$this->Flash->success|error|warning()` after actions, `alert alert-*` inside a page. Headings: h2/h3 page title, h4 sections.
 - No inline styles (`style="..."` or style options in helpers): use classes in `webroot/css/cake.css` (or the domain CSS files next to it). Toggle classes from JS rather than setting styles; prefer vanilla JS over new jQuery code.
 - All pages must be mobile friendly: test at phone width, no horizontal page scroll (wide tables go in `.table-responsive` or collapse into stacked cards), touch-sized buttons, Bootstrap responsive grid/utilities instead of fixed widths.
 - In member forms/layouts, checkboxes and their labels must stay on the same line (fix with classes, not inline styles).

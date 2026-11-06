@@ -18,15 +18,15 @@ $this->Html->css('shop', ['block' => true]);
         <?= __('The member orders are deducted from the stock when they are placed: a negative stock is the quantity to order from the supplier.') ?>
     </p>
     <div class="mo-filter">
-        <?= $this->Html->link(__('All'), ['action' => 'summary'], ['class' => 'btn btn-sm btn-outline-primary' . ($onlyToOrder ? '' : ' pressed')]) ?>
-        <?= $this->Html->link(__('Only to order'), ['action' => 'summary', '?' => ['toOrder' => 1]], ['class' => 'btn btn-sm btn-outline-primary' . ($onlyToOrder ? ' pressed' : '')]) ?>
+        <?= $this->Html->link(__('All'), ['action' => 'summary'], ['class' => 'btn btn-sm btn-filter' . ($onlyToOrder ? '' : ' pressed')]) ?>
+        <?= $this->Html->link(__('Only to order'), ['action' => 'summary', '?' => ['toOrder' => 1]], ['class' => 'btn btn-sm btn-filter' . ($onlyToOrder ? ' pressed' : '')]) ?>
     </div>
 
     <?php if ($rows === []): ?>
         <p class="shop-empty"><?= __('Nothing to show.') ?></p>
     <?php else: ?>
         <div class="table-responsive">
-            <table class="table table-striped shop-summary-table">
+            <table class="table table-striped table-hover table-sm shop-summary-table">
                 <thead>
                     <tr>
                         <th><?= __('Item') ?></th>
@@ -71,9 +71,9 @@ $this->Html->css('shop', ['block' => true]);
                                     'class' => 'form-control form-control-sm shop-stock-quantity',
                                     'aria-label' => __('Quantity'),
                                 ]) ?>
-                                <?= $this->Form->button(__('Ordered'), ['name' => 'operation', 'value' => ShopOrdersController::STOCK_ORDERED, 'class' => 'btn btn-sm btn-primary', 'title' => __('Ordered from the supplier')]) ?>
-                                <?= $this->Form->button(__('Received'), ['name' => 'operation', 'value' => ShopOrdersController::STOCK_RECEIVED, 'class' => 'btn btn-sm btn-success', 'title' => __('Received from the supplier, added to the stock')]) ?>
-                                <?= $this->Form->button(__('Set stock'), ['name' => 'operation', 'value' => ShopOrdersController::STOCK_ADJUST, 'class' => 'btn btn-sm btn-outline-secondary', 'title' => __('Counted stock, replaces the current one')]) ?>
+                                <?= $this->Form->button(__('Ordered'), ['name' => 'operation', 'value' => ShopOrdersController::STOCK_ORDERED, 'class' => 'btn btn-sm btn-save', 'title' => __('Ordered from the supplier')]) ?>
+                                <?= $this->Form->button(__('Received'), ['name' => 'operation', 'value' => ShopOrdersController::STOCK_RECEIVED, 'class' => 'btn btn-sm btn-add', 'title' => __('Received from the supplier, added to the stock')]) ?>
+                                <?= $this->Form->button(__('Set stock'), ['name' => 'operation', 'value' => ShopOrdersController::STOCK_ADJUST, 'class' => 'btn btn-sm btn-edit', 'title' => __('Counted stock, replaces the current one')]) ?>
                                 <?= $this->Form->end() ?>
                             </td>
                         </tr>

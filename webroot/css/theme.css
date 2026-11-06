@@ -1,0 +1,205 @@
+/* *********************************************************************************************************
+ * Theme: design tokens and action buttons, loaded on every page after cake.css.
+ * Documented with live examples on /admin/typography: keep both in sync.
+ ********************************************************************************************************* */
+
+:root {
+  /* Brand */
+  --aa-brand: #9b4dca;
+  --aa-brand-hover: #7f3fb0;
+  --aa-brand-dark: #45006f;
+  --aa-link: #500080;
+
+  /* Neutrals */
+  --aa-bg: #f5f7fa;
+  --aa-card: #ffffff;
+  --aa-border: #e3e5e8;
+  --aa-text: #1f2328;
+  --aa-muted: #6b717a;
+
+  /* Semantic */
+  --aa-success: #2e9d5b;
+  --aa-success-hover: #25804a;
+  --aa-danger: #d64545;
+  --aa-danger-hover: #b83535;
+  --aa-warning: #e0a106;
+  --aa-warning-hover: #c08a05;
+  --aa-info: #3b6fd8;
+  --aa-info-hover: #2f5bb5;
+  --aa-nav: #6c757d;
+  --aa-nav-hover: #5a6268;
+
+  /* Shapes */
+  --aa-radius: 0.4rem;
+  --aa-radius-card: 12px;
+  --aa-touch: 44px;
+}
+
+/* *********************************************************************************************************
+ * Action buttons: one class per type of action, always combined with .btn (and optionally .btn-sm).
+ * The global .btn of cake.css forces a white text, so each class sets its own text color.
+ ********************************************************************************************************* */
+
+.btn-save,
+.btn-add,
+.btn-edit,
+.btn-delete,
+.btn-nav,
+.btn-export,
+.btn-bulk,
+.btn-filter {
+  --bs-btn-border-width: 0.1rem;
+  --bs-btn-disabled-opacity: 0.5;
+  color: var(--bs-btn-color);
+}
+
+/* Save / submit / confirm the main action of a page */
+.btn-save {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--aa-brand);
+  --bs-btn-border-color: var(--aa-brand);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--aa-brand-hover);
+  --bs-btn-hover-border-color: var(--aa-brand-hover);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--aa-brand-dark);
+  --bs-btn-active-border-color: var(--aa-brand-dark);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: var(--aa-brand);
+  --bs-btn-disabled-border-color: var(--aa-brand);
+}
+
+/* Create a record / positive state change (new, add, join, mark paid, received) */
+.btn-add {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--aa-success);
+  --bs-btn-border-color: var(--aa-success);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--aa-success-hover);
+  --bs-btn-hover-border-color: var(--aa-success-hover);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--aa-success-hover);
+  --bs-btn-active-border-color: var(--aa-success-hover);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: var(--aa-success);
+  --bs-btn-disabled-border-color: var(--aa-success);
+}
+
+/* Open an existing record for modification */
+.btn-edit {
+  --bs-btn-color: var(--aa-brand);
+  --bs-btn-bg: var(--aa-card);
+  --bs-btn-border-color: var(--aa-brand);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--aa-brand);
+  --bs-btn-hover-border-color: var(--aa-brand);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--aa-brand-hover);
+  --bs-btn-active-border-color: var(--aa-brand-hover);
+  --bs-btn-disabled-color: var(--aa-brand);
+  --bs-btn-disabled-bg: var(--aa-card);
+  --bs-btn-disabled-border-color: var(--aa-brand);
+}
+
+/* Delete / remove / negative state change, always behind a confirmation */
+.btn-delete {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--aa-danger);
+  --bs-btn-border-color: var(--aa-danger);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--aa-danger-hover);
+  --bs-btn-hover-border-color: var(--aa-danger-hover);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--aa-danger-hover);
+  --bs-btn-active-border-color: var(--aa-danger-hover);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: var(--aa-danger);
+  --bs-btn-disabled-border-color: var(--aa-danger);
+}
+
+/* Navigation: back, cancel, list, go to another page */
+.btn-nav {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--aa-nav);
+  --bs-btn-border-color: var(--aa-nav);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--aa-nav-hover);
+  --bs-btn-hover-border-color: var(--aa-nav-hover);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--aa-nav-hover);
+  --bs-btn-active-border-color: var(--aa-nav-hover);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: var(--aa-nav);
+  --bs-btn-disabled-border-color: var(--aa-nav);
+}
+
+/* Export / download / print (PDF, CSV, zip, email pack) */
+.btn-export {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--aa-info);
+  --bs-btn-border-color: var(--aa-info);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--aa-info-hover);
+  --bs-btn-hover-border-color: var(--aa-info-hover);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--aa-info-hover);
+  --bs-btn-active-border-color: var(--aa-info-hover);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: var(--aa-info);
+  --bs-btn-disabled-border-color: var(--aa-info);
+}
+
+/* Bulk or hard to undo operation (send all emails, reset, generate for everybody) */
+.btn-bulk {
+  --bs-btn-color: var(--aa-text);
+  --bs-btn-bg: var(--aa-warning);
+  --bs-btn-border-color: var(--aa-warning);
+  --bs-btn-hover-color: var(--aa-text);
+  --bs-btn-hover-bg: var(--aa-warning-hover);
+  --bs-btn-hover-border-color: var(--aa-warning-hover);
+  --bs-btn-active-color: var(--aa-text);
+  --bs-btn-active-bg: var(--aa-warning-hover);
+  --bs-btn-active-border-color: var(--aa-warning-hover);
+  --bs-btn-disabled-color: var(--aa-text);
+  --bs-btn-disabled-bg: var(--aa-warning);
+  --bs-btn-disabled-border-color: var(--aa-warning);
+}
+
+/* Filter / toggle (team, member status, period): .pressed marks the current filter */
+.btn-filter {
+  --bs-btn-color: var(--aa-brand-dark);
+  --bs-btn-bg: var(--aa-card);
+  --bs-btn-border-color: var(--aa-border);
+  --bs-btn-hover-color: var(--aa-brand-dark);
+  --bs-btn-hover-bg: var(--aa-bg);
+  --bs-btn-hover-border-color: var(--aa-brand);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--aa-brand-dark);
+  --bs-btn-active-border-color: var(--aa-brand-dark);
+}
+
+.btn-filter.pressed {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--aa-brand-dark);
+  --bs-btn-border-color: var(--aa-brand-dark);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--aa-brand-dark);
+  --bs-btn-hover-border-color: var(--aa-brand-dark);
+}
+
+/* Large touch target, for the main action of a mobile page */
+.btn-touch {
+  min-height: var(--aa-touch);
+  line-height: 1.2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Group of action / filter buttons that wraps on small screens */
+.btn-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
