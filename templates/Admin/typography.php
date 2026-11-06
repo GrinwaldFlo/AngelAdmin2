@@ -147,6 +147,7 @@ $statusBadges = [
   <section class="tg-section" id="buttons">
     <h3><?= h($sections['buttons']) ?></h3>
     <p><?= __('Always .btn + one action class. Add .btn-sm in toolbars, filters and table rows. Keep the default size for the submit button of a form.') ?></p>
+    <p><?= __('Sizes are responsive: compact on desktop (2rem), touch size below 992px (44px, 40px for .btn-sm). Resize the window to see it.') ?></p>
     <div class="table-responsive">
       <table class="table table-sm table-hover">
         <thead>
@@ -180,7 +181,6 @@ $statusBadges = [
       <button type="button" class="btn btn-save" disabled><?= __('Disabled') ?></button>
       <button type="button" class="btn btn-filter"><?= __('Filter') ?></button>
       <button type="button" class="btn btn-filter pressed"><?= __('Current filter') ?></button>
-      <button type="button" class="btn btn-save btn-touch"><?= __('Touch size') ?></button>
     </div>
 
     <h4><?= __('Filter bar') ?></h4>
@@ -342,7 +342,7 @@ PHP) ?></code></pre>
       <li><?= h(__('Each page content is in a white card: <div class="[controller] [action] content">.')) ?></li>
       <li><?= __('Wide pages (dashboard, big lists) set $this->set(\'wide\', \'100\') in the controller.') ?></li>
       <li><?= __('Use the Bootstrap grid (row / col-12 col-md-*) and utilities (d-none d-md-block, gap, mb-*), never fixed widths.') ?></li>
-      <li><?= __('Test at phone width (375px): no horizontal scroll, touch-sized buttons (.btn-touch for the main action of a member page).') ?></li>
+      <li><?= __('Test at phone width (375px): no horizontal scroll, buttons grow automatically to touch size (44px, 40px for .btn-sm) below 992px, do not add page specific button heights.') ?></li>
       <li><?= h(__('Page specific CSS goes in a domain file (webroot/css/<domain>.css) loaded with $this->Html->css(\'<domain>\', [\'block\' => true]).')) ?></li>
       <li><?= __('JavaScript toggles classes, it does not set styles; prefer vanilla JS over jQuery.') ?></li>
     </ul>
@@ -367,7 +367,6 @@ PHP) ?></code></pre>
     <h4><?= __('Still open') ?></h4>
     <ul class="tg-rules">
       <li><?= __('Some inline styles remain in templates (widths, member photos, PDF and email templates).') ?></li>
-      <li><?= __('The global .btn is 2rem high (uppercase, 0.7rem): below the 44px touch size on mobile, use .btn-touch on member facing main actions.') ?></li>
     </ul>
   </section>
 </div>

@@ -33,6 +33,7 @@
   --aa-radius: 0.4rem;
   --aa-radius-card: 12px;
   --aa-touch: 44px;
+  --aa-touch-sm: 2.5rem;
 }
 
 /* *********************************************************************************************************
@@ -187,13 +188,24 @@
   --bs-btn-hover-border-color: var(--aa-brand-dark);
 }
 
-/* Large touch target, for the main action of a mobile page */
-.btn-touch {
-  min-height: var(--aa-touch);
-  line-height: 1.2;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+/* Touch screens: every button becomes a touch target (44px, 40px for .btn-sm).
+   Same breakpoint as the collapsed navbar (mobile-nav.css), desktop keeps the compact 2rem .btn of cake.css */
+@media (max-width: 991.98px) {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    min-height: var(--aa-touch);
+    line-height: 1.2;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.8rem;
+  }
+
+  .btn-sm {
+    min-height: var(--aa-touch-sm);
+    padding: 0.4rem 0.75rem;
+  }
 }
 
 /* Group of action / filter buttons that wraps on small screens */

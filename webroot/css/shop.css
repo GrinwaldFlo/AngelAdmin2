@@ -114,7 +114,6 @@
 @media (max-width: 991.98px) {
   .shop-order-button {
     width: 100%;
-    min-height: 2.75rem;
   }
 
   .shop-option .quantity-input,
@@ -194,11 +193,10 @@
     font-weight: normal;
   }
 
-  .shop-stock-form .btn,
-  .shop-change-attribute .btn,
+  /* Same height as the .btn-sm next to them (theme.css) */
   .shop-stock-quantity,
   .shop-change-attribute .form-select {
-    min-height: 2.75rem;
+    min-height: var(--aa-touch-sm);
   }
 
   .shop-stock-form .btn {
