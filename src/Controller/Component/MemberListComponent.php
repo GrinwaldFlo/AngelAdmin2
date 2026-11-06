@@ -41,9 +41,6 @@ class MemberListComponent extends Component
     }
 
     /**
-     * Get new members without teams
-     */
-    /**
      * Active members of the site in no team
      * @param int $siteId 0 = all sites
      */

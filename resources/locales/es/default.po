@@ -2809,6 +2809,14 @@ msgstr "Pedidos y stock"
 msgid "Choose a location."
 msgstr "Elige una ubicación."
 
+#: src/Controller/AdminController.php src/Controller/BillsController.php
+msgid "{0} is not in {1}, no invoice created."
+msgstr "{0} no está en {1}, no se ha creado ninguna factura."
+
+#: src/Model/Table/SitesTable.php
+msgid "This location has members, move them to another location first."
+msgstr "Este lugar tiene miembros, muévelos primero a otro lugar."
+
 #: templates/element/Members/site_control.php
 msgid "Changing the location removes the member from its teams: edit the member again to choose the teams of the new location."
 msgstr "Cambiar de ubicación quita al miembro de sus equipos: edita de nuevo al miembro para elegir los equipos de la nueva ubicación."

@@ -46,9 +46,6 @@ class ShopOrderComponent extends Component
     public function offer(Member $member): array
     {
         $siteId = (int)$member->site_id;
-        if ($siteId === 0) {
-            return [];
-        }
         $stocks = $this->fetchTable('ShopStocks');
         $items = $this->fetchTable('ShopItems')->find('active')->find('inSite', siteId: $siteId)->orderByAsc('label')->all()->toList();
         $itemStocks = $stocks->stocksOf(array_map(fn($item) => $item->id, $items));

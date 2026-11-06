@@ -55,7 +55,7 @@ class BillsController extends AppController
      */
     private function getPostedSiteId(): int
     {
-        return PrefResult::validSiteId((int)$this->request->getData('siteId'));
+        return $this->allowedSiteId((int)$this->request->getData('siteId'));
     }
 
     /**
@@ -143,8 +143,8 @@ class BillsController extends AppController
         });
 
         $bill = $this->Bills->newEmptyEntity();
-        // Default site of the form: the one chosen in the menu
-        $bill->site_id = $this->getSiteId(true);
+        // Default site of the form: the city of the member
+        $bill->site_id = (int)$member->site_id;
         if ($this->request->is('post')) {
             $bill = $this->Bills->patchEntity($bill, $this->request->getData(), ['fields' => self::FORM_FIELDS]);
             // The member of the page, whatever the form sends
@@ -262,7 +262,7 @@ class BillsController extends AppController
     {
         $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'edit');
 
-        $siteId = PrefResult::validSiteId($siteId);
+        $siteId = $this->allowedSiteId($siteId);
         if ($siteId == 0) {
             $this->Flash->error(__('A location needs to be selected'));
             return $this->redirect(['action' => 'mailPrint']);
@@ -444,32 +444,43 @@ class BillsController extends AppController
             }
 
             $result = $this->request->getData();
-            foreach ((array)($result['MemberId'] ?? []) as $memberId => $value) {
-
-                if ($value == 1) {
-                    // Through the validation: a wrong amount or date is reported, not saved
-                    $bill = $this->Bills->newEntity([
-                        'due_date' => $result['due_date'] ?? null,
-                        'due_date_ori' => $result['due_date'] ?? null,
-                        'link_membership_fee' => $result['link_membership_fee'] ?? 0,
-                        'member_id' => $memberId,
-                        'amount' => $result['amount'] ?? null,
-                        'label' => $result['label'] ?? '',
-                        'printed' => false,
-                        'paid' => false,
-                        'reminder' => 0,
-                        'canceled' => false,
-                        'state_id' => 0,
-                        'tokenhash' => Text::uuid(),
-                        'confirmation' => null,
-                        'site_id' => $siteId,
-                    ]);
-
-                    if ($this->Bills->save($bill)) {
-                        $this->Flash->success(__('Invoices has been created'));
-                    } else {
-                        $this->Flash->error(__('The invoice could not be saved.'));
+            $memberIds = array_keys(array_filter((array)($result['MemberId'] ?? []), fn($value) => $value == 1));
+            // The bill belongs to the city of the member: only the members of the posted city
+            $members = $memberIds === [] ? [] : $this->Bills->Members->find()
+                ->select(['id', 'first_name', 'last_name', 'site_id'])
+                ->where(['Members.id IN' => $memberIds])
+                ->all()->indexBy('id')->toArray();
+            $site = PrefResult::getSite($siteId);
+            foreach ($memberIds as $memberId) {
+                $member = $members[$memberId] ?? null;
+                if ($member === null || (int)$member->site_id !== $siteId) {
+                    if ($member !== null) {
+                        $this->Flash->error(__('{0} is not in {1}, no invoice created.', $member->FullName, $site->city));
                     }
+                    continue;
+                }
+                // Through the validation: a wrong amount or date is reported, not saved
+                $bill = $this->Bills->newEntity([
+                    'due_date' => $result['due_date'] ?? null,
+                    'due_date_ori' => $result['due_date'] ?? null,
+                    'link_membership_fee' => $result['link_membership_fee'] ?? 0,
+                    'member_id' => $memberId,
+                    'amount' => $result['amount'] ?? null,
+                    'label' => $result['label'] ?? '',
+                    'printed' => false,
+                    'paid' => false,
+                    'reminder' => 0,
+                    'canceled' => false,
+                    'state_id' => 0,
+                    'tokenhash' => Text::uuid(),
+                    'confirmation' => null,
+                    'site_id' => $siteId,
+                ]);
+
+                if ($this->Bills->save($bill)) {
+                    $this->Flash->success(__('Invoices has been created'));
+                } else {
+                    $this->Flash->error(__('The invoice could not be saved.'));
                 }
             }
             return $this->redirect(['controller' => 'Bills', 'action' => 'pdf', -1]);

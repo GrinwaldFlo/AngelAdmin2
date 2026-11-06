@@ -447,7 +447,8 @@ class MembersController extends AppController
         $sites = PrefResult::siteOptions();
         $this->set(compact('member', 'teams', 'sites'));
 
-        if ($this->request->is(['patch', 'post', 'put']) && $member && $member->id) {
+        // A failed save stays on the form to show the field errors
+        if ($this->request->is(['patch', 'post', 'put']) && $member && $member->id && !$member->hasErrors()) {
             if($this->isHashAuthenticated())
             {
                 return $this->redirect(['action' => 'my-page']);

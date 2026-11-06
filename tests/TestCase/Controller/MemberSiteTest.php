@@ -247,6 +247,19 @@ class MemberSiteTest extends TestCase
         $this->assertSame([3], $this->teamIds(100));
     }
 
+    public function testEditWithAnUnknownCityStaysOnTheForm(): void
+    {
+        $this->loginWith();
+
+        $this->post('/members/edit/100', $this->memberForm(['site_id' => 9, 'teams' => ['_ids' => [1, 2]]]));
+
+        // No redirect: the form shows why the member could not be saved
+        $this->assertResponseOk();
+        $this->assertResponseContains('Choose a location.');
+        $this->assertSame(1, $this->Members->get(100)->site_id);
+        $this->assertSame([1, 2], $this->teamIds(100));
+    }
+
     public function testAddFormPreselectsTheCityOfThePages(): void
     {
         $this->Members->updateAll(['pref_site_id' => 2], ['id' => 1]);
@@ -329,5 +342,30 @@ class MemberSiteTest extends TestCase
         $this->assertResponseOk();
         $listed = array_map(fn($member) => $member->id, $this->viewVariable('members')->toArray());
         $this->assertEqualsCanonicalizing([1, 100], $listed);
+    }
+
+    // ---------------------------------------------------------------- sites
+
+    public function testSiteWithMembersCannotBeDeleted(): void
+    {
+        $this->Members->updateAll(['site_id' => 2], ['id' => 101]);
+        $this->loginWith();
+
+        $this->post('/sites/delete/2');
+
+        $this->assertRedirect(['controller' => 'Sites', 'action' => 'index']);
+        $this->assertFlashMessage('This location has members, move them to another location first.');
+        $this->assertTrue($this->getTableLocator()->get('Sites')->exists(['id' => 2]));
+    }
+
+    public function testSiteWithoutMembersCanBeDeleted(): void
+    {
+        $this->getTableLocator()->get('Teams')->deleteAll(['id' => 3]);
+        $this->loginWith();
+
+        $this->post('/sites/delete/2');
+
+        $this->assertFlashMessage('The site has been deleted.');
+        $this->assertFalse($this->getTableLocator()->get('Sites')->exists(['id' => 2]));
     }
 }

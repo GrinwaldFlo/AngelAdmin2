@@ -125,7 +125,7 @@ class AdminControllerTest extends TestCase
     public function testGenerateMembershipBillSite(): void
     {
         $this->selectSecondSite();
-        $this->getTableLocator()->get('Members')->updateAll(['multi_payment' => 1], ['id' => 1]);
+        $this->getTableLocator()->get('Members')->updateAll(['multi_payment' => 1, 'site_id' => 2], ['id' => 1]);
 
         $this->loginAdmin();
         $this->enableCsrfToken();
@@ -138,6 +138,25 @@ class AdminControllerTest extends TestCase
             ->orderByDesc('id')
             ->firstOrFail();
         $this->assertSame(2, $bill->site_id);
+    }
+
+    /**
+     * The fee belongs to the city of the member: none for a member of another city than the selected one
+     */
+    public function testGenerateMembershipSkipsTheMembersOfAnotherCity(): void
+    {
+        $this->selectSecondSite();
+        $this->getTableLocator()->get('Members')->updateAll(['multi_payment' => 1, 'language' => 'en'], ['id' => 1]);
+        $billsBefore = $this->getTableLocator()->get('Bills')->find()->where(['member_id' => 1])->count();
+
+        $this->loginAdmin();
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
+        $this->enableRetainFlashMessages();
+        $this->post('/admin/generate-membership', ['MemberId' => [1 => 1]]);
+
+        $this->assertFlashMessageAt(0, 'Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet is not in Second city, no invoice created.');
+        $this->assertSame($billsBefore, $this->getTableLocator()->get('Bills')->find()->where(['member_id' => 1])->count());
     }
 
     public function testGenerateMembershipAllSitesListsNobody(): void

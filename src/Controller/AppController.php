@@ -367,6 +367,19 @@ class AppController extends Controller
         return $siteId;
     }
 
+    /**
+     * Site sent by a form or a link: only an admin can choose it, the others always get their own city
+     * @param int|null $siteId requested site
+     * @return int Site id, 0 if missing or unknown
+     */
+    public function allowedSiteId(int|null $siteId): int
+    {
+        if (!$this->canChooseSite()) {
+            return $this->getSiteId();
+        }
+        return PrefResult::validSiteId($siteId);
+    }
+
     public function getPrefSessionStr(string $name, string|null $curVal, string $default): string
     {
         if ($curVal === null || $curVal == -999) {
