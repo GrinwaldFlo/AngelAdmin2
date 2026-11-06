@@ -55,6 +55,16 @@ class PrefResult
     }
 
     /**
+     * Sites for a select
+     *
+     * @return array<int, string> id => city
+     */
+    public static function siteOptions(): array
+    {
+        return array_map(fn($site) => (string)$site->city, PrefResult::getSites());
+    }
+
+    /**
      * @param int $siteId
      * @return \app\Model\Entity\Site|null null if the site doesn't exist
      */

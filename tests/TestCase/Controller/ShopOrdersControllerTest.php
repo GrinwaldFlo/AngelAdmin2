@@ -308,7 +308,7 @@ class ShopOrdersControllerTest extends TestCase
         $this->addSite(2, 'Lausanne');
         $other = $this->addShopItem('Lausanne cap', ['site_id' => 2]);
         $this->addOrder(4, $other, null, 1, null);
-        $this->getTableLocator()->get('Members')->updateAll(['pref_site_id' => 1], ['id' => 1]);
+        $this->getTableLocator()->get('Members')->updateAll(['site_id' => 1], ['id' => 1]);
         $this->loginWith(self::MANAGER);
 
         $this->get('/shop-orders');
@@ -324,8 +324,9 @@ class ShopOrdersControllerTest extends TestCase
 
     public function testAskToChooseALocation(): void
     {
+        // Only an admin chooses "All locations" in the menu
         $this->addSite(2, 'Lausanne');
-        $this->loginWith(self::MANAGER);
+        $this->loginWith([...self::MANAGER, 'Admin']);
 
         foreach (['/shop-orders', '/shop-orders/summary'] as $url) {
             $this->get($url);
@@ -350,11 +351,11 @@ class ShopOrdersControllerTest extends TestCase
         $members = $this->getTableLocator()->get('Members');
         $this->loginWith(self::MANAGER);
 
-        $members->updateAll(['pref_site_id' => 2], ['id' => 1]);
+        $members->updateAll(['site_id' => 2], ['id' => 1]);
         $this->get("/shop-orders/index/$other");
         $this->assertCount(1, $this->viewVariable('memberOrders'));
 
-        $members->updateAll(['pref_site_id' => 1], ['id' => 1]);
+        $members->updateAll(['site_id' => 1], ['id' => 1]);
         $this->get('/shop-orders');
         $this->assertSame(0, $this->viewVariable('itemFilter'));
         $this->assertCount(3, $this->viewVariable('memberOrders'));

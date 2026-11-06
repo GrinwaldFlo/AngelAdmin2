@@ -79,7 +79,7 @@ class PrefResultTest extends TestCase
 
     public function testDefaultsAllSites(): void
     {
-        $pref = new PrefResult($this->app());
+        $pref = new PrefResult($this->app(['Admin', 'MemberViewAll']));
 
         $this->assertSame(0, $pref->siteId);
         $this->assertNull($pref->site);
@@ -88,9 +88,20 @@ class PrefResultTest extends TestCase
         $this->assertSame(1, $pref->memberFilter);
     }
 
-    public function testSiteOfTheMember(): void
+    public function testSiteChosenByAnAdmin(): void
     {
         $this->getTableLocator()->get('Members')->updateAll(['pref_site_id' => 2], ['id' => 1]);
+
+        $pref = new PrefResult($this->app(['Admin', 'MemberViewAll']), 3, 2);
+
+        $this->assertSame(2, $pref->siteId);
+        $this->assertSame([3 => 'Seniors'], $pref->teams);
+    }
+
+    public function testSiteOfTheMember(): void
+    {
+        // Not an admin: the city of the member, not the menu choice
+        $this->getTableLocator()->get('Members')->updateAll(['pref_site_id' => 0, 'site_id' => 2], ['id' => 1]);
 
         $pref = new PrefResult($this->app(), 3, 2);
 

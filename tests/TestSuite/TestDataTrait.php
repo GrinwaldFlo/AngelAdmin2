@@ -40,10 +40,13 @@ trait TestDataTrait
 
     /**
      * @param int[] $teamIds teams of the member
-     * @param array $fields columns overriding the default values
+     * @param array $fields columns overriding the default values, the city (site_id) is the one of the first team by default
      */
     protected function addMember(int $id, array $teamIds = [], array $fields = []): void
     {
+        if (!isset($fields['site_id']) && $teamIds !== []) {
+            $fields['site_id'] = (int)$this->getTableLocator()->get('Teams')->get($teamIds[0])->site_id;
+        }
         $values = $fields + [
             'id' => $id, 'first_name' => 'First' . $id, 'last_name' => 'Last' . $id, 'gender_id' => 1, 'email' => "m$id@example.com",
             'email_valid' => 1, 'date_arrival' => '2026-01-01', 'hash' => sha1('member' . $id), 'active' => true, 'language' => 'en',
@@ -204,7 +207,7 @@ trait TestDataTrait
             'first_name' => 'New', 'last_name' => 'Member', 'gender_id' => 1, 'email' => 'new@example.com', 'date_birth' => '2015-01-01',
             'address' => 'Rue 1', 'city' => 'Renens', 'phone_mobile' => '', 'phone_home' => '', 'email_valid' => 1, 'nationality' => '',
             'date_arrival' => '2026-01-01', 'multi_payment' => 1, 'membership_fee_paid' => 0, 'discount' => 0, 'date_fin' => '',
-            'active' => 1, 'registered' => 0, 'bvr' => 0, 'communication_method_id' => 1,
+            'active' => 1, 'registered' => 0, 'bvr' => 0, 'communication_method_id' => 1, 'site_id' => 1,
         ];
     }
 

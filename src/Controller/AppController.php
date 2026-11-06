@@ -128,9 +128,11 @@ class AppController extends Controller
         $this->set('canManageShop', $canManageShop);
         $this->set('canManageSecondHand', TeamScope::canManageSecondHand($this->curUser));
 
-        $showSiteMenu = $this->curRole !== null && ($this->curRole->MemberViewAll || $this->curRole->BillViewAll || $canManageShop);
+        // Only the admins choose the city, the other roles work on the city of their member
+        $showSiteMenu = $this->canChooseSite();
         $this->set('showSiteMenu', $showSiteMenu);
-        if ($showSiteMenu) {
+        $seesAllMembers = $this->curRole !== null && ($this->curRole->MemberViewAll || $this->curRole->BillViewAll || $canManageShop);
+        if ($showSiteMenu || $seesAllMembers) {
             $this->set("navSites", PrefResult::getSites());
             // Keep the site already used by the page
             if (!$this->viewBuilder()->hasVar('navSiteId')) {
@@ -338,14 +340,22 @@ class AppController extends Controller
     }
 
     /**
-     * Get the site (city) chosen by the current member in the menu
+     * Only the admins choose the city in the menu
+     */
+    public function canChooseSite(): bool
+    {
+        return $this->curRole !== null && (bool)$this->curRole->Admin;
+    }
+
+    /**
+     * Get the site (city) of the pages: chosen in the menu by an admin, the city of the current member otherwise
      * @param bool $required true if the page needs one site: falls back to the first site instead of 0 (all sites)
      * @return int Site id, 0 = all sites
      */
     public function getSiteId(bool $required = false): int
     {
         $sites = PrefResult::getSites();
-        $siteId = (int)($this->curMember->pref_site_id ?? 0);
+        $siteId = (int)(($this->canChooseSite() ? $this->curMember?->pref_site_id : $this->curMember?->site_id) ?? 0);
         if (!isset($sites[$siteId])) {
             $siteId = 0;
         }
@@ -546,15 +556,6 @@ class AppController extends Controller
         }
 
         return $data->find('all')->where(['data_type' => $dataType, 'param' => $param])->first() ?? $data->newEmptyEntity();
-    }
-
-    public function memberIsInSite($member, $siteId)
-    {
-        foreach ($member->teams as $team) {
-            if ($team->site_id == $siteId)
-                return true;
-        }
-        return false;
     }
 
     public function memberYoungerThan($member, $age)

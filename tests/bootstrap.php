@@ -17,6 +17,8 @@ declare(strict_types=1);
 
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
+use Cake\Mailer\Transport\DebugTransport;
+use Cake\Mailer\TransportFactory;
 use Migrations\TestSuite\Migrator;
 
 /**
@@ -32,6 +34,12 @@ require dirname(__DIR__) . '/config/bootstrap.php';
 $_SERVER['PHP_SELF'] = '/';
 
 Configure::write('App.fullBaseUrl', 'http://localhost');
+
+// Never send real emails from the tests (the SMTP of .env): the tests checking the mails use EmailTrait
+foreach (TransportFactory::configured() as $transport) {
+    TransportFactory::drop($transport);
+    TransportFactory::setConfig($transport, ['className' => DebugTransport::class]);
+}
 
 // Force the app's default connection to use the test datasource during tests.
 ConnectionManager::alias('test', 'default');

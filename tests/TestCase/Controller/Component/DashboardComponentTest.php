@@ -84,6 +84,7 @@ class DashboardComponentTest extends TestCase
         $this->addMember(100, [2], ['registered' => 0, 'membership_fee_paid' => 0, 'date_arrival' => '2026-09-15']);
         $this->addMember(101, [3], ['registered' => 1, 'date_arrival' => '2026-10-01']);
         $this->addMember(102, [2], ['active' => false, 'date_fin' => '2026-09-10']);
+        // No team: in the default city
         $this->addMember(103, [], ['registered' => 1]);
         $this->getTableLocator()->get('Registrations')->insertQuery()
             ->insert(['member_id', 'year', 'validation_id'])
@@ -94,14 +95,15 @@ class DashboardComponentTest extends TestCase
             ->execute();
 
         $site = $this->Dashboard->members(1, $seasonStart, 2026);
-        $this->assertSame(2, $site['active']);
-        $this->assertSame(1, $site['registered']);
+        $this->assertSame(3, $site['active']);
+        $this->assertSame(2, $site['registered']);
         $this->assertSame(1, $site['feesPaid']);
         $this->assertSame(1, $site['new']);
         $this->assertSame(1, $site['left']);
         $this->assertSame(1, $site['signValidated']);
         $this->assertSame(1, $site['signPending']);
-        $this->assertNull($site['withoutTeam']);
+        $this->assertSame(1, $site['withoutTeam']);
+        $this->assertSame(0, $this->Dashboard->members(2, $seasonStart, 2026)['withoutTeam']);
 
         $all = $this->Dashboard->members(0, $seasonStart, 2026);
         $this->assertSame(4, $all['active']);

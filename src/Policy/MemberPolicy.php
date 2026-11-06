@@ -40,10 +40,10 @@ class MemberPolicy
     return TeamScope::canUnscoped($user, 'MemberViewAll');
   }
 
-  // Same roles as the ones seeing the site (city) menu
+  // Only the admins see the site (city) menu, the other roles work on the city of their member
   public function canSetSite(?IdentityInterface $user, Member $member)
   {
-    return $user !== null && ($user->Role->MemberViewAll || $user->Role->BillViewAll || TeamScope::canManageShop($user));
+    return $user !== null && (bool)$user->Role->Admin;
   }
 
   public function canAdmin(?IdentityInterface $user, Member $member)

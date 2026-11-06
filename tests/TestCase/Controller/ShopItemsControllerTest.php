@@ -185,7 +185,7 @@ class ShopItemsControllerTest extends TestCase
     public function testAddWithAttributesInTheChosenLocation(): void
     {
         $this->addSite(2, 'Lausanne');
-        $this->getTableLocator()->get('Members')->updateAll(['pref_site_id' => 2], ['id' => 1]);
+        $this->getTableLocator()->get('Members')->updateAll(['site_id' => 2], ['id' => 1]);
         $this->loginWith(self::MANAGER);
 
         $this->post('/shop-items/add', [
@@ -232,7 +232,7 @@ class ShopItemsControllerTest extends TestCase
         $this->addSite(2, 'Lausanne');
         $this->addShopItem('Renens shirt');
         $otherId = $this->addShopItem('Lausanne shirt', ['site_id' => 2]);
-        $this->getTableLocator()->get('Members')->updateAll(['pref_site_id' => 1], ['id' => 1]);
+        $this->getTableLocator()->get('Members')->updateAll(['site_id' => 1], ['id' => 1]);
         $this->loginWith(self::MANAGER);
 
         $this->get('/shop-items');
@@ -250,8 +250,9 @@ class ShopItemsControllerTest extends TestCase
 
     public function testAskToChooseALocation(): void
     {
+        // Only an admin chooses "All locations" in the menu
         $this->addSite(2, 'Lausanne');
-        $this->loginWith(self::MANAGER);
+        $this->loginWith([...self::MANAGER, 'Admin']);
 
         foreach (['/shop-items', '/shop-items/add'] as $url) {
             $this->get($url);
@@ -268,20 +269,20 @@ class ShopItemsControllerTest extends TestCase
     {
         $this->addSite(2, 'Lausanne');
         $itemId = $this->addItem();
-        $this->getTableLocator()->get('Members')->updateAll(['pref_site_id' => 1], ['id' => 1]);
+        $this->getTableLocator()->get('Members')->updateAll(['site_id' => 1], ['id' => 1]);
         $this->loginWith(['ShopManager']);
 
         foreach (['/shop-items', "/shop-items/view/$itemId", '/shop-items/add', "/shop-items/edit/$itemId"] as $url) {
             $this->get($url);
             $this->assertResponseOk($url);
         }
-        // The shop menu and the location menu are shown
+        // The shop menu is shown, not the location menu (only for the admins): the manager works on its city
         $this->assertResponseContains('/shop-orders');
         $this->assertResponseContains('/second-hand-admin');
-        $this->assertResponseContains('/members/set-site/2');
+        $this->assertResponseNotContains('/members/set-site/2');
 
         $this->post('/members/set-site/2');
-        $this->assertSame(2, $this->getTableLocator()->get('Members')->get(1)->pref_site_id);
+        $this->assertSame(0, $this->getTableLocator()->get('Members')->get(1)->pref_site_id);
     }
 
     /**

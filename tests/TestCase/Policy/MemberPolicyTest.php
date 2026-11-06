@@ -99,11 +99,12 @@ class MemberPolicyTest extends TestCase
         $this->assertFalse($user->can('editAll', $this->member(100)));
     }
 
-    public function testSetSiteWithMemberOrBillViewAll(): void
+    public function testSetSiteOnlyForAdmin(): void
     {
         $this->assertFalse($this->identity(['MemberEditOwn'])->can('setSite', $this->member(1)));
-        $this->assertTrue($this->identity(['MemberViewAll'])->can('setSite', $this->member(1)));
-        $this->assertTrue($this->identity(['BillViewAll'])->can('setSite', $this->member(1)));
+        $this->assertFalse($this->identity(['MemberViewAll'])->can('setSite', $this->member(1)));
+        $this->assertFalse($this->identity(['BillViewAll'])->can('setSite', $this->member(1)));
+        $this->assertTrue($this->identity(['Admin'])->can('setSite', $this->member(1)));
     }
 
     public function testAdmin(): void

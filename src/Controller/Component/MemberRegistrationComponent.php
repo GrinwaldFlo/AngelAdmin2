@@ -31,7 +31,7 @@ class MemberRegistrationComponent extends Component
         }
 
         // Public form: the membership and the status are set here, never from the form
-        $member = $controller->Members->patchEntity($member, $data, ['fields' => MembersTable::OWN_FIELDS]);
+        $member = $controller->Members->patchEntity($member, $data, ['fields' => MembersTable::OWN_FIELDS, 'validate' => 'register']);
         $member->date_arrival = new \Cake\I18n\Date();
         $member->hash = MembersTable::newHash();
         $member->leaving_comment = '';

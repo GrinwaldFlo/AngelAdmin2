@@ -95,7 +95,7 @@ class AdminControllerTest extends TestCase
         $this->assertResponseOk();
         $this->assertResponseContains('Second city');
         $this->assertSame(0, $this->viewVariable('members')['active']);
-        $this->assertNull($this->viewVariable('members')['withoutTeam']);
+        $this->assertSame(0, $this->viewVariable('members')['withoutTeam']);
         $this->assertCount(0, $this->viewVariable('teams'));
     }
 

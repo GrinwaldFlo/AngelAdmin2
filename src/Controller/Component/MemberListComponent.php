@@ -43,14 +43,13 @@ class MemberListComponent extends Component
     /**
      * Get new members without teams
      */
-    public function getNewMembersList()
+    /**
+     * Active members of the site in no team
+     * @param int $siteId 0 = all sites
+     */
+    public function getNewMembersList(int $siteId = 0)
     {
-        $controller = $this->getController();
-        
-        return $controller->Members->find('All')
-            ->leftJoinWith('Teams')
-            ->where(['Members.active =' => 1])
-            ->where(['Teams.name IS' => NULL])
+        return $this->getController()->Members->queryWithoutTeam($siteId)
             ->orderBy(['first_name' => 'ASC']);
     }
 

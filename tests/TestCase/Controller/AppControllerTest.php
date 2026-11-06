@@ -236,22 +236,37 @@ class AppControllerTest extends TestCase
         $this->assertSame('de', $controller->getPrefSessionStr('lng', null, 'fr'));
     }
 
-    public function testGetSiteId(): void
+    public function testGetSiteIdOfAnAdminIsTheMenuChoice(): void
     {
         $this->addSite(2, 'Second');
         $members = $this->getTableLocator()->get('Members');
 
-        $controller = $this->controller(AppController::class, $this->identity([]));
+        $controller = $this->controller(AppController::class, $this->identity(['Admin']));
+        $this->assertTrue($controller->canChooseSite());
         $this->assertSame(0, $controller->getSiteId());
         $this->assertSame(1, $controller->getSiteId(true));
         $this->assertSame(1, $controller->viewBuilder()->getVar('navSiteId'));
 
         $members->updateAll(['pref_site_id' => 2], ['id' => 1]);
-        $this->assertSame(2, $this->controller(AppController::class, $this->identity([]))->getSiteId(true));
+        $this->assertSame(2, $this->controller(AppController::class, $this->identity(['Admin']))->getSiteId(true));
 
         // Deleted site
         $members->updateAll(['pref_site_id' => 9], ['id' => 1]);
-        $this->assertSame(0, $this->controller(AppController::class, $this->identity([]))->getSiteId());
+        $this->assertSame(0, $this->controller(AppController::class, $this->identity(['Admin']))->getSiteId());
+    }
+
+    public function testGetSiteIdOfTheOtherRolesIsTheirCity(): void
+    {
+        $this->addSite(2, 'Second');
+        $members = $this->getTableLocator()->get('Members');
+        // The menu choice is ignored
+        $members->updateAll(['pref_site_id' => 0, 'site_id' => 2], ['id' => 1]);
+
+        $controller = $this->controller(AppController::class, $this->identity(['MemberViewAll', 'BillViewAll']));
+        $this->assertFalse($controller->canChooseSite());
+        $this->assertSame(2, $controller->getSiteId());
+        $this->assertSame(2, $controller->getSiteId(true));
+        $this->assertSame(2, $controller->viewBuilder()->getVar('navSiteId'));
     }
 
     // ---------------------------------------------------------------- teams and members
@@ -295,15 +310,6 @@ class AppControllerTest extends TestCase
         $coached = $ids($this->controller(AppController::class, $this->identity(['MemberViewAll', 'TeamScoped'])));
         sort($coached);
         $this->assertSame([100, 102], $coached);
-    }
-
-    public function testMemberIsInSite(): void
-    {
-        $member = $this->getTableLocator()->get('Members')->get(1, contain: ['Teams']);
-        $controller = $this->controller();
-
-        $this->assertTrue($controller->memberIsInSite($member, 1));
-        $this->assertFalse($controller->memberIsInSite($member, 2));
     }
 
     public function testMemberYoungerThan(): void

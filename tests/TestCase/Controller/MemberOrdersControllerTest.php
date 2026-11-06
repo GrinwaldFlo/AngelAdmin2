@@ -276,11 +276,11 @@ class MemberOrdersControllerTest extends TestCase
         $this->loginWith(self::MANAGER);
         $members = $this->getTableLocator()->get('Members');
 
-        $members->updateAll(['pref_site_id' => 2], ['id' => 1]);
+        $members->updateAll(['site_id' => 2], ['id' => 1]);
         $this->assertSame([4], $this->listedIds('/member-orders/index/0/0/0/0'));
         $this->assertResponseContains('Lausanne');
 
-        $members->updateAll(['pref_site_id' => 1], ['id' => 1]);
+        $members->updateAll(['site_id' => 1], ['id' => 1]);
         $this->assertSame([1, 2, 3], $this->listedIds('/member-orders/index/0/0/0/0'));
         // The order of another location can't be changed
         $this->post('/member-orders/mark-delivered/4');
@@ -302,10 +302,10 @@ class MemberOrdersControllerTest extends TestCase
         $this->loginWith(self::MANAGER);
         $members = $this->getTableLocator()->get('Members');
 
-        $members->updateAll(['pref_site_id' => 2], ['id' => 1]);
+        $members->updateAll(['site_id' => 2], ['id' => 1]);
         $this->assertSame([4], $this->listedIds("/member-orders/index/0/0/0/$itemId"));
 
-        $members->updateAll(['pref_site_id' => 1], ['id' => 1]);
+        $members->updateAll(['site_id' => 1], ['id' => 1]);
         $this->assertSame([1, 2, 3], $this->listedIds('/member-orders'));
         $this->assertSession(0, 'memberOrdersItemFilter');
     }
@@ -315,8 +315,9 @@ class MemberOrdersControllerTest extends TestCase
      */
     public function testAskToChooseALocation(): void
     {
+        // Only an admin chooses "All locations" in the menu
         $this->addSite(2, 'Lausanne');
-        $this->loginWith(self::MANAGER);
+        $this->loginWith([...self::MANAGER, 'Admin']);
 
         $this->get('/member-orders');
 

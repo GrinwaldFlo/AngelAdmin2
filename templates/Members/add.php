@@ -16,6 +16,7 @@
       <?= $this->Form->create($member) ?>
       <fieldset>
         <?php
+        echo $this->element('Members/site_control', ['sites' => $sites, 'default' => $defaultSiteId]);
         echo $this->Form->control('first_name', ['label' => __('First name')]);
         echo $this->Form->control('last_name', ['label' => __('Last name')]);
         echo $this->Form->control('date_birth', ['label' => __('Date of birth')]);
@@ -38,7 +39,7 @@
         echo $this->Form->control('active', ['value' => 1, 'type' => 'hidden']);
         echo $this->Form->control('registered', ['value' => 0, 'type' => 'hidden']);
         echo $config['showBvr'] ? $this->Form->control('bvr', ['label' => __('Payment slip')]) : "";
-        echo $this->Form->control('teams._ids', ['style' => "height:300px", 'label' => __('Team')]);
+        echo $this->Form->control('teams._ids', ['options' => $teams, 'multiple' => true, 'class' => 'team-select', 'label' => __('Team'), 'help' => __('Only the teams of the location of the member.')]);
         ?>
       </fieldset>
       <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-save']) ?>

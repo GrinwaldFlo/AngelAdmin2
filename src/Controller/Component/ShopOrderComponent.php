@@ -45,7 +45,7 @@ class ShopOrderComponent extends Component
      */
     public function offer(Member $member): array
     {
-        $siteId = $this->fetchTable('Members')->getSiteIdOf($member->id);
+        $siteId = (int)$member->site_id;
         if ($siteId === 0) {
             return [];
         }
@@ -235,7 +235,7 @@ class ShopOrderComponent extends Component
     private function checkOrder(Member $member, array $orderData): array|string
     {
         $invalid = __('The order is not valid. Please try again.');
-        $siteId = $this->fetchTable('Members')->getSiteIdOf($member->id);
+        $siteId = (int)$member->site_id;
         $stocks = $this->fetchTable('ShopStocks');
         $itemIds = array_map('intval', array_keys($orderData));
         // Only the items still for sale, in the city of the member

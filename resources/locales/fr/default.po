@@ -4014,3 +4014,27 @@ msgstr "Remettre les articles commandés"
 #: templates/layout/default.php:213
 msgid "Orders and stock"
 msgstr "Commandes et stock"
+
+#: src/Model/Table/MembersTable.php
+msgid "Choose a location."
+msgstr "Choisis un lieu."
+
+#: templates/element/Members/site_control.php
+msgid "Changing the location removes the member from its teams: edit the member again to choose the teams of the new location."
+msgstr "Changer de lieu retire le membre de ses équipes : modifie à nouveau le membre pour choisir les équipes du nouveau lieu."
+
+#: templates/Members/add.php
+msgid "Only the teams of the location of the member."
+msgstr "Uniquement les équipes du lieu du membre."
+
+#: src/Model/Table/MembersTable.php
+msgid "The teams must be in the location of the member."
+msgstr "Les équipes doivent être dans le lieu du membre."
+
+#: src/Model/Table/TeamsTable.php
+msgid "This team has members of another location: remove them from the team first."
+msgstr "Cette équipe a des membres d'un autre lieu : retire-les d'abord de l'équipe."
+
+#: src/Controller/TeamsController.php
+msgid "This member is in another location than the team."
+msgstr "Ce membre est dans un autre lieu que l'équipe."

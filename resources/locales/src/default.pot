@@ -4520,3 +4520,27 @@ msgstr ""
 msgid "contact our support"
 msgstr ""
 
+
+#: src/Model/Table/MembersTable.php
+msgid "Choose a location."
+msgstr ""
+
+#: templates/element/Members/site_control.php
+msgid "Changing the location removes the member from its teams: edit the member again to choose the teams of the new location."
+msgstr ""
+
+#: templates/Members/add.php
+msgid "Only the teams of the location of the member."
+msgstr ""
+
+#: src/Model/Table/MembersTable.php
+msgid "The teams must be in the location of the member."
+msgstr ""
+
+#: src/Model/Table/TeamsTable.php
+msgid "This team has members of another location: remove them from the team first."
+msgstr ""
+
+#: src/Controller/TeamsController.php
+msgid "This member is in another location than the team."
+msgstr ""
