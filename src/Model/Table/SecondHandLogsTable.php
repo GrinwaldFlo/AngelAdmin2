@@ -35,7 +35,7 @@ class SecondHandLogsTable extends Table
     public function record(SecondHandItem $item): SecondHandLog
     {
         $log = $this->newEmptyEntity();
-        $log->set([
+        $log->patch([
             'item_id' => $item->id,
             'member_id' => $item->profile->member_id,
             'seller_name' => $item->profile->name,

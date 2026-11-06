@@ -28,6 +28,8 @@ The root `_*.bat` files are Windows wrappers for the same commands. CI (`.github
 
 - No MySQL needed: the `test` datasource is SQLite at `tmp/tests.sqlite` (override with `DATABASE_TEST_URL`). `tests/bootstrap.php` aliases `default` → `test` and builds the schema by running `config/Migrations`; fixtures in `tests/Fixture` only insert rows. **A new table or column must have a migration, or tests won't see it.**
 - Some baked tests are still marked incomplete/skipped (`I`/`S` in output); they don't fail the run.
+- The whole suite must pass with no deprecation: no "PHPUnit Deprecations" in the summary and no `deprecated:` line in the output (CakePHP, PHP or PHPUnit). Check with `./vendor/bin/phpunit --display-deprecations --display-phpunit-deprecations`.
+- When a test fails, don't assume the test is wrong: first check whether the tested function has a bug. Change the test only when the behavior change is intended, and say so.
 
 ## Architecture
 
