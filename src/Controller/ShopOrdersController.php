@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Controller\Component\ShopOrderComponent;
+
 /**
  * Orders of the chosen city: detail (delete an order, change its attribute) and summary by item and attribute (stock)
  * The items are given to the members on the member orders page (MemberOrdersController)
@@ -55,13 +57,13 @@ class ShopOrdersController extends AppController
             return $this->renderChooseSite();
         }
 
-        $itemFilter = $this->getPrefSession('shopOrdersItemFilter', $itemFilter, 0);
+        $itemOptions = $this->fetchTable('ShopItems')->listInSite($siteId);
+        $itemFilter = $this->shopItemFilter('shopOrdersItemFilter', $itemFilter, $itemOptions);
         $deliveredFilter = $this->getPrefSession('shopOrdersDeliveredFilter', $deliveredFilter, 0);
 
         $query = $this->MemberOrders->find('filtered', siteId: $siteId, delivered: $deliveredFilter, item: $itemFilter)
             ->contain(MemberOrdersController::CONTAIN);
         $memberOrders = $this->paginate($query);
-        $itemOptions = $this->fetchTable('ShopItems')->find('list')->find('inSite', siteId: $siteId)->orderBy(['label' => 'ASC'])->toArray();
 
         $this->set(compact('memberOrders', 'itemFilter', 'deliveredFilter', 'itemOptions'));
     }
@@ -101,12 +103,17 @@ class ShopOrdersController extends AppController
         $this->Authorization->authorize($memberOrder);
         $this->checkShopSite($memberOrder->shop_item->site_id);
 
-        if ($this->ShopOrder->deleteOrder($memberOrder)) {
-            $this->Flash->success($memberOrder->bill === null
-                ? __('The member order has been deleted.')
-                : __('The member order has been deleted. The bill has not been changed, an email has been sent to correct it.'));
-        } else {
-            $this->Flash->warning(__('The member order has been deleted, but the email about its bill could not be sent: correct the bill {0} by hand.', $memberOrder->bill->reference));
+        switch ($this->ShopOrder->deleteOrder($memberOrder)) {
+            case ShopOrderComponent::DELETE_DONE:
+                $this->Flash->success($memberOrder->bill === null
+                    ? __('The member order has been deleted.')
+                    : __('The member order has been deleted. The bill has not been changed, an email has been sent to correct it.'));
+                break;
+            case ShopOrderComponent::DELETE_NO_EMAIL:
+                $this->Flash->warning(__('The member order has been deleted, but the email about its bill could not be sent: correct the bill {0} by hand.', $memberOrder->bill->reference));
+                break;
+            default:
+                $this->Flash->error(__('The member order could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);
@@ -147,7 +154,7 @@ class ShopOrdersController extends AppController
         $items = $this->fetchTable('ShopItems');
         $this->Authorization->authorize($items->newEmptyEntity(), 'manageStock');
         if ($this->shopSiteId() === 0) {
-            return $this->redirectChooseSite();
+            return $this->redirectChooseSite('summary');
         }
 
         $item = $items->get((int)$this->request->getData('shop_item_id'));
@@ -166,8 +173,7 @@ class ShopOrdersController extends AppController
 
         // An offered attribute, or one removed since that still has stock or orders (they created its stock)
         $stocks = $this->fetchTable('ShopStocks');
-        $offered = $item->hasAttributes() ? $item->getAttributeList() : [''];
-        if (!in_array($attribute, $offered, true) && $stocks->getFor($item->id, $attribute)->isNew()) {
+        if (!in_array($attribute, $item->stockKeys(), true) && $stocks->getFor($item->id, $attribute)->isNew()) {
             $this->Flash->error(__('This attribute is not offered for this item.'));
 
             return $redirect;

@@ -6,6 +6,7 @@ namespace App\Test\TestCase\Controller;
 
 use App\Controller\PrefResult;
 use App\Model\Entity\ShopItem;
+use App\Model\Table\BillsTable;
 use App\Model\Table\ShopItemsTable;
 use App\Test\TestSuite\TestDataTrait;
 use Cake\Core\Configure;
@@ -234,6 +235,49 @@ class ShopOrderTest extends TestCase
         $this->assertSame(0, $this->shopStock($tshirt, 'S'));
         // An item without attribute has no attribute
         $this->assertNull($this->getTableLocator()->get('MemberOrders')->find()->where(['shop_item_id' => $this->shirt])->firstOrFail()->attribute);
+    }
+
+    /**
+     * Many lines don't fit in the label of the bill: it is trimmed, the order is placed
+     */
+    public function testLongOrderTrimsTheBillLabel(): void
+    {
+        $sizes = ['Extra small', 'Small', 'Medium', 'Large', 'Extra large', 'Extra extra large'];
+        $hoodie = $this->addShopItem('Club training hoodie with long sleeves', ['attributes' => implode("\n", $sizes), 'allow_out_of_stock' => true]);
+        $this->loginWith(['MemberEditOwn']);
+        $order = [];
+        foreach ($sizes as $size) {
+            $order[$hoodie][ShopItem::attributeKey($size)] = '1';
+        }
+
+        $this->post('/members/view/1', ['shop_order' => $order]);
+
+        $this->assertRedirect(['controller' => 'Members', 'action' => 'view', 1]);
+        $bill = $this->getTableLocator()->get('Bills')->find()->firstOrFail();
+        $this->assertSame(BillsTable::LABEL_MAX_LENGTH, mb_strlen($bill->label));
+        $this->assertSame(count($sizes), $this->orders());
+    }
+
+    /**
+     * The stock taken by another order after the check: refused when it is taken, nothing saved
+     */
+    public function testStockTakenMeanwhile(): void
+    {
+        $tshirt = $this->addTshirt();
+        $this->loginWith(['MemberEditOwn']);
+        // Another order takes the stock between the check of the order and its saving
+        $this->getTableLocator()->get('Bills')->getEventManager()->on('Model.beforeSave', function () use ($tshirt): void {
+            $this->getTableLocator()->get('ShopStocks')->updateAll(['quantity' => 1], ['shop_item_id' => $tshirt, 'attribute' => 'S']);
+        });
+
+        $this->post('/members/view/1', ['shop_order' => $this->line($tshirt, 2, 'S')]);
+
+        $this->assertResponseOk();
+        $this->assertFlashMessage('There is not enough stock for T-shirt - S.');
+        $this->assertSame(0, $this->bills());
+        $this->assertSame(0, $this->orders());
+        // Not deducted (the change of the test is in the same connection: rolled back with the order)
+        $this->assertSame(2, $this->shopStock($tshirt, 'S'));
     }
 
     /**

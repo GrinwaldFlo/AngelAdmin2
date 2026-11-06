@@ -37,6 +37,11 @@ use Cake\I18n\Date;
 class BillsTable extends Table
 {
   /**
+   * Maximum length of a bill label
+   */
+  public const LABEL_MAX_LENGTH = 200;
+
+  /**
    * Initialize method
    *
    * @param array $config The configuration for the Table.
@@ -77,7 +82,7 @@ class BillsTable extends Table
 
     $validator
       ->scalar('label')
-      ->maxLength('label', 200)
+      ->maxLength('label', self::LABEL_MAX_LENGTH)
       ->requirePresence('label', 'create')
       ->notEmptyString('label');
 
@@ -378,7 +383,8 @@ class BillsTable extends Table
     $bill->member_id = $member->id;
     $bill->site_id = $siteId;
     $bill->amount = $totalAmount;
-    $bill->label = __('Shop Order: {0}', implode(', ', $itemLabels));
+    // Many lines don't fit in the label: trimmed to its maximum length
+    $bill->label = Text::truncate(__('Shop Order: {0}', implode(', ', $itemLabels)), self::LABEL_MAX_LENGTH, ['exact' => true]);
 
     if ($this->save($bill)) {
       return $bill;

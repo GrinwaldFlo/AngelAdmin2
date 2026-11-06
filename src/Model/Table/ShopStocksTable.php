@@ -6,6 +6,8 @@ namespace App\Model\Table;
 
 use App\Model\Entity\ShopItem;
 use App\Model\Entity\ShopStock;
+use Cake\Database\Exception\QueryException;
+use Cake\I18n\DateTime;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -65,22 +67,31 @@ class ShopStocksTable extends Table
      * Quantity a member can order: limited by the stock unless the item allows out of stock orders
      *
      * @param int $max maximum quantity of an order line
+     * @param array<int, array<string, \App\Model\Entity\ShopStock>>|null $stocks stocks already loaded with stocksOf(), null = read it
      */
-    public function orderable(ShopItem $item, ?string $attribute, int $max): int
+    public function orderable(ShopItem $item, ?string $attribute, int $max, ?array $stocks = null): int
     {
         if ($item->allow_out_of_stock) {
             return $max;
         }
+        $quantity = $stocks === null
+            ? $this->getFor($item->id, $attribute)->quantity
+            : ($stocks[$item->id][(string)$attribute]->quantity ?? 0);
 
-        return min($max, max(0, $this->getFor($item->id, $attribute)->quantity));
+        return min($max, max(0, (int)$quantity));
     }
 
     /**
      * Items ordered by a member: removed from the stock
+     * Unless the item allows out of stock orders, the stock is checked in the same query: two orders at the same time can't take the same items
+     *
+     * @return bool false if there is not enough stock (nothing changed)
      */
-    public function reserve(int $itemId, ?string $attribute, int $quantity): void
+    public function reserve(ShopItem $item, ?string $attribute, int $quantity): bool
     {
-        $this->addTo($itemId, $attribute, -$quantity);
+        $conditions = $item->allow_out_of_stock ? [] : ['quantity >=' => $quantity];
+
+        return $this->update($item->id, $attribute, ['quantity' => 'quantity - ' . $quantity], $conditions);
     }
 
     /**
@@ -88,16 +99,22 @@ class ShopStocksTable extends Table
      */
     public function release(int $itemId, ?string $attribute, int $quantity): void
     {
-        $this->addTo($itemId, $attribute, $quantity);
+        $this->update($itemId, $attribute, ['quantity' => 'quantity + ' . $quantity]);
     }
 
     /**
      * Order changed to another attribute
+     *
+     * @return bool false if there is not enough stock of the new attribute (nothing changed)
      */
-    public function move(int $itemId, ?string $from, ?string $to, int $quantity): void
+    public function move(ShopItem $item, ?string $from, ?string $to, int $quantity): bool
     {
-        $this->release($itemId, $from, $quantity);
-        $this->reserve($itemId, $to, $quantity);
+        if (!$this->reserve($item, $to, $quantity)) {
+            return false;
+        }
+        $this->release($item->id, $from, $quantity);
+
+        return true;
     }
 
     /**
@@ -105,7 +122,7 @@ class ShopStocksTable extends Table
      */
     public function markOrdered(int $itemId, ?string $attribute, int $quantity): void
     {
-        $this->addTo($itemId, $attribute, 0, $quantity);
+        $this->update($itemId, $attribute, ['on_order' => 'on_order + ' . $quantity]);
     }
 
     /**
@@ -113,10 +130,10 @@ class ShopStocksTable extends Table
      */
     public function receive(int $itemId, ?string $attribute, int $quantity): void
     {
-        $stock = $this->getFor($itemId, $attribute);
-        $stock->quantity += $quantity;
-        $stock->on_order = max(0, $stock->on_order - $quantity);
-        $this->saveOrFail($stock);
+        $this->update($itemId, $attribute, [
+            'quantity' => 'quantity + ' . $quantity,
+            'on_order' => sprintf('CASE WHEN on_order > %1$d THEN on_order - %1$d ELSE 0 END', $quantity),
+        ]);
     }
 
     /**
@@ -124,28 +141,51 @@ class ShopStocksTable extends Table
      */
     public function setQuantity(int $itemId, ?string $attribute, int $quantity): void
     {
-        $stock = $this->getFor($itemId, $attribute);
-        $stock->quantity = $quantity;
-        $this->saveOrFail($stock);
+        $this->update($itemId, $attribute, ['quantity' => (string)$quantity]);
     }
 
     /**
-     * Add to the counters in one query, two orders at the same time don't lose a change
+     * Change the counters in one query: a change made at the same time by another request is not lost
+     * The stock is created when the item and attribute have none yet
+     *
+     * @param array<string, string> $set column => SQL expression on the integer columns (built from integers only)
+     * @param array $conditions extra conditions, the stock is not changed if they are not met
+     * @return bool false if the conditions are not met
      */
-    private function addTo(int $itemId, ?string $attribute, int $quantity, int $onOrder = 0): void
+    private function update(int $itemId, ?string $attribute, array $set, array $conditions = []): bool
     {
-        $stock = $this->getFor($itemId, $attribute);
-        if ($stock->isNew()) {
-            $this->saveOrFail($stock);
+        $where = ['shop_item_id' => $itemId, 'attribute' => (string)$attribute] + $conditions;
+        if ($this->runUpdate($set, $where)) {
+            return true;
         }
+        if ($conditions !== []) {
+            // A missing stock is 0: it can't meet a minimum quantity
+            return false;
+        }
+        try {
+            $this->insertQuery()
+                ->insert(['shop_item_id', 'attribute', 'quantity', 'on_order', 'modified'])
+                ->values(['shop_item_id' => $itemId, 'attribute' => (string)$attribute, 'quantity' => 0, 'on_order' => 0, 'modified' => DateTime::now()])
+                ->execute();
+        } catch (QueryException) {
+            // Created at the same time by another request (unique item and attribute): it is updated below
+        }
+
+        return $this->runUpdate($set, $where);
+    }
+
+    /**
+     * @param array<string, string> $set
+     * @return bool true if a stock was changed
+     */
+    private function runUpdate(array $set, array $where): bool
+    {
         $query = $this->updateQuery();
-        $query
-            ->set([
-                'quantity' => $query->newExpr('quantity + ' . $quantity),
-                'on_order' => $query->newExpr('on_order + ' . $onOrder),
-            ])
-            ->where(['id' => $stock->id])
-            ->execute();
+        foreach ($set as $column => $expression) {
+            $query->set($column, $query->expr($expression));
+        }
+
+        return $query->set('modified', DateTime::now())->where($where)->execute()->rowCount() > 0;
     }
 
     /**
@@ -182,7 +222,7 @@ class ShopStocksTable extends Table
 
         $rows = [];
         foreach ($items as $item) {
-            $offered = $item->hasAttributes() ? $item->getAttributeList() : [''];
+            $offered = $item->stockKeys();
             $keys = $item->active ? $offered : [];
             foreach ($stocks[$item->id] ?? [] as $attribute => $stock) {
                 if ($stock->quantity != 0 || $stock->on_order != 0) {

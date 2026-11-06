@@ -42,6 +42,12 @@ class ShopAttributesStock extends BaseMigration
             ->addIndex(['shop_item_id', 'attribute'], ['unique' => true])
             ->addForeignKey('shop_item_id', 'shop_items', 'id', ['delete' => 'CASCADE', 'update' => 'CASCADE'])
             ->create();
+        // The orders not given yet are deducted from the stock, as the new orders: deleting one gives its items back
+        $this->execute(
+            "INSERT INTO shop_stocks (shop_item_id, attribute, quantity, on_order)
+            SELECT shop_item_id, '', -SUM(quantity), 0 FROM member_orders
+            WHERE delivered = 0 GROUP BY shop_item_id"
+        );
 
         $this->table('roles')
             ->addColumn('ShopManager', 'boolean', ['default' => false])

@@ -45,11 +45,29 @@ trait ShopSiteTrait
     /**
      * Flash and back to the page, for the changes made without a chosen city
      */
-    protected function redirectChooseSite(): Response
+    protected function redirectChooseSite(string $action = 'index'): Response
     {
         $this->Flash->error(__('Choose a location in the menu first.'));
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['action' => $action]);
+    }
+
+    /**
+     * Item filter kept in the session: back to all items when the item is not in the city (the city was changed in the menu)
+     *
+     * @param string $sessionKey
+     * @param int|null $itemFilter ShopItem id, 0 = all, null/-999 = the one in the session
+     * @param array<int, string> $itemOptions items of the city
+     * @return int
+     */
+    protected function shopItemFilter(string $sessionKey, ?int $itemFilter, array $itemOptions): int
+    {
+        $itemFilter = $this->getPrefSession($sessionKey, $itemFilter, 0);
+        if ($itemFilter !== 0 && !isset($itemOptions[$itemFilter])) {
+            $itemFilter = $this->getPrefSession($sessionKey, 0, 0);
+        }
+
+        return $itemFilter;
     }
 
     /**

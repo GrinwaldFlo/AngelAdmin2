@@ -184,6 +184,16 @@ class ShopItemsTable extends Table
     }
 
     /**
+     * Items of a city for a select, sorted by label
+     *
+     * @return array<int, string> [id => label]
+     */
+    public function listInSite(int $siteId): array
+    {
+        return $this->find('list')->find('inSite', siteId: $siteId)->orderBy(['ShopItems.label' => 'ASC'])->toArray();
+    }
+
+    /**
      * Find orders by payment status
      */
     public function findOrdersByPaymentStatus(Query $query, array $options): Query

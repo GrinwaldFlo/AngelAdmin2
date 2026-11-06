@@ -49,14 +49,14 @@ class MemberOrdersController extends AppController
         $categoryFilter = $this->getPrefSession('memberOrdersCategoryFilter', $categoryFilter, 0);
         $deliveredFilter = $this->getPrefSession('memberOrdersDeliveredFilter', $deliveredFilter, 0);
         $paidFilter = $this->getPrefSession('memberOrdersPaidFilter', $paidFilter, 0);
-        $itemFilter = $this->getPrefSession('memberOrdersItemFilter', $itemFilter, 0);
+        $itemOptions = $this->fetchTable('ShopItems')->listInSite($siteId);
+        $itemFilter = $this->shopItemFilter('memberOrdersItemFilter', $itemFilter, $itemOptions);
 
         $query = $this->MemberOrders->find('filtered', siteId: $siteId, category: $categoryFilter, delivered: $deliveredFilter, paid: $paidFilter, item: $itemFilter)
             ->contain(self::CONTAIN);
         $memberOrders = $this->paginate($query);
 
         $categoryOptions = $this->fetchTable('ShopItems')->getCategoryOptions();
-        $itemOptions = $this->fetchTable('ShopItems')->find('list')->find('inSite', siteId: $siteId)->orderBy(['label' => 'ASC'])->toArray();
 
         $this->set(compact('memberOrders', 'categoryFilter', 'deliveredFilter', 'paidFilter', 'itemFilter', 'categoryOptions', 'itemOptions'));
     }

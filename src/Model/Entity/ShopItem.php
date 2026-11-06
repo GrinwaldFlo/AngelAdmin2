@@ -92,6 +92,26 @@ class ShopItem extends Entity
     }
 
     /**
+     * Attributes a member can order: null for an item without attribute (as saved in the orders)
+     *
+     * @return array<int, string|null>
+     */
+    public function orderAttributes(): array
+    {
+        return $this->hasAttributes() ? $this->getAttributeList() : [null];
+    }
+
+    /**
+     * Offered attributes as stock keys: '' for an item without attribute (as saved in the stocks)
+     *
+     * @return string[]
+     */
+    public function stockKeys(): array
+    {
+        return array_map('strval', $this->orderAttributes());
+    }
+
+    /**
      * Key of an attribute in the order form: the text may contain characters not allowed in a field name
      */
     public static function attributeKey(string $attribute): string

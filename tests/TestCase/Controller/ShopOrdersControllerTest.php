@@ -323,7 +323,56 @@ class ShopOrdersControllerTest extends TestCase
         }
         $this->postStock(ShopOrdersController::STOCK_ADJUST, 5);
         $this->assertFlashElement('flash/error');
+        // Back to the summary, where the stock form is
+        $this->assertRedirect(['controller' => 'ShopOrders', 'action' => 'summary']);
         $this->assertSame(-2, $this->shopStock($this->tshirt, 'M'));
+    }
+
+    /**
+     * The item filter of another location (changed in the menu) is reset to all items
+     */
+    public function testItemFilterOfAnotherLocationIsReset(): void
+    {
+        $this->addSite(2, 'Lausanne');
+        $other = $this->addShopItem('Lausanne cap', ['site_id' => 2]);
+        $this->addOrder(4, $other, null, 1, null);
+        $members = $this->getTableLocator()->get('Members');
+        $this->loginWith(self::MANAGER);
+
+        $members->updateAll(['pref_site_id' => 2], ['id' => 1]);
+        $this->get("/shop-orders/index/$other");
+        $this->assertCount(1, $this->viewVariable('memberOrders'));
+
+        $members->updateAll(['pref_site_id' => 1], ['id' => 1]);
+        $this->get('/shop-orders');
+        $this->assertSame(0, $this->viewVariable('itemFilter'));
+        $this->assertCount(3, $this->viewVariable('memberOrders'));
+        $this->assertSession(0, 'shopOrdersItemFilter');
+    }
+
+    /**
+     * Received from the supplier: never more on order than ordered
+     */
+    public function testReceiveMoreThanOrdered(): void
+    {
+        $this->loginWith(self::MANAGER);
+
+        $this->postStock(ShopOrdersController::STOCK_ORDERED, 1);
+        $this->postStock(ShopOrdersController::STOCK_RECEIVED, 3);
+
+        $this->assertSame([2, 1, 0, 0], $this->summary()['T-shirt/M']);
+    }
+
+    /**
+     * Stock of an offered attribute without stock yet: created
+     */
+    public function testUpdateStockCreatesTheStock(): void
+    {
+        $this->loginWith(self::MANAGER);
+
+        $this->postStock(ShopOrdersController::STOCK_ORDERED, 4, 'L');
+
+        $this->assertSame([0, 0, 4, 0], $this->summary()['T-shirt/L']);
     }
 
     public function testMerchandisingManager(): void

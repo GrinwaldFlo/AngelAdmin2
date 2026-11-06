@@ -282,6 +282,28 @@ class MemberOrdersControllerTest extends TestCase
     }
 
     /**
+     * The item filter of another location (changed in the menu) is reset to all items
+     */
+    public function testItemFilterOfAnotherLocationIsReset(): void
+    {
+        $this->addSite(2, 'Lausanne');
+        $itemId = $this->addShopItem('Lausanne cap', ['site_id' => 2]);
+        $this->getTableLocator()->get('MemberOrders')->insertQuery()
+            ->insert(['id', 'shop_item_id', 'member_id', 'quantity', 'delivered'])
+            ->values(['id' => 4, 'shop_item_id' => $itemId, 'member_id' => 1, 'quantity' => 1, 'delivered' => false])
+            ->execute();
+        $this->loginWith(self::MANAGER);
+        $members = $this->getTableLocator()->get('Members');
+
+        $members->updateAll(['pref_site_id' => 2], ['id' => 1]);
+        $this->assertSame([4], $this->listedIds("/member-orders/index/0/0/0/$itemId"));
+
+        $members->updateAll(['pref_site_id' => 1], ['id' => 1]);
+        $this->assertSame([1, 2, 3], $this->listedIds('/member-orders'));
+        $this->assertSession(0, 'memberOrdersItemFilter');
+    }
+
+    /**
      * With several locations, "All locations" must be replaced by one location
      */
     public function testAskToChooseALocation(): void

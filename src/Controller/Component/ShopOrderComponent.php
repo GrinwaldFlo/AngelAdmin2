@@ -28,6 +28,13 @@ class ShopOrderComponent extends Component
      */
     public const MAX_QUANTITY = 10;
 
+    /**
+     * Results of deleteOrder()
+     */
+    public const DELETE_DONE = 'done';
+    public const DELETE_NO_EMAIL = 'noEmail';
+    public const DELETE_FAILED = 'failed';
+
     protected array $components = ['Mail'];
 
     /**
@@ -43,13 +50,14 @@ class ShopOrderComponent extends Component
             return [];
         }
         $stocks = $this->fetchTable('ShopStocks');
+        $items = $this->fetchTable('ShopItems')->find('active')->find('inSite', siteId: $siteId)->orderByAsc('label')->all()->toList();
+        $itemStocks = $stocks->stocksOf(array_map(fn($item) => $item->id, $items));
 
         $offer = [];
-        $items = $this->fetchTable('ShopItems')->find('active')->find('inSite', siteId: $siteId)->orderByAsc('label');
         foreach ($items as $item) {
             $options = [];
-            foreach ($this->attributesOf($item) as $attribute) {
-                $max = $stocks->orderable($item, $attribute, self::MAX_QUANTITY);
+            foreach ($item->orderAttributes() as $attribute) {
+                $max = $stocks->orderable($item, $attribute, self::MAX_QUANTITY, $itemStocks);
                 if ($max > 0) {
                     $key = $attribute === null ? null : ShopItem::attributeKey($attribute);
                     $options[] = ['attribute' => $attribute, 'key' => $key, 'max' => $max];
@@ -86,7 +94,8 @@ class ShopOrderComponent extends Component
         }
 
         $bills = $this->fetchTable('Bills');
-        $bill = $bills->getConnection()->transactional(function () use ($member, $lines, $bills) {
+        $error = __('There was an error processing your order. Please try again.');
+        $bill = $this->transaction(function () use ($member, $lines, $bills, &$error) {
             $orderItems = array_map(fn($line) => [
                 'id' => $line['item']->id,
                 'label' => $line['item']->labelWith($line['attribute']),
@@ -112,14 +121,19 @@ class ShopOrderComponent extends Component
                 if (!$orders->save($order)) {
                     return false;
                 }
-                $stocks->reserve($line['item']->id, $line['attribute'], $line['quantity']);
+                // Checked again here: another order may have taken the stock since checkOrder()
+                if (!$stocks->reserve($line['item'], $line['attribute'], $line['quantity'])) {
+                    $error = $this->notEnoughStock($line['item'], $line['attribute']);
+
+                    return false;
+                }
             }
 
             return $bill;
         });
 
         if (!$bill) {
-            $controller->Flash->error(__('There was an error processing your order. Please try again.'));
+            $controller->Flash->error($error);
 
             return false;
         }
@@ -134,19 +148,23 @@ class ShopOrderComponent extends Component
      * Delete an order: the items not given yet go back to the stock
      * The bill is not changed: the sender of the city gets an email to correct it by hand
      *
-     * @return bool false if the email could not be sent (the order is deleted anyway)
+     * @return string one of the DELETE_ constants
      */
-    public function deleteOrder(MemberOrder $order): bool
+    public function deleteOrder(MemberOrder $order): string
     {
         $orders = $this->fetchTable('MemberOrders');
-        $orders->getConnection()->transactional(function () use ($order, $orders) {
+        $deleted = $this->transaction(function () use ($order, $orders) {
             if (!$order->delivered) {
                 $this->fetchTable('ShopStocks')->release($order->shop_item_id, $order->attribute, $order->quantity);
             }
-            $orders->deleteOrFail($order);
-        });
 
-        return $order->bill === null || $this->notifyDeletion($order);
+            return $orders->delete($order);
+        });
+        if (!$deleted) {
+            return self::DELETE_FAILED;
+        }
+
+        return $order->bill === null || $this->notifyDeletion($order) ? self::DELETE_DONE : self::DELETE_NO_EMAIL;
     }
 
     /**
@@ -167,28 +185,46 @@ class ShopOrderComponent extends Component
             return null;
         }
         $stocks = $this->fetchTable('ShopStocks');
-        if ($stocks->orderable($item, $attribute, $order->quantity) < $order->quantity) {
-            return __('There is not enough stock for {0}.', $item->labelWith($attribute));
+        $orders = $this->fetchTable('MemberOrders');
+        $error = __('The order could not be updated. Please, try again.');
+        $previous = $order->attribute;
+        $changed = $this->transaction(function () use ($order, $item, $attribute, $previous, $orders, $stocks, &$error) {
+            // The stock is checked when it is taken: another order may take it at the same time
+            if (!$stocks->move($item, $previous, $attribute, $order->quantity)) {
+                $error = $this->notEnoughStock($item, $attribute);
+
+                return false;
+            }
+            $order->attribute = $attribute;
+
+            return (bool)$orders->save($order);
+        });
+        if (!$changed) {
+            $order->attribute = $previous;
         }
 
-        $orders = $this->fetchTable('MemberOrders');
-        $orders->getConnection()->transactional(function () use ($order, $attribute, $orders, $stocks) {
-            $stocks->move($order->shop_item_id, $order->attribute, $attribute, $order->quantity);
-            $order->attribute = $attribute;
-            $orders->saveOrFail($order);
-        });
-
-        return null;
+        return $changed ? null : $error;
     }
 
     /**
-     * Attributes of an item: null for an item without attribute
+     * Run the changes in a transaction: rolled back if the callback returns false or throws (logged)
      *
-     * @return array<int, string|null>
+     * @return mixed the result of the callback, false if it failed
      */
-    private function attributesOf(ShopItem $item): array
+    private function transaction(callable $callback): mixed
     {
-        return $item->hasAttributes() ? $item->getAttributeList() : [null];
+        try {
+            return $this->fetchTable('MemberOrders')->getConnection()->transactional($callback);
+        } catch (Throwable $exception) {
+            Log::error('Shop order failed: ' . $exception->getMessage());
+
+            return false;
+        }
+    }
+
+    private function notEnoughStock(ShopItem $item, ?string $attribute): string
+    {
+        return __('There is not enough stock for {0}.', $item->labelWith($attribute));
     }
 
     /**
@@ -200,14 +236,18 @@ class ShopOrderComponent extends Component
     {
         $invalid = __('The order is not valid. Please try again.');
         $siteId = $this->fetchTable('Members')->getSiteIdOf($member->id);
-        $items = $this->fetchTable('ShopItems');
         $stocks = $this->fetchTable('ShopStocks');
+        $itemIds = array_map('intval', array_keys($orderData));
+        // Only the items still for sale, in the city of the member
+        $items = $itemIds === [] ? [] : $this->fetchTable('ShopItems')->find('active')->find('inSite', siteId: $siteId)
+            ->where(['ShopItems.id IN' => $itemIds])->all()->indexBy('id')->toArray();
+        $itemStocks = $stocks->stocksOf(array_keys($items));
 
         $lines = [];
         foreach ($orderData as $itemId => $quantities) {
             // An item without attribute has one quantity, an item with attributes one quantity by attribute
             $quantities = is_array($quantities) ? $quantities : ['' => $quantities];
-            $item = null;
+            $item = $items[(int)$itemId] ?? null;
             foreach ($quantities as $key => $quantity) {
                 // Same limits as the form: whole numbers up to the maximum
                 $quantity = $quantity === '' ? 0 : filter_var($quantity, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0, 'max_range' => self::MAX_QUANTITY]]);
@@ -217,8 +257,6 @@ class ShopOrderComponent extends Component
                 if ($quantity === 0) {
                     continue;
                 }
-                // Only the items still for sale, in the city of the member
-                $item ??= $items->find('active')->find('inSite', siteId: $siteId)->where(['ShopItems.id' => (int)$itemId])->first();
                 if ($item === null || ($key === '') === $item->hasAttributes()) {
                     return $invalid;
                 }
@@ -226,8 +264,8 @@ class ShopOrderComponent extends Component
                 if ($key !== '' && $attribute === null) {
                     return __('A choice of {0} is not offered anymore, please check your order.', $item->label);
                 }
-                if ($stocks->orderable($item, $attribute, self::MAX_QUANTITY) < $quantity) {
-                    return __('There is not enough stock for {0}.', $item->labelWith($attribute));
+                if ($stocks->orderable($item, $attribute, self::MAX_QUANTITY, $itemStocks) < $quantity) {
+                    return $this->notEnoughStock($item, $attribute);
                 }
                 $lines[] = ['item' => $item, 'attribute' => $attribute, 'quantity' => $quantity];
             }
