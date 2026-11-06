@@ -40,9 +40,9 @@ $this->Html->css('shop', ['block' => true]);
                             <?php endif; ?>
                         </td>
                         <td class="actions shop-actions">
-                            <?= $this->Html->link('visibility', ['action' => 'view', $shopItem->id], ['class' => 'material-icons shop-action-icon', 'title' => __('View')]) ?>
-                            <?= $this->Html->link('edit', ['action' => 'edit', $shopItem->id], ['class' => 'material-icons shop-action-icon', 'title' => __('Edit')]) ?>
-                            <?= $this->Form->postLink('delete', ['action' => 'delete', $shopItem->id], ['confirm' => __('Are you sure you want to delete # {0}?', $shopItem->id), 'class' => 'material-icons-outlined shop-action-icon shop-action-delete', 'title' => __('Delete')]) ?>
+                            <?= $this->my->iconLink('visibility', ['action' => 'view', $shopItem->id], __('View')) ?>
+                            <?= $this->my->iconLink('edit', ['action' => 'edit', $shopItem->id], __('Edit')) ?>
+                            <?= $this->my->iconPostLink('delete', ['action' => 'delete', $shopItem->id], __('Delete'), ['confirm' => __('Are you sure you want to delete # {0}?', $shopItem->id), 'class' => 'icon-btn-delete']) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

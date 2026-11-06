@@ -51,14 +51,6 @@
   white-space: nowrap;
 }
 
-.shop-action-icon {
-  text-decoration: none;
-}
-
-.shop-action-delete {
-  color: var(--aa-danger);
-}
-
 .shop-number {
   text-align: right;
 }
@@ -168,14 +160,6 @@
   .shop-table .shop-actions,
   .shop-summary-table .shop-stock-actions {
     flex-basis: 100%;
-  }
-
-  .shop-action-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.75rem;
-    height: 2.75rem;
   }
 
   .shop-summary-table .shop-summary-attribute {

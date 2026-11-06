@@ -296,4 +296,22 @@ class MyHelperTest extends TestCase
             $this->assertStringContainsString('&lt;script&gt;', $html);
         }
     }
+
+    public function testIconLink(): void
+    {
+        $html = $this->My->iconLink('visibility', '/shop-items/view/1', 'Vue "x"');
+
+        $this->assertSame('<a href="/shop-items/view/1" class="icon-btn" title="Vue &quot;x&quot;" aria-label="Vue &quot;x&quot;">visibility</a>', $html);
+    }
+
+    public function testIconPostLinkAddsTheClassAndKeepsTheConfirm(): void
+    {
+        $html = $this->My->iconPostLink('delete', '/shop-items/delete/1', 'Delete', ['class' => 'icon-btn-delete', 'confirm' => 'Sure?']);
+
+        $this->assertStringContainsString('class="icon-btn icon-btn-delete"', $html);
+        $this->assertStringContainsString('title="Delete" aria-label="Delete"', $html);
+        $this->assertStringContainsString('Sure?', $html);
+        $this->assertStringContainsString('>delete</a>', $html);
+        $this->assertStringContainsString('action="/shop-items/delete/1"', $html);
+    }
 }

@@ -281,6 +281,37 @@ class MyHelper extends Helper
         return '<span class="' . h($class) . '">' . h($name) . '</span>';
     }
 
+    /**
+     * Icon button (table row actions: view, edit, ...), styled by .icon-btn in theme.css
+     * @param string $icon Material Symbols name, e.g. visibility, edit
+     * @param array|string $url Link url
+     * @param string $title Tooltip and accessible label
+     * @param array $options Html->link options, 'class' is added to icon-btn
+     */
+    public function iconLink(string $icon, array|string $url, string $title, array $options = []): string
+    {
+        return $this->getView()->Html->link($icon, $url, $this->iconButtonOptions($title, $options));
+    }
+
+    /**
+     * Icon button sending a POST (delete, ...), use the 'confirm' option for destructive actions
+     * @param string $icon Material Symbols name, e.g. delete
+     * @param array|string $url Post url
+     * @param string $title Tooltip and accessible label
+     * @param array $options Form->postLink options, 'class' is added to icon-btn (icon-btn-delete for a red icon)
+     */
+    public function iconPostLink(string $icon, array|string $url, string $title, array $options = []): string
+    {
+        return $this->getView()->Form->postLink($icon, $url, $this->iconButtonOptions($title, $options));
+    }
+
+    private function iconButtonOptions(string $title, array $options): array
+    {
+        $options['class'] = trim('icon-btn ' . ($options['class'] ?? ''));
+
+        return $options + ['title' => $title, 'aria-label' => $title];
+    }
+
     public function symbol($name, $options = []): string
     {
         $class = 'material-symbols';

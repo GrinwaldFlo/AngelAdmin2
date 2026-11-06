@@ -90,7 +90,7 @@ $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['
                             <?php else: ?>
                                 <?= $this->Form->postLink(__('Mark Not Delivered'), ['action' => 'markNotDelivered', $memberOrder->id], ['confirm' => __('Mark this order as not delivered?'), 'class' => 'btn btn-sm btn-delete mo-action-main']) ?>
                             <?php endif; ?>
-                            <?= $this->Html->link('visibility', ['action' => 'view', $memberOrder->id], ['class' => 'material-icons mo-action-icon', 'title' => __('View')]) ?>
+                            <?= $this->my->iconLink('visibility', ['action' => 'view', $memberOrder->id], __('View')) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

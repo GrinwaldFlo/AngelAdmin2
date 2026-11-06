@@ -221,6 +221,20 @@ PHP) ?></code></pre>
   <!-- ******************************************************************************************* -->
   <section class="tg-section" id="icons">
     <h3><?= h($sections['icons']) ?></h3>
+    <h4><?= __('Icon buttons (table row actions)') ?></h4>
+    <div class="tg-specimen">
+      <?= $this->my->iconLink('visibility', '#icons', __('View')) ?>
+      <?= $this->my->iconLink('edit', '#icons', __('Edit')) ?>
+      <?= $this->my->iconLink('download', '#icons', __('Download')) ?>
+      <?= $this->my->iconLink('delete', '#icons', __('Delete'), ['class' => 'icon-btn-delete']) ?>
+    </div>
+    <pre><code><?= h(<<<'PHP'
+<?= $this->my->iconLink('visibility', ['action' => 'view', $id], __('View')) ?>
+<?= $this->my->iconLink('edit', ['action' => 'edit', $id], __('Edit')) ?>
+<?= $this->my->iconPostLink('delete', ['action' => 'delete', $id], __('Delete'), ['confirm' => __('Are you sure you want to delete # {0}?', $id), 'class' => 'icon-btn-delete']) ?>
+PHP) ?></code></pre>
+    <p><?= __('Thin outlined Material Symbols (weight 300), round highlight on hover (red for delete). 28px on desktop, 44px touch size below 992px. Names: fonts.google.com/icons.') ?></p>
+    <h4><?= __('Other icons') ?></h4>
     <div class="tg-specimen tg-icons">
       <?php foreach ($icons as [$markup, $name, $usage]): ?>
         <div class="tg-icon-item">
@@ -231,7 +245,7 @@ PHP) ?></code></pre>
       <?php endforeach; ?>
     </div>
     <ul class="tg-rules">
-      <li><?= h(__('Table row actions are icon links (gg-*) inside a <div class="icon"> in the "actions" column.')) ?></li>
+      <li><?= __('Table row actions use $this->my->iconLink() / iconPostLink() in the "actions" column, never hand-written material-icons links. The older gg-* links in a div.icon are kept on the pages not migrated yet.') ?></li>
       <li><?= __('Other icons come from Material Icons: $this->my->icon(name) or $this->my->symbol(name). An icon only button needs a title / aria-label.') ?></li>
     </ul>
   </section>

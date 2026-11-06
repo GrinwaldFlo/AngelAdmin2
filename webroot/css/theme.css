@@ -34,6 +34,7 @@
   --aa-radius-card: 12px;
   --aa-btn-height: 26px;
   --aa-btn-height-sm: 22px;
+  --aa-icon-btn: 28px;
   --aa-touch: 44px;
   --aa-touch-sm: 40px;
 }
@@ -219,6 +220,57 @@
   .btn-sm {
     min-height: var(--aa-touch-sm);
     padding: 0.4rem 0.75rem;
+  }
+}
+
+/* Icon buttons: table row actions (view, edit, delete), MyHelper::iconLink() / iconPostLink().
+   Thin outlined Material Symbols (weight 300), round highlight on hover */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--aa-icon-btn);
+  height: var(--aa-icon-btn);
+  border-radius: 50%;
+  color: var(--aa-brand-dark);
+  font-family: 'Material Symbols Outlined';
+  font-size: 20px;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  font-variation-settings: 'wght' 300, 'opsz' 20;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.icon-btn:hover,
+.icon-btn:focus-visible {
+  background-color: color-mix(in srgb, var(--aa-brand) 15%, transparent);
+  color: var(--aa-brand-dark);
+}
+
+.icon-btn-delete {
+  color: var(--aa-danger);
+}
+
+.icon-btn-delete:hover,
+.icon-btn-delete:focus-visible {
+  background-color: color-mix(in srgb, var(--aa-danger) 15%, transparent);
+  color: var(--aa-danger-hover);
+}
+
+@media (max-width: 991.98px) {
+  .icon-btn {
+    width: var(--aa-touch);
+    height: var(--aa-touch);
+    font-size: 24px;
+    font-variation-settings: 'wght' 300, 'opsz' 24;
   }
 }
 
