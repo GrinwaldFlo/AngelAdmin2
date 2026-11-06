@@ -147,12 +147,41 @@ class BillsBatchTest extends TestCase
 
     public function testBatchAddNeedsASite(): void
     {
-        $this->loginWith(self::EDITOR);
+        $this->loginWith();
 
         $this->post('/bills/batch-add', ['siteId' => 9, 'amount' => 25, 'label' => 'Camp', 'MemberId' => ['1' => 1]]);
 
         $this->assertRedirect(['action' => 'batchAdd']);
         $this->assertFlashElement('flash/error');
+        $this->assertFalse($this->getTableLocator()->get('Bills')->exists(['label' => 'Camp']));
+    }
+
+    /**
+     * A not admin can't choose the city by the form: its own one is used
+     */
+    public function testBatchAddOfANotAdminUsesItsCity(): void
+    {
+        $this->addSite(2, 'Lausanne');
+        $this->loginWith(self::EDITOR);
+
+        $this->post('/bills/batch-add', ['siteId' => 2, 'due_date' => '2026-12-31', 'link_membership_fee' => 0, 'amount' => 25, 'label' => 'Camp', 'MemberId' => ['1' => 1]]);
+
+        $this->assertRedirect(['action' => 'pdf', -1]);
+        $bill = $this->getTableLocator()->get('Bills')->find()->where(['label' => 'Camp'])->firstOrFail();
+        $this->assertSame(1, $bill->site_id);
+    }
+
+    /**
+     * The bill belongs to the city of the member: no bill for the members of another city
+     */
+    public function testBatchAddSkipsTheMembersOfAnotherCity(): void
+    {
+        $this->addSite(2, 'Lausanne');
+        $this->loginWith();
+
+        $this->post('/bills/batch-add', ['siteId' => 2, 'due_date' => '2026-12-31', 'link_membership_fee' => 0, 'amount' => 25, 'label' => 'Camp', 'MemberId' => ['1' => 1]]);
+
+        $this->assertFlashMessageAt(0, 'Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet is not in Lausanne, no invoice created.');
         $this->assertFalse($this->getTableLocator()->get('Bills')->exists(['label' => 'Camp']));
     }
 
@@ -205,9 +234,12 @@ class BillsBatchTest extends TestCase
         $this->assertRedirect(['controller' => 'Bills', 'action' => 'pdfs', 1, 0, 1, 0]);
     }
 
+    /**
+     * Only an admin chooses the site (a not admin always gets its own city)
+     */
     public function testPdfsNeedASite(): void
     {
-        $this->loginWith(self::EDITOR);
+        $this->loginWith();
 
         $this->get('/bills/pdfs/1/0/9');
 

@@ -541,3 +541,7 @@ input[type='submit'] {
 li {
   margin-bottom: 0.2rem;
 }
+/* Teams of a member (multiple select in the member forms) */
+select.team-select {
+  height: 300px;
+}

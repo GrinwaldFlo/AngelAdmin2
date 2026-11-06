@@ -134,6 +134,8 @@ class PagesControllerTest extends TestCase
 
     public function testMissingPage(): void
     {
+        // In debug mode, a missing page is a missing template error (500)
+        Configure::write('debug', false);
         $this->loginWith([]);
 
         $this->get('/pages/no-such-page');

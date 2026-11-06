@@ -104,7 +104,8 @@ class SitesController extends AppController
     }
     else
     {
-      $this->Flash->error(__('The site could not be deleted.'));
+      $errors = $site->getError('id');
+      $this->Flash->error($errors ? implode(' ', $errors) : __('The site could not be deleted.'));
     }
 
     return $this->redirect(['action' => 'index']);

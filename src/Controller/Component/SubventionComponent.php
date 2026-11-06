@@ -37,9 +37,6 @@ class SubventionComponent extends Component
         $membersFilter = [];
         $membersCity = [];
         foreach ($members as $member) {
-            if ($pref->siteId != 0 && !$controller->memberIsInSite($member, $pref->siteId)) {
-                continue;
-            }
             if (!$controller->memberYoungerThan($member, $ageFilter)) {
                 continue;
             }

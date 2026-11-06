@@ -38,7 +38,6 @@ use Cake\Core\Configure;
  * @property string $fullName Get Surname Name
  * @property string $fullNameShort Get Surname Name short
  * @property string $teamString Get string with all owned teams
- * @property string $siteString Get string with all owned teams
  * @property bool $imgExits Does picture member exists
  * @property string $memberPath Get member path
  * @property string $memberUrl Get member url
@@ -53,7 +52,9 @@ use Cake\Core\Configure;
  * @property \App\Model\Entity\Team[] $teams
  * @property \App\Model\Entity\Field[] $fields
  * @property \App\Model\Entity\MemberOrder[] $member_orders
- * @property int $pref_site_id Site (city) chosen in the menu, 0 = all sites
+ * @property int $pref_site_id Site (city) chosen in the menu by an admin, 0 = all sites
+ * @property int $site_id City of the member (its teams are all in this city)
+ * @property \App\Model\Entity\Site|null $site
  */
 class Member extends Entity
 {
@@ -99,6 +100,7 @@ class Member extends Entity
     'leaving_comment'=> true,
     'reminder_sent' => true,
     'member_orders' => true,
+    'site_id' => true,
   ];
   protected function _getFullName()
   {
@@ -154,30 +156,6 @@ class Member extends Entity
       return __('No team');
     }
     return implode(', ', $names);
-  }
-
-  protected function _getSiteString()
-  {
-    if (isset($this->_fields['site_string'])) {
-      return $this->_fields['site_string'];
-    }
-    if (empty($this->teams)) {
-      return __('No site');
-    }
-
-    $sites = [];
-    foreach ($this->teams as $curTeam) {
-      if (!in_array($curTeam->site->city, $sites)) {
-        array_push($sites, $curTeam->site->city);
-      }
-    }
-
-    $teams = new Collection($sites);
-    $str = $teams->reduce(function ($string, $team) {
-      return $string . $team . ', ';
-    }, '');
-
-    return trim($str, ', ');
   }
 
   protected function _getTeamIds()

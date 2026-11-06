@@ -107,7 +107,7 @@ class MembersController extends AppController
     public function newMembers()
     {
         $this->Authorization->authorize($this->Members->newEmptyEntity(), 'viewNew');
-        $members = $this->MemberList->getNewMembersList();
+        $members = $this->MemberList->getNewMembersList($this->getSiteId());
         $this->set(compact('members'));
     }
 
@@ -291,8 +291,11 @@ class MembersController extends AppController
         $member = $this->MemberManagement->createMember($this->request->getData());
 
         if ($member && !is_string($member)) {
-            $teams = $this->getTeamsActiv(scoped: false);
-            $this->set(compact('member', 'teams'));
+            // Teams of the city preselected in the form: with another city, they are not kept (chosen in a second edit)
+            $defaultSiteId = $this->getSiteId(true);
+            $teams = $this->getTeamsActiv($defaultSiteId, scoped: false);
+            $sites = PrefResult::siteOptions();
+            $this->set(compact('member', 'teams', 'sites', 'defaultSiteId'));
 
             if ($this->request->is('post') && $member->id) {
                 return $this->redirect(['action' => 'index']);
@@ -438,11 +441,14 @@ class MembersController extends AppController
             return $this->redirect(['action' => 'myPage']);
         }
 
-        // Only show teams for normally authenticated users, all teams: a coach can move a member to any team
-        $teams = $this->getTeamsActiv(scoped: false);
-        $this->set(compact('member', 'teams'));
+        // Only shown to the staff, all the teams of the city of the member (saved one): a coach can move a member to any team
+        // Changing the city removes the teams, they are chosen in a second edit
+        $teams = $member && !is_string($member) ? $this->getTeamsActiv((int)$member->getOriginal('site_id'), scoped: false) : [];
+        $sites = PrefResult::siteOptions();
+        $this->set(compact('member', 'teams', 'sites'));
 
-        if ($this->request->is(['patch', 'post', 'put']) && $member && $member->id) {
+        // A failed save stays on the form to show the field errors
+        if ($this->request->is(['patch', 'post', 'put']) && $member && $member->id && !$member->hasErrors()) {
             if($this->isHashAuthenticated())
             {
                 return $this->redirect(['action' => 'my-page']);
@@ -491,7 +497,8 @@ class MembersController extends AppController
             }
         }
 
-        $this->set(compact('member'));
+        $sites = PrefResult::siteOptions();
+        $this->set(compact('member', 'sites'));
     }
 
     public function agreement(int|null $id = null)

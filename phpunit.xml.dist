@@ -4,6 +4,7 @@
     processIsolation="false"
     stopOnFailure="false"
     bootstrap="tests/bootstrap.php"
+    cacheDirectory=".phpunit.cache"
     >
     <php>
         <ini name="memory_limit" value="-1"/>
@@ -19,23 +20,19 @@
         <!-- Add plugin test suites here. -->
     </testsuites>
 
-    <!-- Setup a listener for fixtures -->
-    <listeners>
-        <listener class="Cake\TestSuite\Fixture\FixtureInjector">
-            <arguments>
-                <object class="Cake\TestSuite\Fixture\FixtureManager"/>
-            </arguments>
-        </listener>
-    </listeners>
+    <!-- Fixtures of CakePHP -->
+    <extensions>
+        <bootstrap class="Cake\TestSuite\Fixture\Extension\PHPUnitExtension"/>
+    </extensions>
 
-    <!-- Ignore vendor tests in code coverage reports -->
-    <filter>
-        <whitelist>
+    <!-- Code coverage: only the application code -->
+    <source>
+        <include>
             <directory suffix=".php">src/</directory>
             <directory suffix=".php">plugins/*/src/</directory>
-            <exclude>
-                <file>src/Console/Installer.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
+        </include>
+        <exclude>
+            <file>src/Console/Installer.php</file>
+        </exclude>
+    </source>
 </phpunit>

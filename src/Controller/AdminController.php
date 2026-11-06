@@ -138,6 +138,11 @@ class AdminController extends AppController
             foreach ($result['MemberId'] as $memberId => $value) {
                 if ($value == 1) {
                     $member = $membersReg->get($memberId, contain: ['Users', 'Teams']);
+                    // The bill belongs to the city of the member
+                    if ((int)$member->site_id !== (int)$site->id) {
+                        $this->Flash->error(__('{0} is not in {1}, no invoice created.', $member->FullName, $site->city));
+                        continue;
+                    }
                     $fee = $member->MembershipFee($site->feeMax);
 
                     if ($member->multi_payment > 1) {

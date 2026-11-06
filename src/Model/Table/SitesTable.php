@@ -38,6 +38,23 @@ class SitesTable extends Table
     $this->setTable('sites');
     $this->setDisplayField('city');
     $this->setPrimaryKey('id');
+
+    $this->hasMany('Members', [
+      'foreignKey' => 'site_id',
+    ]);
+  }
+
+  /**
+   * A city with members can't be deleted: they must be moved to another city first
+   *
+   * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+   * @return \Cake\ORM\RulesChecker
+   */
+  public function buildRules(RulesChecker $rules): RulesChecker
+  {
+    $rules->addDelete($rules->isNotLinkedTo('Members', 'id', __('This location has members, move them to another location first.')));
+
+    return $rules;
   }
 
   /**

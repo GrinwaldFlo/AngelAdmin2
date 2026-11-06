@@ -73,12 +73,10 @@ $monthlyMax = max([1, ...array_column($finances['monthly'], 'invoiced')]);
           <span><?= $members['signPending'] ?></span>
         </li>
         <li><?= __('Signatures validated') ?><span><?= $members['signValidated'] ?></span></li>
-        <?php if ($members['withoutTeam'] !== null): ?>
-          <li>
-            <?= $this->Html->link(__('No team'), ['controller' => 'Members', 'action' => 'newMembers']) ?>
-            <span><?= $members['withoutTeam'] ?></span>
-          </li>
-        <?php endif; ?>
+        <li>
+          <?= $this->Html->link(__('No team'), ['controller' => 'Members', 'action' => 'newMembers']) ?>
+          <span><?= $members['withoutTeam'] ?></span>
+        </li>
       </ul>
 
       <h4><?= __('Gender') ?></h4>

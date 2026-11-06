@@ -59,8 +59,9 @@ class SitePreferenceTest extends TestCase
 
     /**
      * Controller without the authentication initialization, with the given member logged
+     * @param bool $admin only the admins choose the city in the menu, the other roles use the city of their member
      */
-    private function controllerWithMember(?Member $member): AppController
+    private function controllerWithMember(?Member $member, bool $admin = true): AppController
     {
         $controller = new class (new ServerRequest()) extends MembersController {
             public function initialize(): void
@@ -69,6 +70,7 @@ class SitePreferenceTest extends TestCase
             }
         };
         $controller->curMember = $member;
+        $controller->curRole = $member === null ? null : new Role(['Admin' => $admin]);
 
         return $controller;
     }
@@ -80,6 +82,8 @@ class SitePreferenceTest extends TestCase
 
     public function testGetSitesCachesEmptyResult(): void
     {
+        // A site with members can't be deleted
+        $this->getTableLocator()->get('Members')->deleteAll([]);
         $this->getTableLocator()->get('Sites')->deleteAll([]);
 
         $this->assertSame([], PrefResult::getSites());
@@ -133,6 +137,22 @@ class SitePreferenceTest extends TestCase
         $this->assertSame(1, $controller->getSiteId(true));
     }
 
+    public function testGetSiteIdOfANotAdminIsItsCity(): void
+    {
+        $controller = $this->controllerWithMember(new Member(['pref_site_id' => 0, 'site_id' => 2]), false);
+
+        $this->assertSame(2, $controller->getSiteId());
+        $this->assertSame(2, $controller->getSiteId(true));
+        $this->assertSame(2, $controller->viewBuilder()->getVar('navSiteId'));
+    }
+
+    public function testGetSiteIdOfANotAdminIgnoresTheMenuChoice(): void
+    {
+        $controller = $this->controllerWithMember(new Member(['pref_site_id' => 2, 'site_id' => 1]), false);
+
+        $this->assertSame(1, $controller->getSiteId());
+    }
+
     public function testGetSiteIdWithoutMember(): void
     {
         $controller = $this->controllerWithMember(null);
@@ -167,10 +187,10 @@ class SitePreferenceTest extends TestCase
     /**
      * Identity with the given role rights
      */
-    private function identityWithRole(bool $memberViewAll, bool $billViewAll): IdentityInterface
+    private function identityWithRole(bool $memberViewAll, bool $billViewAll, bool $admin = false): IdentityInterface
     {
         $user = new ArrayObject(
-            ['Role' => new Role(['MemberViewAll' => $memberViewAll, 'BillViewAll' => $billViewAll])],
+            ['Role' => new Role(['MemberViewAll' => $memberViewAll, 'BillViewAll' => $billViewAll, 'Admin' => $admin])],
             ArrayObject::ARRAY_AS_PROPS
         );
 
@@ -182,8 +202,9 @@ class SitePreferenceTest extends TestCase
         $policy = new MemberPolicy();
         $member = new Member();
 
-        $this->assertTrue($policy->canSetSite($this->identityWithRole(true, false), $member));
-        $this->assertTrue($policy->canSetSite($this->identityWithRole(false, true), $member));
+        // Only the admins choose the city in the menu
+        $this->assertTrue($policy->canSetSite($this->identityWithRole(false, false, true), $member));
+        $this->assertFalse($policy->canSetSite($this->identityWithRole(true, true), $member));
         $this->assertFalse($policy->canSetSite($this->identityWithRole(false, false), $member));
         $this->assertFalse($policy->canSetSite(null, $member));
     }

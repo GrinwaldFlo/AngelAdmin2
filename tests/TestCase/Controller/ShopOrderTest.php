@@ -202,19 +202,18 @@ class ShopOrderTest extends TestCase
 
         $this->assertSame(['Shirt'], array_keys($this->offer()));
 
-        // Member of a team of Lausanne
-        $this->getTableLocator()->get('Teams')->updateAll(['site_id' => 2], ['id' => 1]);
+        // Member of Lausanne
+        $this->getTableLocator()->get('Members')->updateAll(['site_id' => 2], ['id' => 1]);
         $this->assertSame(['Lausanne cap'], array_keys($this->offer()));
     }
 
-    public function testNoShopWithoutTeam(): void
+    public function testShopOfTheCityWithoutTeam(): void
     {
+        // The city is the one of the member, not of its teams
         $this->getTableLocator()->get('TeamsMembers')->deleteAll(['member_id' => 1]);
         $this->loginWith(['MemberEditOwn']);
 
-        $this->assertSame([], $this->offer());
-        $this->post('/members/view/1', ['shop_order' => $this->line($this->shirt, 1)]);
-        $this->assertSame(0, $this->bills());
+        $this->assertSame(['Shirt'], array_keys($this->offer()));
     }
 
     public function testOrderWithAttributeDeductsTheStock(): void
@@ -297,7 +296,7 @@ class ShopOrderTest extends TestCase
     public function testBillOfTheLocationOfTheMember(): void
     {
         $this->addSite(2, 'Lausanne');
-        $this->getTableLocator()->get('Teams')->updateAll(['site_id' => 2], ['id' => 1]);
+        $this->getTableLocator()->get('Members')->updateAll(['site_id' => 2], ['id' => 1]);
         $cap = $this->addShopItem('Lausanne cap', ['site_id' => 2, 'allow_out_of_stock' => true]);
         $this->loginWith(['MemberEditOwn']);
 

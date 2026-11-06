@@ -2847,3 +2847,35 @@ msgstr "Bestellte Artikel übergeben"
 #: templates/layout/default.php:213
 msgid "Orders and stock"
 msgstr "Bestellungen und Lagerbestand"
+
+#: src/Model/Table/MembersTable.php
+msgid "Choose a location."
+msgstr "Wählen Sie einen Standort."
+
+#: src/Controller/AdminController.php src/Controller/BillsController.php
+msgid "{0} is not in {1}, no invoice created."
+msgstr "{0} ist nicht in {1}, keine Rechnung erstellt."
+
+#: src/Model/Table/SitesTable.php
+msgid "This location has members, move them to another location first."
+msgstr "Dieser Standort hat Mitglieder, verschieben Sie sie zuerst an einen anderen Standort."
+
+#: templates/element/Members/site_control.php
+msgid "Changing the location removes the member from its teams: edit the member again to choose the teams of the new location."
+msgstr "Beim Wechsel des Standorts wird das Mitglied aus seinen Teams entfernt: Bearbeiten Sie das Mitglied erneut, um die Teams des neuen Standorts zu wählen."
+
+#: templates/Members/add.php
+msgid "Only the teams of the location of the member."
+msgstr "Nur die Teams des Standorts des Mitglieds."
+
+#: src/Model/Table/MembersTable.php
+msgid "The teams must be in the location of the member."
+msgstr "Die Teams müssen am Standort des Mitglieds sein."
+
+#: src/Model/Table/TeamsTable.php
+msgid "This team has members of another location: remove them from the team first."
+msgstr "Dieses Team hat Mitglieder eines anderen Standorts: Entfernen Sie sie zuerst aus dem Team."
+
+#: src/Controller/TeamsController.php
+msgid "This member is in another location than the team."
+msgstr "Dieses Mitglied ist an einem anderen Standort als das Team."

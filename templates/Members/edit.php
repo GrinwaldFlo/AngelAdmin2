@@ -18,6 +18,7 @@ $canEdit = $curRole->MemberEditAll;
       <?= $this->Form->create($member) ?>
       <fieldset>
         <?php
+        echo $this->element('Members/site_control', ['sites' => $sites, 'changeWarning' => true]);
         echo $this->Form->control('first_name', ['label' => __('First name'), 'required' => !$canEdit]);
         echo $this->Form->control('last_name', ['label' => __('Last name'), 'required' => !$canEdit]);
         echo $this->Form->control('date_birth', ['label' => __('Date of birth'), 'required' => !$canEdit]);
@@ -39,7 +40,7 @@ $canEdit = $curRole->MemberEditAll;
         echo $canEdit ? $this->Form->control('active', ['label' => __('Active')]) : '';
         echo $canEdit ? $this->Form->control('registered', ['label' => __('Registered')]) : '';
         echo $config['showBvr'] ? $this->Form->control('bvr', ['label' => __('Payment slip')]) : "";
-        echo $canEdit ? $this->Form->control('teams._ids', ['style' => "height:300px", 'label' => __('Team')]) : '';
+        echo $canEdit ? $this->Form->control('teams._ids', ['options' => $teams, 'multiple' => true, 'class' => 'team-select', 'label' => __('Team'), 'help' => __('Only the teams of the location of the member.')]) : '';
         ?>
       </fieldset>
       <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-save']) ?>

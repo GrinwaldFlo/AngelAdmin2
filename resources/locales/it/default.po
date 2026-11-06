@@ -2944,3 +2944,35 @@ msgstr "Consegnare articoli ordinati"
 #: templates/layout/default.php:213
 msgid "Orders and stock"
 msgstr "Ordini e stock"
+
+#: src/Model/Table/MembersTable.php
+msgid "Choose a location."
+msgstr "Scegli una sede."
+
+#: src/Controller/AdminController.php src/Controller/BillsController.php
+msgid "{0} is not in {1}, no invoice created."
+msgstr "{0} non è a {1}, nessuna fattura creata."
+
+#: src/Model/Table/SitesTable.php
+msgid "This location has members, move them to another location first."
+msgstr "Questo luogo ha dei membri, spostali prima in un altro luogo."
+
+#: templates/element/Members/site_control.php
+msgid "Changing the location removes the member from its teams: edit the member again to choose the teams of the new location."
+msgstr "Cambiare sede rimuove il membro dalle sue squadre: modifica di nuovo il membro per scegliere le squadre della nuova sede."
+
+#: templates/Members/add.php
+msgid "Only the teams of the location of the member."
+msgstr "Solo le squadre della sede del membro."
+
+#: src/Model/Table/MembersTable.php
+msgid "The teams must be in the location of the member."
+msgstr "Le squadre devono essere nella sede del membro."
+
+#: src/Model/Table/TeamsTable.php
+msgid "This team has members of another location: remove them from the team first."
+msgstr "Questa squadra ha membri di un'altra sede: rimuovili prima dalla squadra."
+
+#: src/Controller/TeamsController.php
+msgid "This member is in another location than the team."
+msgstr "Questo membro è in un'altra sede rispetto alla squadra."

@@ -2,6 +2,9 @@
 declare(strict_types=1);
 namespace App\Model\Table;
 use App\Model\Entity\Member;
+use ArrayObject;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\EventInterface;
 use Cake\ORM\Query;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
@@ -15,6 +18,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\PresencesTable&\Cake\ORM\Association\HasMany $Presences
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\HasMany $Users
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsToMany $Teams
+ * @property \App\Model\Table\SitesTable&\Cake\ORM\Association\BelongsTo $Sites
  *
  * @method \App\Model\Entity\Member newEmptyEntity()
  * @method \App\Model\Entity\Member newEntity(array $data, array $options = [])
@@ -39,8 +43,13 @@ class MembersTable extends Table
      */
     public const OWN_FIELDS = [
         'first_name', 'last_name', 'date_birth', 'gender_id', 'address', 'postcode', 'city', 'phone_mobile', 'phone_home',
-        'email', 'nationality', 'multi_payment', 'communication_method_id', 'bvr',
+        'email', 'nationality', 'multi_payment', 'communication_method_id', 'bvr', 'site_id',
     ];
+
+    /**
+     * City of the members created without one (and of the members without city when it was deduced from the teams)
+     */
+    public const DEFAULT_SITE_ID = 1;
 
     /**
      * Fields of the roles editing all the members: also the membership, the status and the teams
@@ -78,6 +87,10 @@ class MembersTable extends Table
         ]);
         $this->hasOne('Users', [
             'foreignKey' => 'member_id',
+        ]);
+        // City of the member: only one, its teams are all in this city
+        $this->belongsTo('Sites', [
+            'foreignKey' => 'site_id',
         ]);
         $this->belongsToMany('Teams', [
             'foreignKey' => 'member_id',
@@ -122,6 +135,10 @@ class MembersTable extends Table
         $validator
             ->integer('id')
             ->allowEmptyString('id', null, 'create');
+
+        $validator
+            ->integer('site_id')
+            ->notEmptyString('site_id', __('Choose a location.'));
 
         $validator
             ->scalar('first_name')
@@ -279,6 +296,15 @@ class MembersTable extends Table
     }
 
     /**
+     * Registration form: the member must choose its city
+     */
+    public function validationRegister(Validator $validator): Validator
+    {
+        return $this->validationDefault($validator)
+            ->requirePresence('site_id', true, __('Choose a location.'));
+    }
+
+    /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
@@ -287,7 +313,82 @@ class MembersTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
+        $rules->add($rules->existsIn(['site_id'], 'Sites'), [
+            'errorField' => 'site_id',
+            'message' => __('Choose a location.'),
+        ]);
+        $rules->add(
+            fn(Member $member) => $this->teamsInSite($member),
+            'teamsInSite',
+            ['errorField' => 'teams', 'message' => __('The teams must be in the location of the member.')],
+        );
+
         return $rules;
+    }
+
+    /**
+     * Before the rules: a new member without city gets the default one
+     * A member changing city (or created in another city than the one of the form) leaves the teams of the other cities:
+     * the forms only list the teams of the city, the teams are chosen again after the change
+     */
+    public function beforeRules(EventInterface $event, EntityInterface $entity, ArrayObject $options, string $operation): void
+    {
+        if (!$entity instanceof Member) {
+            return;
+        }
+        if ($entity->isNew()) {
+            if (empty($entity->site_id)) {
+                $entity->site_id = self::DEFAULT_SITE_ID;
+            }
+            if (!empty($entity->teams)) {
+                $this->leaveOtherSiteTeams($entity);
+            }
+
+            return;
+        }
+        if ($entity->isDirty('site_id') && (int)$entity->getOriginal('site_id') !== (int)$entity->site_id) {
+            $this->leaveOtherSiteTeams($entity);
+        }
+    }
+
+    /**
+     * Keep only the teams of the city of the member, saved with the member (the links to the other teams are removed)
+     */
+    private function leaveOtherSiteTeams(Member $member): void
+    {
+        $teams = $member->teams ?? $this->Teams->find()
+            ->innerJoinWith('Members', fn($query) => $query->where(['Members.id' => $member->id]))
+            ->all()->toList();
+        $kept = array_values(array_filter($teams, fn($team) => (int)$team->site_id === (int)$member->site_id));
+        if (count($kept) !== count($teams)) {
+            $member->teams = $kept;
+            $member->setDirty('teams', true);
+        }
+    }
+
+    /**
+     * All the teams of the member are in its city (checked only when the teams or the city change)
+     */
+    private function teamsInSite(Member $member): bool
+    {
+        if (!$member->isDirty('teams') && !$member->isDirty('site_id')) {
+            return true;
+        }
+        foreach ($member->teams ?? [] as $team) {
+            if (!$this->isTeamInSite($team, (int)$member->site_id)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @param \App\Model\Entity\Team $team
+     */
+    public function isTeamInSite($team, int $siteId): bool
+    {
+        return (int)$team->site_id === $siteId;
     }
 
     public function findMembers(Query $query, array $options): Query
@@ -309,7 +410,8 @@ class MembersTable extends Table
             'Users.lastLogin',
             'Users.role_id',
             'Members.modified',
-            'Members.registered'
+            'Members.registered',
+            'Members.site_id',
         ];
 
         $query = $query->select($columns)->distinct($columns)->contain(['Users', 'Teams', 'Teams.Sites']);
@@ -341,8 +443,8 @@ class MembersTable extends Table
             $query->innerJoinWith('Teams')->where(['Teams.id IN' => $options['teamId']]); //->where(['Members.active IN' => $options['active']]);
         }
 
-        if (!empty($options['siteId']) && $options['siteId'] != 0 && $options['memberFilter'] != 5) {
-            $query->innerJoinWith('Teams')->where(['Teams.site_id IN' => $options['siteId']]);
+        if (!empty($options['siteId'])) {
+            $query->where(['Members.site_id IN' => $options['siteId']]);
         }
 
         return $query->groupBy(['Members.id']);
@@ -367,7 +469,8 @@ class MembersTable extends Table
             'Users.lastLogin',
             'Users.role_id',
             'Members.modified',
-            'Members.registered'
+            'Members.registered',
+            'Members.site_id',
         ];
 
         $query = $query->select($columns)->distinct($columns)->contain(['Users', 'Teams', 'Teams.Sites']);
@@ -424,28 +527,11 @@ class MembersTable extends Table
             $query->innerJoinWith('Teams')->where(['Teams.id IN' => $options['teamId']]); //->where(['Members.active IN' => $options['active']]);
         }
 
-        if (!empty($options['siteId']) && $options['siteId'] != 0 && $options['memberFilter'] != 5) {
-            $query->innerJoinWith('Teams')->where(['Teams.site_id IN' => $options['siteId']]);
+        if (!empty($options['siteId'])) {
+            $query->where(['Members.site_id IN' => $options['siteId']]);
         }
 
         return $query->groupBy(['Members.id']);
-    }
-
-    /**
-     * City of a member: the site of its first team (a member belongs to only one city)
-     * The only place to change when the city is saved on the member
-     *
-     * @return int 0 if the member has no team
-     */
-    public function getSiteIdOf(int $memberId): int
-    {
-        $team = $this->Teams->find()
-            ->select(['Teams.site_id'])
-            ->innerJoinWith('Members', fn($query) => $query->where(['Members.id' => $memberId]))
-            ->orderBy(['Teams.id' => 'ASC'])
-            ->first();
-
-        return (int)($team->site_id ?? 0);
     }
 
     public function CountActiveMembers(int $siteId = 0): int
@@ -481,16 +567,24 @@ class MembersTable extends Table
         return $this->queryInSite($siteId)->where(['membership_fee_paid >' => 0])->count();
     }
 
-    public function CountActiveWithoutTeam(): int
+    public function CountActiveWithoutTeam(int $siteId = 0): int
     {
-        return $this->find('all')
-            ->leftJoinWith('Teams')
-            ->where(['Members.active =' => 1, 'Teams.id IS' => null])
-            ->count();
+        return $this->queryWithoutTeam($siteId)->count();
     }
 
     /**
-     * Members in a team of the site, each member counted once
+     * Active members of the site in no team (to add to a team)
+     * @param int $siteId 0 = all sites
+     */
+    public function queryWithoutTeam(int $siteId = 0): SelectQuery
+    {
+        return $this->queryInSite($siteId)
+            ->leftJoinWith('Teams')
+            ->where(['Teams.id IS' => null]);
+    }
+
+    /**
+     * Members of the site
      * @param int $siteId 0 = all sites
      * @param bool $active true = active members, false = alumni
      */
@@ -498,9 +592,7 @@ class MembersTable extends Table
     {
         $query = $this->find('all')->where(["Members.active =" => $active ? 1 : 0]);
         if ($siteId > 0) {
-            $inSite = $this->find()->select(['Members.id'])
-                ->innerJoinWith('Teams', fn($q) => $q->where(['Teams.site_id =' => $siteId]));
-            $query->where(['Members.id IN' => $inSite]);
+            $query->where(['Members.site_id' => $siteId]);
         }
         return $query;
     }

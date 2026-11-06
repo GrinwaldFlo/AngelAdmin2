@@ -6,6 +6,7 @@ namespace App\Test\TestCase\Controller;
 
 use App\Controller\PrefResult;
 use App\Test\TestSuite\TestDataTrait;
+use Cake\Core\Configure;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
@@ -28,6 +29,8 @@ class ErrorControllerTest extends TestCase
     {
         parent::setUp();
         PrefResult::$sites = null;
+        // The pages of production, whatever DEBUG in .env (restored by TestCase)
+        Configure::write('debug', false);
     }
 
     public function testMissingControllerNotLogged(): void

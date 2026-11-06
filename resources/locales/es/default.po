@@ -2804,3 +2804,35 @@ msgstr "Entregar artículos pedidos"
 #: templates/layout/default.php:213
 msgid "Orders and stock"
 msgstr "Pedidos y stock"
+
+#: src/Model/Table/MembersTable.php
+msgid "Choose a location."
+msgstr "Elige una ubicación."
+
+#: src/Controller/AdminController.php src/Controller/BillsController.php
+msgid "{0} is not in {1}, no invoice created."
+msgstr "{0} no está en {1}, no se ha creado ninguna factura."
+
+#: src/Model/Table/SitesTable.php
+msgid "This location has members, move them to another location first."
+msgstr "Este lugar tiene miembros, muévelos primero a otro lugar."
+
+#: templates/element/Members/site_control.php
+msgid "Changing the location removes the member from its teams: edit the member again to choose the teams of the new location."
+msgstr "Cambiar de ubicación quita al miembro de sus equipos: edita de nuevo al miembro para elegir los equipos de la nueva ubicación."
+
+#: templates/Members/add.php
+msgid "Only the teams of the location of the member."
+msgstr "Solo los equipos de la ubicación del miembro."
+
+#: src/Model/Table/MembersTable.php
+msgid "The teams must be in the location of the member."
+msgstr "Los equipos deben estar en la ubicación del miembro."
+
+#: src/Model/Table/TeamsTable.php
+msgid "This team has members of another location: remove them from the team first."
+msgstr "Este equipo tiene miembros de otra ubicación: quítalos primero del equipo."
+
+#: src/Controller/TeamsController.php
+msgid "This member is in another location than the team."
+msgstr "Este miembro está en otra ubicación que el equipo."

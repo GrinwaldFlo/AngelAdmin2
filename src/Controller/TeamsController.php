@@ -63,10 +63,11 @@ class TeamsController extends AppController
       ->where(['Members.active =' => 1])
       ->innerJoinWith('Teams')->where(['Teams.id IN' => $id]);
 
+    // Only the members of the city of the team can join it
     $membersOutTmp = $this->Members->find()
       ->orderBy(['first_name' => 'asc'])
       ->contain('Teams')
-      ->where(['Members.active =' => 1]);
+      ->where(['Members.active =' => 1, 'Members.site_id' => $team->site_id]);
 
     $membersOut = array();
     foreach ($membersOutTmp as $item) {
@@ -228,6 +229,11 @@ class TeamsController extends AppController
     // Coaches do not see the old members, so they cannot add them either
     if (!$member->active && TeamScope::isScoped($this->curUser)) {
       throw new ForbiddenException();
+    }
+    if (!$this->Members->isTeamInSite($team, (int)$member->site_id)) {
+      $this->Flash->error(__('This member is in another location than the team.'));
+
+      return $this->redirect(['action' => 'view', $teamId]);
     }
 
     $this->Members->Teams->link($member, [$team]);

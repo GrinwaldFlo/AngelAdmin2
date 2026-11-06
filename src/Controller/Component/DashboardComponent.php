@@ -50,8 +50,7 @@ class DashboardComponent extends Component
             'left' => $membersTable->queryInSite($siteId, false)->where(['Members.date_fin >=' => $seasonStart])->count(),
             'signValidated' => $signValidated,
             'signPending' => $registrations->count() - $signValidated,
-            // Members without team are not in any site
-            'withoutTeam' => $siteId == 0 ? $membersTable->CountActiveWithoutTeam() : null,
+            'withoutTeam' => $membersTable->CountActiveWithoutTeam($siteId),
             'genders' => $this->genders($list),
             'ages' => $this->ages($list),
             'birthdays' => $this->birthdays($list),

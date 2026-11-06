@@ -115,7 +115,28 @@ class TeamsTable extends Table
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['site_id'], 'Sites'));
+        // The members of a team are in its city: a team with members can't move to another city
+        $rules->add(
+            fn($team) => $team->isNew() || !$team->isDirty('site_id')
+                || $this->countMembersOutOfSite($team->id, (int)$team->site_id) === 0,
+            'membersInSite',
+            [
+                'errorField' => 'site_id',
+                'message' => __('This team has members of another location: remove them from the team first.'),
+            ],
+        );
 
         return $rules;
+    }
+
+    /**
+     * Members of the team whose city is not $siteId
+     */
+    public function countMembersOutOfSite(int $teamId, int $siteId): int
+    {
+        return $this->Members->find()
+            ->innerJoinWith('Teams', fn($query) => $query->where(['Teams.id' => $teamId]))
+            ->where(['Members.site_id !=' => $siteId])
+            ->count();
     }
 }
