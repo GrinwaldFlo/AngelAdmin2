@@ -18,6 +18,7 @@ use Cake\ORM\Entity;
  * @property bool $BillValidate
  * @property bool $Editor
  * @property bool $TeamScoped Access limited to the teams coached by the member (see TeamsCoaches)
+ * @property bool $ShopManager Merchandising manager: shop items, orders, stock and second-hand admin
  * @property bool $Admin Is admin
  *
  * @property \App\Model\Entity\User[] $users
@@ -49,6 +50,7 @@ class Role extends Entity
         'Admin' => true,
         'Editor' => true,
         'TeamScoped' => true,
+        'ShopManager' => true,
         'users' => true,
     ];
 

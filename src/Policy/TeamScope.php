@@ -31,6 +31,25 @@ class TeamScope
     }
 
     /**
+     * Shop pages (items, member orders, stock): merchandising managers, admins and the members managers not limited to teams
+     * @param \Authorization\IdentityInterface|\App\Model\Entity\User|null $user
+     */
+    public static function canManageShop(?object $user): bool
+    {
+        return $user !== null
+            && ($user->Role->ShopManager || $user->Role->Admin || self::canUnscoped($user, 'MemberEditAll'));
+    }
+
+    /**
+     * Second-hand administration (settings, categories, items log and deletion)
+     * @param \Authorization\IdentityInterface|\App\Model\Entity\User|null $user
+     */
+    public static function canManageSecondHand(?object $user): bool
+    {
+        return $user !== null && ($user->Role->Admin || $user->Role->ShopManager);
+    }
+
+    /**
      * Teams the user can access
      * @param \Authorization\IdentityInterface|\App\Model\Entity\User|null $user
      * @return int[]|null null = all teams, [] = none (coach without team)

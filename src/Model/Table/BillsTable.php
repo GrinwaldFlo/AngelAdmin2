@@ -376,6 +376,7 @@ class BillsTable extends Table
     $bill->due_date_ori = new \Cake\I18n\Date($dateBill);
     $bill->link_membership_fee = 0;
     $bill->member_id = $member->id;
+    $bill->site_id = $siteId;
     $bill->amount = $totalAmount;
     $bill->label = __('Shop Order: {0}', implode(', ', $itemLabels));
 

@@ -55,6 +55,7 @@ The root `_*.bat` files are Windows wrappers for the same commands. CI (`.github
 
 - All user-facing strings are English in source, wrapped in `__()` / `__x()` with `{0}` placeholders; translations in `resources/locales/<lang>/default.po` (fr, de, es, it). French translations use tutoiement.
 - No inline styles (`style="..."` or style options in helpers): use classes in `webroot/css/cake.css` (or the domain CSS files next to it). Toggle classes from JS rather than setting styles; prefer vanilla JS over new jQuery code.
+- All pages must be mobile friendly: test at phone width, no horizontal page scroll (wide tables go in `.table-responsive` or collapse into stacked cards), touch-sized buttons, Bootstrap responsive grid/utilities instead of fixed widths.
 - In member forms/layouts, checkboxes and their labels must stay on the same line (fix with classes, not inline styles).
 - Escape output with `h()`; use Cake helpers (Form/Html/Number) and keep Bootstrap-compatible markup and the layout patterns of `templates/layout/default.php`.
 - For billing/member changes, check side effects in emails, PDFs, reminders and role checks.

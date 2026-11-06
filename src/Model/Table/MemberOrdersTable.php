@@ -90,6 +90,11 @@ class MemberOrdersTable extends Table
             ->greaterThan('quantity', 0);
 
         $validator
+            ->scalar('attribute')
+            ->maxLength('attribute', ShopItemsTable::ATTRIBUTE_MAX_LENGTH)
+            ->allowEmptyString('attribute');
+
+        $validator
             ->boolean('delivered')
             ->notEmptyString('delivered');
 
@@ -110,5 +115,46 @@ class MemberOrdersTable extends Table
         $rules->add($rules->existsIn('bill_id', 'Bills'), ['errorField' => 'bill_id']);
 
         return $rules;
+    }
+
+    /**
+     * Orders of the items of a city (the item is contained)
+     */
+    public function findInSite(Query $query, int $siteId): Query
+    {
+        return $query->contain(['ShopItems'])->where(['ShopItems.site_id' => $siteId]);
+    }
+
+    /**
+     * Orders of a city filtered as in the lists (the item and the bill are contained)
+     *
+     * @param int $category ShopItem category, 0 = all
+     * @param int $delivered 0 = all, 1 = delivered, 2 = not delivered
+     * @param int $paid 0 = all, 1 = paid, 2 = not paid (or without bill)
+     * @param int $item ShopItem id, 0 = all
+     */
+    public function findFiltered(Query $query, int $siteId, int $category = 0, int $delivered = 0, int $paid = 0, int $item = 0): Query
+    {
+        $query = $this->findInSite($query, $siteId)->contain(['Bills']);
+
+        if ($category > 0) {
+            $query->where(['ShopItems.category' => $category]);
+        }
+        if ($item > 0) {
+            $query->where(['MemberOrders.shop_item_id' => $item]);
+        }
+        if ($delivered == 1) {
+            $query->where(['MemberOrders.delivered' => true]);
+        } elseif ($delivered == 2) {
+            $query->where(['MemberOrders.delivered' => false]);
+        }
+        if ($paid == 1) {
+            $query->where(['Bills.paid' => true]);
+        } elseif ($paid == 2) {
+            // Orders without bill are not paid either
+            $query->where(['OR' => ['Bills.paid' => false, 'Bills.id IS' => null]]);
+        }
+
+        return $query;
     }
 }

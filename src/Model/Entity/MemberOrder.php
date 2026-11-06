@@ -14,6 +14,7 @@ use Cake\ORM\Entity;
  * @property int|null $bill_id
  * @property int $quantity
  * @property bool $delivered
+ * @property string|null $attribute Copy of the chosen attribute (it may be removed from the item since)
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
  *
@@ -38,6 +39,7 @@ class MemberOrder extends Entity
         'bill_id' => true,
         'quantity' => true,
         'delivered' => true,
+        'attribute' => true,
         'created' => true,
         'modified' => true,
         'shop_item' => true,

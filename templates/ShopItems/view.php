@@ -2,11 +2,13 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\ShopItem $shopItem
+ * @var \App\Model\Entity\Role $curRole
  */
+$this->Html->css('shop', ['block' => true]);
 ?>
 <div class="row">
     <aside class="col-md-3">
-        <div class="side-nav">
+        <div class="side-nav shop-side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
             <?= $this->Html->link(__('Edit Shop Item'), ['action' => 'edit', $shopItem->id], ['class' => 'btn btn-secondary']) ?>
             <?= $this->Form->postLink(__('Delete Shop Item'), ['action' => 'delete', $shopItem->id], ['confirm' => __('Are you sure you want to delete # {0}?', $shopItem->id), 'class' => 'btn btn-danger']) ?>
@@ -31,8 +33,16 @@
                     <td><?= h($shopItem->category_label) ?></td>
                 </tr>
                 <tr>
+                    <th><?= __('Attributes') ?></th>
+                    <td><?= $this->element('Shop/attributes', ['attributes' => $shopItem->getAttributeList()]) ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Active') ?></th>
                     <td><?= $shopItem->active ? __('Yes') : __('No') ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Can be ordered when out of stock') ?></th>
+                    <td><?= $shopItem->allow_out_of_stock ? __('Yes') : __('No') ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Created') ?></th>
@@ -50,13 +60,15 @@
                     <table class="table">
                         <tr>
                             <th><?= __('Member') ?></th>
+                            <th><?= __('Attribute') ?></th>
                             <th><?= __('Quantity') ?></th>
                             <th><?= __('Delivered') ?></th>
                             <th><?= __('Created') ?></th>
                         </tr>
                         <?php foreach ($shopItem->member_orders as $memberOrder): ?>
                         <tr>
-                            <td><?= $memberOrder->hasValue('member') ? $this->Html->link($memberOrder->member->fullName, ['controller' => 'Members', 'action' => 'view', $memberOrder->member->id]) : '' ?></td>
+                            <td><?= $this->element('Shop/member_link', ['member' => $memberOrder->member ?? null]) ?></td>
+                            <td><?= h($memberOrder->attribute ?? '-') ?></td>
                             <td><?= h($memberOrder->quantity) ?></td>
                             <td><?= $memberOrder->delivered ? __('Yes') : __('No') ?></td>
                             <td><?= h($memberOrder->created) ?></td>

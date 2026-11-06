@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Policy\TeamScope;
 use App\Controller\Component\SecondHandComponent;
 use App\Model\Entity\SecondHandLog;
 use Cake\Event\EventInterface;
@@ -28,13 +29,13 @@ class SecondHandAdminController extends AppController
     }
 
     /**
-     * Only for the admin role (not logged users are redirected to the login by the authentication)
+     * Only for the admin and merchandising manager roles (not logged users are redirected to the login by the authentication)
      */
     public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
 
-        if ($this->curRole !== null && !$this->curRole->Admin) {
+        if ($this->curRole !== null && !TeamScope::canManageSecondHand($this->curUser)) {
             $event->setResult($this->redirect('/'));
         }
     }

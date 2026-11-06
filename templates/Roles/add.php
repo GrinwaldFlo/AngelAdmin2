@@ -19,6 +19,7 @@
         echo $this->Form->control('BillEditAll');
         echo $this->Form->control('BillValidate');
         echo $this->Form->control('Editor');
+        echo $this->Form->control('ShopManager', ['label' => __('Merchandising manager (shop and second-hand)')]);
         echo $this->Form->control('TeamScoped', ['label' => __('Limited to coached teams')]);
         echo $this->Form->control('Admin');
         ?>

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2025-09-28 13:55+0200\n"
+"POT-Creation-Date: 2026-11-06 14:49+0100\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,62 +14,43 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ./src/Controller/AdminController.php:31
-#: ./templates/Pages/home.php:143
-msgid "Open invoices"
-msgstr ""
-
-#: ./src/Controller/AdminController.php:32
-msgid "Membership fee (paid/invoiced)"
-msgstr ""
-
-#: ./src/Controller/AdminController.php:33
-msgid "Invoiced this year (paid/total)"
-msgstr ""
-
-#: ./src/Controller/AdminController.php:36
-msgid "No. of members"
-msgstr ""
-
-#: ./src/Controller/AdminController.php:37
-#: ./templates/element/Members/profile_card.php:33
-msgid "Not registered"
-msgstr ""
-
-#: ./src/Controller/AdminController.php:38
-msgid "Children / Adults"
-msgstr ""
-
-#: ./src/Controller/AdminController.php:39
-msgid "Membership fee paid"
-msgstr ""
-
-#: ./src/Controller/AdminController.php:42
-msgid "First day of the season"
-msgstr ""
-
-#: ./src/Controller/AdminController.php:43
-msgid "Club name"
-msgstr ""
-
-#: ./src/Controller/AdminController.php:65
-#: ./src/Controller/AdminController.php:86
+#: ./src/Controller/AdminController.php:73
+#: ./src/Controller/AdminController.php:98
 msgid "Wrong validation code"
 msgstr ""
 
-#: ./src/Controller/AdminController.php:84
+#: ./src/Controller/AdminController.php:96
 msgid "Registrations have been reset"
 msgstr ""
 
-#: ./src/Controller/AdminController.php:123
+#: ./src/Controller/AdminController.php:117
+#: ./src/Controller/AdminController.php:152
+msgid "Select a site to create membership fees"
+msgstr ""
+
+#: ./src/Controller/AdminController.php:144
 msgid "Membership fee created for "
 msgstr ""
 
-#: ./src/Controller/AdminController.php:158
+#: ./src/Controller/AdminController.php:175
 msgid "Both log files have been deleted."
 msgstr ""
 
-#: ./src/Controller/AdminController.php:63
+#: ./src/Controller/AdminController.php:239
+msgid "The emails have been saved."
+msgstr ""
+
+#: ./src/Controller/AdminController.php:242
+msgid "Invalid email address: {0}"
+msgstr ""
+
+#: ./src/Controller/AdminController.php:273
+#: ./src/Controller/Component/SubventionComponent.php:152
+#: ./templates/layout/default.php:237
+msgid "Subsidies"
+msgstr ""
+
+#: ./src/Controller/AdminController.php:71
 msgctxt "Some values were put back to default settings"
 msgid "Memberships have been reset"
 msgstr ""
@@ -92,68 +73,85 @@ msgstr ""
 msgid "The invoice template could not be deleted."
 msgstr ""
 
-#: ./src/Controller/BillsController.php:134
-#: ./src/Controller/BillsController.php:166
+#: ./src/Controller/BillsController.php:156
+#: ./src/Controller/BillsController.php:190
 msgid "The invoice has been saved."
 msgstr ""
 
-#: ./src/Controller/BillsController.php:139
-#: ./src/Controller/BillsController.php:171
+#: ./src/Controller/BillsController.php:161
+#: ./src/Controller/BillsController.php:195
+#: ./src/Controller/BillsController.php:471
 msgid "The invoice could not be saved."
 msgstr ""
 
-#: ./src/Controller/BillsController.php:158
+#: ./src/Controller/BillsController.php:182
 msgid "The invoice is already paid and can't be edited anymore"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:293
-#: ./src/Controller/BillsController.php:393
+#: ./src/Controller/BillsController.php:241
+#: ./src/Controller/BillsController.php:345
 msgid "Invoices have been updated"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:353
+#: ./src/Controller/BillsController.php:267
+#: ./src/Controller/BillsController.php:363
+#: ./src/Controller/BillsController.php:442
+msgid "A location needs to be selected"
+msgstr ""
+
+#: ./src/Controller/BillsController.php:308
 msgid "Invoices has been validated"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:444
+#: ./src/Controller/BillsController.php:398
 msgid "Late bills Reminder"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:474
+#: ./src/Controller/BillsController.php:428
 msgid "Remiders have been sent"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:510
-#: ./src/Controller/BillsController.php:696
+#: ./src/Controller/BillsController.php:469
+#: ./src/Controller/BillsController.php:640
 msgid "Invoices has been created"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:541
+#: ./src/Controller/BillsController.php:494
 msgid "Send checkbox has not been checked"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:550
+#: ./src/Controller/BillsController.php:503
 msgid "The PDF file doesn't exist"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:552
+#: ./src/Controller/BillsController.php:505
 msgid "No token for the member"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:554
+#: ./src/Controller/BillsController.php:507
 msgid "No email for the member"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:563
+#: ./src/Controller/BillsController.php:516
 msgid "New Invoice"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:565
+#: ./src/Controller/BillsController.php:518
 msgid "Invoice Reminder"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:585
+#: ./src/Controller/BillsController.php:538
 msgid "Invoices have been sent"
+msgstr ""
+
+#: ./src/Controller/BillsController.php:543
+msgid "There were some error while sending mail. Try again"
+msgstr ""
+
+#: ./src/Controller/Component/DashboardComponent.php:193
+#: ./src/Model/Entity/Member.php:368
+#: ./src/Model/Table/ShopItemsTable.php:167
+msgid "Unknown"
 msgstr ""
 
 #: ./src/Controller/Component/ImageComponent.php:83
@@ -220,8 +218,12 @@ msgstr ""
 msgid "JPEG pictures only"
 msgstr ""
 
-#: ./src/Controller/Component/MailComponent.php:56
+#: ./src/Controller/Component/MailComponent.php:50
 msgid "Dear"
+msgstr ""
+
+#: ./src/Controller/Component/MailComponent.php:73
+msgid "Invalid email address"
 msgstr ""
 
 #: ./src/Controller/Component/MemberDocumentComponent.php:45
@@ -231,11 +233,14 @@ msgstr ""
 #: ./src/Controller/Component/MemberDocumentComponent.php:63
 #: ./src/Controller/Component/MemberDocumentComponent.php:74
 #: ./src/Controller/Component/MemberDocumentComponent.php:93
+#: ./src/Controller/Component/SecondHandComponent.php:111
 msgid "Failed to process image"
 msgstr ""
 
 #: ./src/Controller/Component/MemberDocumentComponent.php:122
 #: ./src/Controller/Component/MemberDocumentComponent.php:165
+#: ./src/Controller/Component/SecondHandComponent.php:86
+#: ./src/Controller/Component/SecondHandComponent.php:125
 msgid "Failed to send picture"
 msgstr ""
 
@@ -260,114 +265,231 @@ msgstr ""
 msgid "Failed to register member"
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:31
+#: ./src/Controller/Component/MemberManagementComponent.php:33
 msgid "You do not have permission to create new members."
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:51
+#: ./src/Controller/Component/MemberManagementComponent.php:53
 msgid "The member already exists"
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:54
-#: ./src/Controller/Component/MemberManagementComponent.php:89
-#: ./src/Controller/Component/MemberManagementComponent.php:114
-#: ./src/Controller/Component/MemberManagementComponent.php:137
-#: ./src/Controller/Component/MemberManagementComponent.php:167
+#: ./src/Controller/Component/MemberManagementComponent.php:56
+#: ./src/Controller/Component/MemberManagementComponent.php:97
+#: ./src/Controller/Component/MemberManagementComponent.php:122
+#: ./src/Controller/Component/MemberManagementComponent.php:145
+#: ./src/Controller/Component/MemberManagementComponent.php:175
 msgid "The member has been saved."
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:58
-#: ./src/Controller/Component/MemberManagementComponent.php:92
-#: ./src/Controller/Component/MemberManagementComponent.php:117
-#: ./src/Controller/Component/MemberManagementComponent.php:140
-#: ./src/Controller/Component/MemberManagementComponent.php:170
-#: ./src/Controller/Component/MemberRegistrationComponent.php:137
+#: ./src/Controller/Component/MemberManagementComponent.php:59
+msgid "This member is in none of your teams: you will not see them until you add them to one of your teams from the Teams page."
+msgstr ""
+
+#: ./src/Controller/Component/MemberManagementComponent.php:64
+#: ./src/Controller/Component/MemberManagementComponent.php:100
+#: ./src/Controller/Component/MemberManagementComponent.php:125
+#: ./src/Controller/Component/MemberManagementComponent.php:148
+#: ./src/Controller/Component/MemberManagementComponent.php:178
+#: ./src/Controller/Component/MemberRegistrationComponent.php:143
 msgid "The member could not be saved."
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:186
+#: ./src/Controller/Component/MemberManagementComponent.php:194
 msgid "The member has been deleted."
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:189
+#: ./src/Controller/Component/MemberManagementComponent.php:197
 msgid "The member could not be deleted."
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:202
-#: ./src/Controller/UsersController.php:284
+#: ./src/Controller/Component/MemberManagementComponent.php:211
+#: ./src/Controller/UsersController.php:291
 msgid "This language doesn't exists"
 msgstr ""
 
-#: ./src/Controller/Component/MemberRegistrationComponent.php:50
+#: ./src/Controller/Component/MemberManagementComponent.php:232
+msgid "This location doesn't exists"
+msgstr ""
+
+#: ./src/Controller/Component/MemberRegistrationComponent.php:55
 msgid "You are already registered, we sent you a mail to get your login"
 msgstr ""
 
-#: ./src/Controller/Component/MemberRegistrationComponent.php:57
+#: ./src/Controller/Component/MemberRegistrationComponent.php:62
 msgid "You have been registered. Check your mailbox for next step"
 msgstr ""
 
-#: ./src/Controller/Component/MemberRegistrationComponent.php:63
+#: ./src/Controller/Component/MemberRegistrationComponent.php:68
 msgid "We were not able to save your registration. Please check all fields or contact us"
 msgstr ""
 
-#: ./src/Controller/Component/MemberRegistrationComponent.php:125
+#: ./src/Controller/Component/MemberRegistrationComponent.php:130
 msgid "Please sign the document"
 msgstr ""
 
-#: ./src/Controller/Component/MemberRegistrationComponent.php:132
+#: ./src/Controller/Component/MemberRegistrationComponent.php:138
 msgid "You are now registered, it will be validated by a coach"
 msgstr ""
 
-#: ./src/Controller/Component/MemberRegistrationComponent.php:133
-#: ./src/Controller/MembersController.php:747
+#: ./src/Controller/Component/MemberRegistrationComponent.php:139
 msgid "New member registered"
 msgstr ""
 
-#: ./src/Controller/Component/MemberRegistrationComponent.php:133
-#: ./src/Controller/MembersController.php:747
+#: ./src/Controller/Component/MemberRegistrationComponent.php:139
 msgid "The member has just registred. You need to validate the signature."
 msgstr ""
 
-#: ./src/Controller/Component/MemberRegistrationComponent.php:165
+#: ./src/Controller/Component/MemberRegistrationComponent.php:167
+msgid "This signature was already handled."
+msgstr ""
+
+#: ./src/Controller/Component/MemberRegistrationComponent.php:174
 msgid "Signature approved"
 msgstr ""
 
-#: ./src/Controller/Component/MemberRegistrationComponent.php:165
+#: ./src/Controller/Component/MemberRegistrationComponent.php:174
 msgid "Your signature has been approved"
 msgstr ""
 
-#: ./src/Controller/Component/MemberRegistrationComponent.php:168
+#: ./src/Controller/Component/MemberRegistrationComponent.php:177
 msgid "Signature not approved"
 msgstr ""
 
-#: ./src/Controller/Component/MemberRegistrationComponent.php:168
+#: ./src/Controller/Component/MemberRegistrationComponent.php:177
 msgid "Your signature has not been approved, please do it again"
 msgstr ""
 
-#: ./src/Controller/Component/MemberRegistrationComponent.php:189
+#: ./src/Controller/Component/MemberRegistrationComponent.php:198
 msgid "Invitation has been sent to "
 msgstr ""
 
-#: ./src/Controller/Component/MemberRegistrationComponent.php:200
-#: ./src/Controller/Component/MemberRegistrationComponent.php:204
+#: ./src/Controller/Component/MemberRegistrationComponent.php:209
+#: ./src/Controller/Component/MemberRegistrationComponent.php:213
 msgid "Your personal page"
 msgstr ""
 
-#: ./src/Controller/Component/MemberRegistrationComponent.php:208
+#: ./src/Controller/Component/MemberRegistrationComponent.php:217
 msgid "Action needed, registrer for the year (or leave the club)"
 msgstr ""
 
-#: ./src/Controller/Component/MemberRegistrationComponent.php:212
+#: ./src/Controller/Component/MemberRegistrationComponent.php:221
 msgid "Want to come back ?"
 msgstr ""
 
-#: ./src/Controller/Component/MemberRegistrationComponent.php:215
+#: ./src/Controller/Component/MemberRegistrationComponent.php:224
 msgid "Click here to visit: {0}\nOn your personal page, you can:\n- View and manage your bills\n- Update your personal information\n- Register for the upcoming year\n- Cancel your membership if you wish\nWe look forward to seeing you soon!"
 msgstr ""
 
-#: ./src/Controller/Component/MemberRegistrationComponent.php:99
+#: ./src/Controller/Component/MemberRegistrationComponent.php:104
 msgctxt "{0} is the name of the club you join"
 msgid "Welcome to {0}"
+msgstr ""
+
+#: ./src/Controller/Component/SecondHandComponent.php:120
+msgid "Please add a picture."
+msgstr ""
+
+#: ./src/Controller/Component/SecondHandComponent.php:121
+msgid "This picture is too large. The maximum size is {0}."
+msgstr ""
+
+#: ./src/Controller/Component/SecondHandComponent.php:136
+#: ./templates/email/html/personal_page.php:1
+#: ./templates/email/html/resetpsw.php:3
+#: ./templates/email/html/welcome.php:1
+#: ./templates/email/text/personal_page.php:1
+#: ./templates/email/text/welcome.php:1
+msgid "Hello {0},"
+msgstr ""
+
+#: ./src/Controller/Component/SecondHandComponent.php:137
+msgid "Please confirm your email address to sell items on the second-hand page:"
+msgstr ""
+
+#: ./src/Controller/Component/SecondHandComponent.php:144
+msgid "Confirm your email address"
+msgstr ""
+
+#: ./src/Controller/Component/SecondHandComponent.php:148
+msgid "The email could not be sent: {0}"
+msgstr ""
+
+#: ./src/Controller/Component/ShopOrderComponent.php:83
+msgid "No items were selected for the order."
+msgstr ""
+
+#: ./src/Controller/Component/ShopOrderComponent.php:122
+msgid "There was an error processing your order. Please try again."
+msgstr ""
+
+#: ./src/Controller/Component/ShopOrderComponent.php:128
+msgid "Your order has been placed successfully! Total amount: {0}"
+msgstr ""
+
+#: ./src/Controller/Component/ShopOrderComponent.php:161
+msgid "This order has already been given to the member."
+msgstr ""
+
+#: ./src/Controller/Component/ShopOrderComponent.php:164
+#: ./src/Controller/ShopOrdersController.php:171
+msgid "This attribute is not offered for this item."
+msgstr ""
+
+#: ./src/Controller/Component/ShopOrderComponent.php:171
+#: ./src/Controller/Component/ShopOrderComponent.php:230
+msgid "There is not enough stock for {0}."
+msgstr ""
+
+#: ./src/Controller/Component/ShopOrderComponent.php:201
+#: ./src/Controller/ShopOrdersController.php:190
+msgid "The order is not valid. Please try again."
+msgstr ""
+
+#: ./src/Controller/Component/ShopOrderComponent.php:227
+msgid "A choice of {0} is not offered anymore, please check your order."
+msgstr ""
+
+#: ./src/Controller/Component/ShopOrderComponent.php:255
+msgid "A shop order has been deleted, its bill has not been changed: please correct it by hand."
+msgstr ""
+
+#: ./src/Controller/Component/ShopOrderComponent.php:256
+msgid "Member: {0}"
+msgstr ""
+
+#: ./src/Controller/Component/ShopOrderComponent.php:257
+msgid "Item: {0}"
+msgstr ""
+
+#: ./src/Controller/Component/ShopOrderComponent.php:258
+msgid "Quantity: {0}"
+msgstr ""
+
+#: ./src/Controller/Component/ShopOrderComponent.php:259
+msgid "Bill: {0} ({1})"
+msgstr ""
+
+#: ./src/Controller/Component/ShopOrderComponent.php:260
+msgid "Amount of the bill: {0}"
+msgstr ""
+
+#: ./src/Controller/Component/ShopOrderComponent.php:261
+msgid "Deleted by: {0}"
+msgstr ""
+
+#: ./src/Controller/Component/ShopOrderComponent.php:266
+msgid "Shop order deleted - bill {0}"
+msgstr ""
+
+#: ./src/Controller/Component/SubventionComponent.php:125
+#: ./src/View/Helper/PdfHelper.php:190
+#: ./src/View/Helper/PdfHelper.php:191
+msgid "Request for Sports Funding"
+msgstr ""
+
+#: ./src/Controller/Component/SubventionComponent.php:135
+#: ./src/View/Helper/PdfHelper.php:214
+msgid "Municipal Registry"
 msgstr ""
 
 #: ./src/Controller/ConfigurationsController.php:63
@@ -389,20 +511,20 @@ msgid "The configuration could not be deleted."
 msgstr ""
 
 #: ./src/Controller/ContentsController.php:64
-#: ./src/Controller/ContentsController.php:93
+#: ./src/Controller/ContentsController.php:91
 msgid "The content has been saved."
 msgstr ""
 
 #: ./src/Controller/ContentsController.php:68
-#: ./src/Controller/ContentsController.php:97
+#: ./src/Controller/ContentsController.php:95
 msgid "The content could not be saved."
 msgstr ""
 
-#: ./src/Controller/ContentsController.php:118
+#: ./src/Controller/ContentsController.php:116
 msgid "The content has been deleted."
 msgstr ""
 
-#: ./src/Controller/ContentsController.php:122
+#: ./src/Controller/ContentsController.php:120
 msgid "The content could not be deleted."
 msgstr ""
 
@@ -424,90 +546,98 @@ msgstr ""
 msgid "The field could not be deleted."
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:101
-#: ./src/Controller/MeetingsController.php:184
-msgid "The meeting has been saved."
+#: ./src/Controller/MailingsController.php:64
+#: ./src/Controller/MailingsController.php:95
+msgid "The mailing could not be saved."
+msgstr ""
+
+#: ./src/Controller/MailingsController.php:134
+msgid "Emails of this mailing have already been sent, it cannot be deleted."
+msgstr ""
+
+#: ./src/Controller/MailingsController.php:139
+msgid "The mailing has been deleted."
+msgstr ""
+
+#: ./src/Controller/MailingsController.php:141
+msgid "The mailing could not be deleted."
 msgstr ""
 
 #: ./src/Controller/MeetingsController.php:105
-#: ./src/Controller/MeetingsController.php:142
-#: ./src/Controller/MeetingsController.php:188
+msgid "Choose at least one date and a time."
+msgstr ""
+
+#: ./src/Controller/MeetingsController.php:107
+#: ./src/Controller/MeetingsController.php:148
 msgid "The meeting could not be saved."
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:149
-msgid "{0} meeting has been saved."
-msgstr ""
-
-#: ./src/Controller/MeetingsController.php:153
+#: ./src/Controller/MeetingsController.php:115
 msgid "No meeting has been saved."
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:208
+#: ./src/Controller/MeetingsController.php:144
+msgid "The meeting has been saved."
+msgstr ""
+
+#: ./src/Controller/MeetingsController.php:164
 msgid "The meeting has been deleted."
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:212
+#: ./src/Controller/MeetingsController.php:166
 msgid "The meeting could not be deleted."
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:238
+#: ./src/Controller/MeetingsController.php:179
 msgid "You are now registered"
 msgstr ""
 
-#: ./src/Controller/MemberOrdersController.php:97
+#: ./src/Controller/MeetingsController.php:112
+msgid "{0} meeting has been saved."
+msgid_plural "{0} meetings have been saved."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ./src/Controller/MemberOrdersController.php:88
 msgid "The order has been marked as delivered."
 msgstr ""
 
 #: ./src/Controller/MemberOrdersController.php:99
-#: ./src/Controller/MemberOrdersController.php:121
-msgid "The order could not be updated. Please, try again."
-msgstr ""
-
-#: ./src/Controller/MemberOrdersController.php:119
 msgid "The order has been marked as not delivered."
 msgstr ""
 
-#: ./src/Controller/MemberOrdersController.php:141
-msgid "The member order has been deleted."
+#: ./src/Controller/MemberOrdersController.php:117
+msgid "The order could not be updated. Please, try again."
 msgstr ""
 
-#: ./src/Controller/MemberOrdersController.php:143
-msgid "The member order could not be deleted. Please, try again."
+#: ./src/Controller/MembersController.php:193
+msgid "This link does not give access to this member."
 msgstr ""
 
-#: ./src/Controller/MembersController.php:256
-#: ./src/Controller/MembersController.php:266
+#: ./src/Controller/MembersController.php:243
+#: ./src/Controller/MembersController.php:253
 msgid "Invalid access link."
 msgstr ""
 
-#: ./src/Controller/MembersController.php:334
-msgid "No items were selected for the order."
-msgstr ""
-
-#: ./src/Controller/MembersController.php:346
-msgid "There was an error processing your order. Please try again."
-msgstr ""
-
-#: ./src/Controller/MembersController.php:359
-msgid "Your order has been placed successfully! Total amount: {0}"
-msgstr ""
-
-#: ./src/Controller/MembersController.php:362
-msgid "There was an error creating the invoice for your order. Please try again."
-msgstr ""
-
-#: ./src/Controller/MembersController.php:492
+#: ./src/Controller/MembersController.php:382
 msgid "You can only view your own information."
 msgstr ""
 
-#: ./src/Controller/MembersController.php:640
-#: ./src/Controller/MembersController.php:648
+#: ./src/Controller/MembersController.php:423
+msgid "Please log in to access this member."
+msgstr ""
+
+#: ./src/Controller/MembersController.php:514
+#: ./src/Controller/MembersController.php:522
 msgid "There where an issue with the connection. Please try again or ask Florian. Cookies has to be allowed."
 msgstr ""
 
-#: ./src/Controller/MembersController.php:680
+#: ./src/Controller/MembersController.php:557
 msgid "The PDF cant't be created"
+msgstr ""
+
+#: ./src/Controller/PresencesController.php:30
+msgid "Invalid presence"
 msgstr ""
 
 #: ./src/Controller/RolesController.php:56
@@ -520,22 +650,155 @@ msgstr ""
 msgid "The role could not be saved."
 msgstr ""
 
-#: ./src/Controller/ShopItemsController.php:56
-#: ./src/Controller/ShopItemsController.php:82
-msgid "The shop item has been saved."
+#: ./src/Controller/SecondHandAdminController.php:51
+msgid "The duration must be between 1 and 120 months."
 msgstr ""
 
-#: ./src/Controller/ShopItemsController.php:60
-#: ./src/Controller/ShopItemsController.php:86
-msgid "The shop item could not be saved. Please, try again."
+#: ./src/Controller/SecondHandAdminController.php:55
+msgid "The settings have been saved."
 msgstr ""
 
-#: ./src/Controller/ShopItemsController.php:107
+#: ./src/Controller/SecondHandAdminController.php:79
+#: ./src/Controller/SecondHandAdminController.php:93
+msgid "The category has been saved."
+msgstr ""
+
+#: ./src/Controller/SecondHandAdminController.php:81
+#: ./src/Controller/SecondHandAdminController.php:97
+msgid "The category could not be saved."
+msgstr ""
+
+#: ./src/Controller/SecondHandAdminController.php:111
+msgid "This category still has items, it cannot be deleted."
+msgstr ""
+
+#: ./src/Controller/SecondHandAdminController.php:113
+msgid "The category has been deleted."
+msgstr ""
+
+#: ./src/Controller/SecondHandAdminController.php:115
+msgid "The category could not be deleted."
+msgstr ""
+
+#: ./src/Controller/SecondHandAdminController.php:149
+msgid "The item has been deleted."
+msgstr ""
+
+#: ./src/Controller/SecondHandController.php:63
+msgid "Please log in or use the link of your personal page."
+msgstr ""
+
+#: ./src/Controller/SecondHandController.php:102
+msgid "This item is not for sale anymore."
+msgstr ""
+
+#: ./src/Controller/SecondHandController.php:119
+msgid "Please accept the rules to continue."
+msgstr ""
+
+#: ./src/Controller/SecondHandController.php:123
+msgid "The rules could not be saved. Please try again."
+msgstr ""
+
+#: ./src/Controller/SecondHandController.php:141
+msgid "Your seller details have been saved."
+msgstr ""
+
+#: ./src/Controller/SecondHandController.php:143
+msgid "We sent you an email. Click the link in it to confirm your email address."
+msgstr ""
+
+#: ./src/Controller/SecondHandController.php:148
+msgid "Your seller details could not be saved. Please check the form."
+msgstr ""
+
+#: ./src/Controller/SecondHandController.php:158
+msgid "This link is not valid or was already used."
+msgstr ""
+
+#: ./src/Controller/SecondHandController.php:160
+msgid "Your email address is confirmed. You can now sell items."
+msgstr ""
+
+#: ./src/Controller/SecondHandController.php:183
+msgid "Please fill in your seller details and confirm your email address first."
+msgstr ""
+
+#: ./src/Controller/SecondHandController.php:195
+#: ./src/Controller/SecondHandController.php:207
+msgid "The item could not be saved. Please check the form."
+msgstr ""
+
+#: ./src/Controller/SecondHandController.php:202
+msgid "Your item is now for sale."
+msgstr ""
+
+#: ./src/Controller/SecondHandController.php:227
+msgid "The item is marked as sold."
+msgstr ""
+
+#: ./src/Controller/SecondHandController.php:241
+msgid "The item has been removed."
+msgstr ""
+
+#: ./src/Controller/SecondHandController.php:253
+msgid "This item is not yours."
+msgstr ""
+
+#: ./src/Controller/ShopItemsController.php:112
 msgid "The shop item has been deleted."
 msgstr ""
 
-#: ./src/Controller/ShopItemsController.php:109
+#: ./src/Controller/ShopItemsController.php:115
 msgid "The shop item could not be deleted. Please, try again."
+msgstr ""
+
+#: ./src/Controller/ShopItemsController.php:130
+msgid "The shop item has been saved."
+msgstr ""
+
+#: ./src/Controller/ShopItemsController.php:134
+msgid "The shop item could not be saved. Please, try again."
+msgstr ""
+
+#: ./src/Controller/ShopOrdersController.php:106
+msgid "The member order has been deleted."
+msgstr ""
+
+#: ./src/Controller/ShopOrdersController.php:107
+msgid "The member order has been deleted. The bill has not been changed, an email has been sent to correct it."
+msgstr ""
+
+#: ./src/Controller/ShopOrdersController.php:109
+msgid "The member order has been deleted, but the email about its bill could not be sent: correct the bill {0} by hand."
+msgstr ""
+
+#: ./src/Controller/ShopOrdersController.php:130
+msgid "The order has been changed."
+msgstr ""
+
+#: ./src/Controller/ShopOrdersController.php:162
+msgid "The quantity is not valid."
+msgstr ""
+
+#: ./src/Controller/ShopOrdersController.php:179
+msgid "{0} x {1} marked as ordered from the supplier."
+msgstr ""
+
+#: ./src/Controller/ShopOrdersController.php:183
+msgid "{0} x {1} received and added to the stock."
+msgstr ""
+
+#: ./src/Controller/ShopOrdersController.php:187
+msgid "The stock of {0} is now {1}."
+msgstr ""
+
+#: ./src/Controller/ShopSiteTrait.php:50
+msgid "Choose a location in the menu first."
+msgstr ""
+
+#: ./src/Controller/ShopSiteTrait.php:63
+msgid "This item belongs to another location."
 msgstr ""
 
 #: ./src/Controller/SitesController.php:55
@@ -556,73 +819,98 @@ msgstr ""
 msgid "The site could not be deleted."
 msgstr ""
 
-#: ./src/Controller/TeamsController.php:94
-#: ./src/Controller/TeamsController.php:128
+#: ./src/Controller/TeamsController.php:115
+#: ./src/Controller/TeamsController.php:147
 msgid "The team has been saved."
 msgstr ""
 
-#: ./src/Controller/TeamsController.php:98
-#: ./src/Controller/TeamsController.php:132
+#: ./src/Controller/TeamsController.php:119
+#: ./src/Controller/TeamsController.php:151
 msgid "The team could not be saved."
 msgstr ""
 
-#: ./src/Controller/UsersController.php:61
+#: ./src/Controller/TeamsController.php:184
+#: ./src/Controller/TeamsController.php:192
+msgid "The coach could not be added."
+msgstr ""
+
+#: ./src/Controller/TeamsController.php:188
+msgid "{0} is now coach of {1}."
+msgstr ""
+
+#: ./src/Controller/TeamsController.php:190
+msgid "{0} is already a coach of {1}."
+msgstr ""
+
+#: ./src/Controller/TeamsController.php:211
+msgid "{0} is no longer coach of {1}."
+msgstr ""
+
+#: ./src/Controller/TeamsController.php:213
+msgid "The coach could not be removed."
+msgstr ""
+
+#: ./src/Controller/UsersController.php:66
 msgid "Invalid username or password"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:62
+#: ./src/Controller/UsersController.php:67
 msgid "Wrong password entered for {0}"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:67
+#: ./src/Controller/UsersController.php:72
 msgid "You were redirected from an external service. Please login to continue."
 msgstr ""
 
-#: ./src/Controller/UsersController.php:108
-#: ./src/Controller/UsersController.php:129
+#: ./src/Controller/UsersController.php:111
+#: ./src/Controller/UsersController.php:131
 msgid "The user has been saved."
 msgstr ""
 
-#: ./src/Controller/UsersController.php:112
-#: ./src/Controller/UsersController.php:133
-#: ./src/Controller/UsersController.php:165
-#: ./src/Controller/UsersController.php:235
+#: ./src/Controller/UsersController.php:115
+#: ./src/Controller/UsersController.php:135
+#: ./src/Controller/UsersController.php:170
+#: ./src/Controller/UsersController.php:242
 msgid "The user could not be saved."
 msgstr ""
 
-#: ./src/Controller/UsersController.php:160
+#: ./src/Controller/UsersController.php:152
+msgid "You already have an account, use your username to log in."
+msgstr ""
+
+#: ./src/Controller/UsersController.php:165
 msgid "Please enter twice the same passowrd"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:162
+#: ./src/Controller/UsersController.php:167
 msgid "You have been successfully registered, now you can login"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:196
+#: ./src/Controller/UsersController.php:201
 msgid "Reset your password"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:212
+#: ./src/Controller/UsersController.php:217
 msgid "If this email or username exists, a reset link has been sent to the associated email"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:222
+#: ./src/Controller/UsersController.php:227
 msgid "Missing token"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:231
+#: ./src/Controller/UsersController.php:238
 msgid "Your password has been updated"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:301
+#: ./src/Controller/UsersController.php:308
 msgid "Please enter your full name"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:319
+#: ./src/Controller/UsersController.php:326
 msgid "Wrong name entered for {0}"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:321
+#: ./src/Controller/UsersController.php:328
 msgid "If the member exists, a login link has been sent to the member {0}"
 msgstr ""
 
@@ -633,48 +921,61 @@ msgid "Canceled"
 msgstr ""
 
 #: ./src/Model/Entity/Bill.php:76
-#: ./templates/Admin/generate_membership.php:29
+#: ./templates/Admin/dashboard.php:148
+#: ./templates/Admin/dashboard.php:155
+#: ./templates/Admin/generate_membership.php:30
 #: ./templates/Bills/add.php:21
 #: ./templates/Bills/edit.php:25
-#: ./templates/Bills/index.php:21
+#: ./templates/Bills/index.php:16
 #: ./templates/Bills/view.php:61
-#: ./templates/MemberOrders/index.php:35
+#: ./templates/MemberOrders/index.php:22
 #: ./templates/element/Members/bills.php:29
 msgid "Paid"
 msgstr ""
 
 #: ./src/Model/Entity/Bill.php:81
-#: ./templates/Bills/index.php:20
+#: ./src/Model/Entity/Presence.php:37
+#: ./templates/Admin/dashboard.php:166
+#: ./templates/Bills/index.php:15
 msgid "Late"
 msgstr ""
 
 #: ./src/Model/Entity/Bill.php:83
-#: ./src/Model/Entity/Bill.php:135
+#: ./src/Model/Entity/Bill.php:136
+#: ./src/Model/Entity/MailingItem.php:34
+#: ./templates/Mailings/index.php:25
+#: ./templates/Mailings/send.php:33
+#: ./templates/Mailings/send.php:96
 msgid "Sent"
 msgstr ""
 
 #: ./src/Model/Entity/Bill.php:85
-#: ./src/Model/Entity/Bill.php:135
-#: ./templates/Bills/index.php:22
+#: ./src/Model/Entity/Bill.php:136
+#: ./templates/Bills/index.php:17
 msgid "Draft"
 msgstr ""
 
-#: ./src/Model/Entity/Bill.php:135
+#: ./src/Model/Entity/Bill.php:136
 msgctxt "In the way, it has been read"
 msgid "Read"
 msgstr ""
 
 #: ./src/Model/Entity/FieldType.php:49
-#: ./src/Model/Entity/Member.php:364
-#: ./templates/Bills/mail_print.php:30
-#: ./templates/Bills/mail_send.php:30
+#: ./src/Model/Entity/Member.php:378
+#: ./templates/Admin/subvention_emails.php:28
+#: ./templates/Bills/mail_print.php:26
+#: ./templates/Bills/mail_send.php:26
+#: ./templates/Mailings/add_by_bill.php:43
+#: ./templates/Mailings/send.php:71
+#: ./templates/Mailings/send.php:94
 #: ./templates/Members/add.php:28
 #: ./templates/Members/edit.php:30
-#: ./templates/Members/list.php:36
+#: ./templates/Members/list.php:30
+#: ./templates/Members/list_email.php:33
+#: ./templates/Members/list_email.php:34
 #: ./templates/Members/list_email.php:35
-#: ./templates/Members/list_email.php:36
-#: ./templates/Members/list_email.php:37
 #: ./templates/Members/register.php:46
+#: ./templates/SecondHand/profile.php:19
 #: ./templates/element/Members/details.php:26
 #: ./templates/element/Members/details.php:28
 msgid "Email"
@@ -685,7 +986,7 @@ msgid "Phone"
 msgstr ""
 
 #: ./src/Model/Entity/FieldType.php:49
-#: ./templates/Bills/send_reminder.php:32
+#: ./templates/Bills/send_reminder.php:29
 msgid "Number"
 msgstr ""
 
@@ -694,10 +995,15 @@ msgid "Checkbox"
 msgstr ""
 
 #: ./src/Model/Entity/FieldType.php:49
+#: ./templates/Mailings/index.php:22
+#: ./templates/Meetings/add_multiple.php:46
+#: ./templates/SecondHandAdmin/items_log.php:17
 msgid "Date"
 msgstr ""
 
 #: ./src/Model/Entity/FieldType.php:49
+#: ./templates/SecondHand/add.php:22
+#: ./templates/SecondHand/my_items.php:40
 msgid "Picture"
 msgstr ""
 
@@ -710,63 +1016,195 @@ msgctxt "Value type of a field"
 msgid "Text"
 msgstr ""
 
-#: ./src/Model/Entity/Meeting.php:54
+#: ./src/Model/Entity/Mailing.php:37
+#: ./templates/Members/add.php:19
+#: ./templates/Members/edit.php:21
+#: ./templates/Members/index.php:40
+#: ./templates/Members/list.php:26
+#: ./templates/Members/list_email.php:30
+#: ./templates/Members/register.php:37
+msgid "First name"
+msgstr ""
+
+#: ./src/Model/Entity/Mailing.php:38
+#: ./templates/Members/add.php:20
+#: ./templates/Members/edit.php:22
+#: ./templates/Members/index.php:45
+#: ./templates/Members/list.php:27
+#: ./templates/Members/list_email.php:31
+#: ./templates/Members/register.php:38
+msgid "Last name"
+msgstr ""
+
+#: ./src/Model/Entity/Mailing.php:39
+msgid "Full name"
+msgstr ""
+
+#: ./src/Model/Entity/Mailing.php:40
+msgid "Link to the personal page"
+msgstr ""
+
+#: ./src/Model/Entity/Mailing.php:80
+#: ./templates/element/Mailings/compose.php:10
+#: ./templates/element/SecondHand/nav.php:18
+msgid "My page"
+msgstr ""
+
+#: ./src/Model/Entity/Mailing.php:156
+msgid "Bills containing \"{0}\""
+msgstr ""
+
+#: ./src/Model/Entity/MailingItem.php:35
+msgid "Invalid address"
+msgstr ""
+
+#: ./src/Model/Entity/MailingItem.php:36
+msgid "Pending ({0} attempts)"
+msgstr ""
+
+#: ./src/Model/Entity/MailingItem.php:36
+#: ./templates/Mailings/send.php:34
+msgid "Pending"
+msgstr ""
+
+#: ./src/Model/Entity/Meeting.php:55
 msgid "{0}/{1}/{2}/{3}"
 msgstr ""
 
-#: ./src/Model/Entity/Member.php:137
-#: ./templates/Members/index.php:25
-#: ./templates/Members/invite.php:24
+#: ./src/Model/Entity/Member.php:154
+#: ./src/View/Helper/MyHelper.php:303
+#: ./templates/Admin/dashboard.php:78
 msgid "No team"
 msgstr ""
 
-#: ./src/Model/Entity/Member.php:152
+#: ./src/Model/Entity/Member.php:165
 msgid "No site"
 msgstr ""
 
-#: ./src/Model/Entity/Member.php:354
-#: ./src/Model/Table/ShopItemsTable.php:116
-msgid "Unknown"
-msgstr ""
-
-#: ./src/Model/Entity/Member.php:354
+#: ./src/Model/Entity/Member.php:368
 msgid "Female"
 msgstr ""
 
-#: ./src/Model/Entity/Member.php:354
+#: ./src/Model/Entity/Member.php:368
 msgid "Male"
 msgstr ""
 
-#: ./src/Model/Entity/Member.php:364
+#: ./src/Model/Entity/Member.php:378
 msgid "-"
 msgstr ""
 
-#: ./src/Model/Entity/Member.php:364
+#: ./src/Model/Entity/Member.php:378
 msgid "Letter"
 msgstr ""
 
-#: ./src/Model/Table/BillsTable.php:272
+#: ./src/Model/Entity/Presence.php:34
+#: ./templates/Admin/dashboard.php:165
+msgid "Present"
+msgstr ""
+
+#: ./src/Model/Entity/Presence.php:35
+#: ./templates/Admin/dashboard.php:168
+msgid "Absent"
+msgstr ""
+
+#: ./src/Model/Entity/Presence.php:36
+#: ./templates/Admin/dashboard.php:167
+msgid "Excused"
+msgstr ""
+
+#: ./src/Model/Entity/SecondHandLog.php:42
+#: ./templates/SecondHand/my_items.php:59
+msgid "Sold"
+msgstr ""
+
+#: ./src/Model/Entity/SecondHandLog.php:43
+msgid "Removed by the seller"
+msgstr ""
+
+#: ./src/Model/Entity/SecondHandLog.php:44
+msgid "Deleted by the admin"
+msgstr ""
+
+#: ./src/Model/Entity/SecondHandLog.php:45
+#: ./templates/SecondHand/my_items.php:61
+msgid "Expired"
+msgstr ""
+
+#: ./src/Model/Entity/SecondHandLog.php:45
+#: ./templates/SecondHand/my_items.php:63
+msgid "For sale"
+msgstr ""
+
+#: ./src/Model/Entity/TeamsCoach.php:39
+msgid "Coach"
+msgstr ""
+
+#: ./src/Model/Entity/TeamsCoach.php:40
+msgid "Help coach"
+msgstr ""
+
+#: ./src/Model/Table/BillsTable.php:324
 msgid "{0}-{1}"
 msgstr ""
 
-#: ./src/Model/Table/BillsTable.php:327
+#: ./src/Model/Table/BillsTable.php:381
 msgid "Shop Order: {0}"
 msgstr ""
 
-#: ./src/Model/Table/ShopItemsTable.php:84
+#: ./src/Model/Table/MailingsTable.php:95
+msgid "Invalid placeholders: {0}. Available placeholders: {1}"
+msgstr ""
+
+#: ./src/Model/Table/MailingsTable.php:126
+msgid "Select at least one team"
+msgstr ""
+
+#: ./src/Model/Table/MailingsTable.php:128
+msgid "There is no active member with an email in these teams"
+msgstr ""
+
+#: ./src/Model/Table/MailingsTable.php:173
+msgid "Enter a text to search in the bill labels"
+msgstr ""
+
+#: ./src/Model/Table/MailingsTable.php:175
+msgid "There is no member with an email having a bill containing this text"
+msgstr ""
+
+#: ./src/Model/Table/MeetingsTable.php:98
+msgid "The link must start with http:// or https://"
+msgstr ""
+
+#: ./src/Model/Table/SecondHandProfilesTable.php:67
+msgid "This phone number is not valid"
+msgstr ""
+
+#: ./src/Model/Table/ShopItemsTable.php:112
 msgid "Please select a valid category."
 msgstr ""
 
-#: ./src/Model/Table/ShopItemsTable.php:101
+#: ./src/Model/Table/ShopItemsTable.php:123
+msgid "An attribute can have at most {0} characters."
+msgstr ""
+
+#: ./src/Model/Table/ShopItemsTable.php:139
+msgid "This item has orders, disable it instead."
+msgstr ""
+
+#: ./src/Model/Table/ShopItemsTable.php:152
 msgid "Other"
 msgstr ""
 
-#: ./src/Model/Table/ShopItemsTable.php:102
+#: ./src/Model/Table/ShopItemsTable.php:153
 msgid "Travel"
 msgstr ""
 
-#: ./src/Model/Table/ShopItemsTable.php:103
+#: ./src/Model/Table/ShopItemsTable.php:154
 msgid "Equipment"
+msgstr ""
+
+#: ./src/Model/Table/UsersTable.php:96
+msgid "The password must have at least 8 characters"
 msgstr ""
 
 #: ./src/Utility/ImageHelper.php:162
@@ -777,128 +1215,238 @@ msgstr ""
 msgid "HEIC images are not supported. Please convert to JPEG before uploading."
 msgstr ""
 
+#: ./src/View/Helper/MeetingHelper.php:49
+#: ./templates/element/Meetings/form_fields.php:13
+msgid "Big event"
+msgstr ""
+
+#: ./src/View/Helper/MeetingHelper.php:52
+msgid "Doodle"
+msgstr ""
+
+#: ./src/View/Helper/MeetingHelper.php:55
+#: ./src/View/Helper/MyHelper.php:207
+#: ./templates/Meetings/view.php:28
+#: ./templates/element/Meetings/form_fields.php:15
+msgid "Link"
+msgstr ""
+
+#: ./src/View/Helper/MeetingHelper.php:74
+msgid "No attendance yet"
+msgstr ""
+
+#: ./src/View/Helper/MeetingHelper.php:102
+#: ./templates/Admin/subventions.php:34
+#: ./templates/MemberOrders/index.php:32
+#: ./templates/SecondHand/index.php:17
+#: ./templates/ShopOrders/index.php:26
+#: ./templates/ShopOrders/summary.php:21
+#: ./templates/element/Members/bills.php:32
+msgid "All"
+msgstr ""
+
+#: ./src/View/Helper/MeetingHelper.php:103
+msgid "Not set"
+msgstr ""
+
+#: ./src/View/Helper/MeetingHelper.php:132
+msgid "Legend"
+msgstr ""
+
+#: ./src/View/Helper/MeetingHelper.php:134
+msgid "Tap a status to set it. Tap a counter at the top to show only these members."
+msgstr ""
+
 #: ./src/View/Helper/MyHelper.php:45
 msgid "French"
 msgstr ""
 
-#: ./src/View/Helper/MyHelper.php:47
+#: ./src/View/Helper/MyHelper.php:46
 msgid "German"
 msgstr ""
 
-#: ./src/View/Helper/MyHelper.php:49
+#: ./src/View/Helper/MyHelper.php:47
 msgid "English"
 msgstr ""
 
-#: ./src/View/Helper/MyHelper.php:51
+#: ./src/View/Helper/MyHelper.php:48
 msgid "Spanish"
 msgstr ""
 
-#: ./src/View/Helper/MyHelper.php:53
+#: ./src/View/Helper/MyHelper.php:49
 msgid "Italian"
 msgstr ""
 
-#: ./src/View/Helper/MyHelper.php:98
+#: ./src/View/Helper/MyHelper.php:101
 msgid "Main configuration"
 msgstr ""
 
-#: ./src/View/Helper/MyHelper.php:99
+#: ./src/View/Helper/MyHelper.php:102
 msgid "Locations"
 msgstr ""
 
-#: ./src/View/Helper/MyHelper.php:100
+#: ./src/View/Helper/MyHelper.php:103
 msgid "Custom fields"
 msgstr ""
 
-#: ./src/View/Helper/MyHelper.php:198
-#: ./src/View/Helper/MyHelper.php:200
+#: ./src/View/Helper/MyHelper.php:201
+#: ./src/View/Helper/MyHelper.php:203
 msgid "{0} - {1}"
 msgstr ""
 
-#: ./src/View/Helper/MyHelper.php:204
-msgid "Link"
-msgstr ""
-
-#: ./src/View/Helper/MyHelper.php:207
+#: ./src/View/Helper/MyHelper.php:210
 msgid "Join"
 msgstr ""
 
-#: ./src/View/Helper/MyHelper.php:207
+#: ./src/View/Helper/MyHelper.php:210
 msgid "Are you sure you want to join the event ?"
 msgstr ""
 
-#: ./src/View/Helper/MyHelper.php:210
-#: ./templates/Members/edit.php:41
-#: ./templates/Members/invite.php:41
+#: ./src/View/Helper/MyHelper.php:213
+#: ./templates/Admin/dashboard.php:36
+#: ./templates/Members/edit.php:40
+#: ./templates/Members/invite.php:34
 #: ./templates/element/Members/profile_card.php:31
 msgid "Registered"
 msgstr ""
 
-#: ./src/View/Helper/MyHelper.php:242
+#: ./src/View/Helper/MyHelper.php:245
 msgid "MISSING"
 msgstr ""
 
-#: ./src/View/Helper/PdfHelper.php:186
+#: ./src/View/Helper/MyHelper.php:303
+#: ./templates/Bills/batch_add.php:10
+#: ./templates/Bills/generate_reminder.php:4
+#: ./templates/Bills/mail_print.php:4
+#: ./templates/Bills/mail_send.php:4
+#: ./templates/Bills/overview.php:7
+#: ./templates/Bills/send_reminder.php:15
+#: ./templates/Mailings/add_by_bill.php:59
+#: ./templates/Members/edit.php:39
+#: ./templates/ShopItems/index.php:35
+#: ./templates/ShopItems/view.php:40
+#: ./templates/Teams/index.php:17
+#: ./templates/Teams/view.php:26
+#: ./templates/element/Members/profile_card.php:26
+msgid "Active"
+msgstr ""
+
+#: ./src/View/Helper/MyHelper.php:303
+#: ./templates/Bills/batch_add.php:11
+#: ./templates/Bills/generate_reminder.php:5
+#: ./templates/Bills/mail_print.php:5
+#: ./templates/Bills/mail_send.php:5
+#: ./templates/Bills/overview.php:8
+#: ./templates/Bills/send_reminder.php:16
+msgid "Alumni"
+msgstr ""
+
+#: ./src/View/Helper/MyHelper.php:303
+msgid "Membership not paid"
+msgstr ""
+
+#: ./src/View/Helper/MyHelper.php:303
+msgid "Non inscrit"
+msgstr ""
+
+#: ./src/View/Helper/PdfHelper.php:219
 msgid "Subject: Request for Sports Funding"
 msgstr ""
 
-#: ./src/View/Helper/PdfHelper.php:226
-#: ./src/View/Helper/PdfHelper.php:286
+#: ./src/View/Helper/PdfHelper.php:235
+msgid "Bank details"
+msgstr ""
+
+#: ./src/View/Helper/PdfHelper.php:287
+#: ./templates/Admin/generate_membership.php:25
+#: ./templates/Admin/reset_membership.php:9
+#: ./templates/Admin/reset_registration.php:9
+#: ./templates/Admin/subventions.php:10
+#: ./templates/Admin/subventions.php:54
+#: ./templates/Members/batch_register.php:26
+#: ./templates/Members/birthdays.php:27
+#: ./templates/Members/family_reduction.php:13
+#: ./templates/Members/invite.php:33
+#: ./templates/Members/new_members.php:15
+#: ./templates/Roles/view.php:17
+#: ./templates/SecondHandAdmin/edit_category.php:11
+#: ./templates/SecondHandAdmin/index.php:34
+#: ./templates/Teams/index.php:15
+#: ./templates/Teams/view.php:136
+#: ./templates/Teams/view.php:139
+#: ./templates/element/Meetings/form_fields.php:10
+msgid "Name"
+msgstr ""
+
+#: ./src/View/Helper/PdfHelper.php:288
+#: ./templates/Admin/subventions.php:11
+#: ./templates/Admin/subventions.php:55
+#: ./templates/Members/add.php:21
+#: ./templates/Members/edit.php:23
+#: ./templates/Members/list.php:29
+#: ./templates/Members/register.php:39
+#: ./templates/element/Members/details.php:40
+msgid "Date of birth"
+msgstr ""
+
+#: ./src/View/Helper/PdfHelper.php:302
+msgid "Number of members: {0}"
+msgstr ""
+
+#: ./src/View/Helper/PdfHelper.php:307
 msgid "Beneficiary"
 msgstr ""
 
-#: ./src/View/Helper/PdfHelper.php:227
-#: ./src/View/Helper/PdfHelper.php:288
+#: ./src/View/Helper/PdfHelper.php:308
 #: ./templates/Members/add.php:23
 #: ./templates/Members/edit.php:25
 #: ./templates/Members/family_reduction.php:17
-#: ./templates/Members/list.php:37
+#: ./templates/Members/list.php:31
 #: ./templates/Members/register.php:41
 #: ./templates/Sites/view.php:26
 msgid "Address"
 msgstr ""
 
-#: ./src/View/Helper/PdfHelper.php:228
-#: ./src/View/Helper/PdfHelper.php:291
+#: ./src/View/Helper/PdfHelper.php:309
 #: ./templates/Sites/view.php:38
 msgid "IBAN"
 msgstr ""
 
-#: ./src/View/Helper/PdfHelper.php:229
-#: ./src/View/Helper/PdfHelper.php:293
+#: ./src/View/Helper/PdfHelper.php:310
 #: ./templates/Sites/view.php:42
 msgid "BIC"
 msgstr ""
 
-#: ./src/View/Helper/PdfHelper.php:245
+#: ./src/View/Helper/PdfHelper.php:342
 msgid "Invoice No {0} - {1}"
 msgstr ""
 
-#: ./src/View/Helper/PdfHelper.php:252
+#: ./src/View/Helper/PdfHelper.php:349
 msgid "First reminder"
 msgstr ""
 
-#: ./src/View/Helper/PdfHelper.php:254
+#: ./src/View/Helper/PdfHelper.php:351
 msgid "Reminder N°{0}"
 msgstr ""
 
-#: ./src/View/Helper/PdfHelper.php:257
+#: ./src/View/Helper/PdfHelper.php:354
 msgid "If you already paid this invoice, please contact us."
 msgstr ""
 
-#: ./src/View/Helper/PdfHelper.php:266
+#: ./src/View/Helper/PdfHelper.php:363
 msgid "Member No"
 msgstr ""
 
-#: ./src/View/Helper/PdfHelper.php:268
-#: ./src/View/Helper/PdfHelper.php:295
+#: ./src/View/Helper/PdfHelper.php:365
+#: ./src/View/Helper/PdfHelper.php:384
 #: ./templates/BillTemplates/view.php:34
 #: ./templates/Bills/add.php:19
-#: ./templates/Bills/batch_add.php:35
+#: ./templates/Bills/batch_add.php:36
 #: ./templates/Bills/edit.php:17
-#: ./templates/Bills/index.php:44
-#: ./templates/Bills/mail_print.php:27
-#: ./templates/Bills/mail_send.php:27
-#: ./templates/Bills/send_reminder.php:31
+#: ./templates/Bills/index.php:39
+#: ./templates/Bills/mail_print.php:23
+#: ./templates/Bills/mail_send.php:23
+#: ./templates/Bills/send_reminder.php:28
 #: ./templates/Bills/view.php:29
 #: ./templates/Members/cancel_registration.php:34
 #: ./templates/element/Members/bills.php:46
@@ -906,12 +1454,12 @@ msgstr ""
 msgid "Amount"
 msgstr ""
 
-#: ./src/View/Helper/PdfHelper.php:270
+#: ./src/View/Helper/PdfHelper.php:367
 #: ./templates/Bills/add.php:23
-#: ./templates/Bills/batch_add.php:37
+#: ./templates/Bills/batch_add.php:38
 #: ./templates/Bills/edit.php:18
-#: ./templates/Bills/mail_print.php:29
-#: ./templates/Bills/mail_send.php:29
+#: ./templates/Bills/mail_print.php:25
+#: ./templates/Bills/mail_send.php:25
 #: ./templates/Bills/view.php:37
 #: ./templates/Members/cancel_registration.php:37
 #: ./templates/element/Members/bills.php:49
@@ -919,148 +1467,276 @@ msgstr ""
 msgid "Due date"
 msgstr ""
 
-#: ./src/View/Helper/PdfHelper.php:275
+#: ./src/View/Helper/PdfHelper.php:372
 msgid "Late payments will result in a reminder fee of {0} CHF"
 msgstr ""
 
-#: ./src/View/Helper/PdfHelper.php:276
+#: ./src/View/Helper/PdfHelper.php:373
 msgid "In case of difficulty in payment, you can contact me for a payment in several installments"
 msgstr ""
 
-#: ./src/View/Helper/PdfHelper.php:284
+#: ./src/View/Helper/PdfHelper.php:381
 msgid "Payments via e-banking save us the cost of processing the inpayment slip."
 msgstr ""
 
-#: ./src/View/Helper/PdfHelper.php:297
-#: ./templates/Teams/view.php:27
+#: ./src/View/Helper/PdfHelper.php:386
+#: ./templates/SecondHand/add.php:19
+#: ./templates/SecondHandAdmin/items_log.php:20
+#: ./templates/Teams/view.php:30
 msgid "Description"
 msgstr ""
 
-#: ./src/View/Helper/PdfHelper.php:256
+#: ./src/View/Helper/PdfHelper.php:564
+msgid "The QR code of the invoice {0} could not be created: {1}"
+msgstr ""
+
+#: ./src/View/Helper/PdfHelper.php:353
 msgctxt "{0} is a date"
 msgid "To date, we have not received the {0} payment."
 msgstr ""
 
-#: ./templates/Admin/dashboard.php:7
-#: ./templates/Contents/info.php:7
-#: ./templates/Teams/index.php:9
-#: ./templates/layout/default.php:189
-msgid "Teams"
+#: ./templates/Admin/dashboard.php:24
+#: ./templates/layout/default.php:229
+msgid "Dashboard"
 msgstr ""
 
-#: ./templates/Admin/dashboard.php:10
-#: ./templates/Admin/dashboard.php:23
+#: ./templates/Admin/dashboard.php:25
+#: ./templates/layout/default.php:150
+#: ./templates/layout/default.php:153
+msgid "All locations"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:26
+msgid "Season since {0}"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:31
+msgid "Active members"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:33
+msgid "+{0} new / -{1} left this season"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:38
+#: ./templates/Admin/dashboard.php:45
+msgid "{0} / {1} members"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:43
+msgid "Membership fee paid"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:50
+#: ./templates/Admin/dashboard.php:109
+#: ./templates/Pages/home.php:143
+msgid "Open invoices"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:52
+msgid "{0} invoices, {1} late"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:55
+#: ./templates/Admin/dashboard.php:207
+msgid "Attendance ({0} days)"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:57
+msgid "{0} presences recorded"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:65
+#: ./templates/Admin/subvention_emails.php:27
 #: ./templates/Bills/batch_add.php:47
-#: ./templates/Members/batch_register.php:24
-#: ./templates/Members/birthdays.php:24
-#: ./templates/Members/index.php:38
-#: ./templates/Teams/view.php:88
-#: ./templates/layout/default.php:151
+#: ./templates/Members/batch_register.php:22
+#: ./templates/Members/birthdays.php:23
+#: ./templates/Members/index.php:31
+#: ./templates/Teams/view.php:91
+#: ./templates/layout/default.php:171
 msgid "Members"
 msgstr ""
 
-#: ./templates/Admin/dashboard.php:19
-msgid "Finances"
+#: ./templates/Admin/dashboard.php:68
+#: ./templates/element/Members/profile_card.php:33
+msgid "Not registered"
 msgstr ""
 
-#: ./templates/Admin/dashboard.php:27
-#: ./templates/layout/default.php:195
-msgid "Configuration"
+#: ./templates/Admin/dashboard.php:72
+msgid "Signatures to validate"
 msgstr ""
 
-#: ./templates/Admin/generate_membership.php:19
-msgid "Generate membership fees for year {0}-{1}"
+#: ./templates/Admin/dashboard.php:75
+msgid "Signatures validated"
 msgstr ""
 
-#: ./templates/Admin/generate_membership.php:24
-#: ./templates/Admin/reset_membership.php:9
-#: ./templates/Admin/reset_registration.php:9
-#: ./templates/Members/batch_register.php:28
-#: ./templates/Members/birthdays.php:28
-#: ./templates/Members/family_reduction.php:13
-#: ./templates/Members/invite.php:40
-#: ./templates/Members/new_members.php:15
-#: ./templates/Members/subventions.php:12
-#: ./templates/Members/subventions.php:57
-#: ./templates/Roles/view.php:17
-#: ./templates/Teams/index.php:14
-#: ./templates/Teams/view.php:129
-#: ./templates/Teams/view.php:132
-msgid "Name"
+#: ./templates/Admin/dashboard.php:84
+#: ./templates/Members/add.php:22
+#: ./templates/Members/edit.php:24
+#: ./templates/Members/register.php:40
+#: ./templates/element/Members/details.php:14
+msgid "Gender"
 msgstr ""
 
-#: ./templates/Admin/generate_membership.php:25
-#: ./templates/Members/birthdays.php:30
+#: ./templates/Admin/dashboard.php:87
+#: ./templates/Admin/generate_membership.php:26
+#: ./templates/Admin/subventions.php:12
+#: ./templates/Admin/subventions.php:56
+#: ./templates/Members/birthdays.php:29
 #: ./templates/Members/family_reduction.php:15
-#: ./templates/Members/invite.php:42
+#: ./templates/Members/invite.php:35
 #: ./templates/Members/new_members.php:16
-#: ./templates/Members/subventions.php:14
-#: ./templates/Members/subventions.php:59
 msgid "Age"
 msgstr ""
 
-#: ./templates/Admin/generate_membership.php:26
+#: ./templates/Admin/dashboard.php:90
+msgid "Birthdays in the next {0} days"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:92
+msgid "None"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:98
+msgid "{0} years"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:106
+msgid "Finances"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:113
+msgid "Late invoices"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:117
+msgid "With reminder"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:121
+msgid "Draft (not printed)"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:126
+msgid "This season"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:128
+msgid "Collected"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:137
+msgid "Membership fees"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:145
+msgid "Invoiced per month"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:147
+#: ./templates/Admin/dashboard.php:154
+msgid "Invoiced"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:163
+#: ./templates/Meetings/index.php:25
+#: ./templates/element/Members/attendance.php:16
+#: ./templates/layout/default.php:184
+msgid "Attendance"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:169
+msgid "Events this season"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:172
+msgid "Attendance per team ({0} days)"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:174
+msgid "No presence recorded"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:183
+msgid "Next {0} days"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:185
+msgid "No event"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:199
+#: ./templates/Contents/info.php:7
+#: ./templates/Mailings/add.php:20
+#: ./templates/Mailings/send.php:26
+#: ./templates/Teams/index.php:10
+#: ./templates/layout/default.php:227
+msgid "Teams"
+msgstr ""
+
+#: ./templates/Admin/dashboard.php:210
+msgid "{0} members"
+msgstr ""
+
+#: ./templates/Admin/generate_membership.php:20
+msgid "Generate membership fees for year {0}-{1}"
+msgstr ""
+
+#: ./templates/Admin/generate_membership.php:27
 #: ./templates/Contents/view.php:26
-#: ./templates/Members/add.php:42
-#: ./templates/Members/batch_register.php:29
-#: ./templates/Members/birthdays.php:31
-#: ./templates/Members/edit.php:43
+#: ./templates/Meetings/index.php:27
+#: ./templates/Members/add.php:41
+#: ./templates/Members/batch_register.php:27
+#: ./templates/Members/birthdays.php:30
+#: ./templates/Members/edit.php:42
 #: ./templates/Members/family_reduction.php:14
-#: ./templates/Members/index.php:56
-#: ./templates/Members/invite.php:43
-#: ./templates/Members/list.php:34
-#: ./templates/Members/list_email.php:34
-#: ./templates/Members/register.php:60
+#: ./templates/Members/index.php:50
+#: ./templates/Members/invite.php:36
+#: ./templates/Members/list.php:28
+#: ./templates/Members/list_email.php:32
+#: ./templates/Members/register.php:59
+#: ./templates/element/Meetings/form_fields.php:9
 msgid "Team"
 msgstr ""
 
-#: ./templates/Admin/generate_membership.php:28
+#: ./templates/Admin/generate_membership.php:29
 #: ./templates/Admin/reset_membership.php:10
 #: ./templates/Bills/add.php:40
 #: ./templates/Bills/add.php:41
 #: ./templates/Bills/add.php:42
-#: ./templates/Teams/view.php:19
+#: ./templates/Teams/view.php:22
 msgid "Membership fee"
 msgstr ""
 
-#: ./templates/Admin/generate_membership.php:41
-#: ./templates/Members/agreement.php:51
-#: ./templates/Pages/home.php:74
-#: ./templates/element/Members/header.php:24
-msgid "Coach"
-msgstr ""
-
-#: ./templates/Admin/generate_membership.php:51
+#: ./templates/Admin/generate_membership.php:49
+#: ./templates/Meetings/add_multiple.php:74
+#: ./templates/Meetings/add_multiple.php:76
 msgid "Create"
 msgstr ""
 
-#: ./templates/Admin/generate_membership.php:59
+#: ./templates/Admin/generate_membership.php:57
 #: ./templates/BillTemplates/add.php:26
 #: ./templates/BillTemplates/edit.php:31
 #: ./templates/Bills/add.php:34
-#: ./templates/Bills/batch_add.php:58
-#: ./templates/Bills/batch_validation.php:59
+#: ./templates/Bills/batch_add.php:60
+#: ./templates/Bills/batch_validation.php:50
 #: ./templates/Bills/edit.php:35
-#: ./templates/Bills/generate_reminder.php:38
+#: ./templates/Bills/generate_reminder.php:34
+#: ./templates/Configurations/add.php:24
 #: ./templates/Configurations/edit.php:24
-#: ./templates/Contents/add.php:41
-#: ./templates/Contents/edit.php:48
+#: ./templates/Contents/add.php:31
+#: ./templates/Contents/edit.php:38
 #: ./templates/FieldTypes/add.php:28
 #: ./templates/FieldTypes/edit.php:35
 #: ./templates/Fields/add.php:23
 #: ./templates/Fields/edit.php:28
-#: ./templates/Meetings/add.php:24
-#: ./templates/Meetings/add_multiple.php:43
-#: ./templates/Meetings/edit.php:25
-#: ./templates/Members/add.php:45
+#: ./templates/Members/add.php:44
 #: ./templates/Members/agreement.php:79
-#: ./templates/Members/edit.php:46
-#: ./templates/Members/invite.php:79
-#: ./templates/Members/register.php:63
-#: ./templates/Roles/add.php:25
-#: ./templates/Roles/edit.php:28
-#: ./templates/ShopItems/add.php:32
-#: ./templates/ShopItems/edit.php:33
+#: ./templates/Members/edit.php:45
+#: ./templates/Members/invite.php:72
+#: ./templates/Members/register.php:62
+#: ./templates/Roles/add.php:27
+#: ./templates/Roles/edit.php:30
 #: ./templates/Sites/add.php:34
 #: ./templates/Sites/edit.php:39
 #: ./templates/Teams/add.php:21
@@ -1069,26 +1745,27 @@ msgstr ""
 #: ./templates/Users/edit.php:20
 #: ./templates/Users/register.php:20
 #: ./templates/Users/reset.php:14
+#: ./templates/element/ShopItems/form.php:51
 msgid "Submit"
 msgstr ""
 
-#: ./templates/Admin/generate_membership.php:60
-#: ./templates/Bills/batch_add.php:59
-#: ./templates/Bills/mail_send.php:55
-#: ./templates/Bills/send_reminder.php:56
-#: ./templates/Members/invite.php:80
+#: ./templates/Admin/generate_membership.php:58
+#: ./templates/Bills/batch_add.php:61
+#: ./templates/Bills/mail_send.php:51
+#: ./templates/Bills/send_reminder.php:53
+#: ./templates/Members/invite.php:73
 msgid "Check all"
 msgstr ""
 
-#: ./templates/Admin/generate_membership.php:60
-#: ./templates/Bills/batch_add.php:59
-#: ./templates/Bills/mail_send.php:55
-#: ./templates/Bills/send_reminder.php:56
-#: ./templates/Members/invite.php:80
+#: ./templates/Admin/generate_membership.php:58
+#: ./templates/Bills/batch_add.php:61
+#: ./templates/Bills/mail_send.php:51
+#: ./templates/Bills/send_reminder.php:53
+#: ./templates/Members/invite.php:73
 msgid "Check none"
 msgstr ""
 
-#: ./templates/Admin/generate_membership.php:27
+#: ./templates/Admin/generate_membership.php:28
 #: ./templates/Members/add.php:33
 #: ./templates/Members/edit.php:34
 #: ./templates/Members/register.php:51
@@ -1098,7 +1775,7 @@ msgid "Split payment"
 msgstr ""
 
 #: ./templates/Admin/new_year.php:10
-#: ./templates/layout/default.php:196
+#: ./templates/layout/default.php:235
 msgid "New year"
 msgstr ""
 
@@ -1119,12 +1796,13 @@ msgstr ""
 #: ./templates/BillTemplates/edit.php:10
 #: ./templates/BillTemplates/index.php:18
 #: ./templates/BillTemplates/view.php:10
-#: ./templates/Bills/index.php:55
+#: ./templates/Bills/index.php:50
+#: ./templates/Configurations/add.php:10
 #: ./templates/Configurations/edit.php:10
 #: ./templates/Configurations/index.php:16
 #: ./templates/Configurations/view.php:10
-#: ./templates/Contents/add.php:23
-#: ./templates/Contents/edit.php:23
+#: ./templates/Contents/add.php:13
+#: ./templates/Contents/edit.php:13
 #: ./templates/Contents/index.php:18
 #: ./templates/Contents/view.php:10
 #: ./templates/FieldTypes/add.php:10
@@ -1135,23 +1813,29 @@ msgstr ""
 #: ./templates/Fields/edit.php:10
 #: ./templates/Fields/index.php:16
 #: ./templates/Fields/view.php:10
-#: ./templates/MemberOrders/index.php:58
-#: ./templates/MemberOrders/view.php:10
-#: ./templates/Members/birthdays.php:33
+#: ./templates/Mailings/index.php:27
+#: ./templates/Meetings/view.php:34
+#: ./templates/MemberOrders/index.php:61
+#: ./templates/MemberOrders/view.php:11
+#: ./templates/Members/birthdays.php:32
 #: ./templates/Members/cancel_registration.php:38
 #: ./templates/Members/new_members.php:18
-#: ./templates/ShopItems/add.php:11
-#: ./templates/ShopItems/edit.php:11
-#: ./templates/ShopItems/index.php:20
-#: ./templates/ShopItems/view.php:10
+#: ./templates/SecondHand/my_items.php:44
+#: ./templates/SecondHandAdmin/index.php:36
+#: ./templates/SecondHandAdmin/items_log.php:24
+#: ./templates/ShopItems/index.php:23
+#: ./templates/ShopItems/view.php:12
+#: ./templates/ShopOrders/index.php:52
 #: ./templates/Sites/add.php:10
 #: ./templates/Sites/edit.php:10
 #: ./templates/Sites/index.php:19
 #: ./templates/Sites/view.php:10
-#: ./templates/Teams/index.php:18
+#: ./templates/Teams/index.php:19
 #: ./templates/Users/add.php:10
 #: ./templates/Users/index.php:17
+#: ./templates/element/Mailings/nav.php:9
 #: ./templates/element/Members/bills.php:50
+#: ./templates/element/ShopItems/form.php:14
 msgid "Actions"
 msgstr ""
 
@@ -1171,6 +1855,59 @@ msgstr ""
 msgid "Reset registration"
 msgstr ""
 
+#: ./templates/Admin/subvention_emails.php:13
+#: ./templates/Admin/subventions.php:41
+msgid "Municipality emails"
+msgstr ""
+
+#: ./templates/Admin/subvention_emails.php:16
+msgid "The email body is empty: add a content with the location \"{0}\"."
+msgstr ""
+
+#: ./templates/Admin/subvention_emails.php:17
+#: ./templates/Contents/index.php:9
+#: ./templates/layout/default.php:232
+msgid "Contents"
+msgstr ""
+
+#: ./templates/Admin/subvention_emails.php:20
+msgid "The email pack contains one email per city, with its letter attached. Without an email address, the recipient must be added in the email client."
+msgstr ""
+
+#: ./templates/Admin/subvention_emails.php:26
+#: ./templates/Members/add.php:25
+#: ./templates/Members/edit.php:27
+#: ./templates/Members/list.php:33
+#: ./templates/Members/register.php:43
+#: ./templates/SecondHand/profile.php:21
+#: ./templates/Sites/view.php:22
+msgid "City"
+msgstr ""
+
+#: ./templates/Admin/subvention_emails.php:46
+#: ./templates/Meetings/edit.php:22
+#: ./templates/SecondHand/profile.php:22
+#: ./templates/SecondHandAdmin/edit_category.php:12
+#: ./templates/SecondHandAdmin/index.php:27
+msgid "Save"
+msgstr ""
+
+#: ./templates/Admin/subvention_emails.php:47
+msgid "Cancel"
+msgstr ""
+
+#: ./templates/Admin/subventions.php:37
+msgid "PDF"
+msgstr ""
+
+#: ./templates/Admin/subventions.php:38
+msgid "Grid"
+msgstr ""
+
+#: ./templates/Admin/subventions.php:40
+msgid "Email pack"
+msgstr ""
+
 #: ./templates/BillTemplates/add.php:11
 #: ./templates/BillTemplates/edit.php:16
 #: ./templates/BillTemplates/view.php:13
@@ -1183,23 +1920,30 @@ msgstr ""
 
 #: ./templates/BillTemplates/edit.php:12
 #: ./templates/BillTemplates/index.php:32
-#: ./templates/Contents/edit.php:26
+#: ./templates/Contents/edit.php:16
 #: ./templates/Contents/index.php:32
 #: ./templates/FieldTypes/edit.php:13
 #: ./templates/FieldTypes/index.php:36
 #: ./templates/Fields/edit.php:12
 #: ./templates/Fields/index.php:28
+#: ./templates/Mailings/send.php:58
+#: ./templates/Meetings/view.php:37
 #: ./templates/Members/signatures.php:18
-#: ./templates/ShopItems/edit.php:12
+#: ./templates/SecondHand/view.php:70
+#: ./templates/SecondHandAdmin/index.php:47
+#: ./templates/SecondHandAdmin/items_log.php:49
+#: ./templates/ShopItems/index.php:45
+#: ./templates/ShopOrders/index.php:100
 #: ./templates/Sites/edit.php:12
 #: ./templates/Sites/index.php:33
+#: ./templates/element/ShopItems/form.php:16
 msgid "Delete"
 msgstr ""
 
 #: ./templates/BillTemplates/edit.php:14
 #: ./templates/BillTemplates/index.php:32
 #: ./templates/BillTemplates/view.php:12
-#: ./templates/Contents/edit.php:28
+#: ./templates/Contents/edit.php:18
 #: ./templates/Contents/index.php:32
 #: ./templates/Contents/view.php:12
 #: ./templates/FieldTypes/edit.php:15
@@ -1208,15 +1952,13 @@ msgstr ""
 #: ./templates/Fields/edit.php:14
 #: ./templates/Fields/index.php:28
 #: ./templates/Fields/view.php:12
-#: ./templates/Meetings/view.php:24
-#: ./templates/MemberOrders/index.php:107
-#: ./templates/MemberOrders/view.php:16
-#: ./templates/ShopItems/edit.php:12
-#: ./templates/ShopItems/index.php:35
-#: ./templates/ShopItems/view.php:12
+#: ./templates/ShopItems/index.php:45
+#: ./templates/ShopItems/view.php:14
+#: ./templates/ShopOrders/index.php:98
 #: ./templates/Sites/edit.php:14
 #: ./templates/Sites/index.php:33
 #: ./templates/Sites/view.php:12
+#: ./templates/element/ShopItems/form.php:16
 msgid "Are you sure you want to delete # {0}?"
 msgstr ""
 
@@ -1231,7 +1973,7 @@ msgid "New invoice Template"
 msgstr ""
 
 #: ./templates/BillTemplates/index.php:9
-#: ./templates/layout/default.php:197
+#: ./templates/layout/default.php:236
 msgid "Invoice Templates"
 msgstr ""
 
@@ -1240,8 +1982,12 @@ msgstr ""
 #: ./templates/Contents/index.php:30
 #: ./templates/FieldTypes/index.php:34
 #: ./templates/Fields/index.php:26
+#: ./templates/Mailings/index.php:46
+#: ./templates/MemberOrders/index.php:93
+#: ./templates/SecondHandAdmin/items_log.php:48
+#: ./templates/ShopItems/index.php:43
 #: ./templates/Sites/index.php:31
-#: ./vendor/cakephp/cakephp/src/View/Helper/PaginatorHelper.php:1178
+#: ./vendor/cakephp/cakephp/src/View/Helper/PaginatorHelper.php:1225
 msgid "View"
 msgstr ""
 
@@ -1250,8 +1996,11 @@ msgstr ""
 #: ./templates/Contents/index.php:31
 #: ./templates/FieldTypes/index.php:35
 #: ./templates/Fields/index.php:27
-#: ./templates/Members/birthdays.php:52
+#: ./templates/Meetings/view.php:36
+#: ./templates/Members/birthdays.php:51
 #: ./templates/Members/new_members.php:29
+#: ./templates/SecondHandAdmin/index.php:45
+#: ./templates/ShopItems/index.php:44
 #: ./templates/Sites/index.php:32
 #: ./templates/Users/index.php:28
 #: ./templates/element/Members/details.php:54
@@ -1259,87 +2008,88 @@ msgid "Edit"
 msgstr ""
 
 #: ./templates/BillTemplates/index.php:40
-#: ./templates/Bills/index.php:100
+#: ./templates/Bills/index.php:95
 #: ./templates/Configurations/index.php:35
 #: ./templates/Contents/index.php:40
 #: ./templates/FieldTypes/index.php:44
 #: ./templates/Fields/index.php:36
-#: ./templates/Meetings/index.php:45
-#: ./templates/MemberOrders/index.php:117
-#: ./templates/Members/batch_register.php:56
-#: ./templates/Members/index.php:111
-#: ./templates/Roles/index.php:44
-#: ./templates/ShopItems/index.php:44
+#: ./templates/Mailings/index.php:60
+#: ./templates/Members/batch_register.php:54
+#: ./templates/Members/index.php:105
+#: ./templates/Roles/index.php:48
 #: ./templates/Sites/index.php:41
 #: ./templates/Users/index.php:36
+#: ./templates/element/Shop/paginator.php:9
 msgid "first"
 msgstr ""
 
 #: ./templates/BillTemplates/index.php:41
-#: ./templates/Bills/index.php:101
+#: ./templates/Bills/index.php:96
 #: ./templates/Configurations/index.php:36
 #: ./templates/Contents/index.php:41
 #: ./templates/FieldTypes/index.php:45
 #: ./templates/Fields/index.php:37
-#: ./templates/Meetings/index.php:46
-#: ./templates/MemberOrders/index.php:118
-#: ./templates/Members/batch_register.php:57
-#: ./templates/Members/index.php:112
-#: ./templates/Roles/index.php:45
-#: ./templates/ShopItems/index.php:45
+#: ./templates/Mailings/index.php:61
+#: ./templates/Members/batch_register.php:55
+#: ./templates/Members/index.php:106
+#: ./templates/Roles/index.php:49
+#: ./templates/SecondHand/index.php:33
+#: ./templates/SecondHand/view.php:35
+#: ./templates/SecondHandAdmin/items_log.php:57
 #: ./templates/Sites/index.php:42
 #: ./templates/Users/index.php:37
+#: ./templates/element/Shop/paginator.php:10
 msgid "previous"
 msgstr ""
 
 #: ./templates/BillTemplates/index.php:43
-#: ./templates/Bills/index.php:103
+#: ./templates/Bills/index.php:98
 #: ./templates/Configurations/index.php:38
 #: ./templates/Contents/index.php:43
 #: ./templates/FieldTypes/index.php:47
 #: ./templates/Fields/index.php:39
-#: ./templates/Meetings/index.php:48
-#: ./templates/MemberOrders/index.php:120
-#: ./templates/Members/batch_register.php:59
-#: ./templates/Members/index.php:114
-#: ./templates/Roles/index.php:47
-#: ./templates/ShopItems/index.php:47
+#: ./templates/Mailings/index.php:63
+#: ./templates/Members/batch_register.php:57
+#: ./templates/Members/index.php:108
+#: ./templates/Roles/index.php:51
+#: ./templates/SecondHand/index.php:35
+#: ./templates/SecondHand/view.php:36
+#: ./templates/SecondHandAdmin/items_log.php:59
 #: ./templates/Sites/index.php:44
 #: ./templates/Users/index.php:39
+#: ./templates/element/Shop/paginator.php:12
 msgid "next"
 msgstr ""
 
 #: ./templates/BillTemplates/index.php:44
-#: ./templates/Bills/index.php:104
+#: ./templates/Bills/index.php:99
 #: ./templates/Configurations/index.php:39
 #: ./templates/Contents/index.php:44
 #: ./templates/FieldTypes/index.php:48
 #: ./templates/Fields/index.php:40
-#: ./templates/Meetings/index.php:49
-#: ./templates/MemberOrders/index.php:121
-#: ./templates/Members/batch_register.php:60
-#: ./templates/Members/index.php:115
-#: ./templates/Roles/index.php:48
-#: ./templates/ShopItems/index.php:48
+#: ./templates/Mailings/index.php:64
+#: ./templates/Members/batch_register.php:58
+#: ./templates/Members/index.php:109
+#: ./templates/Roles/index.php:52
 #: ./templates/Sites/index.php:45
 #: ./templates/Users/index.php:40
+#: ./templates/element/Shop/paginator.php:13
 msgid "last"
 msgstr ""
 
 #: ./templates/BillTemplates/index.php:46
-#: ./templates/Bills/index.php:106
+#: ./templates/Bills/index.php:101
 #: ./templates/Configurations/index.php:41
 #: ./templates/Contents/index.php:46
 #: ./templates/FieldTypes/index.php:50
 #: ./templates/Fields/index.php:42
-#: ./templates/Meetings/index.php:51
-#: ./templates/MemberOrders/index.php:123
-#: ./templates/Members/batch_register.php:63
-#: ./templates/Members/index.php:118
-#: ./templates/Roles/index.php:50
-#: ./templates/ShopItems/index.php:50
+#: ./templates/Mailings/index.php:66
+#: ./templates/Members/batch_register.php:61
+#: ./templates/Members/index.php:112
+#: ./templates/Roles/index.php:54
 #: ./templates/Sites/index.php:47
 #: ./templates/Users/index.php:42
+#: ./templates/element/Shop/paginator.php:15
 msgid "Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total"
 msgstr ""
 
@@ -1353,9 +2103,9 @@ msgstr ""
 #: ./templates/FieldTypes/view.php:30
 #: ./templates/Members/cancel_registration.php:32
 #: ./templates/Roles/view.php:21
-#: ./templates/Roles/view.php:66
+#: ./templates/Roles/view.php:74
 #: ./templates/Sites/view.php:58
-#: ./templates/Users/view.php:39
+#: ./templates/Users/view.php:31
 msgid "Id"
 msgstr ""
 
@@ -1368,9 +2118,8 @@ msgstr ""
 #: ./templates/Bills/view.php:62
 #: ./templates/Bills/view.php:66
 #: ./templates/Bills/view.php:70
-#: ./templates/MemberOrders/index.php:80
-#: ./templates/MemberOrders/view.php:48
-#: ./templates/Members/invite.php:53
+#: ./templates/MemberOrders/view.php:52
+#: ./templates/Members/invite.php:46
 #: ./templates/Roles/view.php:26
 #: ./templates/Roles/view.php:30
 #: ./templates/Roles/view.php:34
@@ -1380,10 +2129,12 @@ msgstr ""
 #: ./templates/Roles/view.php:50
 #: ./templates/Roles/view.php:54
 #: ./templates/Roles/view.php:58
-#: ./templates/ShopItems/index.php:30
-#: ./templates/ShopItems/view.php:35
-#: ./templates/ShopItems/view.php:61
-#: ./templates/Teams/view.php:24
+#: ./templates/Roles/view.php:62
+#: ./templates/Roles/view.php:66
+#: ./templates/ShopItems/view.php:41
+#: ./templates/ShopItems/view.php:45
+#: ./templates/ShopItems/view.php:73
+#: ./templates/Teams/view.php:27
 msgid "Yes"
 msgstr ""
 
@@ -1392,8 +2143,7 @@ msgstr ""
 #: ./templates/Bills/view.php:62
 #: ./templates/Bills/view.php:66
 #: ./templates/Bills/view.php:70
-#: ./templates/MemberOrders/index.php:82
-#: ./templates/MemberOrders/view.php:50
+#: ./templates/MemberOrders/view.php:54
 #: ./templates/Roles/view.php:26
 #: ./templates/Roles/view.php:30
 #: ./templates/Roles/view.php:34
@@ -1403,20 +2153,22 @@ msgstr ""
 #: ./templates/Roles/view.php:50
 #: ./templates/Roles/view.php:54
 #: ./templates/Roles/view.php:58
-#: ./templates/ShopItems/index.php:30
-#: ./templates/ShopItems/view.php:35
-#: ./templates/ShopItems/view.php:61
-#: ./templates/Teams/view.php:24
+#: ./templates/Roles/view.php:62
+#: ./templates/Roles/view.php:66
+#: ./templates/ShopItems/view.php:41
+#: ./templates/ShopItems/view.php:45
+#: ./templates/ShopItems/view.php:73
+#: ./templates/Teams/view.php:27
 msgid "No"
 msgstr ""
 
 #: ./templates/BillTemplates/view.php:22
 #: ./templates/Bills/add.php:18
-#: ./templates/Bills/batch_add.php:34
+#: ./templates/Bills/batch_add.php:35
 #: ./templates/Bills/edit.php:16
-#: ./templates/Bills/index.php:41
-#: ./templates/Bills/mail_print.php:26
-#: ./templates/Bills/mail_send.php:26
+#: ./templates/Bills/index.php:36
+#: ./templates/Bills/mail_print.php:22
+#: ./templates/Bills/mail_send.php:22
 #: ./templates/Bills/view.php:21
 #: ./templates/Members/cancel_registration.php:33
 #: ./templates/element/Members/bills.php:45
@@ -1441,67 +2193,34 @@ msgid "Printed"
 msgstr ""
 
 #: ./templates/Bills/add.php:25
-#: ./templates/Bills/batch_add.php:36
+#: ./templates/Bills/batch_add.php:37
 #: ./templates/Bills/edit.php:20
 #: ./templates/Bills/view.php:65
 msgid "Linked to a membership"
 msgstr ""
 
 #: ./templates/Bills/add.php:37
-#: ./templates/Bills/batch_add.php:23
+#: ./templates/Bills/batch_add.php:24
 msgid "Templates"
 msgstr ""
 
 #: ./templates/Bills/add.php:39
-#: ./templates/Bills/batch_add.php:25
+#: ./templates/Bills/batch_add.php:26
 #: ./templates/Members/agreement.php:66
 #: ./templates/Members/agreement.php:73
 msgid "Clear"
 msgstr ""
 
-#: ./templates/Bills/batch_add.php:10
-#: ./templates/Bills/generate_reminder.php:8
-#: ./templates/Bills/index.php:16
-#: ./templates/Bills/mail_print.php:8
-#: ./templates/Bills/mail_send.php:8
-#: ./templates/Bills/overview.php:11
-#: ./templates/Bills/send_reminder.php:19
-#: ./templates/Members/birthdays.php:12
-#: ./templates/Members/edit.php:39
-#: ./templates/Members/index.php:21
-#: ./templates/Members/invite.php:20
-#: ./templates/Members/list.php:14
-#: ./templates/Members/list_email.php:10
-#: ./templates/Members/pictures.php:10
-#: ./templates/ShopItems/view.php:34
-#: ./templates/Teams/index.php:16
-#: ./templates/Teams/view.php:23
-#: ./templates/element/Members/profile_card.php:26
-msgid "Active"
-msgstr ""
-
-#: ./templates/Bills/batch_add.php:11
-#: ./templates/Bills/generate_reminder.php:9
-#: ./templates/Bills/index.php:17
-#: ./templates/Bills/mail_print.php:9
-#: ./templates/Bills/mail_send.php:9
-#: ./templates/Bills/overview.php:12
-#: ./templates/Bills/send_reminder.php:20
-#: ./templates/Members/birthdays.php:13
-#: ./templates/Members/index.php:22
-#: ./templates/Members/invite.php:21
-#: ./templates/Members/list.php:15
-#: ./templates/Members/list_email.php:11
-#: ./templates/Members/pictures.php:11
-msgid "Alumni"
-msgstr ""
-
-#: ./templates/Bills/batch_add.php:32
+#: ./templates/Bills/batch_add.php:33
 msgid "Invoice detail"
 msgstr ""
 
-#: ./templates/Bills/batch_validation.php:11
-#: ./templates/layout/default.php:175
+#: ./templates/Bills/batch_add.php:49
+msgid "Search members..."
+msgstr ""
+
+#: ./templates/Bills/batch_validation.php:2
+#: ./templates/layout/default.php:196
 msgid "Batch validation"
 msgstr ""
 
@@ -1510,8 +2229,8 @@ msgid "Edit invoice"
 msgstr ""
 
 #: ./templates/Bills/edit.php:26
-#: ./templates/Bills/mail_print.php:28
-#: ./templates/Bills/mail_send.php:28
+#: ./templates/Bills/mail_print.php:24
+#: ./templates/Bills/mail_send.php:24
 #: ./templates/Bills/view.php:33
 msgid "No. of reminders"
 msgstr ""
@@ -1522,117 +2241,128 @@ msgctxt "Status of the invoice (send, draft,...)"
 msgid "State"
 msgstr ""
 
-#: ./templates/Bills/generate_reminder.php:18
+#: ./templates/Bills/generate_reminder.php:14
 msgid "Generate reminders"
 msgstr ""
 
-#: ./templates/Bills/generate_reminder.php:20
+#: ./templates/Bills/generate_reminder.php:16
 msgid "Update PDF invoices"
 msgstr ""
 
-#: ./templates/Bills/generate_reminder.php:37
+#: ./templates/Bills/generate_reminder.php:33
 msgid "Add penalty fee"
 msgstr ""
 
-#: ./templates/Bills/index.php:19
+#: ./templates/Bills/index.php:14
 #: ./templates/element/Members/bills.php:26
 msgid "Open"
 msgstr ""
 
-#: ./templates/Bills/index.php:31
+#: ./templates/Bills/index.php:26
 #: ./templates/element/Members/bills.php:21
-#: ./templates/layout/default.php:169
+#: ./templates/layout/default.php:190
 msgid "Invoices"
 msgstr ""
 
-#: ./templates/Bills/index.php:35
+#: ./templates/Bills/index.php:30
 #: ./templates/element/Members/bills.php:44
 msgid "Ref."
 msgstr ""
 
-#: ./templates/Bills/index.php:47
+#: ./templates/Bills/index.php:42
+#: ./templates/Mailings/add_by_bill.php:44
+#: ./templates/Mailings/index.php:26
+#: ./templates/Mailings/send.php:72
+#: ./templates/Mailings/send.php:95
 #: ./templates/Members/cancel_registration.php:36
+#: ./templates/SecondHand/my_items.php:43
+#: ./templates/SecondHandAdmin/items_log.php:23
 #: ./templates/element/Members/bills.php:48
 msgid "Status"
 msgstr ""
 
-#: ./templates/Bills/index.php:31
-#: ./templates/Bills/mail_print.php:19
-#: ./templates/Bills/mail_send.php:19
+#: ./templates/Bills/index.php:26
+#: ./templates/Bills/mail_print.php:15
+#: ./templates/Bills/mail_send.php:15
 msgctxt "Elements in a list"
 msgid "items"
 msgstr ""
 
-#: ./templates/Bills/mail_print.php:19
-#: ./templates/Bills/mail_send.php:19
+#: ./templates/Bills/mail_print.php:15
+#: ./templates/Bills/mail_send.php:15
 msgid "Draft invoices"
 msgstr ""
 
-#: ./templates/Bills/mail_print.php:25
-#: ./templates/Bills/mail_send.php:25
-#: ./templates/Bills/overview.php:33
-#: ./templates/Bills/overview.php:43
-#: ./templates/Bills/send_reminder.php:30
+#: ./templates/Bills/mail_print.php:21
+#: ./templates/Bills/mail_send.php:21
+#: ./templates/Bills/overview.php:29
+#: ./templates/Bills/overview.php:39
+#: ./templates/Bills/send_reminder.php:27
 #: ./templates/Bills/view.php:13
 #: ./templates/Fields/view.php:22
-#: ./templates/MemberOrders/index.php:50
+#: ./templates/Mailings/add_by_bill.php:42
+#: ./templates/Mailings/send.php:70
+#: ./templates/Mailings/send.php:93
+#: ./templates/MemberOrders/index.php:52
 #: ./templates/MemberOrders/view.php:25
-#: ./templates/ShopItems/view.php:52
+#: ./templates/ShopItems/view.php:62
+#: ./templates/ShopOrders/index.php:45
+#: ./templates/Teams/coaches.php:57
 #: ./templates/Users/view.php:27
 msgid "Member"
 msgstr ""
 
-#: ./templates/Bills/mail_print.php:44
-#: ./templates/Bills/mail_send.php:44
+#: ./templates/Bills/mail_print.php:40
+#: ./templates/Bills/mail_send.php:40
 #: ./templates/element/Members/details.php:26
 msgid "Valid"
 msgstr ""
 
-#: ./templates/Bills/mail_print.php:57
+#: ./templates/Bills/mail_print.php:53
 msgid "Mark invoices as sent"
 msgstr ""
 
-#: ./templates/Bills/mail_print.php:58
+#: ./templates/Bills/mail_print.php:54
 #: ./templates/element/Members/bills.php:80
 #: ./templates/element/Members/bills.php:110
 msgid "Download PDF"
 msgstr ""
 
-#: ./templates/Bills/mail_send.php:23
+#: ./templates/Bills/mail_send.php:19
 #: ./templates/Members/add_photo.php:24
 #: ./templates/Members/add_photo_id.php:24
-#: ./templates/Members/batch_register.php:44
+#: ./templates/Members/batch_register.php:42
 #: ./templates/Users/forgot_password.php:13
 msgid "Send"
 msgstr ""
 
-#: ./templates/Bills/mail_send.php:53
-#: ./templates/Bills/send_reminder.php:54
+#: ./templates/Bills/mail_send.php:49
+#: ./templates/Bills/send_reminder.php:51
 msgid "I am sending emails to all checked members above"
 msgstr ""
 
-#: ./templates/Bills/mail_send.php:54
-#: ./templates/Bills/send_reminder.php:55
+#: ./templates/Bills/mail_send.php:50
+#: ./templates/Bills/send_reminder.php:52
 msgid "Send all emails"
 msgstr ""
 
-#: ./templates/Bills/overview.php:14
+#: ./templates/Bills/overview.php:10
 msgid "This year"
 msgstr ""
 
-#: ./templates/Bills/overview.php:15
+#: ./templates/Bills/overview.php:11
 msgid "Two years"
 msgstr ""
 
-#: ./templates/Bills/overview.php:16
+#: ./templates/Bills/overview.php:12
 msgid "Three years"
 msgstr ""
 
-#: ./templates/Bills/overview.php:29
+#: ./templates/Bills/overview.php:25
 msgid "Invoice overview"
 msgstr ""
 
-#: ./templates/Bills/overview.php:60
+#: ./templates/Bills/overview.php:56
 msgid "Add {0}CHF"
 msgstr ""
 
@@ -1643,8 +2373,8 @@ msgstr ""
 msgid "Invoice"
 msgstr ""
 
-#: ./templates/Bills/send_reminder.php:33
-#: ./templates/ShopItems/view.php:22
+#: ./templates/Bills/send_reminder.php:30
+#: ./templates/ShopItems/view.php:24
 msgid "Label"
 msgstr ""
 
@@ -1656,31 +2386,31 @@ msgctxt "noun"
 msgid "Label"
 msgstr ""
 
-#: ./templates/Bills/send_reminder.php:34
+#: ./templates/Bills/send_reminder.php:31
 msgid "Last sent"
 msgstr ""
 
-#: ./templates/Bills/send_reminder.php:67
+#: ./templates/Bills/send_reminder.php:64
 msgid "Summary"
 msgstr ""
 
-#: ./templates/Bills/send_reminder.php:70
+#: ./templates/Bills/send_reminder.php:67
 msgid "Total Members"
 msgstr ""
 
-#: ./templates/Bills/send_reminder.php:73
+#: ./templates/Bills/send_reminder.php:70
 msgid "Total Bills"
 msgstr ""
 
-#: ./templates/Bills/send_reminder.php:76
-#: ./templates/MemberOrders/view.php:41
+#: ./templates/Bills/send_reminder.php:73
+#: ./templates/MemberOrders/view.php:45
 msgid "Total Amount"
 msgstr ""
 
 #: ./templates/Bills/view.php:17
 #: ./templates/Contents/view.php:34
-#: ./templates/Members/list.php:40
-#: ./templates/Teams/index.php:17
+#: ./templates/Members/list.php:35
+#: ./templates/Teams/index.php:18
 msgid "Location"
 msgstr ""
 
@@ -1689,17 +2419,17 @@ msgid "Original due date"
 msgstr ""
 
 #: ./templates/Bills/view.php:45
-#: ./templates/MemberOrders/view.php:67
-#: ./templates/ShopItems/view.php:38
-#: ./templates/ShopItems/view.php:55
-#: ./templates/Users/view.php:43
+#: ./templates/MemberOrders/view.php:65
+#: ./templates/ShopItems/view.php:48
+#: ./templates/ShopItems/view.php:66
+#: ./templates/Users/view.php:35
 msgid "Created"
 msgstr ""
 
 #: ./templates/Bills/view.php:49
-#: ./templates/MemberOrders/view.php:71
-#: ./templates/ShopItems/view.php:42
-#: ./templates/Users/view.php:47
+#: ./templates/MemberOrders/view.php:69
+#: ./templates/ShopItems/view.php:52
+#: ./templates/Users/view.php:39
 msgid "Modified"
 msgstr ""
 
@@ -1707,9 +2437,14 @@ msgstr ""
 msgid "Confirmation"
 msgstr ""
 
+#: ./templates/Configurations/add.php:11
 #: ./templates/Configurations/edit.php:11
 #: ./templates/Configurations/view.php:12
 msgid "List Configurations"
+msgstr ""
+
+#: ./templates/Configurations/add.php:18
+msgid "Add Configuration"
 msgstr ""
 
 #: ./templates/Configurations/edit.php:18
@@ -1726,22 +2461,22 @@ msgstr ""
 msgid "Value"
 msgstr ""
 
-#: ./templates/Contents/add.php:24
-#: ./templates/Contents/edit.php:31
+#: ./templates/Contents/add.php:14
+#: ./templates/Contents/edit.php:21
 #: ./templates/Contents/view.php:13
 #: ./templates/Members/family_reduction.php:9
-#: ./templates/Members/list.php:28
-#: ./templates/layout/default.php:154
-#: ./templates/layout/default.php:172
-#: ./templates/layout/default.php:199
+#: ./templates/Members/list.php:22
+#: ./templates/layout/default.php:174
+#: ./templates/layout/default.php:193
+#: ./templates/layout/default.php:238
 msgid "List"
 msgstr ""
 
-#: ./templates/Contents/add.php:31
+#: ./templates/Contents/add.php:21
 msgid "Add Content"
 msgstr ""
 
-#: ./templates/Contents/edit.php:38
+#: ./templates/Contents/edit.php:28
 #: ./templates/Contents/view.php:11
 msgid "Edit Content"
 msgstr ""
@@ -1749,11 +2484,6 @@ msgstr ""
 #: ./templates/Contents/index.php:8
 #: ./templates/Contents/view.php:14
 msgid "New Content"
-msgstr ""
-
-#: ./templates/Contents/index.php:9
-#: ./templates/layout/default.php:194
-msgid "Contents"
 msgstr ""
 
 #: ./templates/Contents/info.php:16
@@ -1953,163 +2683,437 @@ msgstr ""
 msgid "Field Type"
 msgstr ""
 
-#: ./templates/Meetings/add.php:15
-#: ./templates/Meetings/add_multiple.php:18
-msgid "Add Meeting"
+#: ./templates/Mailings/add.php:18
+#: ./templates/Mailings/index.php:16
+msgid "New email"
 msgstr ""
 
-#: ./templates/Meetings/add_multiple.php:20
-msgid "Start Date"
+#: ./templates/Mailings/add.php:22
+#: ./templates/Mailings/add_by_bill.php:70
+msgid "The emails are prepared on the next page, where you can start sending them."
 msgstr ""
 
-#: ./templates/Meetings/add_multiple.php:22
-msgid "End Date"
+#: ./templates/Mailings/add.php:23
+#: ./templates/Mailings/add_by_bill.php:71
+#: ./templates/Meetings/view.php:44
+msgid "Next"
 msgstr ""
 
-#: ./templates/Meetings/add_multiple.php:27
+#: ./templates/Mailings/add_by_bill.php:20
+#: ./templates/Mailings/index.php:14
+#: ./templates/element/Mailings/nav.php:12
+msgid "New email by bill"
+msgstr ""
+
+#: ./templates/Mailings/add_by_bill.php:21
+msgid "The email is sent to the members, active or past, having a bill (not canceled) whose label contains the text."
+msgstr ""
+
+#: ./templates/Mailings/add_by_bill.php:23
+msgid "Text in the bill label"
+msgstr ""
+
+#: ./templates/Mailings/add_by_bill.php:24
+msgid "e.g. {0}"
+msgstr ""
+
+#: ./templates/Mailings/add_by_bill.php:25
+msgid "Search"
+msgstr ""
+
+#: ./templates/Mailings/add_by_bill.php:29
+#: ./templates/Mailings/index.php:24
+#: ./templates/Mailings/send.php:89
+msgid "Recipients"
+msgstr ""
+
+#: ./templates/Mailings/add_by_bill.php:31
+msgid "No bill contains this text."
+msgstr ""
+
+#: ./templates/Mailings/add_by_bill.php:34
+msgid "{0} emails will be sent."
+msgstr ""
+
+#: ./templates/Mailings/add_by_bill.php:36
+msgid "{0} members without email will not receive it."
+msgstr ""
+
+#: ./templates/Mailings/add_by_bill.php:45
+msgid "Bills"
+msgstr ""
+
+#: ./templates/Mailings/add_by_bill.php:54
+msgid "No email, not sent"
+msgstr ""
+
+#: ./templates/Mailings/add_by_bill.php:59
+msgid "Past member"
+msgstr ""
+
+#: ./templates/Mailings/index.php:18
+#: ./templates/Mailings/send.php:23
+#: ./templates/element/Mailings/nav.php:10
+#: ./templates/layout/default.php:233
+msgid "Emails to teams"
+msgstr ""
+
+#: ./templates/Mailings/index.php:23
+#: ./templates/element/Mailings/compose.php:8
+msgid "Subject"
+msgstr ""
+
+#: ./templates/Mailings/index.php:40
+msgid "{0} invalid"
+msgstr ""
+
+#: ./templates/Mailings/index.php:43
+msgid "Done"
+msgstr ""
+
+#: ./templates/Mailings/index.php:43
+msgid "{0} pending"
+msgstr ""
+
+#: ./templates/Mailings/index.php:46
+msgid "Resume"
+msgstr ""
+
+#: ./templates/Mailings/index.php:49
+#: ./templates/Mailings/index.php:51
+msgid "New"
+msgstr ""
+
+#: ./templates/Mailings/index.php:49
+msgid "New email with the same subject, content and teams"
+msgstr ""
+
+#: ./templates/Mailings/index.php:51
+msgid "New email with the same subject, content and bills"
+msgstr ""
+
+#: ./templates/Mailings/send.php:16
+msgid "Resume sending"
+msgstr ""
+
+#: ./templates/Mailings/send.php:16
+msgid "Start sending"
+msgstr ""
+
+#: ./templates/Mailings/send.php:21
+msgid "Emails are being sent, leaving the page will stop the sending."
+msgstr ""
+
+#: ./templates/Mailings/send.php:22
+msgid "The server could not be reached. Check your connection and resume."
+msgstr ""
+
+#: ./templates/Mailings/send.php:28
+#: ./templates/element/Mailings/compose.php:9
+msgid "Content"
+msgstr ""
+
+#: ./templates/Mailings/send.php:35
+msgid "Invalid addresses"
+msgstr ""
+
+#: ./templates/Mailings/send.php:40
+msgid "All emails have been processed."
+msgstr ""
+
+#: ./templates/Mailings/send.php:44
+msgid "Pause between each {0} emails"
+msgstr ""
+
+#: ./templates/Mailings/send.php:47
+msgid "{0} s"
+msgstr ""
+
+#: ./templates/Mailings/send.php:52
+msgid "Stop"
+msgstr ""
+
+#: ./templates/Mailings/send.php:60
+#: ./templates/Meetings/view.php:37
+msgid "Are you sure you want to delete {0}?"
+msgstr ""
+
+#: ./templates/Mailings/send.php:66
+msgid "Emails with an error"
+msgstr ""
+
+#: ./templates/Mailings/send.php:73
+#: ./templates/layout/error.php:48
+msgid "Error"
+msgstr ""
+
+#: ./templates/Meetings/add_multiple.php:17
 msgid "Mon"
 msgstr ""
 
-#: ./templates/Meetings/add_multiple.php:27
+#: ./templates/Meetings/add_multiple.php:17
 msgid "Tue"
 msgstr ""
 
-#: ./templates/Meetings/add_multiple.php:27
+#: ./templates/Meetings/add_multiple.php:17
 msgid "Wed"
 msgstr ""
 
-#: ./templates/Meetings/add_multiple.php:27
+#: ./templates/Meetings/add_multiple.php:17
 msgid "Thu"
 msgstr ""
 
-#: ./templates/Meetings/add_multiple.php:27
+#: ./templates/Meetings/add_multiple.php:17
 msgid "Fri"
 msgstr ""
 
-#: ./templates/Meetings/add_multiple.php:27
+#: ./templates/Meetings/add_multiple.php:17
 msgid "Sat"
 msgstr ""
 
-#: ./templates/Meetings/add_multiple.php:27
+#: ./templates/Meetings/add_multiple.php:17
 msgid "Sun"
 msgstr ""
 
-#: ./templates/Meetings/edit.php:15
+#: ./templates/Meetings/add_multiple.php:21
+#: ./templates/Meetings/edit.php:12
+#: ./templates/Meetings/view.php:22
+#: ./templates/SecondHand/view.php:33
+msgid "Back"
+msgstr ""
+
+#: ./templates/Meetings/add_multiple.php:22
+msgid "New meeting(s)"
+msgstr ""
+
+#: ./templates/Meetings/add_multiple.php:29
+msgid "Meeting"
+msgstr ""
+
+#: ./templates/Meetings/add_multiple.php:31
+msgid "Time"
+msgstr ""
+
+#: ./templates/Meetings/add_multiple.php:37
+msgid "Dates"
+msgstr ""
+
+#: ./templates/Meetings/add_multiple.php:38
+msgid "Repeat"
+msgstr ""
+
+#: ./templates/Meetings/add_multiple.php:40
+msgid "Once"
+msgstr ""
+
+#: ./templates/Meetings/add_multiple.php:42
+msgid "Weekly"
+msgstr ""
+
+#: ./templates/Meetings/add_multiple.php:51
+msgid "Days"
+msgstr ""
+
+#: ./templates/Meetings/add_multiple.php:60
+msgid "From"
+msgstr ""
+
+#: ./templates/Meetings/add_multiple.php:61
+msgid "To"
+msgstr ""
+
+#: ./templates/Meetings/add_multiple.php:65
+msgid "Choose at least one day."
+msgstr ""
+
+#: ./templates/Meetings/add_multiple.php:66
+msgid "Tap a date to exclude it (holidays, ...)."
+msgstr ""
+
+#: ./templates/Meetings/add_multiple.php:77
+msgid "Create 1 meeting"
+msgstr ""
+
+#: ./templates/Meetings/add_multiple.php:78
+msgid "Create {0} meetings"
+msgstr ""
+
+#: ./templates/Meetings/edit.php:13
 msgid "Edit Meeting"
 msgstr ""
 
-#: ./templates/Meetings/index.php:10
+#: ./templates/Meetings/edit.php:18
+msgid "Date and time"
+msgstr ""
+
+#: ./templates/Meetings/index.php:36
+msgid "Choose a team"
+msgstr ""
+
+#: ./templates/Meetings/index.php:42
+msgid "No active team"
+msgstr ""
+
+#: ./templates/Meetings/index.php:46
+#: ./templates/Teams/view.php:130
+msgid "Meetings"
+msgstr ""
+
+#: ./templates/Meetings/index.php:47
+msgid "Upcoming"
+msgstr ""
+
+#: ./templates/Meetings/index.php:48
 #: ./templates/element/Members/profile_card.php:28
 msgid "Past"
 msgstr ""
 
-#: ./templates/Meetings/index.php:11
+#: ./templates/Meetings/index.php:53
 msgid "Today"
 msgstr ""
 
-#: ./templates/Meetings/index.php:12
-msgid "Future"
+#: ./templates/Meetings/index.php:57
+msgid "Take attendance"
 msgstr ""
 
-#: ./templates/Meetings/index.php:22
-#: ./templates/Teams/view.php:123
-msgid "Meetings"
+#: ./templates/Meetings/index.php:64
+msgid "No past meeting"
 msgstr ""
 
-#: ./templates/Meetings/index.php:29
-#: ./templates/Teams/view.php:130
-#: ./templates/Teams/view.php:133
-msgid "Pre/Abs/Exc/Late"
+#: ./templates/Meetings/index.php:64
+msgid "No upcoming meeting"
 msgstr ""
 
-#: ./templates/Meetings/view.php:29
-#: ./templates/element/Members/attendance.php:23
-#: ./templates/layout/default.php:163
-msgid "Attendance"
+#: ./templates/Meetings/index.php:92
+msgid "Show more"
 msgstr ""
 
-#: ./templates/MemberOrders/index.php:16
+#: ./templates/Meetings/index.php:97
+msgid "New meeting"
+msgstr ""
+
+#: ./templates/Meetings/view.php:20
+msgid "The attendance could not be saved. Check your connection and try again."
+msgstr ""
+
+#: ./templates/Meetings/view.php:43
+msgid "Other meetings"
+msgstr ""
+
+#: ./templates/Meetings/view.php:44
+msgid "Previous"
+msgstr ""
+
+#: ./templates/Meetings/view.php:64
+msgid "Mark the rest as present"
+msgstr ""
+
+#: ./templates/Meetings/view.php:71
+msgid "No active member in this team"
+msgstr ""
+
+#: ./templates/Meetings/view.php:79
+msgid "Not in the team anymore"
+msgstr ""
+
+#: ./templates/MemberOrders/index.php:20
 msgid "Category:"
 msgstr ""
 
-#: ./templates/MemberOrders/index.php:17
-#: ./templates/MemberOrders/index.php:26
-#: ./templates/MemberOrders/index.php:34
-#: ./templates/Members/subventions.php:40
-#: ./templates/element/Members/bills.php:32
-msgid "All"
-msgstr ""
-
-#: ./templates/MemberOrders/index.php:25
+#: ./templates/MemberOrders/index.php:21
+#: ./templates/ShopOrders/index.php:16
 msgid "Delivery:"
 msgstr ""
 
-#: ./templates/MemberOrders/index.php:27
-#: ./templates/MemberOrders/view.php:45
-#: ./templates/ShopItems/view.php:54
+#: ./templates/MemberOrders/index.php:21
+#: ./templates/MemberOrders/index.php:75
+#: ./templates/MemberOrders/view.php:49
+#: ./templates/ShopItems/view.php:65
+#: ./templates/ShopOrders/index.php:16
+#: ./templates/ShopOrders/index.php:87
 msgid "Delivered"
 msgstr ""
 
-#: ./templates/MemberOrders/index.php:28
+#: ./templates/MemberOrders/index.php:21
+#: ./templates/MemberOrders/index.php:77
+#: ./templates/ShopOrders/index.php:16
+#: ./templates/ShopOrders/index.php:89
 msgid "Not Delivered"
 msgstr ""
 
-#: ./templates/MemberOrders/index.php:33
+#: ./templates/MemberOrders/index.php:22
 msgid "Payment:"
 msgstr ""
 
-#: ./templates/MemberOrders/index.php:36
+#: ./templates/MemberOrders/index.php:22
 msgid "Not Paid"
 msgstr ""
 
-#: ./templates/MemberOrders/index.php:43
+#: ./templates/MemberOrders/index.php:23
+#: ./templates/ShopOrders/index.php:15
+msgid "Item:"
+msgstr ""
+
+#: ./templates/MemberOrders/index.php:45
 msgid "Member Orders"
 msgstr ""
 
-#: ./templates/MemberOrders/index.php:51
+#: ./templates/MemberOrders/index.php:46
+msgid "Mark the items as given to the members. The orders are deleted on the orders page."
+msgstr ""
+
+#: ./templates/MemberOrders/index.php:53
+#: ./templates/SecondHand/my_items.php:41
+#: ./templates/ShopOrders/index.php:46
+#: ./templates/ShopOrders/summary.php:32
 msgid "Item"
 msgstr ""
 
-#: ./templates/MemberOrders/index.php:52
-#: ./templates/ShopItems/view.php:30
-msgid "Category"
+#: ./templates/MemberOrders/index.php:54
+#: ./templates/MemberOrders/view.php:33
+#: ./templates/ShopItems/view.php:63
+#: ./templates/ShopOrders/index.php:47
+#: ./templates/ShopOrders/index.php:76
+#: ./templates/ShopOrders/summary.php:33
+msgid "Attribute"
 msgstr ""
 
 #: ./templates/MemberOrders/index.php:55
-#: ./templates/MemberOrders/view.php:55
+#: ./templates/SecondHand/add.php:18
+#: ./templates/SecondHandAdmin/items_log.php:19
+#: ./templates/ShopItems/view.php:32
+msgid "Category"
+msgstr ""
+
+#: ./templates/MemberOrders/index.php:58
+#: ./templates/MemberOrders/view.php:59
+#: ./templates/ShopOrders/index.php:50
+#: ./templates/element/Shop/bill_link.php:14
 msgid "Bill"
 msgstr ""
 
-#: ./templates/MemberOrders/index.php:56
+#: ./templates/MemberOrders/index.php:59
 msgid "Bill Status"
 msgstr ""
 
 #: ./templates/MemberOrders/index.php:89
-msgid "No Bill"
-msgstr ""
-
-#: ./templates/MemberOrders/index.php:103
-#: ./templates/MemberOrders/view.php:12
+#: ./templates/MemberOrders/view.php:13
 msgid "Mark Delivered"
 msgstr ""
 
-#: ./templates/MemberOrders/index.php:103
-#: ./templates/MemberOrders/view.php:12
+#: ./templates/MemberOrders/index.php:89
+#: ./templates/MemberOrders/view.php:13
 msgid "Mark this order as delivered?"
 msgstr ""
 
-#: ./templates/MemberOrders/index.php:105
-#: ./templates/MemberOrders/view.php:14
+#: ./templates/MemberOrders/index.php:91
+#: ./templates/MemberOrders/view.php:15
 msgid "Mark Not Delivered"
 msgstr ""
 
-#: ./templates/MemberOrders/index.php:105
-#: ./templates/MemberOrders/view.php:14
+#: ./templates/MemberOrders/index.php:91
+#: ./templates/MemberOrders/view.php:15
 msgid "Mark this order as not delivered?"
-msgstr ""
-
-#: ./templates/MemberOrders/view.php:16
-msgid "Delete Member Order"
 msgstr ""
 
 #: ./templates/MemberOrders/view.php:17
@@ -2124,76 +3128,31 @@ msgstr ""
 msgid "Shop Item"
 msgstr ""
 
-#: ./templates/MemberOrders/view.php:33
+#: ./templates/MemberOrders/view.php:37
 msgid "Item Price"
 msgstr ""
 
-#: ./templates/MemberOrders/view.php:37
-#: ./templates/ShopItems/view.php:53
-#: ./templates/element/Members/shop.php:53
+#: ./templates/MemberOrders/view.php:41
+#: ./templates/ShopItems/view.php:64
+#: ./templates/ShopOrders/summary.php:72
+#: ./templates/element/Members/shop.php:65
 msgid "Quantity"
-msgstr ""
-
-#: ./templates/MemberOrders/view.php:62
-msgid "No associated bill"
 msgstr ""
 
 #: ./templates/Members/add.php:13
 msgid "Add Member"
 msgstr ""
 
-#: ./templates/Members/add.php:19
-#: ./templates/Members/edit.php:21
-#: ./templates/Members/index.php:46
-#: ./templates/Members/list.php:32
-#: ./templates/Members/list_email.php:32
-#: ./templates/Members/register.php:37
-msgid "First name"
-msgstr ""
-
-#: ./templates/Members/add.php:20
-#: ./templates/Members/edit.php:22
-#: ./templates/Members/index.php:51
-#: ./templates/Members/list.php:33
-#: ./templates/Members/list_email.php:33
-#: ./templates/Members/register.php:38
-msgid "Last name"
-msgstr ""
-
-#: ./templates/Members/add.php:21
-#: ./templates/Members/edit.php:23
-#: ./templates/Members/list.php:35
-#: ./templates/Members/register.php:39
-#: ./templates/Members/subventions.php:13
-#: ./templates/Members/subventions.php:58
-#: ./templates/element/Members/details.php:40
-msgid "Date of birth"
-msgstr ""
-
-#: ./templates/Members/add.php:22
-#: ./templates/Members/edit.php:24
-#: ./templates/Members/register.php:40
-#: ./templates/element/Members/details.php:14
-msgid "Gender"
-msgstr ""
-
 #: ./templates/Members/add.php:24
 #: ./templates/Members/edit.php:26
-#: ./templates/Members/list.php:38
+#: ./templates/Members/list.php:32
 #: ./templates/Members/register.php:42
 msgid "Postal code"
 msgstr ""
 
-#: ./templates/Members/add.php:25
-#: ./templates/Members/edit.php:27
-#: ./templates/Members/list.php:39
-#: ./templates/Members/register.php:43
-#: ./templates/Sites/view.php:22
-msgid "City"
-msgstr ""
-
 #: ./templates/Members/add.php:26
 #: ./templates/Members/edit.php:28
+#: ./templates/Members/list.php:34
 #: ./templates/Members/register.php:44
 #: ./templates/element/Members/details.php:21
 #: ./templates/element/Members/details.php:23
@@ -2225,15 +3184,9 @@ msgstr ""
 msgid "Communication Method"
 msgstr ""
 
-#: ./templates/Members/add.php:39
-#: ./templates/Members/edit.php:40
-#: ./templates/Members/register.php:57
-msgid "Is coach"
-msgstr ""
-
-#: ./templates/Members/add.php:41
-#: ./templates/Members/edit.php:42
-#: ./templates/Members/register.php:59
+#: ./templates/Members/add.php:40
+#: ./templates/Members/edit.php:41
+#: ./templates/Members/register.php:58
 #: ./templates/element/Members/details.php:49
 msgid "Payment slip"
 msgstr ""
@@ -2320,7 +3273,7 @@ msgstr ""
 msgid "Registration of {0} for year {1}-{2}"
 msgstr ""
 
-#: ./templates/Members/batch_register.php:30
+#: ./templates/Members/batch_register.php:28
 msgid "Upload inscription"
 msgstr ""
 
@@ -2372,7 +3325,7 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: ./templates/Members/birthdays.php:29
+#: ./templates/Members/birthdays.php:28
 msgid "Birthday"
 msgstr ""
 
@@ -2424,47 +3377,34 @@ msgstr ""
 msgid "Discount"
 msgstr ""
 
-#: ./templates/Members/index.php:23
-#: ./templates/Members/invite.php:22
-#: ./templates/Members/list.php:16
-#: ./templates/Members/list_email.php:12
-#: ./templates/Members/pictures.php:12
-msgid "Membership not paid"
-msgstr ""
-
-#: ./templates/Members/index.php:24
-#: ./templates/Members/invite.php:23
-msgid "Non inscrit"
-msgstr ""
-
-#: ./templates/Members/invite.php:35
-#: ./templates/Members/invite.php:53
-#: ./templates/layout/default.php:156
+#: ./templates/Members/invite.php:28
+#: ./templates/Members/invite.php:46
+#: ./templates/layout/default.php:178
 msgid "Invite"
 msgstr ""
 
-#: ./templates/Members/invite.php:44
-#: ./templates/Roles/view.php:67
+#: ./templates/Members/invite.php:37
+#: ./templates/Roles/view.php:75
 #: ./templates/Users/login.php:95
 #: ./templates/Users/view.php:19
 #: ./templates/element/Members/details.php:48
 msgid "Username"
 msgstr ""
 
-#: ./templates/Members/invite.php:45
+#: ./templates/Members/invite.php:38
 msgid "Last login"
 msgstr ""
 
-#: ./templates/Members/invite.php:46
+#: ./templates/Members/invite.php:39
 #: ./templates/Users/view.php:23
 msgid "Role"
 msgstr ""
 
-#: ./templates/Members/list.php:41
+#: ./templates/Members/list.php:36
 msgid "Modification"
 msgstr ""
 
-#: ./templates/Members/list_email.php:21
+#: ./templates/Members/list_email.php:19
 msgid "Email list"
 msgstr ""
 
@@ -2472,8 +3412,8 @@ msgstr ""
 msgid "Members to sort"
 msgstr ""
 
-#: ./templates/Members/pictures.php:22
-#: ./templates/layout/default.php:202
+#: ./templates/Members/pictures.php:20
+#: ./templates/layout/default.php:241
 msgid "Pictures"
 msgstr ""
 
@@ -2493,14 +3433,6 @@ msgstr ""
 
 #: ./templates/Members/signatures.php:29
 msgid "Nothing to validate"
-msgstr ""
-
-#: ./templates/Members/subventions.php:43
-msgid "PDF"
-msgstr ""
-
-#: ./templates/Members/subventions.php:44
-msgid "Grid"
 msgstr ""
 
 #: ./templates/Pages/home.php:27
@@ -2571,6 +3503,18 @@ msgstr ""
 msgid "Add Role"
 msgstr ""
 
+#: ./templates/Roles/add.php:22
+#: ./templates/Roles/edit.php:25
+#: ./templates/Roles/view.php:65
+msgid "Merchandising manager (shop and second-hand)"
+msgstr ""
+
+#: ./templates/Roles/add.php:23
+#: ./templates/Roles/edit.php:26
+#: ./templates/Roles/view.php:61
+msgid "Limited to coached teams"
+msgstr ""
+
 #: ./templates/Roles/edit.php:15
 msgid "Edit Role"
 msgstr ""
@@ -2580,13 +3524,13 @@ msgid "New Role"
 msgstr ""
 
 #: ./templates/Roles/index.php:9
-#: ./templates/layout/default.php:193
+#: ./templates/layout/default.php:231
 msgid "Roles"
 msgstr ""
 
-#: ./templates/Roles/view.php:62
+#: ./templates/Roles/view.php:70
 #: ./templates/Users/index.php:9
-#: ./templates/layout/default.php:192
+#: ./templates/layout/default.php:230
 msgid "Users"
 msgstr ""
 
@@ -2595,44 +3539,393 @@ msgctxt "person"
 msgid "Editor"
 msgstr ""
 
-#: ./templates/ShopItems/add.php:12
-#: ./templates/ShopItems/edit.php:13
-#: ./templates/ShopItems/view.php:13
-msgid "List Shop Items"
+#: ./templates/SecondHand/add.php:15
+#: ./templates/SecondHand/my_items.php:17
+msgid "Add an item"
 msgstr ""
 
-#: ./templates/ShopItems/add.php:19
-msgid "Add Shop Item"
+#: ./templates/SecondHand/add.php:16
+msgid "All fields are required."
 msgstr ""
 
-#: ./templates/ShopItems/add.php:26
-#: ./templates/ShopItems/edit.php:27
-msgid "-- Select Category --"
+#: ./templates/SecondHand/add.php:18
+msgid "Choose a category"
 msgstr ""
 
-#: ./templates/ShopItems/edit.php:20
-#: ./templates/ShopItems/view.php:11
-msgid "Edit Shop Item"
+#: ./templates/SecondHand/add.php:20
+#: ./templates/SecondHand/my_items.php:54
+#: ./templates/SecondHand/view.php:26
+#: ./templates/SecondHand/view.php:49
+#: ./templates/SecondHandAdmin/items_log.php:21
+#: ./templates/element/SecondHand/item_card.php:16
+msgid "Size"
 msgstr ""
 
-#: ./templates/ShopItems/index.php:9
-msgid "Shop Items"
+#: ./templates/SecondHand/add.php:21
+msgid "Price (CHF)"
 msgstr ""
 
-#: ./templates/ShopItems/view.php:12
-msgid "Delete Shop Item"
+#: ./templates/SecondHand/add.php:23
+msgid "Put up for sale"
 msgstr ""
 
-#: ./templates/ShopItems/view.php:14
-msgid "New Shop Item"
+#: ./templates/SecondHand/index.php:13
+#: ./templates/SecondHand/profile.php:11
+#: ./templates/SecondHand/terms.php:9
+#: ./templates/SecondHandAdmin/index.php:14
+#: ./templates/element/Members/header.php:20
+#: ./templates/layout/default.php:165
+#: ./templates/layout/default.php:216
+msgid "Second-hand"
 msgstr ""
 
-#: ./templates/ShopItems/view.php:26
+#: ./templates/SecondHand/index.php:24
+msgid "No items for sale right now."
+msgstr ""
+
+#: ./templates/SecondHand/my_items.php:15
+msgid "My items"
+msgstr ""
+
+#: ./templates/SecondHand/my_items.php:23
+msgid "Please confirm your email address {0} with the link we sent you. Your items are not shown to buyers until then."
+msgstr ""
+
+#: ./templates/SecondHand/my_items.php:24
+msgid "Change my details or send the link again"
+msgstr ""
+
+#: ./templates/SecondHand/my_items.php:29
+msgid "Shown to buyers as {0}, {1}"
+msgstr ""
+
+#: ./templates/SecondHand/my_items.php:30
+msgid "Change my details"
+msgstr ""
+
+#: ./templates/SecondHand/my_items.php:32
+msgid "Items are removed from the list after {0} months."
+msgstr ""
+
+#: ./templates/SecondHand/my_items.php:35
+msgid "You have no items for sale."
+msgstr ""
+
+#: ./templates/SecondHand/my_items.php:42
+#: ./templates/SecondHandAdmin/items_log.php:22
+#: ./templates/ShopItems/view.php:28
 msgid "Price"
 msgstr ""
 
-#: ./templates/ShopItems/view.php:48
+#: ./templates/SecondHand/my_items.php:68
+#: ./templates/SecondHand/view.php:65
+msgid "Mark as sold"
+msgstr ""
+
+#: ./templates/SecondHand/my_items.php:70
+#: ./templates/SecondHand/view.php:68
+#: ./templates/Teams/coaches.php:41
+msgid "Remove"
+msgstr ""
+
+#: ./templates/SecondHand/my_items.php:70
+#: ./templates/SecondHand/view.php:68
+msgid "Remove this item for good?"
+msgstr ""
+
+#: ./templates/SecondHand/profile.php:13
+msgid "My seller details"
+msgstr ""
+
+#: ./templates/SecondHand/profile.php:14
+msgid "Buyers see these details to contact you."
+msgstr ""
+
+#: ./templates/SecondHand/profile.php:16
+msgid "Name shown to buyers"
+msgstr ""
+
+#: ./templates/SecondHand/profile.php:17
+msgid "Phone number"
+msgstr ""
+
+#: ./templates/SecondHand/profile.php:18
+msgid "Prefer to be contacted by WhatsApp"
+msgstr ""
+
+#: ./templates/SecondHand/profile.php:20
+msgid "If you use another email than the one of your member account, you will get a link to confirm it."
+msgstr ""
+
+#: ./templates/SecondHand/terms.php:10
+msgid "Buy and sell used items (uniforms, shoes, ...) with other members."
+msgstr ""
+
+#: ./templates/SecondHand/terms.php:11
+msgid "Rules"
+msgstr ""
+
+#: ./templates/SecondHand/terms.php:13
+msgid "This platform only puts buyers and sellers in contact."
+msgstr ""
+
+#: ./templates/SecondHand/terms.php:14
+msgid "No money goes through the club."
+msgstr ""
+
+#: ./templates/SecondHand/terms.php:15
+msgid "Buyers and sellers arrange to meet or ship the item on their own."
+msgstr ""
+
+#: ./templates/SecondHand/terms.php:16
+msgid "All communication happens outside this website."
+msgstr ""
+
+#: ./templates/SecondHand/terms.php:17
+msgid "We recommend meeting in person, so you can check the item and handle the payment safely."
+msgstr ""
+
+#: ./templates/SecondHand/terms.php:20
+msgid "I accept these rules"
+msgstr ""
+
+#: ./templates/SecondHand/terms.php:21
+msgid "Continue"
+msgstr ""
+
+#: ./templates/SecondHand/view.php:26
+msgid "Second-hand: {0}"
+msgstr ""
+
+#: ./templates/SecondHand/view.php:27
+msgid "Hello {0},\n\nI am interested in your item on the second-hand page of {1}:\n{2}, size {3}, {4}\n\nIs it still available?\n\nThank you"
+msgstr ""
+
+#: ./templates/SecondHand/view.php:40
+msgid "This item is not shown to buyers (sold, expired or email not confirmed)."
+msgstr ""
+
+#: ./templates/SecondHand/view.php:51
+msgid "For sale since {0}"
+msgstr ""
+
+#: ./templates/SecondHand/view.php:53
+#: ./templates/SecondHandAdmin/items_log.php:18
+msgid "Seller"
+msgstr ""
+
+#: ./templates/SecondHand/view.php:56
+msgid "Call {0}"
+msgstr ""
+
+#: ./templates/SecondHand/view.php:58
+msgid "WhatsApp"
+msgstr ""
+
+#: ./templates/SecondHand/view.php:60
+msgid "Send an email"
+msgstr ""
+
+#: ./templates/SecondHand/view.php:62
+msgid "No money goes through the club: you arrange the payment and the delivery with the seller."
+msgstr ""
+
+#: ./templates/SecondHand/view.php:70
+#: ./templates/SecondHandAdmin/items_log.php:49
+msgid "Delete this item for good?"
+msgstr ""
+
+#: ./templates/SecondHandAdmin/edit_category.php:9
+msgid "Edit category"
+msgstr ""
+
+#: ./templates/SecondHandAdmin/index.php:16
+msgid "Log of the items"
+msgstr ""
+
+#: ./templates/SecondHandAdmin/index.php:18
+msgid "Open the second-hand page"
+msgstr ""
+
+#: ./templates/SecondHandAdmin/index.php:23
+msgid "Settings"
+msgstr ""
+
+#: ./templates/SecondHandAdmin/index.php:25
+msgid "Enable the second-hand page"
+msgstr ""
+
+#: ./templates/SecondHandAdmin/index.php:26
+msgid "Items expire after (months)"
+msgstr ""
+
+#: ./templates/SecondHandAdmin/index.php:30
+msgid "Categories"
+msgstr ""
+
+#: ./templates/SecondHandAdmin/index.php:35
+msgid "Items"
+msgstr ""
+
+#: ./templates/SecondHandAdmin/index.php:47
+msgid "Delete the category {0}?"
+msgstr ""
+
+#: ./templates/SecondHandAdmin/index.php:56
+msgid "New category"
+msgstr ""
+
+#: ./templates/SecondHandAdmin/index.php:57
+#: ./templates/Teams/coaches.php:65
+msgid "Add"
+msgstr ""
+
+#: ./templates/SecondHandAdmin/items_log.php:13
+msgid "Log of the second-hand items"
+msgstr ""
+
+#: ./templates/Shop/choose_site.php:10
+msgid "Choose a location"
+msgstr ""
+
+#: ./templates/Shop/choose_site.php:11
+msgid "The shop is managed by location: choose one in the location menu at the top of the page."
+msgstr ""
+
+#: ./templates/ShopItems/add.php:7
+msgid "Add Shop Item"
+msgstr ""
+
+#: ./templates/ShopItems/edit.php:7
+#: ./templates/ShopItems/view.php:13
+msgid "Edit Shop Item"
+msgstr ""
+
+#: ./templates/ShopItems/index.php:10
+#: ./templates/ShopItems/view.php:16
+msgid "New Shop Item"
+msgstr ""
+
+#: ./templates/ShopItems/index.php:11
+msgid "Shop Items"
+msgstr ""
+
+#: ./templates/ShopItems/index.php:20
+#: ./templates/ShopItems/view.php:36
+#: ./templates/element/ShopItems/form.php:39
+msgid "Attributes"
+msgstr ""
+
+#: ./templates/ShopItems/index.php:22
+msgid "Out of stock"
+msgstr ""
+
+#: ./templates/ShopItems/index.php:35
+msgid "Inactive"
+msgstr ""
+
+#: ./templates/ShopItems/index.php:39
+#: ./templates/ShopItems/view.php:44
+#: ./templates/element/ShopItems/form.php:46
+msgid "Can be ordered when out of stock"
+msgstr ""
+
+#: ./templates/ShopItems/view.php:14
+msgid "Delete Shop Item"
+msgstr ""
+
+#: ./templates/ShopItems/view.php:15
+#: ./templates/element/ShopItems/form.php:18
+msgid "List Shop Items"
+msgstr ""
+
+#: ./templates/ShopItems/view.php:58
 msgid "Related Member Orders"
+msgstr ""
+
+#: ./templates/ShopOrders/index.php:39
+msgid "Orders"
+msgstr ""
+
+#: ./templates/ShopOrders/index.php:74
+msgid "-- Choose --"
+msgstr ""
+
+#: ./templates/ShopOrders/index.php:78
+msgid "Change"
+msgstr ""
+
+#: ./templates/ShopOrders/index.php:97
+msgid "Delete this order? Its bill {0} will not be changed: an email will be sent to correct it."
+msgstr ""
+
+#: ./templates/ShopOrders/summary.php:16
+#: ./templates/element/Shop/tabs.php:7
+msgid "Summary and stock"
+msgstr ""
+
+#: ./templates/ShopOrders/summary.php:18
+msgid "The member orders are deducted from the stock when they are placed: a negative stock is the quantity to order from the supplier."
+msgstr ""
+
+#: ./templates/ShopOrders/summary.php:22
+msgid "Only to order"
+msgstr ""
+
+#: ./templates/ShopOrders/summary.php:26
+msgid "Nothing to show."
+msgstr ""
+
+#: ./templates/ShopOrders/summary.php:34
+#: ./templates/ShopOrders/summary.php:57
+msgid "Not given"
+msgstr ""
+
+#: ./templates/ShopOrders/summary.php:35
+#: ./templates/ShopOrders/summary.php:58
+msgid "Stock"
+msgstr ""
+
+#: ./templates/ShopOrders/summary.php:36
+#: ./templates/ShopOrders/summary.php:59
+msgid "On order"
+msgstr ""
+
+#: ./templates/ShopOrders/summary.php:37
+#: ./templates/ShopOrders/summary.php:60
+msgid "To order"
+msgstr ""
+
+#: ./templates/ShopOrders/summary.php:38
+msgid "Stock update"
+msgstr ""
+
+#: ./templates/ShopOrders/summary.php:54
+msgid "No longer offered"
+msgstr ""
+
+#: ./templates/ShopOrders/summary.php:74
+msgid "Ordered"
+msgstr ""
+
+#: ./templates/ShopOrders/summary.php:74
+msgid "Ordered from the supplier"
+msgstr ""
+
+#: ./templates/ShopOrders/summary.php:75
+msgid "Received"
+msgstr ""
+
+#: ./templates/ShopOrders/summary.php:75
+msgid "Received from the supplier, added to the stock"
+msgstr ""
+
+#: ./templates/ShopOrders/summary.php:76
+msgid "Set stock"
+msgstr ""
+
+#: ./templates/ShopOrders/summary.php:76
+msgid "Counted stock, replaces the current one"
 msgstr ""
 
 #: ./templates/Sites/add.php:11
@@ -2701,6 +3994,36 @@ msgstr ""
 msgid "Add Team"
 msgstr ""
 
+#: ./templates/Teams/coaches.php:16
+#: ./templates/Teams/index.php:9
+#: ./templates/layout/default.php:228
+msgid "Coaches"
+msgstr ""
+
+#: ./templates/Teams/coaches.php:17
+msgid "Only the members having a user account can be chosen. Coaches and help coaches have the same access to their teams."
+msgstr ""
+
+#: ./templates/Teams/coaches.php:19
+msgid "No active team."
+msgstr ""
+
+#: ./templates/Teams/coaches.php:32
+msgid "No coach"
+msgstr ""
+
+#: ./templates/Teams/coaches.php:42
+msgid "Remove {0} from the coaches of {1}?"
+msgstr ""
+
+#: ./templates/Teams/coaches.php:54
+msgid "Choose a member"
+msgstr ""
+
+#: ./templates/Teams/coaches.php:63
+msgid "Type"
+msgstr ""
+
 #: ./templates/Teams/edit.php:13
 msgid "Edit Team"
 msgstr ""
@@ -2709,25 +4032,30 @@ msgstr ""
 msgid "New Team"
 msgstr ""
 
-#: ./templates/Teams/index.php:15
+#: ./templates/Teams/index.php:16
 msgid "Fees"
 msgstr ""
 
-#: ./templates/Teams/view.php:97
+#: ./templates/Teams/view.php:100
 msgid "Remove member"
 msgstr ""
 
-#: ./templates/Teams/view.php:105
+#: ./templates/Teams/view.php:108
 msgid "Add members"
 msgstr ""
 
-#: ./templates/Teams/view.php:114
+#: ./templates/Teams/view.php:121
 msgid "Add member"
 msgstr ""
 
-#: ./templates/Teams/view.php:128
-#: ./templates/Teams/view.php:131
+#: ./templates/Teams/view.php:135
+#: ./templates/Teams/view.php:138
 msgid "Meeting date"
+msgstr ""
+
+#: ./templates/Teams/view.php:137
+#: ./templates/Teams/view.php:140
+msgid "Pre/Abs/Exc/Late"
 msgstr ""
 
 #: ./templates/Users/add.php:11
@@ -2764,6 +4092,10 @@ msgstr ""
 
 #: ./templates/Users/login.php:14
 msgid "Welcome to the registration platform of"
+msgstr ""
+
+#: ./templates/Users/login.php:16
+msgid "Club"
 msgstr ""
 
 #: ./templates/Users/login.php:23
@@ -2851,12 +4183,24 @@ msgstr ""
 msgid "Set new password"
 msgstr ""
 
-#: ./templates/Users/view.php:31
-msgid "Pass Key"
+#: ./templates/element/Mailings/compose.php:10
+msgid "HTML is allowed and line returns are kept. {0} is shown as a link with the text \"{1}\"."
 msgstr ""
 
-#: ./templates/Users/view.php:35
-msgid "Tokenhash"
+#: ./templates/element/Mailings/compose.php:12
+msgid "Insert:"
+msgstr ""
+
+#: ./templates/element/Meetings/form_fields.php:10
+msgid "Training"
+msgstr ""
+
+#: ./templates/element/Meetings/form_fields.php:12
+msgid "More options"
+msgstr ""
+
+#: ./templates/element/Meetings/form_fields.php:14
+msgid "Members can register from the home page"
 msgstr ""
 
 #: ./templates/element/Members/bills.php:24
@@ -2985,44 +4329,69 @@ msgstr ""
 msgid "I register for the season"
 msgstr ""
 
-#: ./templates/element/Members/shop.php:16
+#: ./templates/element/Members/shop.php:15
 msgid "You must be registered to place an order."
 msgstr ""
 
-#: ./templates/element/Members/shop.php:22
+#: ./templates/element/Members/shop.php:20
 msgid "You have too many overdue bills to place a new order."
 msgstr ""
 
-#: ./templates/element/Members/shop.php:74
-msgid "Total: {0}"
-msgstr ""
-
-#: ./templates/element/Members/shop.php:78
-msgid "Place Order"
-msgstr ""
-
-#: ./templates/element/Members/shop.php:120
+#: ./templates/element/Members/shop.php:30
 msgid "Please select at least one item to order."
 msgstr ""
 
-#: ./templates/element/Members/shop.php:125
+#: ./templates/element/Members/shop.php:31
 msgid "Please confirm your order:"
 msgstr ""
 
-#: ./templates/element/Members/shop.php:129
+#: ./templates/element/Members/shop.php:32
 msgid "Total amount: CHF {0}"
 msgstr ""
 
-#: ./templates/element/Members/shop.php:130
+#: ./templates/element/Members/shop.php:33
 msgid "Do you want to place this order?"
 msgstr ""
 
-#: ./templates/email/html/personal_page.php:1
-#: ./templates/email/html/resetpsw.php:3
-#: ./templates/email/html/welcome.php:1
-#: ./templates/email/text/personal_page.php:1
-#: ./templates/email/text/welcome.php:1
-msgid "Hello {0},"
+#: ./templates/element/Members/shop.php:89
+msgid "Total: {0}"
+msgstr ""
+
+#: ./templates/element/Members/shop.php:93
+msgid "Place Order"
+msgstr ""
+
+#: ./templates/element/SecondHand/nav.php:9
+msgid "Buy"
+msgstr ""
+
+#: ./templates/element/SecondHand/nav.php:10
+msgid "Sell"
+msgstr ""
+
+#: ./templates/element/SecondHand/nav.php:20
+#: ./templates/layout/default.php:224
+msgid "Admin"
+msgstr ""
+
+#: ./templates/element/Shop/bill_link.php:12
+msgid "No Bill"
+msgstr ""
+
+#: ./templates/element/Shop/tabs.php:7
+msgid "Detail"
+msgstr ""
+
+#: ./templates/element/ShopItems/form.php:32
+msgid "-- Select Category --"
+msgstr ""
+
+#: ./templates/element/ShopItems/form.php:41
+msgid "One choice per line (e.g. sizes). The member must choose one. Leave empty if there is nothing to choose."
+msgstr ""
+
+#: ./templates/element/ShopItems/form.php:47
+msgid "Otherwise the attributes without stock are hidden from the members."
 msgstr ""
 
 #: ./templates/email/html/personal_page.php:3
@@ -3047,88 +4416,84 @@ msgstr ""
 msgid "Maintenance Mode Enabled"
 msgstr ""
 
-#: ./templates/layout/default.php:143
+#: ./templates/layout/default.php:145
 msgid "Home"
 msgstr ""
 
-#: ./templates/layout/default.php:146
+#: ./templates/layout/default.php:161
 msgid "My account"
 msgstr ""
 
-#: ./templates/layout/default.php:155
+#: ./templates/layout/default.php:176
 msgid "Signatures validation"
 msgstr ""
 
-#: ./templates/layout/default.php:157
-msgid "Ordered items"
-msgstr ""
-
-#: ./templates/layout/default.php:173
+#: ./templates/layout/default.php:194
 msgid "Simple"
 msgstr ""
 
-#: ./templates/layout/default.php:174
+#: ./templates/layout/default.php:195
 msgid "Year Overview"
 msgstr ""
 
-#: ./templates/layout/default.php:176
+#: ./templates/layout/default.php:197
 msgid "Send reminders"
 msgstr ""
 
-#: ./templates/layout/default.php:177
+#: ./templates/layout/default.php:198
 msgid "Batch add"
 msgstr ""
 
-#: ./templates/layout/default.php:178
+#: ./templates/layout/default.php:199
 msgid "Send email"
 msgstr ""
 
-#: ./templates/layout/default.php:179
+#: ./templates/layout/default.php:200
 msgid "Print"
 msgstr ""
 
-#: ./templates/layout/default.php:186
-msgid "Admin"
+#: ./templates/layout/default.php:207
+msgid "Shop"
 msgstr ""
 
-#: ./templates/layout/default.php:190
+#: ./templates/layout/default.php:211
 msgid "Shop items"
 msgstr ""
 
-#: ./templates/layout/default.php:191
-msgid "Dashboard"
+#: ./templates/layout/default.php:212
+msgid "Give ordered items"
 msgstr ""
 
-#: ./templates/layout/default.php:198
-msgid "Subsidies"
+#: ./templates/layout/default.php:213
+msgid "Orders and stock"
 msgstr ""
 
-#: ./templates/layout/default.php:200
+#: ./templates/layout/default.php:234
+msgid "Configuration"
+msgstr ""
+
+#: ./templates/layout/default.php:239
 msgid "Familly discount"
 msgstr ""
 
-#: ./templates/layout/default.php:201
+#: ./templates/layout/default.php:240
 msgid "Birthdays"
 msgstr ""
 
-#: ./templates/layout/default.php:203
+#: ./templates/layout/default.php:242
 msgid "Log"
 msgstr ""
 
-#: ./templates/layout/default.php:210
+#: ./templates/layout/default.php:249
 msgid "External links"
 msgstr ""
 
-#: ./templates/layout/default.php:220
+#: ./templates/layout/default.php:259
 msgid "Info"
 msgstr ""
 
-#: ./templates/layout/default.php:236
+#: ./templates/layout/default.php:275
 msgid "Logout"
-msgstr ""
-
-#: ./templates/layout/error.php:48
-msgid "Error"
 msgstr ""
 
 #: ./templates/layout/error.php:452
@@ -3155,95 +4520,3 @@ msgstr ""
 msgid "contact our support"
 msgstr ""
 
-msgid "All locations"
-msgstr ""
-
-msgid "This location doesn't exists"
-msgstr ""
-
-msgid "+{0} new / -{1} left this season"
-msgstr ""
-
-msgid "Absent"
-msgstr ""
-
-msgid "Active members"
-msgstr ""
-
-msgid "Attendance ({0} days)"
-msgstr ""
-
-msgid "Attendance per team ({0} days)"
-msgstr ""
-
-msgid "Birthdays in the next {0} days"
-msgstr ""
-
-msgid "Collected"
-msgstr ""
-
-msgid "Draft (not printed)"
-msgstr ""
-
-msgid "Events this season"
-msgstr ""
-
-msgid "Excused"
-msgstr ""
-
-msgid "Invoiced"
-msgstr ""
-
-msgid "Invoiced per month"
-msgstr ""
-
-msgid "Late invoices"
-msgstr ""
-
-msgid "Membership fees"
-msgstr ""
-
-msgid "Next {0} days"
-msgstr ""
-
-msgid "No event"
-msgstr ""
-
-msgid "No presence recorded"
-msgstr ""
-
-msgid "None"
-msgstr ""
-
-msgid "Present"
-msgstr ""
-
-msgid "Season since {0}"
-msgstr ""
-
-msgid "Signatures to validate"
-msgstr ""
-
-msgid "Signatures validated"
-msgstr ""
-
-msgid "This season"
-msgstr ""
-
-msgid "With reminder"
-msgstr ""
-
-msgid "{0} / {1} members"
-msgstr ""
-
-msgid "{0} invoices, {1} late"
-msgstr ""
-
-msgid "{0} members"
-msgstr ""
-
-msgid "{0} presences recorded"
-msgstr ""
-
-msgid "{0} years"
-msgstr ""

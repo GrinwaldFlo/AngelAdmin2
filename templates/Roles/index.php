@@ -20,6 +20,7 @@
         <th><?= $this->Paginator->sort('BillValidate') ?></th>
         <th><?= $this->Paginator->sort('Editor') ?></th>
         <th><?= $this->Paginator->sort('TeamScoped') ?></th>
+        <th><?= $this->Paginator->sort('ShopManager') ?></th>
         <th><?= $this->Paginator->sort('Admin') ?></th>
       </tr>
     </thead>
@@ -36,6 +37,7 @@
           <td><?= h($role->BillValidate) ?></td>
           <td><?= h($role->Editor) ?></td>
           <td><?= h($role->TeamScoped) ?></td>
+          <td><?= h($role->ShopManager) ?></td>
           <td><?= h($role->Admin) ?></td>
         </tr>
       <?php endforeach; ?>

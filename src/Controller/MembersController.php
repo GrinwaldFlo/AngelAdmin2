@@ -9,7 +9,6 @@ use Cake\Core\Configure;
 use Cake\Routing\Router;
 use Cake\Mailer\Mailer;
 use Cake\ORM\TableRegistry;
-use Cake\Log\Log;
 use App\Model\Entity\Role;
 use App\Policy\TeamScope;
 use Cake\Http\Exception\ForbiddenException;
@@ -26,16 +25,12 @@ use Cake\Http\Exception\ForbiddenException;
  * @property \App\Controller\Component\MemberDocumentComponent $MemberDocument
  * @property \App\Controller\Component\MemberRegistrationComponent $MemberRegistration
  * @property \App\Controller\Component\MemberDataComponent $MemberData
+ * @property \App\Controller\Component\ShopOrderComponent $ShopOrder
  *
  * @method \App\Model\Entity\Member[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class MembersController extends AppController
 {
-    /**
-     * Maximum quantity of an item in a shop order (as in the form)
-     */
-    private const SHOP_MAX_QUANTITY = 10;
-
     public $MemberDocs = null;
 
     public array $paginate = [
@@ -54,6 +49,7 @@ class MembersController extends AppController
         $this->loadComponent('MemberDocument');
         $this->loadComponent('MemberRegistration');
         $this->loadComponent('MemberData');
+        $this->loadComponent('ShopOrder');
         $this->Authentication->addUnauthenticatedActions(['myPage', 'register', 'checked', 'agreement', 'agreementPdf', 'active', 'cancelRegistration', 'edit', 'addPhoto', 'addPhotoId', 'setLanguage']);
     }
 
@@ -203,10 +199,10 @@ class MembersController extends AppController
 
     /**
      * Handle shop order functionality for any member
-     * 
-     * @param object $member The member entity
+     *
+     * @param \App\Model\Entity\Member $member The member entity
      * @param string $redirectAction The action to redirect to after successful order
-     * @return \Cake\Http\Response|null Returns redirect response if order processed, null otherwise
+     * @return \Cake\Http\Response|array Redirect after a placed order, otherwise what the member can order (see ShopOrderComponent::offer())
      */
     private function handleShopOrder($member, string $redirectAction = 'view')
     {
@@ -214,25 +210,15 @@ class MembersController extends AppController
         $isOwn = $redirectAction === 'myPage' || ($this->curUser !== null && $this->curUser->member_id == $member->id);
         if ($this->request->is('post') && $isOwn && $member->registered) {
             $orderData = $this->request->getData('shop_order');
-            if (!empty($orderData)) {
-                $orderSuccess = $this->processShopOrder($member, $orderData);
-                if ($orderSuccess) {
-                    // Redirect based on the specified action
-                    if ($redirectAction === 'myPage') {
-                        return $this->redirect(['action' => 'myPage']);
-                    } else {
-                        return $this->redirect(['action' => 'view', $member->id]);
-                    }
-                }
-                // If order failed, continue to show the page with error message
+            if (!empty($orderData) && $this->ShopOrder->placeOrder($member, $orderData)) {
+                return $redirectAction === 'myPage'
+                    ? $this->redirect(['action' => 'myPage'])
+                    : $this->redirect(['action' => 'view', $member->id]);
             }
+            // If order failed, continue to show the page with error message
         }
 
-        // Load shop items for the shopping section
-        $shopItemsTable = TableRegistry::getTableLocator()->get('ShopItems');
-        $shopItems = $shopItemsTable->find('active')->orderByAsc('label')->all();
-        
-        return $shopItems;
+        return $this->ShopOrder->offer($member);
     }
 
     public function myPage($hash = null)
@@ -287,115 +273,12 @@ class MembersController extends AppController
                 return $shopOrderResult;
             }
             
-            // Otherwise, $shopOrderResult contains the shop items
-            $pageData['shopItems'] = $shopOrderResult;
+            // Otherwise, $shopOrderResult contains what the member can order
+            $pageData['shopOffer'] = $shopOrderResult;
         }
 
         $this->set($pageData);
         $this->render('view');
-    }
-
-    /**
-     * Process shop order for member
-     */
-    private function processShopOrder($member, $orderData)
-    {
-        $memberOrdersTable = TableRegistry::getTableLocator()->get('MemberOrders');
-        $shopItemsTable = TableRegistry::getTableLocator()->get('ShopItems');
-        $billsTable = TableRegistry::getTableLocator()->get('Bills');
-
-        // Collect items for the order
-        $orderItems = [];
-        $orders = [];
-        $totalAmount = 0;
-
-        foreach ((array)$orderData as $shopItemId => $quantity) {
-            // Same limits as the form: whole numbers up to 10, only the items still for sale
-            $quantity = $quantity === "" ? 0 : filter_var($quantity, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0, 'max_range' => self::SHOP_MAX_QUANTITY]]);
-            $shopItem = $quantity ? $shopItemsTable->find('active')->where(['ShopItems.id' => (int)$shopItemId])->first() : null;
-            if ($quantity === false || ($quantity > 0 && $shopItem === null)) {
-                $this->Flash->error(__('The order is not valid. Please try again.'));
-                return false;
-            }
-            if ($quantity > 0) {
-                $itemTotal = $shopItem->price * $quantity;
-                $totalAmount += $itemTotal;
-
-                $orderItems[] = [
-                    'id' => $shopItemId,
-                    'label' => $shopItem->label,
-                    'price' => $shopItem->price,
-                    'quantity' => $quantity
-                ];
-
-                $orders[] = $memberOrdersTable->newEntity([
-                    'shop_item_id' => $shopItemId,
-                    'member_id' => $member->id,
-                    'quantity' => $quantity,
-                    'delivered' => false,
-                ]);
-            }
-        }
-
-        if (empty($orderItems)) {
-            $this->Flash->error(__('No items were selected for the order.'));
-            return false;
-        }
-
-        // Create bill for the entire order
-        $bill = $billsTable->CreateShopBill($member, $orderItems, 1);
-
-        if ($bill) {
-            // Update all orders with the bill_id
-            foreach ($orders as $order) {
-                $order->bill_id = $bill->id;
-                if (!$memberOrdersTable->save($order)) {
-                    $this->Flash->error(__('There was an error processing your order. Please try again.'));
-                    return false;
-                }
-            }
-
-            // Reload the bill with Members and Sites relationships for PDF generation
-            $billForPdf = $billsTable->get($bill->id, contain: ['Members', 'Sites']);
-
-            // Generate PDF for the shop bill
-            $this->generateShopBillPdf($billForPdf);
-
-            // Format total amount with CHF currency
-            $formattedTotal = 'CHF ' . number_format($totalAmount, 2);
-            $this->Flash->success(__('Your order has been placed successfully! Total amount: {0}', $formattedTotal));
-            return true;
-        } else {
-            $this->Flash->error(__('There was an error creating the invoice for your order. Please try again.'));
-            return false;
-        }
-    }
-
-    /**
-     * Generate PDF for shop bill without redirecting
-     */
-    private function generateShopBillPdf($bill)
-    {
-        try {
-            // Ensure member folder exists
-            $bill->member->CheckFolder();
-
-            // Set PDF generation parameters
-            $this->set("outputType", 'F');
-            $this->set("outputPath", $bill->BillPath);
-            $this->set("bill", $bill);
-
-            // Use PDF layout and render
-            $this->viewBuilder()->setLayout('pdf');
-            $this->render('/Bills/pdf');
-
-            // Log the PDF generation
-            Log::info("PDF Generated for shop bill " . $bill->id);
-
-        } catch (\Exception $e) {
-            Log::error("Failed to generate PDF for shop bill " . $bill->id . ": " . $e->getMessage());
-            // Don't throw the exception, just log it so the order process continues
-        }
     }
 
     /**
@@ -517,8 +400,8 @@ class MembersController extends AppController
             return $shopOrderResult;
         }
         
-        // Otherwise, add shop items to view data
-        $viewData['shopItems'] = $shopOrderResult;
+        // Otherwise, add what the member can order to view data
+        $viewData['shopOffer'] = $shopOrderResult;
 
         $this->set($viewData);
     }

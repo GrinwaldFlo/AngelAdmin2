@@ -124,7 +124,13 @@ class AppController extends Controller
         $this->set('canAssignCoaches', $this->curUser !== null
             && $this->Authorization->can($this->fetchTable('Teams')->newEmptyEntity(), 'assignCoaches'));
 
-        if ($this->curRole !== null && ($this->curRole->MemberViewAll || $this->curRole->BillViewAll)) {
+        $canManageShop = TeamScope::canManageShop($this->curUser);
+        $this->set('canManageShop', $canManageShop);
+        $this->set('canManageSecondHand', TeamScope::canManageSecondHand($this->curUser));
+
+        $showSiteMenu = $this->curRole !== null && ($this->curRole->MemberViewAll || $this->curRole->BillViewAll || $canManageShop);
+        $this->set('showSiteMenu', $showSiteMenu);
+        if ($showSiteMenu) {
             $this->set("navSites", PrefResult::getSites());
             // Keep the site already used by the page
             if (!$this->viewBuilder()->hasVar('navSiteId')) {

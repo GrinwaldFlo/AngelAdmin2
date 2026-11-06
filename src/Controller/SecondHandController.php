@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Policy\TeamScope;
 use App\Model\Entity\SecondHandItem;
 use App\Model\Entity\SecondHandLog;
 use Cake\Event\EventInterface;
@@ -95,7 +96,7 @@ class SecondHandController extends AppController
     {
         $item = $this->SecondHandItems->get($id, contain: ['Profiles', 'Categories']);
         $isOwn = $item->profile_id == $this->profile->id;
-        $isAdmin = (bool)($this->curRole->Admin ?? false);
+        $isAdmin = TeamScope::canManageSecondHand($this->curUser);
         $forSale = $item->sold === null && !$item->isExpired($this->SecondHand->expiryMonths()) && $item->profile->email_verified;
         if (!$forSale && !$isOwn && !$isAdmin) {
             throw new NotFoundException(__('This item is not for sale anymore.'));

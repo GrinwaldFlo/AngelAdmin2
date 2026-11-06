@@ -2712,3 +2712,235 @@ msgstr "Impossibile salvare i tuoi dati di venditore. Controlla il modulo."
 
 msgid "Your seller details have been saved."
 msgstr "I tuoi dati di venditore sono stati salvati."
+
+#: src/Controller/Component/ShopOrderComponent.php:161
+msgid "This order has already been given to the member."
+msgstr "Questo ordine è già stato consegnato al membro."
+
+#: src/Controller/Component/ShopOrderComponent.php:164 src/Controller/ShopOrdersController.php:171
+msgid "This attribute is not offered for this item."
+msgstr "Questo attributo non è proposto per questo articolo."
+
+#: src/Controller/Component/ShopOrderComponent.php:171 src/Controller/Component/ShopOrderComponent.php:230
+msgid "There is not enough stock for {0}."
+msgstr "Non c'è abbastanza stock per {0}."
+
+#: src/Controller/Component/ShopOrderComponent.php:227
+msgid "A choice of {0} is not offered anymore, please check your order."
+msgstr "Una scelta di {0} non è più proposta, controlla il tuo ordine."
+
+#: src/Controller/Component/ShopOrderComponent.php:255
+msgid "A shop order has been deleted, its bill has not been changed: please correct it by hand."
+msgstr "Un ordine del negozio è stato eliminato, la sua fattura non è stata modificata: correggila a mano."
+
+#: src/Controller/Component/ShopOrderComponent.php:256
+msgid "Member: {0}"
+msgstr "Membro: {0}"
+
+#: src/Controller/Component/ShopOrderComponent.php:257
+msgid "Item: {0}"
+msgstr "Articolo: {0}"
+
+#: src/Controller/Component/ShopOrderComponent.php:258
+msgid "Quantity: {0}"
+msgstr "Quantità: {0}"
+
+#: src/Controller/Component/ShopOrderComponent.php:259
+msgid "Bill: {0} ({1})"
+msgstr "Fattura: {0} ({1})"
+
+#: src/Controller/Component/ShopOrderComponent.php:260
+msgid "Amount of the bill: {0}"
+msgstr "Importo della fattura: {0}"
+
+#: src/Controller/Component/ShopOrderComponent.php:261
+msgid "Deleted by: {0}"
+msgstr "Eliminato da: {0}"
+
+#: src/Controller/Component/ShopOrderComponent.php:266
+msgid "Shop order deleted - bill {0}"
+msgstr "Ordine del negozio eliminato - fattura {0}"
+
+#: src/Controller/ShopOrdersController.php:107
+msgid "The member order has been deleted. The bill has not been changed, an email has been sent to correct it."
+msgstr "L'ordine è stato eliminato. La fattura non è stata modificata, è stata inviata un'e-mail per correggerla."
+
+#: src/Controller/ShopOrdersController.php:109
+msgid "The member order has been deleted, but the email about its bill could not be sent: correct the bill {0} by hand."
+msgstr "L'ordine è stato eliminato, ma non è stato possibile inviare l'e-mail sulla fattura: correggi la fattura {0} a mano."
+
+#: src/Controller/ShopOrdersController.php:130
+msgid "The order has been changed."
+msgstr "L'ordine è stato modificato."
+
+#: src/Controller/ShopOrdersController.php:162
+msgid "The quantity is not valid."
+msgstr "La quantità non è valida."
+
+#: src/Controller/ShopOrdersController.php:179
+msgid "{0} x {1} marked as ordered from the supplier."
+msgstr "{0} x {1} segnato come ordinato al fornitore."
+
+#: src/Controller/ShopOrdersController.php:183
+msgid "{0} x {1} received and added to the stock."
+msgstr "{0} x {1} ricevuto e aggiunto allo stock."
+
+#: src/Controller/ShopOrdersController.php:187
+msgid "The stock of {0} is now {1}."
+msgstr "Lo stock di {0} è ora {1}."
+
+#: src/Controller/ShopSiteTrait.php:50
+msgid "Choose a location in the menu first."
+msgstr "Scegli prima una sede nel menu."
+
+#: src/Controller/ShopSiteTrait.php:63
+msgid "This item belongs to another location."
+msgstr "Questo articolo appartiene a un'altra sede."
+
+#: src/Model/Table/ShopItemsTable.php:123
+msgid "An attribute can have at most {0} characters."
+msgstr "Un attributo può avere al massimo {0} caratteri."
+
+#: templates/MemberOrders/index.php:23 templates/ShopOrders/index.php:15
+msgid "Item:"
+msgstr "Articolo:"
+
+#: templates/MemberOrders/index.php:46
+msgid "Mark the items as given to the members. The orders are deleted on the orders page."
+msgstr "Segna gli articoli come consegnati ai membri. Gli ordini si eliminano nella pagina degli ordini."
+
+#: templates/MemberOrders/index.php:54 templates/MemberOrders/view.php:33 templates/ShopItems/view.php:63 templates/ShopOrders/index.php:47 templates/ShopOrders/index.php:76 templates/ShopOrders/summary.php:33
+msgid "Attribute"
+msgstr "Attributo"
+
+#: templates/Roles/add.php:22 templates/Roles/edit.php:25 templates/Roles/view.php:65
+msgid "Merchandising manager (shop and second-hand)"
+msgstr "Responsabile merchandising (negozio e usato)"
+
+#: templates/Shop/choose_site.php:10
+msgid "Choose a location"
+msgstr "Scegli una sede"
+
+#: templates/Shop/choose_site.php:11
+msgid "The shop is managed by location: choose one in the location menu at the top of the page."
+msgstr "Il negozio è gestito per sede: scegline una nel menu delle sedi in alto nella pagina."
+
+#: templates/ShopItems/index.php:20 templates/ShopItems/view.php:36 templates/element/ShopItems/form.php:39
+msgid "Attributes"
+msgstr "Attributi"
+
+#: templates/ShopItems/index.php:22
+msgid "Out of stock"
+msgstr "Senza stock"
+
+#: templates/ShopItems/index.php:35
+msgid "Inactive"
+msgstr "Inattivo"
+
+#: templates/ShopItems/index.php:39 templates/ShopItems/view.php:44 templates/element/ShopItems/form.php:46
+msgid "Can be ordered when out of stock"
+msgstr "Ordinabile anche senza stock"
+
+#: templates/ShopOrders/index.php:39
+msgid "Orders"
+msgstr "Ordini"
+
+#: templates/ShopOrders/index.php:74
+msgid "-- Choose --"
+msgstr "-- Scegliere --"
+
+#: templates/ShopOrders/index.php:78
+msgid "Change"
+msgstr "Cambia"
+
+#: templates/ShopOrders/index.php:97
+msgid "Delete this order? Its bill {0} will not be changed: an email will be sent to correct it."
+msgstr "Eliminare questo ordine? La sua fattura {0} non sarà modificata: verrà inviata un'e-mail per correggerla."
+
+#: templates/ShopOrders/summary.php:16 templates/element/Shop/tabs.php:7
+msgid "Summary and stock"
+msgstr "Riepilogo e stock"
+
+#: templates/ShopOrders/summary.php:18
+msgid "The member orders are deducted from the stock when they are placed: a negative stock is the quantity to order from the supplier."
+msgstr "Gli ordini dei membri vengono dedotti dallo stock quando sono effettuati: uno stock negativo è la quantità da ordinare al fornitore."
+
+#: templates/ShopOrders/summary.php:22
+msgid "Only to order"
+msgstr "Solo da ordinare"
+
+#: templates/ShopOrders/summary.php:26
+msgid "Nothing to show."
+msgstr "Niente da mostrare."
+
+#: templates/ShopOrders/summary.php:34 templates/ShopOrders/summary.php:57
+msgid "Not given"
+msgstr "Non consegnato"
+
+#: templates/ShopOrders/summary.php:35 templates/ShopOrders/summary.php:58
+msgid "Stock"
+msgstr "Stock"
+
+#: templates/ShopOrders/summary.php:36 templates/ShopOrders/summary.php:59
+msgid "On order"
+msgstr "In ordine"
+
+#: templates/ShopOrders/summary.php:37 templates/ShopOrders/summary.php:60
+msgid "To order"
+msgstr "Da ordinare"
+
+#: templates/ShopOrders/summary.php:38
+msgid "Stock update"
+msgstr "Aggiorna stock"
+
+#: templates/ShopOrders/summary.php:54
+msgid "No longer offered"
+msgstr "Non più proposto"
+
+#: templates/ShopOrders/summary.php:74
+msgid "Ordered"
+msgstr "Ordinato"
+
+#: templates/ShopOrders/summary.php:74
+msgid "Ordered from the supplier"
+msgstr "Ordinato al fornitore"
+
+#: templates/ShopOrders/summary.php:75
+msgid "Received"
+msgstr "Ricevuto"
+
+#: templates/ShopOrders/summary.php:75
+msgid "Received from the supplier, added to the stock"
+msgstr "Ricevuto dal fornitore, aggiunto allo stock"
+
+#: templates/ShopOrders/summary.php:76
+msgid "Set stock"
+msgstr "Imposta stock"
+
+#: templates/ShopOrders/summary.php:76
+msgid "Counted stock, replaces the current one"
+msgstr "Stock contato, sostituisce quello attuale"
+
+#: templates/element/Shop/tabs.php:7
+msgid "Detail"
+msgstr "Dettaglio"
+
+#: templates/element/ShopItems/form.php:41
+msgid "One choice per line (e.g. sizes). The member must choose one. Leave empty if there is nothing to choose."
+msgstr "Una scelta per riga (ad es. taglie). Il membro deve sceglierne una. Lascia vuoto se non c'è niente da scegliere."
+
+#: templates/element/ShopItems/form.php:47
+msgid "Otherwise the attributes without stock are hidden from the members."
+msgstr "Altrimenti gli attributi senza stock sono nascosti ai membri."
+
+#: templates/layout/default.php:207
+msgid "Shop"
+msgstr "Negozio"
+
+#: templates/layout/default.php:212
+msgid "Give ordered items"
+msgstr "Consegnare articoli ordinati"
+
+#: templates/layout/default.php:213
+msgid "Orders and stock"
+msgstr "Ordini e stock"

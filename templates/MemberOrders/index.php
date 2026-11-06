@@ -5,17 +5,22 @@
  * @var int $categoryFilter
  * @var int $deliveredFilter
  * @var int $paidFilter
+ * @var int $itemFilter
  * @var array $categoryOptions
+ * @var array $itemOptions
+ * @var \App\Model\Entity\Site|null $shopSite
  */
 
 use App\Model\Table\ShopItemsTable;
 
 $this->Html->css('member-orders', ['block' => true]);
+$this->Html->css('shop', ['block' => true]);
 
 $filterGroups = [
     ['label' => __('Category:'), 'current' => $categoryFilter, 'class' => 'btn-primary', 'options' => $categoryOptions],
     ['label' => __('Delivery:'), 'current' => $deliveredFilter, 'class' => 'btn-secondary', 'options' => [1 => __('Delivered'), 2 => __('Not Delivered')]],
     ['label' => __('Payment:'), 'current' => $paidFilter, 'class' => 'btn-info', 'options' => [1 => __('Paid'), 2 => __('Not Paid')]],
+    ['label' => __('Item:'), 'current' => $itemFilter, 'class' => 'btn-outline-primary', 'options' => $itemOptions],
 ];
 $filterValues = array_column($filterGroups, 'current');
 $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['sort', 'direction']));
@@ -37,10 +42,8 @@ $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['
 </div>
 
 <div class="memberOrders index content">
-    <div class="mo-header">
-        <h3><?= __('Member Orders') ?></h3>
-        <span class="mo-count">(<?= $this->Number->format($memberOrders->totalCount()) ?>)</span>
-    </div>
+    <?= $this->element('Shop/title', ['title' => __('Member Orders'), 'shopSite' => $shopSite, 'count' => $memberOrders->totalCount()]) ?>
+    <p class="text-muted shop-intro"><?= __('Mark the items as given to the members. The orders are deleted on the orders page.') ?></p>
     <div class="table-responsive">
         <table class="table table-striped mo-table">
             <thead>
@@ -48,6 +51,7 @@ $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('Members.first_name', __('Member')) ?></th>
                     <th><?= $this->Paginator->sort('ShopItems.label', __('Item')) ?></th>
+                    <th><?= $this->Paginator->sort('attribute', __('Attribute')) ?></th>
                     <th><?= $this->Paginator->sort('ShopItems.category', __('Category')) ?></th>
                     <th><?= $this->Paginator->sort('quantity') ?></th>
                     <th><?= $this->Paginator->sort('delivered') ?></th>
@@ -61,10 +65,9 @@ $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['
                 <?php foreach ($memberOrders as $memberOrder): ?>
                     <tr>
                         <td class="mo-id"><?= $this->Number->format($memberOrder->id) ?></td>
-                        <td class="mo-member">
-                            <?= $memberOrder->hasValue('member') ? $this->Html->link($memberOrder->member->fullName, ['controller' => 'Members', 'action' => 'view', $memberOrder->member->id]) : '' ?>
-                        </td>
+                        <td class="mo-member"><?= $this->element('Shop/member_link', ['member' => $memberOrder->member ?? null]) ?></td>
                         <td class="mo-item"><?= $memberOrder->hasValue('shop_item') ? h($memberOrder->shop_item->label) : '' ?></td>
+                        <td class="mo-attribute"><?= $memberOrder->attribute === null ? '' : '<span class="badge bg-light text-dark shop-attribute">' . h($memberOrder->attribute) . '</span>' ?></td>
                         <td class="mo-category"><?= $memberOrder->hasValue('shop_item') ? h(ShopItemsTable::getCategoryLabel($memberOrder->shop_item->category)) : '' ?></td>
                         <td class="mo-quantity"><?= $this->Number->format($memberOrder->quantity) ?></td>
                         <td class="mo-delivered">
@@ -74,14 +77,7 @@ $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['
                                 <span class="badge bg-warning"><?= __('Not Delivered') ?></span>
                             <?php endif; ?>
                         </td>
-                        <td class="mo-bill">
-                            <?php if ($memberOrder->hasValue('bill')): ?>
-                                <span class="mo-bill-label"><?= __('Bill') ?></span>
-                                <?= $this->Html->link($memberOrder->bill->reference, ['controller' => 'Bills', 'action' => 'view', $memberOrder->bill->id]) ?>
-                            <?php else: ?>
-                                <span class="text-muted"><?= __('No Bill') ?></span>
-                            <?php endif; ?>
-                        </td>
+                        <td class="mo-bill"><?= $this->element('Shop/bill_link', ['bill' => $memberOrder->bill ?? null]) ?></td>
                         <td class="mo-status">
                             <?php if ($memberOrder->hasValue('bill')): ?>
                                 <span class="badge bg-<?= h($memberOrder->bill->statusHtml) ?>"><?= h($memberOrder->bill->statusString) ?></span>
@@ -95,21 +91,11 @@ $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['
                                 <?= $this->Form->postLink(__('Mark Not Delivered'), ['action' => 'markNotDelivered', $memberOrder->id], ['confirm' => __('Mark this order as not delivered?'), 'class' => 'btn btn-sm btn-warning mo-action-main']) ?>
                             <?php endif; ?>
                             <?= $this->Html->link('visibility', ['action' => 'view', $memberOrder->id], ['class' => 'material-icons mo-action-icon', 'title' => __('View')]) ?>
-                            <?= $this->Form->postLink('delete', ['action' => 'delete', $memberOrder->id], ['confirm' => __('Are you sure you want to delete # {0}?', $memberOrder->id), 'class' => 'material-icons-outlined btn-outline-danger mo-action-icon', 'title' => __('Delete')]) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-    <div class="paginator">
-        <ul class="pagination mo-pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
-    </div>
+    <?= $this->element('Shop/paginator') ?>
 </div>

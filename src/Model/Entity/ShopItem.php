@@ -14,10 +14,15 @@ use App\Model\Table\ShopItemsTable;
  * @property float $price
  * @property int $category
  * @property bool $active
+ * @property int $site_id City of the item
+ * @property string|null $attributes Possible attributes (e.g. sizes), one per line, empty = nothing to choose
+ * @property bool $allow_out_of_stock The item can be ordered without stock
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
  *
  * @property \App\Model\Entity\MemberOrder[] $member_orders
+ * @property \App\Model\Entity\ShopStock[] $shop_stocks
+ * @property \App\Model\Entity\Site $site
  */
 class ShopItem extends Entity
 {
@@ -35,6 +40,8 @@ class ShopItem extends Entity
         'price' => true,
         'category' => true,
         'active' => true,
+        'attributes' => true,
+        'allow_out_of_stock' => true,
         'created' => true,
         'modified' => true,
         'member_orders' => true,
@@ -48,5 +55,71 @@ class ShopItem extends Entity
     protected function _getCategoryLabel(): string
     {
         return ShopItemsTable::getCategoryLabel($this->category);
+    }
+
+    /**
+     * Clean list of attributes typed one per line: trimmed, without empty lines nor duplicates
+     *
+     * @param string|null $text
+     * @return string[]
+     */
+    public static function parseAttributes(?string $text): array
+    {
+        $list = [];
+        foreach (preg_split('/\R/u', (string)$text) as $line) {
+            $line = trim($line);
+            if ($line !== '' && !in_array($line, $list, true)) {
+                $list[] = $line;
+            }
+        }
+
+        return $list;
+    }
+
+    /**
+     * Attributes the member can choose today
+     *
+     * @return string[]
+     */
+    public function getAttributeList(): array
+    {
+        return self::parseAttributes($this->attributes);
+    }
+
+    public function hasAttributes(): bool
+    {
+        return $this->getAttributeList() !== [];
+    }
+
+    /**
+     * Key of an attribute in the order form: the text may contain characters not allowed in a field name
+     */
+    public static function attributeKey(string $attribute): string
+    {
+        return substr(md5($attribute), 0, 12);
+    }
+
+    /**
+     * Attribute of the current list matching a key of the order form
+     *
+     * @return string|null null if the attribute is not offered anymore
+     */
+    public function attributeFromKey(string $key): ?string
+    {
+        foreach ($this->getAttributeList() as $attribute) {
+            if (self::attributeKey($attribute) === $key) {
+                return $attribute;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Label with the chosen attribute, e.g. "T-shirt - M"
+     */
+    public function labelWith(?string $attribute): string
+    {
+        return $attribute === null || $attribute === '' ? (string)$this->label : $this->label . ' - ' . $attribute;
     }
 }

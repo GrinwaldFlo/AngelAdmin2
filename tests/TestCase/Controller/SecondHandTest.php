@@ -586,6 +586,23 @@ class SecondHandTest extends TestCase
         $this->assertRedirect('/');
     }
 
+    /**
+     * The merchandising manager administrates the second-hand without being admin
+     */
+    public function testAdminPageForTheMerchandisingManager(): void
+    {
+        $this->addProfile(1, 101);
+        $this->addItem(1, 1);
+        $this->loginWith(['ShopManager']);
+
+        $this->get('/second-hand-admin');
+        $this->assertResponseOk();
+        $this->get('/second-hand-admin/items-log');
+        $this->assertResponseOk();
+        $this->post('/second-hand-admin/delete-item/1');
+        $this->assertFalse($this->getTableLocator()->get('SecondHandItems')->exists(['id' => 1]));
+    }
+
     public function testAdminSettingsAreSavedInConfigurations(): void
     {
         $this->setting(SecondHandComponent::ENABLED, '0');

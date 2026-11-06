@@ -43,7 +43,7 @@ class MemberPolicy
   // Same roles as the ones seeing the site (city) menu
   public function canSetSite(?IdentityInterface $user, Member $member)
   {
-    return $user !== null && ($user->Role->MemberViewAll || $user->Role->BillViewAll);
+    return $user !== null && ($user->Role->MemberViewAll || $user->Role->BillViewAll || TeamScope::canManageShop($user));
   }
 
   public function canAdmin(?IdentityInterface $user, Member $member)

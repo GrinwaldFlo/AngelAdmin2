@@ -106,6 +106,10 @@
     font-weight: bold;
   }
 
+  .mo-table tbody .mo-attribute {
+    order: 1;
+  }
+
   .mo-table tbody .mo-quantity {
     order: 2;
     font-weight: bold;

@@ -144,7 +144,7 @@ if (Configure::read('debug')) {
                 <li class="nav-item">
                     <?= $this->Html->link(__('Home'), ['controller' => 'Pages', 'action' => 'home'], ['class' => 'nav-link']) ?>
                 </li>
-                <?php if (($curRole->MemberViewAll || $curRole->BillViewAll) && count($navSites ?? []) > 1): ?>
+                <?php if (!empty($showSiteMenu) && count($navSites ?? []) > 1): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSite" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <?= isset($navSites[$navSiteId]) ? h($navSites[$navSiteId]->city) : __('All locations') ?>
@@ -176,9 +176,6 @@ if (Configure::read('debug')) {
                                 <li><?= $this->Html->link(__('Signatures validation'), ['controller' => 'Members', 'action' => 'signatures'], ['class' => 'dropdown-item']); ?></li>
                             <?php endif; ?>
                             <li><?= $this->Html->link(__('Invite'), ['controller' => 'Members', 'action' => 'invite'], ['class' => 'dropdown-item']); ?></li>
-                            <?php if (!$isScoped): ?>
-                                <li><?= $this->Html->link(__('Ordered items'), ['controller' => 'MemberOrders', 'action' => 'index'], ['class' => 'dropdown-item']); ?></li>
-                            <?php endif; ?>
                         </ul>
                     </li>
                 <?php endif; ?>
@@ -204,6 +201,23 @@ if (Configure::read('debug')) {
                         </div>
                     </li>
                 <?php endif; ?>
+                <?php if (!empty($canManageShop) || !empty($canManageSecondHand)): ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownShop" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <?= __('Shop') ?>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownShop">
+                            <?php if (!empty($canManageShop)): ?>
+                                <li><?= $this->Html->link(__('Shop items'), ['controller' => 'ShopItems', 'action' => 'index'], ['class' => 'dropdown-item']) ?></li>
+                                <li><?= $this->Html->link(__('Give ordered items'), ['controller' => 'MemberOrders', 'action' => 'index'], ['class' => 'dropdown-item']) ?></li>
+                                <li><?= $this->Html->link(__('Orders and stock'), ['controller' => 'ShopOrders', 'action' => 'index'], ['class' => 'dropdown-item']) ?></li>
+                            <?php endif; ?>
+                            <?php if (!empty($canManageSecondHand)): ?>
+                                <li><?= $this->Html->link(__('Second-hand'), ['controller' => 'SecondHandAdmin', 'action' => 'index'], ['class' => 'dropdown-item']) ?></li>
+                            <?php endif; ?>
+                        </ul>
+                    </li>
+                <?php endif; ?>
                 <?php if ($curRole->Admin || $curRole->MemberViewAll): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -212,7 +226,6 @@ if (Configure::read('debug')) {
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <?= $this->Html->link(__('Teams'), ['controller' => 'Teams', 'action' => 'index'], ['class' => 'dropdown-item']); ?>
                             <?= $canAssignCoaches ? $this->Html->link(__('Coaches'), ['controller' => 'Teams', 'action' => 'coaches'], ['class' => 'dropdown-item']) : '' ?>
-                            <?= !$isScoped ? $this->Html->link(__('Shop items'), ['controller' => 'ShopItems', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Dashboard'), ['controller' => 'Admin', 'action' => 'dashboard'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Users'), ['controller' => 'Users', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Roles'), ['controller' => 'Roles', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
@@ -222,7 +235,6 @@ if (Configure::read('debug')) {
                             <?= $curRole->Admin ? $this->Html->link(__('New year'), ['controller' => 'Admin', 'action' => 'new_year'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Invoice Templates'), ['controller' => 'BillTemplates', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Subsidies'), ['controller' => 'Admin', 'action' => 'subventions'], ['class' => 'dropdown-item']) : '' ?>
-                            <?= $curRole->Admin ? $this->Html->link(__('Second-hand'), ['controller' => 'SecondHandAdmin', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $this->Html->link(__('List'), ['controller' => 'Members', 'action' => 'list'], ['class' => 'dropdown-item']); ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Familly discount'), ['controller' => 'Members', 'action' => 'familyReduction'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $this->Html->link(__('Birthdays'), ['controller' => 'Members', 'action' => 'birthdays'], ['class' => 'dropdown-item']); ?>

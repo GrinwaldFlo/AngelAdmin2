@@ -22,7 +22,7 @@ class MemberOrdersControllerTest extends TestCase
 
     protected array $fixtures = [
         'app.Members', 'app.Users', 'app.Roles', 'app.Sites', 'app.Teams', 'app.TeamsMembers', 'app.TeamsCoaches',
-        'app.Configurations', 'app.Contents', 'app.Bills', 'app.ShopItems', 'app.MemberOrders',
+        'app.Configurations', 'app.Contents', 'app.Bills', 'app.ShopItems', 'app.MemberOrders', 'app.ShopStocks',
     ];
 
     private const MANAGER = ['MemberViewAll', 'MemberEditAll', 'MemberEditOwn'];
@@ -174,7 +174,7 @@ class MemberOrdersControllerTest extends TestCase
 
         $this->get('/member-orders/index/0/0/0?sort=ShopItems.label&direction=desc');
 
-        $this->assertResponseContains('/member-orders/index/0/2/0?sort=ShopItems.label&amp;direction=desc');
+        $this->assertResponseContains('/member-orders/index/0/2/0/0?sort=ShopItems.label&amp;direction=desc');
     }
 
     public function testIndexShowsTheTotalOfAllPages(): void
@@ -195,7 +195,7 @@ class MemberOrdersControllerTest extends TestCase
                 $this->get($url);
                 $this->assertResponseCode(403, $url);
             }
-            foreach (['/member-orders/mark-delivered/2', '/member-orders/mark-not-delivered/1', '/member-orders/delete/1'] as $url) {
+            foreach (['/member-orders/mark-delivered/2', '/member-orders/mark-not-delivered/1'] as $url) {
                 $this->post($url);
                 $this->assertResponseCode(403, $url);
             }
@@ -229,24 +229,93 @@ class MemberOrdersControllerTest extends TestCase
         $this->assertFalse($this->delivered(2));
     }
 
-    public function testDelete(): void
+    /**
+     * The orders are deleted on the orders page only (ShopOrdersController)
+     */
+    public function testNoDeleteOnThisPage(): void
     {
         $this->loginWith(self::MANAGER);
 
+        $this->get('/member-orders');
+        $this->assertResponseNotContains('/member-orders/delete/');
+        $this->assertResponseNotContains('/shop-orders/delete/');
         $this->post('/member-orders/delete/3');
 
-        $this->assertRedirect(['controller' => 'MemberOrders', 'action' => 'index']);
-        $this->assertFlashElement('flash/success');
-        $this->assertFalse($this->getTableLocator()->get('MemberOrders')->exists(['id' => 3]));
-        // The item stays
-        $this->assertSame(3, $this->getTableLocator()->get('ShopItems')->find()->count());
+        $this->assertResponseCode(404);
+        $this->assertTrue($this->getTableLocator()->get('MemberOrders')->exists(['id' => 3]));
+    }
+
+    public function testIndexShowsTheAttributeAndFiltersByItem(): void
+    {
+        $orders = $this->getTableLocator()->get('MemberOrders');
+        $orders->updateAll(['attribute' => 'XL'], ['id' => 1]);
+        $shirtId = $orders->get(1)->shop_item_id;
+        $this->loginWith(self::MANAGER);
+
+        $this->assertSame([1], $this->listedIds("/member-orders/index/0/0/0/$shirtId"));
+        $this->assertResponseContains('XL');
+        $this->assertSession($shirtId, 'memberOrdersItemFilter');
+        $this->assertSame([1, 2, 3], $this->listedIds('/member-orders/index/0/0/0/0'));
+    }
+
+    public function testOnlyTheOrdersOfTheChosenLocation(): void
+    {
+        $this->addSite(2, 'Lausanne');
+        $itemId = $this->addShopItem('Lausanne cap', ['site_id' => 2]);
+        $this->getTableLocator()->get('MemberOrders')->insertQuery()
+            ->insert(['id', 'shop_item_id', 'member_id', 'quantity', 'delivered'])
+            ->values(['id' => 4, 'shop_item_id' => $itemId, 'member_id' => 1, 'quantity' => 1, 'delivered' => false])
+            ->execute();
+        $this->loginWith(self::MANAGER);
+        $members = $this->getTableLocator()->get('Members');
+
+        $members->updateAll(['pref_site_id' => 2], ['id' => 1]);
+        $this->assertSame([4], $this->listedIds('/member-orders/index/0/0/0/0'));
+        $this->assertResponseContains('Lausanne');
+
+        $members->updateAll(['pref_site_id' => 1], ['id' => 1]);
+        $this->assertSame([1, 2, 3], $this->listedIds('/member-orders/index/0/0/0/0'));
+        // The order of another location can't be changed
+        $this->post('/member-orders/mark-delivered/4');
+        $this->assertResponseCode(404);
+        $this->assertFalse($this->delivered(4));
+    }
+
+    /**
+     * With several locations, "All locations" must be replaced by one location
+     */
+    public function testAskToChooseALocation(): void
+    {
+        $this->addSite(2, 'Lausanne');
+        $this->loginWith(self::MANAGER);
+
+        $this->get('/member-orders');
+
+        $this->assertResponseOk();
+        $this->assertTemplate('Shop/choose_site');
+        $this->assertResponseContains('Choose a location');
+    }
+
+    public function testMerchandisingManager(): void
+    {
+        $this->addMember(5, [], ['first_name' => 'Zoe']);
+        $this->getTableLocator()->get('MemberOrders')->updateAll(['member_id' => 5], []);
+        $this->loginWith(['ShopManager']);
+
+        $this->assertSame([1, 2, 3], $this->listedIds('/member-orders'));
+        // Without the rights on the members and the bills, their names are not links
+        $this->assertResponseContains('Zoe');
+        $this->assertResponseNotContains('/members/view/5"');
+        $this->assertResponseNotContains('/bills/view/10"');
+        $this->post('/member-orders/mark-delivered/2');
+        $this->assertTrue($this->delivered(2));
     }
 
     public function testChangesRequirePost(): void
     {
         $this->loginWith(self::MANAGER);
 
-        foreach (['/member-orders/mark-delivered/2', '/member-orders/mark-not-delivered/1', '/member-orders/delete/1'] as $url) {
+        foreach (['/member-orders/mark-delivered/2', '/member-orders/mark-not-delivered/1'] as $url) {
             $this->get($url);
             $this->assertResponseCode(405, $url);
         }

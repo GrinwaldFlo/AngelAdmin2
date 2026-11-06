@@ -126,7 +126,7 @@ class SubventionComponent extends Component
             ->setBodyText(trim($text))
             ->setBodyHtml($html);
 
-        $from = $this->senderEmail($site);
+        $from = $site->senderEmail((string)($this->getController()->config['email'] ?? ''));
         if ($from !== '') {
             $message->setFrom($from, (string)$site->account_designation);
         }
@@ -135,21 +135,6 @@ class SubventionComponent extends Component
             $message->setTo($to, __('Municipal Registry') . ' ' . $city);
         }
         return $message;
-    }
-
-    /**
-     * Email of the site, or of the club if the site has none
-     *
-     * @param \App\Model\Entity\Site $site
-     */
-    private function senderEmail($site): string
-    {
-        foreach ([$site->sender_email, $this->getController()->config['email'] ?? ''] as $email) {
-            if (Validation::email((string)$email)) {
-                return (string)$email;
-            }
-        }
-        return '';
     }
 
     /**
