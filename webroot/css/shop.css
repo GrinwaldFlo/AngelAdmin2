@@ -1,0 +1,189 @@
+/* Shop pages: items, orders and stock, member shop section (templates/ShopItems, ShopOrders, Shop, element/Shop, element/Members/shop.php) */
+
+.shop-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.shop-site {
+  font-size: 0.875rem;
+}
+
+.shop-intro {
+  font-size: 0.875rem;
+}
+
+.shop-tabs {
+  margin-bottom: 0.75rem;
+}
+
+.shop-side-nav .btn {
+  display: flex;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.shop-choose-site {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.shop-choose-site-icon {
+  font-size: 3rem;
+  color: var(--aa-brand);
+}
+
+.shop-attributes {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.shop-attribute {
+  border: 1px solid var(--aa-border);
+  font-weight: normal;
+}
+
+.shop-actions,
+.shop-stock-actions {
+  white-space: nowrap;
+}
+
+.shop-number {
+  text-align: right;
+}
+
+.shop-negative {
+  color: var(--aa-danger);
+  font-weight: bold;
+}
+
+.shop-row-to-order .shop-to-order {
+  color: var(--aa-danger);
+  font-weight: bold;
+}
+
+.shop-stock-form,
+.shop-change-attribute {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0;
+}
+
+.shop-stock-quantity {
+  width: 5rem;
+}
+
+.shop-change-attribute .form-select {
+  width: auto;
+  min-width: 5rem;
+}
+
+/* Member shop section: one quantity by attribute */
+.shop-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.shop-option-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: normal;
+  text-align: left;
+}
+
+.shop-option .quantity-input {
+  flex: 0 0 4.5rem;
+  max-width: 4.5rem;
+}
+
+/* Below the navbar breakpoint (see mobile-nav.css), each row becomes a card */
+@media (max-width: 991.98px) {
+  .shop-order-button {
+    width: 100%;
+  }
+
+  .shop-option .quantity-input,
+  .shop-option-label {
+    min-height: 2.5rem;
+  }
+
+  .shop-table thead,
+  .shop-summary-table thead {
+    display: none;
+  }
+
+  .shop-table,
+  .shop-table tbody,
+  .shop-summary-table,
+  .shop-summary-table tbody {
+    display: block;
+  }
+
+  .shop-table tbody tr,
+  .shop-summary-table tbody tr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.375rem 0.75rem;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    border: 1px solid var(--aa-border);
+    border-radius: 0.5rem;
+  }
+
+  .shop-table tbody td,
+  .shop-summary-table tbody td {
+    display: block;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .shop-table .shop-cell-main,
+  .shop-summary-table .shop-summary-item {
+    flex: 1 1 auto;
+    font-weight: bold;
+  }
+
+  .shop-table .shop-cell-muted {
+    color: var(--aa-muted);
+    font-size: 0.875rem;
+  }
+
+  .shop-table .shop-actions,
+  .shop-summary-table .shop-stock-actions {
+    flex-basis: 100%;
+  }
+
+  .shop-summary-table .shop-summary-attribute {
+    flex-basis: 100%;
+  }
+
+  /* The numbers keep their column name */
+  .shop-summary-table .shop-number {
+    text-align: left;
+  }
+
+  .shop-summary-table .shop-number::before {
+    content: attr(data-label) ": ";
+    color: var(--aa-muted);
+    font-weight: normal;
+  }
+
+  /* Same height as the .btn-sm next to them (theme.css) */
+  .shop-stock-quantity,
+  .shop-change-attribute .form-select {
+    min-height: var(--aa-touch-sm);
+  }
+
+  .shop-stock-form .btn {
+    flex: 1 1 auto;
+  }
+}

@@ -431,6 +431,23 @@ class MembersTable extends Table
         return $query->groupBy(['Members.id']);
     }
 
+    /**
+     * City of a member: the site of its first team (a member belongs to only one city)
+     * The only place to change when the city is saved on the member
+     *
+     * @return int 0 if the member has no team
+     */
+    public function getSiteIdOf(int $memberId): int
+    {
+        $team = $this->Teams->find()
+            ->select(['Teams.site_id'])
+            ->innerJoinWith('Members', fn($query) => $query->where(['Members.id' => $memberId]))
+            ->orderBy(['Teams.id' => 'ASC'])
+            ->first();
+
+        return (int)($team->site_id ?? 0);
+    }
+
     public function CountActiveMembers(int $siteId = 0): int
     {
         return $this->queryInSite($siteId)->count();

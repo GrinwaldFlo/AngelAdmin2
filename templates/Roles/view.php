@@ -61,6 +61,10 @@
           <th><?= __('Limited to coached teams') ?></th>
           <td><?= $role->TeamScoped ? __('Yes') : __('No'); ?></td>
         </tr>
+        <tr>
+          <th><?= __('Merchandising manager (shop and second-hand)') ?></th>
+          <td><?= $role->ShopManager ? __('Yes') : __('No'); ?></td>
+        </tr>
       </table>
       <div class="related">
         <h4><?= __('Users') ?></h4>

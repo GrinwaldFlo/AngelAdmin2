@@ -1,18 +1,18 @@
 /* Meetings / attendance pages (templates/Meetings) - mobile first */
 
 .mt-page {
-  --mt-bg: #f4f5f7;
-  --mt-card: #ffffff;
-  --mt-border: #e3e5e8;
-  --mt-text: #1f2328;
-  --mt-muted: #6b717a;
-  --mt-primary: #7f3fb0;
-  --mt-present: #2e9d5b;
-  --mt-absent: #d64545;
-  --mt-excused: #3b6fd8;
-  --mt-late: #d99100;
+  --mt-bg: var(--aa-bg);
+  --mt-card: var(--aa-card);
+  --mt-border: var(--aa-border);
+  --mt-text: var(--aa-text);
+  --mt-muted: var(--aa-muted);
+  --mt-primary: var(--aa-brand-hover);
+  --mt-present: var(--aa-success);
+  --mt-absent: var(--aa-danger);
+  --mt-excused: var(--aa-info);
+  --mt-late: var(--aa-warning);
   --mt-none: #9aa1ab;
-  --mt-radius: 12px;
+  --mt-radius: var(--aa-radius-card);
 
   max-width: 760px;
   margin: 0 auto;

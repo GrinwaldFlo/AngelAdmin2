@@ -12,7 +12,7 @@
   <div class="col">
     <div class="members view content">
       <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'simple', 0, 0, $teamId == $key ? 0 : $key], ['class' => 'btn btn-primary btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+        <?= $this->Html->link(h($team), ['action' => 'simple', 0, 0, $teamId == $key ? 0 : $key], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>

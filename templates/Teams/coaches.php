@@ -37,7 +37,7 @@ $types = TeamsCoach::types();
               <span class="teams-coaches-type"><?= h($types[$row->type] ?? '') ?></span>
               <?= h($row->member->fullName) ?>
               <?= $this->Form->postLink('-', ['action' => 'removeCoach', $row->id], [
-                'class' => 'btn btn-danger btn-sm',
+                'class' => 'btn btn-delete btn-sm',
                 'title' => __('Remove'),
                 'confirm' => __('Remove {0} from the coaches of {1}?', $row->member->fullName, $teamName),
               ]) ?>
@@ -62,7 +62,7 @@ $types = TeamsCoach::types();
           'label' => false,
           'aria-label' => __('Type'),
         ]) ?>
-        <?= $this->Form->button(__('Add'), ['class' => 'btn btn-success btn-sm']) ?>
+        <?= $this->Form->button(__('Add'), ['class' => 'btn btn-add btn-sm']) ?>
         <?= $this->Form->end() ?>
       <?php endif; ?>
     </section>

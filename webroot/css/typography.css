@@ -1,0 +1,146 @@
+/* Admin > Typography: layout of the style guide page only (the documented styles live in theme.css / cake.css) */
+
+.tg-page h4 {
+  margin-top: 1.5rem;
+}
+
+.tg-section {
+  margin-bottom: 2.5rem;
+  scroll-margin-top: 1rem;
+}
+
+.tg-section > h3 {
+  border-bottom: 2px solid var(--aa-brand);
+  padding-bottom: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.tg-intro {
+  color: var(--aa-muted);
+  max-width: 50rem;
+}
+
+.tg-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+}
+
+/* Color swatches */
+.tg-swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.tg-swatch {
+  border: 1px solid var(--aa-border);
+  border-radius: var(--aa-radius-card);
+  overflow: hidden;
+  background: var(--aa-card);
+}
+
+.tg-swatch-color {
+  height: 3.5rem;
+}
+
+.tg-swatch-info {
+  padding: 0.4rem 0.6rem;
+  font-size: 0.8rem;
+  line-height: 1.3;
+}
+
+.tg-swatch-info code {
+  display: block;
+  word-break: break-all;
+}
+
+.tg-c-brand { background: var(--aa-brand); }
+.tg-c-brand-hover { background: var(--aa-brand-hover); }
+.tg-c-brand-dark { background: var(--aa-brand-dark); }
+.tg-c-link { background: var(--aa-link); }
+.tg-c-bg { background: var(--aa-bg); }
+.tg-c-card { background: var(--aa-card); }
+.tg-c-border { background: var(--aa-border); }
+.tg-c-text { background: var(--aa-text); }
+.tg-c-muted { background: var(--aa-muted); }
+.tg-c-success { background: var(--aa-success); }
+.tg-c-danger { background: var(--aa-danger); }
+.tg-c-warning { background: var(--aa-warning); }
+.tg-c-info { background: var(--aa-info); }
+.tg-c-nav { background: var(--aa-nav); }
+
+/* Rows "sample | rule" */
+.tg-sample {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.tg-page pre {
+  background: var(--aa-bg);
+  border: 1px solid var(--aa-border);
+  border-radius: var(--aa-radius);
+  padding: 0.6rem 0.8rem;
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.tg-specimen {
+  border: 1px dashed var(--aa-border);
+  border-radius: var(--aa-radius);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: var(--aa-card);
+}
+
+.tg-rules li {
+  margin-bottom: 0.4rem;
+}
+
+.tg-dont {
+  color: var(--aa-danger);
+  font-weight: 600;
+}
+
+.tg-do {
+  color: var(--aa-success);
+  font-weight: 600;
+}
+
+.tg-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.tg-icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 6rem;
+  font-size: 0.8rem;
+}
+
+.tg-icon-box {
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--aa-brand-dark);
+}
+
+@media (max-width: 40rem) {
+  .tg-sample {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

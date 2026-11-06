@@ -19,6 +19,6 @@ $this->Html->css('second-hand', ['block' => true]);
     <?= $this->Form->control('email', ['label' => __('Email'), 'type' => 'email', 'required' => true,
         'help' => __('If you use another email than the one of your member account, you will get a link to confirm it.')]) ?>
     <?= $this->Form->control('city', ['label' => __('City'), 'required' => true]) ?>
-    <?= $this->Form->button(__('Save'), ['class' => 'btn btn-primary']) ?>
+    <?= $this->Form->button(__('Save'), ['class' => 'btn btn-save']) ?>
     <?= $this->Form->end() ?>
 </div>

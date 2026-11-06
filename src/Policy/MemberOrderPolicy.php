@@ -1,53 +1,43 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Policy;
-use App\Model\Entity\Member;
+
 use Authorization\IdentityInterface;
 
 /**
- * Member policy
+ * Member order policy: the shop managers (see TeamScope::canManageShop())
  */
 class MemberOrderPolicy
 {
-    public function canViewAll(IdentityInterface $user)
+    public function canViewAll(IdentityInterface $user): bool
     {
-        return TeamScope::canUnscoped($user, 'MemberEditAll');
+        return TeamScope::canManageShop($user);
     }
 
-    public function canEdit(IdentityInterface $user)
+    public function canView(IdentityInterface $user): bool
     {
-        return TeamScope::canUnscoped($user, 'MemberEditAll');
+        return TeamScope::canManageShop($user);
     }
 
-    public function canEditAll(IdentityInterface $user)
+    public function canMarkDelivered(IdentityInterface $user): bool
     {
-        return TeamScope::canUnscoped($user, 'MemberEditAll');
+        return TeamScope::canManageShop($user);
     }
 
-    public function canAdmin(IdentityInterface $user)
-    {
-        return $user->Role->Admin;
-    }
-
-    public function canView(IdentityInterface $user)
-    {
-        return TeamScope::canUnscoped($user, 'MemberEditAll');
-    }
-
-    public function canMarkDelivered(IdentityInterface $user)
-    {
-        return TeamScope::canUnscoped($user, 'MemberEditAll');
-    }
-
-    public function canMarkNotDelivered(IdentityInterface $user)
+    public function canMarkNotDelivered(IdentityInterface $user): bool
     {
         return $this->canMarkDelivered($user);
     }
 
-    public function canDelete(IdentityInterface $user)
+    public function canChangeAttribute(IdentityInterface $user): bool
     {
-        return TeamScope::canUnscoped($user, 'MemberEditAll');
+        return TeamScope::canManageShop($user);
     }
 
-
+    public function canDelete(IdentityInterface $user): bool
+    {
+        return TeamScope::canManageShop($user);
+    }
 }

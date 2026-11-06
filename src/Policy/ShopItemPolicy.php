@@ -1,41 +1,41 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Policy;
-use App\Model\Entity\Member;
+
 use Authorization\IdentityInterface;
 
 /**
- * Member policy
+ * Shop item policy: the shop managers (see TeamScope::canManageShop())
  */
 class ShopItemPolicy
 {
-    public function canViewAll(IdentityInterface $user)
+    public function canViewAll(IdentityInterface $user): bool
     {
-        return TeamScope::canUnscoped($user, 'MemberEditAll');
+        return TeamScope::canManageShop($user);
     }
 
-    public function canEdit(IdentityInterface $user)
+    public function canView(IdentityInterface $user): bool
     {
-        return TeamScope::canUnscoped($user, 'MemberEditAll');
+        return TeamScope::canManageShop($user);
     }
 
-    public function canEditAll(IdentityInterface $user)
+    public function canEdit(IdentityInterface $user): bool
     {
-        return TeamScope::canUnscoped($user, 'MemberEditAll');
+        return TeamScope::canManageShop($user);
     }
 
-    public function canAdmin(IdentityInterface $user)
+    public function canDelete(IdentityInterface $user): bool
     {
-        return $user->Role->Admin;
+        return TeamScope::canManageShop($user);
     }
 
-    public function canView(IdentityInterface $user)
+    /**
+     * Stock of the items (orders summary page)
+     */
+    public function canManageStock(IdentityInterface $user): bool
     {
-        return TeamScope::canUnscoped($user, 'MemberEditAll');
-    }
-
-    public function canDelete(IdentityInterface $user)
-    {
-        return TeamScope::canUnscoped($user, 'MemberEditAll');
+        return TeamScope::canManageShop($user);
     }
 }

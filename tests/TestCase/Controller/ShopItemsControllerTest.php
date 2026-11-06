@@ -20,7 +20,7 @@ class ShopItemsControllerTest extends TestCase
 
     protected array $fixtures = [
         'app.Members', 'app.Users', 'app.Roles', 'app.Sites', 'app.Teams', 'app.TeamsMembers', 'app.TeamsCoaches',
-        'app.Configurations', 'app.Contents', 'app.Bills', 'app.ShopItems', 'app.MemberOrders',
+        'app.Configurations', 'app.Contents', 'app.Bills', 'app.ShopItems', 'app.MemberOrders', 'app.ShopStocks',
     ];
 
     private const MANAGER = ['MemberViewAll', 'MemberEditAll', 'MemberEditOwn'];
@@ -177,5 +177,123 @@ class ShopItemsControllerTest extends TestCase
 
         $this->assertResponseCode(405);
         $this->assertSame(1, $this->getTableLocator()->get('ShopItems')->find()->count());
+    }
+
+    /**
+     * One attribute per line: saved trimmed, without empty lines nor duplicates
+     */
+    public function testAddWithAttributesInTheChosenLocation(): void
+    {
+        $this->addSite(2, 'Lausanne');
+        $this->getTableLocator()->get('Members')->updateAll(['pref_site_id' => 2], ['id' => 1]);
+        $this->loginWith(self::MANAGER);
+
+        $this->post('/shop-items/add', [
+            'label' => 'T-shirt', 'price' => 25, 'category' => ShopItemsTable::CATEGORY_EQUIPMENT, 'active' => 1,
+            'attributes' => " S \r\nM\r\n\r\nM\nXL ", 'allow_out_of_stock' => 1, 'site_id' => 1,
+        ]);
+
+        $this->assertRedirect(['controller' => 'ShopItems', 'action' => 'index']);
+        $item = $this->getTableLocator()->get('ShopItems')->find()->where(['label' => 'T-shirt'])->firstOrFail();
+        $this->assertSame("S\nM\nXL", $item->attributes);
+        $this->assertSame(['S', 'M', 'XL'], $item->getAttributeList());
+        $this->assertTrue($item->allow_out_of_stock);
+        // The location is the chosen one, not a posted one
+        $this->assertSame(2, $item->site_id);
+    }
+
+    public function testEditRemovesTheAttributes(): void
+    {
+        $itemId = $this->addShopItem('T-shirt', ['attributes' => "S\nM"]);
+        $this->loginWith(self::MANAGER);
+
+        $this->get("/shop-items/edit/$itemId");
+        $this->assertResponseContains('allow_out_of_stock');
+        $this->post("/shop-items/edit/$itemId", ['attributes' => "\n  \n"]);
+
+        $item = $this->getTableLocator()->get('ShopItems')->get($itemId);
+        $this->assertNull($item->attributes);
+        $this->assertFalse($item->hasAttributes());
+    }
+
+    public function testAttributeTooLong(): void
+    {
+        $this->loginWith(self::MANAGER);
+
+        $this->post('/shop-items/add', ['label' => 'Bag', 'price' => 30, 'category' => ShopItemsTable::CATEGORY_EQUIPMENT, 'attributes' => "S\n" . str_repeat('x', 101)]);
+
+        $this->assertResponseOk();
+        $this->assertFlashElement('flash/error');
+        $this->assertSame(0, $this->getTableLocator()->get('ShopItems')->find()->count());
+    }
+
+    public function testOnlyTheItemsOfTheChosenLocation(): void
+    {
+        $this->addSite(2, 'Lausanne');
+        $this->addShopItem('Renens shirt');
+        $otherId = $this->addShopItem('Lausanne shirt', ['site_id' => 2]);
+        $this->getTableLocator()->get('Members')->updateAll(['pref_site_id' => 1], ['id' => 1]);
+        $this->loginWith(self::MANAGER);
+
+        $this->get('/shop-items');
+        $this->assertResponseContains('Renens shirt');
+        $this->assertResponseNotContains('Lausanne shirt');
+
+        foreach (["/shop-items/view/$otherId", "/shop-items/edit/$otherId"] as $url) {
+            $this->get($url);
+            $this->assertResponseCode(404, $url);
+        }
+        $this->post("/shop-items/delete/$otherId");
+        $this->assertResponseCode(404);
+        $this->assertTrue($this->getTableLocator()->get('ShopItems')->exists(['id' => $otherId]));
+    }
+
+    public function testAskToChooseALocation(): void
+    {
+        $this->addSite(2, 'Lausanne');
+        $this->loginWith(self::MANAGER);
+
+        foreach (['/shop-items', '/shop-items/add'] as $url) {
+            $this->get($url);
+            $this->assertResponseOk();
+            $this->assertTemplate('Shop/choose_site');
+        }
+        $this->post('/shop-items/add', ['label' => 'Bag', 'price' => 30, 'category' => ShopItemsTable::CATEGORY_EQUIPMENT]);
+        $this->assertSame(0, $this->getTableLocator()->get('ShopItems')->find()->count());
+        // The location menu is shown to choose one
+        $this->assertResponseContains('/members/set-site/2');
+    }
+
+    public function testMerchandisingManager(): void
+    {
+        $this->addSite(2, 'Lausanne');
+        $itemId = $this->addItem();
+        $this->getTableLocator()->get('Members')->updateAll(['pref_site_id' => 1], ['id' => 1]);
+        $this->loginWith(['ShopManager']);
+
+        foreach (['/shop-items', "/shop-items/view/$itemId", '/shop-items/add', "/shop-items/edit/$itemId"] as $url) {
+            $this->get($url);
+            $this->assertResponseOk($url);
+        }
+        // The shop menu and the location menu are shown
+        $this->assertResponseContains('/shop-orders');
+        $this->assertResponseContains('/second-hand-admin');
+        $this->assertResponseContains('/members/set-site/2');
+
+        $this->post('/members/set-site/2');
+        $this->assertSame(2, $this->getTableLocator()->get('Members')->get(1)->pref_site_id);
+    }
+
+    /**
+     * Without the shop right, nor the shop menu
+     */
+    public function testNoShopMenuWithoutTheRight(): void
+    {
+        $this->loginWith(['MemberViewAll', 'MemberEditOwn']);
+
+        $this->get('/');
+
+        $this->assertResponseNotContains('/shop-items');
+        $this->assertResponseNotContains('/shop-orders');
     }
 }

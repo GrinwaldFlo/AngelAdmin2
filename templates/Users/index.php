@@ -5,7 +5,7 @@
  */
 ?>
 <div class="users index content">
-  <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'button float-end']) ?>
+  <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'btn btn-add btn-sm float-end']) ?>
   <h3><?= __('Users') ?></h3>
   <table class="table table-striped table-hover table-sm">
     <thead>

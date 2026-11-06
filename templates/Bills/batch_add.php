@@ -7,11 +7,11 @@ $dateBill->add($interval);
 <div class="row">
   <div class="col">
     <div class="members view content">
-      <?= $this->Html->link(__('Active'), ['action' => 'batchAdd', $teamId, $memberFilter == 1 ? 0 : 1], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 1 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Alumni'), ['action' => 'batchAdd', $teamId, $memberFilter == 2 ? 0 : 2], ['class' => 'btn btn-primary btn-sm' . ($memberFilter == 2 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Active'), ['action' => 'batchAdd', $teamId, $memberFilter == 1 ? 0 : 1], ['class' => 'btn btn-filter btn-sm' . ($memberFilter == 1 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Alumni'), ['action' => 'batchAdd', $teamId, $memberFilter == 2 ? 0 : 2], ['class' => 'btn btn-filter btn-sm' . ($memberFilter == 2 ? ' pressed' : '')]) ?>
       |
       <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'batchAdd', $teamId == $key ? 0 : $key, $memberFilter], ['class' => 'btn btn-primary btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+        <?= $this->Html->link(h($team), ['action' => 'batchAdd', $teamId == $key ? 0 : $key, $memberFilter], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>
@@ -23,9 +23,9 @@ $dateBill->add($interval);
     <div class="bills form content">
       <h3><?= __("Templates") ?></h3>
       <div>
-        <div class="btn btn-primary btn-sm" id="clear"><?= __("Clear") ?></div>
+        <div class="btn btn-filter btn-sm" id="clear"><?= __("Clear") ?></div>
         <?php foreach ($billTemplates as $value) : ?>
-          <div class="btn btn-primary btn-sm" id="<?= $value->id ?>"><?= h($value->label) ?></div>
+          <div class="btn btn-filter btn-sm" id="<?= $value->id ?>"><?= h($value->label) ?></div>
         <?php endforeach; ?>
       </div>
       <hr>  
@@ -57,8 +57,8 @@ $dateBill->add($interval);
       <?php endforeach; ?>
     </div>
     <div class="mt-3">
-      <?= $this->Form->button(__('Submit')) ?>
-      ¦ <div class="btn btn-primary btn-sm" id="CheckAll"><?= __("Check all") ?></div><div class="btn btn-primary btn-sm" id="CheckNone"><?= __("Check none") ?></div>
+      <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-save']) ?>
+      ¦ <div class="btn btn-filter btn-sm" id="CheckAll"><?= __("Check all") ?></div><div class="btn btn-filter btn-sm" id="CheckNone"><?= __("Check none") ?></div>
     </div>
       <?= $this->Form->end() ?>
     </div>

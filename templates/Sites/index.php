@@ -6,7 +6,7 @@
 ?>
 <div class="sites index content">
   <?= $this->my->adminButtons(2); ?>
-  <?= $this->Html->link(__('New Site'), ['action' => 'add'], ['class' => 'button float-end']) ?>
+  <?= $this->Html->link(__('New Site'), ['action' => 'add'], ['class' => 'btn btn-add btn-sm float-end']) ?>
   <h3><?= __x('Physical location', 'Sites') ?></h3>
   <table class="table table-striped table-hover table-sm">
     <thead>

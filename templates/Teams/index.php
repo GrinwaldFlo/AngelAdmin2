@@ -5,8 +5,8 @@
  */
 ?>
 <div class="teams index content">
-  <?= $curRole->Admin ? $this->Html->link(__('New Team'), ['action' => 'add'], ['class' => 'button float-end']) : '' ?>
-  <?= $canAssignCoaches ? $this->Html->link(__('Coaches'), ['action' => 'coaches'], ['class' => 'button float-end me-2']) : '' ?>
+  <?= $curRole->Admin ? $this->Html->link(__('New Team'), ['action' => 'add'], ['class' => 'btn btn-add btn-sm float-end']) : '' ?>
+  <?= $canAssignCoaches ? $this->Html->link(__('Coaches'), ['action' => 'coaches'], ['class' => 'btn btn-nav btn-sm float-end me-2']) : '' ?>
   <h3><?= __('Teams') ?></h3>
   <table class="table table-striped table-hover table-sm">
     <thead>

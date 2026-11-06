@@ -15,4 +15,7 @@ bin/cake migrations migrate --no-lock
 echo "Clearing caches"
 bin/cake cache clear_all
 
+echo "Clearing schema cache"
+bin/cake schema_cache clear
+
 echo "Update done"

@@ -21,23 +21,23 @@ if (!($isOwn && $member->RegistrationStep($config['year']) > 0)) {
         <br /><br />
         <?php if ($member->RegistrationStep($config['year']) == 1): ?>
             <strong><?= __('Please check your contact information') ?></strong>
-            <?= $this->Form->postLink(__('The information is correct'), ['action' => 'checked', $member->id], ['class' => 'btn btn-primary btn-sm']) ?>
+            <?= $this->Form->postLink(__('The information is correct'), ['action' => 'checked', $member->id], ['class' => 'btn btn-save btn-sm']) ?>
 
             <?php if (isset($contactEmail)): ?>
-                <a href="mailto:<?= h($contactEmail) ?>?subject=<?= urlencode(__('Ask for modifications')) ?>" class="btn btn-secondary">
+                <a href="mailto:<?= h($contactEmail) ?>?subject=<?= urlencode(__('Ask for modifications')) ?>" class="btn btn-nav">
                     <?= __('Ask for modifications') ?>
                 </a>
             <?php endif; ?>
         <?php elseif ($member->RegistrationStep($config['year']) == 2): ?>
             <?= __('You are a past member') ?>
-            <?= $this->Form->postLink(__('I want to start again !'), ['controller' => 'Members', 'action' => 'active', $member->id], ['class' => 'btn btn-primary btn-sm']) ?>
+            <?= $this->Form->postLink(__('I want to start again !'), ['controller' => 'Members', 'action' => 'active', $member->id], ['class' => 'btn btn-add btn-sm']) ?>
         <?php elseif ($member->RegistrationStep($config['year']) == 3): ?>
             <?php if (!$isMobile): ?>
                 <?= __('You will need to sign the aggreement for this year. A mobile phone is recomended') ?>
             <?php endif; ?>
             <br />
             <strong><?= __('You are not registered for this season') ?></strong>
-            <?= $this->Html->link(__('I register for the season'), ['controller' => 'Members', 'action' => 'agreement', $member->id], ['class' => 'btn btn-primary btn-sm']) ?>
+            <?= $this->Html->link(__('I register for the season'), ['controller' => 'Members', 'action' => 'agreement', $member->id], ['class' => 'btn btn-add btn-sm']) ?>
         <?php elseif ($member->RegistrationStep($config['year']) == 4): ?>
             <?= __('You have to be approved by a coach, please wait') ?>
         <?php elseif ($member->RegistrationStep($config['year']) == 6): ?>
@@ -49,7 +49,7 @@ if (!($isOwn && $member->RegistrationStep($config['year']) > 0)) {
         <br /><br />
         <?php if ($member->active): ?>
             <?= __('But if you would not like to continue') ?>
-            <?= $this->Html->link(__('Quit membership'), ['action' => 'cancelRegistration', $member->id], ['class' => 'btn btn-primary btn-sm']); ?>
+            <?= $this->Html->link(__('Quit membership'), ['action' => 'cancelRegistration', $member->id], ['class' => 'btn btn-delete btn-sm']); ?>
         <?php endif; ?>
     </div>
 </div>

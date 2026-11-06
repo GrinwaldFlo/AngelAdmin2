@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\Validation\Validation;
 
 /**
  * Site Entity
@@ -47,4 +48,20 @@ class Site extends Entity
         'sender_phone' => true,
         'add_invoice_num' => true,
     ];
+
+    /**
+     * Sender email of the site, or the fallback (club email) if the site has no valid one
+     *
+     * @return string '' if none is valid
+     */
+    public function senderEmail(string $fallback = ''): string
+    {
+        foreach ([(string)$this->sender_email, $fallback] as $email) {
+            if (Validation::email($email)) {
+                return $email;
+            }
+        }
+
+        return '';
+    }
 }

@@ -17,5 +17,5 @@
         <?php endforeach; ?>
       </tbody>
     </table>
-    <?= $this->Form->postLink(__('Reset registration').' !', ['action' => 'resetRegistration', $resetValidation], ['class' => 'btn btn-primary btn-sm']) ?>
+    <?= $this->Form->postLink(__('Reset registration').' !', ['action' => 'resetRegistration', $resetValidation], ['class' => 'btn btn-bulk btn-sm']) ?>
 </div>

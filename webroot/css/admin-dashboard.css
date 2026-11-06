@@ -1,16 +1,16 @@
 /* Admin dashboard (templates/Admin/dashboard.php) */
 
 .dashboard {
-  --dash-bg: #f4f5f7;
-  --dash-card: #ffffff;
-  --dash-border: #e3e5e8;
-  --dash-text: #1f2328;
-  --dash-muted: #6b717a;
+  --dash-bg: var(--aa-bg);
+  --dash-card: var(--aa-card);
+  --dash-border: var(--aa-border);
+  --dash-text: var(--aa-text);
+  --dash-muted: var(--aa-muted);
   --dash-track: #e9ebee;
-  --dash-primary: #0d6efd;
-  --dash-success: #2e9d5b;
-  --dash-warning: #e0a106;
-  --dash-danger: #d64545;
+  --dash-primary: var(--aa-brand);
+  --dash-success: var(--aa-success);
+  --dash-warning: var(--aa-warning);
+  --dash-danger: var(--aa-danger);
   --dash-invoiced: #9aa5b4;
 
   background: var(--dash-bg);

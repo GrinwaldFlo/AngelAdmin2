@@ -20,6 +20,6 @@ $this->Html->css('second-hand', ['block' => true]);
     <?= $this->Form->control('size', ['label' => __('Size'), 'required' => true]) ?>
     <?= $this->Form->control('price', ['label' => __('Price (CHF)'), 'type' => 'number', 'step' => '0.05', 'min' => 0, 'required' => true]) ?>
     <?= $this->Form->control('picture', ['label' => __('Picture'), 'type' => 'file', 'accept' => $accept, 'required' => true, 'help' => $formats]) ?>
-    <?= $this->Form->button(__('Put up for sale'), ['class' => 'btn btn-primary']) ?>
+    <?= $this->Form->button(__('Put up for sale'), ['class' => 'btn btn-save']) ?>
     <?= $this->Form->end() ?>
 </div>

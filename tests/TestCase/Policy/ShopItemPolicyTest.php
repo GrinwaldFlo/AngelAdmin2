@@ -9,7 +9,7 @@ use App\Test\TestSuite\TestDataTrait;
 use Cake\TestSuite\TestCase;
 
 /**
- * The shop is managed by the roles editing all the members, not by the coaches
+ * The shop is managed by the merchandising managers, the admins and the roles editing all the members, not by the coaches
  *
  * @uses \App\Policy\ShopItemPolicy
  */
@@ -22,7 +22,7 @@ class ShopItemPolicyTest extends TestCase
     /**
      * Every action of the controller has a rule
      */
-    private const ACTIONS = ['viewAll', 'view', 'edit', 'editAll', 'delete'];
+    private const ACTIONS = ['viewAll', 'view', 'edit', 'delete', 'manageStock'];
 
     public function testAllowedWithMemberEditAll(): void
     {
@@ -43,9 +43,16 @@ class ShopItemPolicyTest extends TestCase
         }
     }
 
-    public function testAdmin(): void
+    /**
+     * Merchandising manager and admin manage the shop without the members rights
+     */
+    public function testAllowedToTheMerchandisingManagerAndAdmin(): void
     {
-        $this->assertTrue($this->identity(['Admin'])->can('admin', new ShopItem()));
-        $this->assertFalse($this->identity(['MemberEditAll'])->can('admin', new ShopItem()));
+        foreach ([['ShopManager'], ['Admin']] as $rights) {
+            $user = $this->identity($rights);
+            foreach (self::ACTIONS as $action) {
+                $this->assertTrue($user->can($action, new ShopItem()), $action);
+            }
+        }
     }
 }

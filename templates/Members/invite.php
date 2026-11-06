@@ -69,8 +69,8 @@ $teams = $pref->teams;
       <?php endforeach; ?>
     </tbody>
   </table>
-  <?= $this->Form->button(__('Submit')) ?>
-  ¦ <div class="btn btn-primary btn-sm" id="CheckAll"><?= __("Check all") ?></div><div class="btn btn-primary btn-sm" id="CheckNone"><?= __("Check none") ?></div>
+  <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-save']) ?>
+  ¦ <div class="btn btn-filter btn-sm" id="CheckAll"><?= __("Check all") ?></div><div class="btn btn-filter btn-sm" id="CheckNone"><?= __("Check none") ?></div>
     <?= $this->Form->end() ?>
 </div>
 

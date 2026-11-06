@@ -23,7 +23,7 @@
                     echo $this->Form->control('site_id', ['options' => $sites]);
                 ?>
             </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
+            <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-save']) ?>
             <?= $this->Form->end() ?>
         </div>
     </div>

@@ -96,7 +96,7 @@
                 <?= $this->Html->link($member->FullName, ['controller' => 'Members', 'action' => 'view', $member->id], ['class' => 'me-1']) ?>
                 <?= $this->Form->postLink('-', ['action' => 'removeMember', $team->id, $member->id], [
                   'escape' => false,
-                  'class' => 'btn btn-danger btn-sm',
+                  'class' => 'btn btn-delete btn-sm',
                   'title' => __('Remove member')
                 ]) ?>
               </div>
@@ -117,7 +117,7 @@
                 <?php endif; ?>
                 <?= $this->Form->postLink('+', ['action' => 'addMember', $team->id, $member->id], [
                   'escape' => false,
-                  'class' => 'btn btn-success btn-sm',
+                  'class' => 'btn btn-add btn-sm',
                   'title' => __('Add member')
                 ]) ?>
               </div>

@@ -22,13 +22,13 @@ if (!$allowViewBills) {
                 
                 <!-- Invoice Filter Buttons -->
                 <div class="btn-group" role="group" aria-label="<?= __('Invoice filters') ?>">
-                    <button class="btn btn-sm btn-primary bill-filter-btn" data-filter="open" type="button">
+                    <button class="btn btn-sm btn-filter bill-filter-btn pressed" data-filter="open" type="button">
                         <?= __('Open') ?>
                     </button>
-                    <button class="btn btn-sm btn-outline-success bill-filter-btn" data-filter="paid" type="button" style="color: black;">
+                    <button class="btn btn-sm btn-filter bill-filter-btn" data-filter="paid" type="button">
                         <?= __('Paid') ?>
                     </button>
-                    <button class="btn btn-sm btn-outline-secondary bill-filter-btn" data-filter="all" type="button" style="color: black;">
+                    <button class="btn btn-sm btn-filter bill-filter-btn" data-filter="all" type="button">
                         <?= __('All') ?>
                     </button>
                 </div>
@@ -75,7 +75,7 @@ if (!$allowViewBills) {
                                         <td><span class="badge bg-<?= h($bill->statusHtml) ?>"><?= h($bill->statusString) ?></span></td>
                                         <td><?= h($bill->due_date) ?></td>
                                         <td class="actions">
-                                            <div class="icon" style="width: 90px">
+                                            <div class="icon bill-actions-icon">
                                                 <?= ($curRole->BillEditAll && !$bill->paid) || $curRole->Admin ? $this->Html->link('<i class="gg-pen"></i>', ['controller' => 'Bills', 'action' => 'edit', $bill->id], ['escape' => false]) : '' ?>
                                                 <?= $this->Html->link('<i class="gg-file-document"></i>', $bill->BillUrl, ['target' => '_blank', 'escape' => false, 'title' => __('Download PDF')]) ?>
                                             </div>
@@ -105,7 +105,7 @@ if (!$allowViewBills) {
                                                 ?>
                                         </h6>
                                         <span class="badge bg-<?= h($bill->statusHtml) ?>"><?= h($bill->statusString) ?></span>
-                                        <div class="icon" style="width: 90px">
+                                        <div class="icon bill-actions-icon">
                                             <?= ($curRole->BillEditAll && !$bill->paid) || $curRole->Admin ? $this->Html->link('<i class="gg-pen"></i>', ['controller' => 'Bills', 'action' => 'edit', $bill->id], ['escape' => false]) : '' ?>
                                             <?= $this->Html->link('<i class="gg-file-document"></i>', $bill->BillUrl, ['target' => '_blank', 'escape' => false, 'title' => __('Download PDF')]) ?>
                                         </div>
@@ -133,7 +133,7 @@ if (!$allowViewBills) {
                     </div>
 
                     <!-- No results message (hidden by default) -->
-                    <div id="no-bills-message" class="alert alert-info" role="alert" style="display: none;">
+                    <div id="no-bills-message" class="alert alert-info" role="alert" hidden>
                         <span id="no-bills-text"></span>
                     </div>
                 <?php else: ?>
@@ -180,59 +180,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     break;
             }
             
+            row.hidden = !shouldShow;
             if (shouldShow) {
-                row.style.display = '';
                 visibleCount++;
-            } else {
-                row.style.display = 'none';
             }
         });
         
         // Show/hide no results message
         if (visibleCount === 0 && billRows.length > 0) {
             noBillsText.textContent = messages[filter];
-            noBillsMessage.style.display = 'block';
+            noBillsMessage.hidden = false;
         } else {
-            noBillsMessage.style.display = 'none';
+            noBillsMessage.hidden = true;
         }
     }
 
     function updateButtonStyles(activeFilter) {
         filterButtons.forEach(function(btn) {
-            const filter = btn.getAttribute('data-filter');
-            btn.className = 'btn btn-sm bill-filter-btn';
-            
-            if (filter === activeFilter) {
-                switch(filter) {
-                    case 'open':
-                        btn.classList.add('btn-primary');
-                        btn.style.color = '';  // Remove custom color for active state
-                        break;
-                    case 'paid':
-                        btn.classList.add('btn-success');
-                        btn.style.color = '';  // Remove custom color for active state
-                        break;
-                    case 'all':
-                        btn.classList.add('btn-secondary');
-                        btn.style.color = '';  // Remove custom color for active state
-                        break;
-                }
-            } else {
-                switch(filter) {
-                    case 'open':
-                        btn.classList.add('btn-outline-primary');
-                        btn.style.color = 'black';  // Bootstrap primary color
-                        break;
-                    case 'paid':
-                        btn.classList.add('btn-outline-success');
-                        btn.style.color = 'black';  // Bootstrap success color
-                        break;
-                    case 'all':
-                        btn.classList.add('btn-outline-secondary');
-                        btn.style.color = 'black';  // Bootstrap secondary color
-                        break;
-                }
-            }
+            btn.classList.toggle('pressed', btn.getAttribute('data-filter') === activeFilter);
         });
     }
 

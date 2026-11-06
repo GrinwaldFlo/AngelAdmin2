@@ -20,7 +20,7 @@ $this->Html->script('mailings', ['block' => true, 'defer' => true]);
         <?= $this->Form->control('team_ids', ['type' => 'select', 'multiple' => 'checkbox', 'options' => $teams, 'value' => $teamIds, 'label' => __('Teams')]) ?>
       </fieldset>
       <p class="ml-muted"><?= __('The emails are prepared on the next page, where you can start sending them.') ?></p>
-      <?= $this->Form->button(__('Next')) ?>
+      <?= $this->Form->button(__('Next'), ['class' => 'btn btn-save']) ?>
       <?= $this->Form->end() ?>
     </div>
   </div>

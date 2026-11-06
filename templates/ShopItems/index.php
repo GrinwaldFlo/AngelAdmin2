@@ -2,52 +2,52 @@
 /**
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\ShopItem> $shopItems
+ * @var \App\Model\Entity\Site|null $shopSite
  */
+$this->Html->css('shop', ['block' => true]);
 ?>
 <div class="shopItems index content">
-    <?= $this->Html->link('', ['action' => 'add'], ['class' => 'float-end gg-add-r']) ?>
-    <h3><?= __('Shop Items') ?></h3>
+    <?= $this->Html->link('', ['action' => 'add'], ['class' => 'float-end gg-add-r', 'title' => __('New Shop Item')]) ?>
+    <?= $this->element('Shop/title', ['title' => __('Shop Items'), 'shopSite' => $shopSite]) ?>
     <div class="table-responsive">
-        <table class="table table-striped">
+        <table class="table table-striped shop-table">
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('label') ?></th>
                     <th><?= $this->Paginator->sort('price') ?></th>
                     <th><?= $this->Paginator->sort('category') ?></th>
+                    <th class="shop-th-text"><?= __('Attributes') ?></th>
                     <th><?= $this->Paginator->sort('active') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
+                    <th><?= $this->Paginator->sort('allow_out_of_stock', __('Out of stock')) ?></th>
+                    <th class="shop-th-text actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($shopItems as $shopItem): ?>
                     <tr>
-                        <td><?= $this->Number->format($shopItem->id) ?></td>
-                        <td><?= h($shopItem->label) ?></td>
+                        <td class="shop-cell-muted"><?= $this->Number->format($shopItem->id) ?></td>
+                        <td class="shop-cell-main"><?= h($shopItem->label) ?></td>
                         <td><?= $this->Number->currency($shopItem->price, 'CHF') ?></td>
-                        <td><?= h($shopItem->category_label) ?></td>
-                        <td><?= $shopItem->active ? __('Yes') : __('No'); ?></td>
-                        <td><?= h($shopItem->created) ?></td>
-                        <td class="actions">
-                            <?= $this->Html->link('visibility', ['action' => 'view', $shopItem->id], ['class' => 'material-icons']) ?>
-                            <?= $this->Html->link('edit', ['action' => 'edit', $shopItem->id], ['class' => 'material-icons']) ?>
-                            <?= $this->Form->postLink('delete', ['action' => 'delete', $shopItem->id], ['confirm' => __('Are you sure you want to delete # {0}?', $shopItem->id), 'class' => 'material-icons-outlined btn-outline-danger']) ?>
+                        <td class="shop-cell-muted"><?= h($shopItem->category_label) ?></td>
+                        <td><?= $this->element('Shop/attributes', ['attributes' => $shopItem->getAttributeList()]) ?></td>
+                        <td>
+                            <span class="badge <?= $shopItem->active ? 'bg-success' : 'bg-secondary' ?>"><?= $shopItem->active ? __('Active') : __('Inactive') ?></span>
+                        </td>
+                        <td>
+                            <?php if ($shopItem->allow_out_of_stock): ?>
+                                <span class="badge bg-info"><?= __('Can be ordered when out of stock') ?></span>
+                            <?php endif; ?>
+                        </td>
+                        <td class="actions shop-actions">
+                            <?= $this->my->iconLink('visibility', ['action' => 'view', $shopItem->id], __('View')) ?>
+                            <?= $this->my->iconLink('edit', ['action' => 'edit', $shopItem->id], __('Edit')) ?>
+                            <?= $this->my->iconPostLink('delete', ['action' => 'delete', $shopItem->id], __('Delete'), ['confirm' => __('Are you sure you want to delete # {0}?', $shopItem->id), 'class' => 'icon-btn-delete']) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
-    </div>
+    <?= $this->element('Shop/paginator') ?>
 </div>
-

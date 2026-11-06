@@ -27,7 +27,7 @@ trait TestDataTrait
      */
     private static array $roleRights = [
         'MemberViewAll', 'MemberEditAll', 'MemberEditOwn', 'BillViewAll', 'BillEditAll',
-        'BillValidate', 'Admin', 'Editor', 'TeamScoped',
+        'BillValidate', 'Admin', 'Editor', 'TeamScoped', 'ShopManager',
     ];
 
     protected function addTeam(int $id, string $name = '', bool $active = true, int $siteId = 1): void
@@ -83,6 +83,55 @@ trait TestDataTrait
             ->insert(array_keys($values))
             ->values($values)
             ->execute();
+    }
+
+    /**
+     * Site (city), the fixture has the site 1
+     * @param array $fields columns overriding the default values
+     */
+    protected function addSite(int $id, string $city = '', array $fields = []): void
+    {
+        $values = $fields + [
+            'id' => $id, 'city' => $city ?: 'City' . $id, 'feeMax' => 1, 'reminder_penalty' => 0,
+            'sender_email' => "site$id@example.com", 'sender' => 'Sender' . $id,
+        ];
+        $this->getTableLocator()->get('Sites')->insertQuery()
+            ->insert(array_keys($values))
+            ->values($values)
+            ->execute();
+    }
+
+    /**
+     * Active shop item of 20.- (equipment)
+     * @param array $fields fields overriding the default values (e.g. 'attributes' => "S\nM", 'site_id', 'allow_out_of_stock')
+     * @return int id of the item
+     */
+    protected function addShopItem(string $label, array $fields = []): int
+    {
+        $items = $this->getTableLocator()->get('ShopItems');
+        $item = $items->newEntity($fields + ['label' => $label, 'price' => 20, 'category' => 3, 'active' => true], ['accessibleFields' => ['site_id' => true]]);
+
+        return $items->saveOrFail($item)->id;
+    }
+
+    /**
+     * Stock of a shop item and attribute ('' = item without attribute)
+     */
+    protected function setShopStock(int $itemId, string $attribute, int $quantity, int $onOrder = 0): void
+    {
+        $stocks = $this->getTableLocator()->get('ShopStocks');
+        $stock = $stocks->getFor($itemId, $attribute);
+        $stock->quantity = $quantity;
+        $stock->on_order = $onOrder;
+        $stocks->saveOrFail($stock);
+    }
+
+    /**
+     * Quantity in stock of a shop item and attribute
+     */
+    protected function shopStock(int $itemId, string $attribute = ''): int
+    {
+        return $this->getTableLocator()->get('ShopStocks')->getFor($itemId, $attribute)->quantity;
     }
 
     protected function addCoach(int $teamId, int $memberId, int $type = TeamsCoach::COACH): void

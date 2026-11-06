@@ -14,7 +14,7 @@
         border-radius: 0;
         box-shadow: none;
         /* Add visual separation */
-        border-left: 3px solid #9b4dca;
+        border-left: 3px solid var(--aa-brand);
         margin-left: 1rem;
         padding-left: 0.5rem;
     }
@@ -44,7 +44,7 @@
     
     /* Style dropdown toggle for mobile */
     .navbar-collapse .dropdown-toggle {
-        border-bottom: 1px solid #dee2e6;
+        border-bottom: 1px solid var(--aa-border);
         margin-bottom: 0.25rem;
         padding-bottom: 0.5rem;
     }

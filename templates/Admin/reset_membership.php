@@ -19,5 +19,5 @@
         <?php endforeach; ?>
       </tbody>
     </table>
-    <?= $this->Form->postLink(__('Reset membership fees').' !', ['action' => 'resetMembership', $resetValidation], ['class' => 'btn btn-primary btn-sm']) ?>
+    <?= $this->Form->postLink(__('Reset membership fees').' !', ['action' => 'resetMembership', $resetValidation], ['class' => 'btn btn-bulk btn-sm']) ?>
 </div>

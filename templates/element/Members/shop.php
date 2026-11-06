@@ -3,64 +3,79 @@
  * Member Shop Section Element
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Member $member
- * @var array $shopItems
+ * @var array $shopOffer items the member can order with their available attributes (see ShopOrderComponent::offer())
  * @var bool $isOwn
  */
 
-if (empty($shopItems) || !$isOwn || sizeof($shopItems) == 0) {
+if (empty($shopOffer) || !$isOwn) {
     return;
 }
 
-if(!$member->registered)
-{
-    echo __("You must be registered to place an order.");
+if (!$member->registered) {
+    echo __('You must be registered to place an order.');
     return;
 }
 
-if($member->late_bills_sum > 150)
-{
-    echo __("You have too many overdue bills to place a new order.");
-    return;    
+if ($member->late_bills_sum > 150) {
+    echo __('You have too many overdue bills to place a new order.');
+    return;
 }
 
+$this->Html->css('shop', ['block' => true]);
 
 // Determine the correct form action based on current context
 $currentAction = $this->request->getParam('action');
 $formUrl = ($currentAction === 'myPage') ? ['action' => 'my-page'] : ['action' => 'view', $member->id];
+$texts = [
+    'empty' => __('Please select at least one item to order.'),
+    'confirm' => __('Please confirm your order:'),
+    'total' => __('Total amount: CHF {0}', ''),
+    'question' => __('Do you want to place this order?'),
+];
 ?>
 <div class="row px-0 mx-0">
     <div class="col px-0 mx-0">
         <div class="members view content">
             <h4>
-                <a class="btn btn-primary pt-1 px-1" data-bs-toggle="collapse" href="#shopSection" role="button" aria-expanded="false" aria-controls="shopSection">
+                <a class="btn btn-filter pt-1 px-1" data-bs-toggle="collapse" href="#shopSection" role="button" aria-expanded="false" aria-controls="shopSection">
                     <?= $this->my->icon("shopping_cart") ?>
                 </a>
             </h4>
             <div class="collapse" id="shopSection">
                 <div class="card card-body">
-                    <?= $this->Form->create(null, ['url' => $formUrl, 'id' => 'shop-order-form']) ?>
-                    <div class="row">
-                        <?php foreach ($shopItems as $item): ?>
-                            <div class="col-md-6 col-lg-3 m-0 p-0">
-                                <div class="card">
+                    <?= $this->Form->create(null, ['url' => $formUrl, 'id' => 'shop-order-form', 'data-texts' => json_encode($texts)]) ?>
+                    <div class="row g-2">
+                        <?php foreach ($shopOffer as $entry): ?>
+                            <?php $item = $entry['item']; ?>
+                            <div class="col-12 col-sm-6 col-lg-3">
+                                <div class="card h-100">
                                     <div class="card-body">
                                         <h5 class="card-title"><?= h($item->label) ?></h5>
                                         <p class="card-text">
-                                            <span class="fw-bold" data-price="<?= $item->price ?>"><?= $this->Number->currency($item->price, 'CHF') ?></span>
+                                            <span class="fw-bold"><?= $this->Number->currency($item->price, 'CHF') ?></span>
                                         </p>
-                                        <div class="m-0">
-                                            <div class="input-group input-group-sm">
-                                                <span class="input-group-text"><?= __('Quantity') ?></span>
-                                                <input type="number"
-                                                    name="shop_order[<?= $item->id ?>]"
-                                                    min="0"
-                                                    max="10"
-                                                    value="0"
-                                                    class="form-control quantity-input"
-                                                    data-price="<?= $item->price ?>"
-                                                    data-label="<?= h($item->label) ?>"
-                                                    id="shop-order-<?= $item->id ?>" />
-                                            </div>
+                                        <div class="shop-options">
+                                            <?php foreach ($entry['options'] as $option): ?>
+                                                <?php
+                                                $name = $option['key'] === null ? "shop_order[{$item->id}]" : "shop_order[{$item->id}][{$option['key']}]";
+                                                $inputId = 'shop-order-' . $item->id . ($option['key'] === null ? '' : '-' . $option['key']);
+                                                ?>
+                                                <div class="input-group input-group-sm shop-option">
+                                                    <label class="input-group-text shop-option-label" for="<?= h($inputId) ?>">
+                                                        <?= $option['attribute'] === null ? __('Quantity') : h($option['attribute']) ?>
+                                                    </label>
+                                                    <input type="number"
+                                                        name="<?= h($name) ?>"
+                                                        min="0"
+                                                        max="<?= (int)$option['max'] ?>"
+                                                        value="0"
+                                                        inputmode="numeric"
+                                                        class="form-control quantity-input"
+                                                        data-price="<?= h($item->price) ?>"
+                                                        data-label="<?= h($item->labelWith($option['attribute'])) ?>"
+                                                        id="<?= h($inputId) ?>" />
+                                                </div>
+                                            <?php endforeach; ?>
                                         </div>
                                     </div>
                                 </div>
@@ -68,14 +83,14 @@ $formUrl = ($currentAction === 'myPage') ? ['action' => 'my-page'] : ['action' =
                         <?php endforeach; ?>
                     </div>
                     <div class="mt-3">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div id="order-total" class="h5 text-primary" style="display: none;">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-12 col-md-6">
+                                <div id="order-total" class="h5 text-primary d-none">
                                     <?= __('Total: {0}', '<span id="total-amount">CHF 0.00</span>') ?>
                                 </div>
                             </div>
-                            <div class="col-md-6 text-end">
-                                <?= $this->Form->button(__('Place Order'), ['class' => 'btn btn-primary', 'id' => 'place-order-btn', 'type' => 'button']) ?>
+                            <div class="col-12 col-md-6 text-md-end">
+                                <?= $this->Form->button(__('Place Order'), ['class' => 'btn btn-save shop-order-button', 'id' => 'place-order-btn', 'type' => 'button']) ?>
                             </div>
                         </div>
                     </div>
@@ -87,75 +102,61 @@ $formUrl = ($currentAction === 'myPage') ? ['action' => 'my-page'] : ['action' =
 </div>
 
 <script>
-$(document).ready(function() {
-    // Update total when quantity changes
-    $('.quantity-input').on('input change', function() {
-        updateOrderTotal();
-    });
+document.addEventListener('DOMContentLoaded', function () {
+    var form = document.getElementById('shop-order-form');
+    if (!form) {
+        return;
+    }
+    var texts = JSON.parse(form.dataset.texts);
+    var inputs = form.querySelectorAll('.quantity-input');
 
-    // Handle place order button click
-    $('#place-order-btn').on('click', function() {
-        var orderItems = [];
-        var totalAmount = 0;
-
-        $('.quantity-input').each(function() {
-            var quantity = parseInt($(this).val()) || 0;
+    // Ordered lines: label, quantity and total of each quantity above 0
+    function orderLines() {
+        var lines = [];
+        inputs.forEach(function (input) {
+            var quantity = parseInt(input.value, 10) || 0;
             if (quantity > 0) {
-                var price = parseFloat($(this).data('price'));
-                var label = $(this).data('label');
-                var itemTotal = price * quantity;
-
-                orderItems.push({
-                    label: label,
-                    quantity: quantity,
-                    price: price,
-                    total: itemTotal
-                });
-
-                totalAmount += itemTotal;
+                var price = parseFloat(input.dataset.price);
+                lines.push({label: input.dataset.label, quantity: quantity, total: price * quantity});
             }
         });
+        return lines;
+    }
 
-        if (orderItems.length === 0) {
-            alert('<?= __('Please select at least one item to order.') ?>');
+    function orderTotal(lines) {
+        return lines.reduce(function (sum, line) { return sum + line.total; }, 0);
+    }
+
+    function updateOrderTotal() {
+        var lines = orderLines();
+        document.getElementById('total-amount').textContent = 'CHF ' + orderTotal(lines).toFixed(2);
+        document.getElementById('order-total').classList.toggle('d-none', lines.length === 0);
+    }
+
+    inputs.forEach(function (input) {
+        input.addEventListener('input', updateOrderTotal);
+        input.addEventListener('change', updateOrderTotal);
+    });
+
+    document.getElementById('place-order-btn').addEventListener('click', function () {
+        var lines = orderLines();
+        if (lines.length === 0) {
+            alert(texts.empty);
             return;
         }
 
-        // Build confirmation message
-        var confirmMessage = '<?= __('Please confirm your order:') ?>\n\n';
-        orderItems.forEach(function(item) {
-            confirmMessage += item.label + ' x' + item.quantity + ' = CHF ' + item.total.toFixed(2) + '\n';
+        var message = texts.confirm + '\n\n';
+        lines.forEach(function (line) {
+            message += line.label + ' x' + line.quantity + ' = CHF ' + line.total.toFixed(2) + '\n';
         });
-        confirmMessage += '\n<?= __('Total amount: CHF {0}', '') ?>' + totalAmount.toFixed(2);
-        confirmMessage += '\n\n<?= __('Do you want to place this order?') ?>';
+        message += '\n' + texts.total + orderTotal(lines).toFixed(2);
+        message += '\n\n' + texts.question;
 
-        if (confirm(confirmMessage)) {
-            $('#shop-order-form').submit();
+        if (confirm(message)) {
+            form.submit();
         }
     });
 
-    function updateOrderTotal() {
-        var total = 0;
-        var hasItems = false;
-
-        $('.quantity-input').each(function() {
-            var quantity = parseInt($(this).val()) || 0;
-            if (quantity > 0) {
-                var price = parseFloat($(this).data('price'));
-                total += price * quantity;
-                hasItems = true;
-            }
-        });
-
-        if (hasItems) {
-            $('#total-amount').text('CHF ' + total.toFixed(2));
-            $('#order-total').show();
-        } else {
-            $('#order-total').hide();
-        }
-    }
-
-    // Initial calculation
     updateOrderTotal();
 });
 </script>

@@ -225,14 +225,14 @@ class SecondHandTest extends TestCase
         $this->assertResponseContains('/second-hand/view/1?category=1"');
         $this->assertResponseNotContains('/second-hand/view/2');
         // First of the list: previous is disabled, not hidden
-        $this->assertResponseContains('<a class="btn btn-primary btn-sm disabled" aria-disabled="true">&lt; ');
+        $this->assertResponseContains('<a class="btn btn-nav btn-sm disabled" aria-disabled="true">&lt; ');
 
         $this->get('/second-hand/view/1?category=1');
         $this->assertResponseContains('/second-hand/view/3?category=1"');
 
         // From the whole list, all the categories
         $this->get('/second-hand/view/3');
-        $this->assertResponseContains('href="/second-hand" class="btn btn-secondary');
+        $this->assertResponseContains('href="/second-hand" class="btn btn-nav');
         $this->assertResponseContains('/second-hand/view/2"');
         $this->get('/second-hand/view/2');
         $this->assertResponseContains('/second-hand/view/3"');
@@ -584,6 +584,23 @@ class SecondHandTest extends TestCase
         $this->loginWith(['MemberViewAll']);
         $this->get('/second-hand-admin');
         $this->assertRedirect('/');
+    }
+
+    /**
+     * The merchandising manager administrates the second-hand without being admin
+     */
+    public function testAdminPageForTheMerchandisingManager(): void
+    {
+        $this->addProfile(1, 101);
+        $this->addItem(1, 1);
+        $this->loginWith(['ShopManager']);
+
+        $this->get('/second-hand-admin');
+        $this->assertResponseOk();
+        $this->get('/second-hand-admin/items-log');
+        $this->assertResponseOk();
+        $this->post('/second-hand-admin/delete-item/1');
+        $this->assertFalse($this->getTableLocator()->get('SecondHandItems')->exists(['id' => 1]));
     }
 
     public function testAdminSettingsAreSavedInConfigurations(): void

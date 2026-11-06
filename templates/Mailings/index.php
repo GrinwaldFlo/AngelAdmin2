@@ -11,9 +11,9 @@ $this->Html->css('mailings', ['block' => true]);
 <div class="mailings index content">
   <div class="float-end ml-actions">
     <?php if ($canSendByBill) : ?>
-      <?= $this->Html->link(__('New email by bill'), ['action' => 'addByBill'], ['class' => 'button button-outline']) ?>
+      <?= $this->Html->link(__('New email by bill'), ['action' => 'addByBill'], ['class' => 'btn btn-add btn-sm']) ?>
     <?php endif; ?>
-    <?= $this->Html->link(__('New email'), ['action' => 'add'], ['class' => 'button']) ?>
+    <?= $this->Html->link(__('New email'), ['action' => 'add'], ['class' => 'btn btn-add btn-sm']) ?>
   </div>
   <h3><?= __('Emails to teams') ?></h3>
   <table class="table table-striped table-hover table-sm">

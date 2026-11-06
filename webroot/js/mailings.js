@@ -35,8 +35,8 @@
     function setRunning(value) {
       running = value;
       button.textContent = value ? button.dataset.labelStop : button.dataset.labelStart;
-      button.classList.toggle('btn-primary', !value);
-      button.classList.toggle('btn-danger', value);
+      button.classList.toggle('btn-bulk', !value);
+      button.classList.toggle('btn-delete', value);
       delay.disabled = value;
       // A mailing cannot be deleted while it is sent
       if (deleteBox) {

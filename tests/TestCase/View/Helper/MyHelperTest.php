@@ -254,7 +254,7 @@ class MyHelperTest extends TestCase
 
         $this->assertSame(3, substr_count($html, '<a '));
         // Pressed filter links back to no filter
-        $this->assertStringContainsString('href="/members/index/2/0" class="btn btn-primary btn-sm pressed"', $html);
+        $this->assertStringContainsString('href="/members/index/2/0" class="btn btn-filter btn-sm pressed"', $html);
         $this->assertStringContainsString('href="/members/index/2/3"', $html);
     }
 
@@ -279,7 +279,7 @@ class MyHelperTest extends TestCase
         $html = $this->My->teamLinks($pref, 'index');
 
         $this->assertStringContainsString('>A &amp; B</a>', $html);
-        $this->assertStringContainsString('href="/members/index/0/1" class="btn btn-primary btn-sm pressed"', $html);
+        $this->assertStringContainsString('href="/members/index/0/1" class="btn btn-filter btn-sm pressed"', $html);
         $this->assertStringContainsString('href="/members/index/3/1"', $html);
     }
 
@@ -295,5 +295,23 @@ class MyHelperTest extends TestCase
             $this->assertStringNotContainsString('<script>', $html);
             $this->assertStringContainsString('&lt;script&gt;', $html);
         }
+    }
+
+    public function testIconLink(): void
+    {
+        $html = $this->My->iconLink('visibility', '/shop-items/view/1', 'Vue "x"');
+
+        $this->assertSame('<a href="/shop-items/view/1" class="icon-btn" title="Vue &quot;x&quot;" aria-label="Vue &quot;x&quot;">visibility</a>', $html);
+    }
+
+    public function testIconPostLinkAddsTheClassAndKeepsTheConfirm(): void
+    {
+        $html = $this->My->iconPostLink('delete', '/shop-items/delete/1', 'Delete', ['class' => 'icon-btn-delete', 'confirm' => 'Sure?']);
+
+        $this->assertStringContainsString('class="icon-btn icon-btn-delete"', $html);
+        $this->assertStringContainsString('title="Delete" aria-label="Delete"', $html);
+        $this->assertStringContainsString('Sure?', $html);
+        $this->assertStringContainsString('>delete</a>', $html);
+        $this->assertStringContainsString('action="/shop-items/delete/1"', $html);
     }
 }

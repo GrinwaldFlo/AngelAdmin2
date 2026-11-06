@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\ShopItem;
+use ArrayObject;
+use Cake\Event\EventInterface;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -12,6 +15,8 @@ use Cake\Validation\Validator;
  * ShopItems Model
  *
  * @property \App\Model\Table\MemberOrdersTable&\Cake\ORM\Association\HasMany $MemberOrders
+ * @property \App\Model\Table\ShopStocksTable&\Cake\ORM\Association\HasMany $ShopStocks
+ * @property \App\Model\Table\SitesTable&\Cake\ORM\Association\BelongsTo $Sites
  *
  * @method \App\Model\Entity\ShopItem newEmptyEntity()
  * @method \App\Model\Entity\ShopItem newEntity(array $data, array $options = [])
@@ -37,6 +42,11 @@ class ShopItemsTable extends Table
     public const CATEGORY_EQUIPMENT = 3;
 
     /**
+     * Maximum length of an attribute (as member_orders.attribute and shop_stocks.attribute)
+     */
+    public const ATTRIBUTE_MAX_LENGTH = 100;
+
+    /**
      * Initialize method
      *
      * @param array $config The configuration for the Table.
@@ -55,6 +65,24 @@ class ShopItemsTable extends Table
         $this->hasMany('MemberOrders', [
             'foreignKey' => 'shop_item_id',
         ]);
+        $this->hasMany('ShopStocks', [
+            'foreignKey' => 'shop_item_id',
+            'dependent' => true,
+        ]);
+        $this->belongsTo('Sites', [
+            'foreignKey' => 'site_id',
+        ]);
+    }
+
+    /**
+     * The attributes are saved cleaned, one per line (null = none)
+     */
+    public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options): void
+    {
+        if (isset($data['attributes']) && is_string($data['attributes'])) {
+            $list = ShopItem::parseAttributes($data['attributes']);
+            $data['attributes'] = $list === [] ? null : implode("\n", $list);
+        }
     }
 
     /**
@@ -87,6 +115,18 @@ class ShopItemsTable extends Table
             ->boolean('active')
             ->notEmptyString('active');
 
+        $validator
+            ->scalar('attributes')
+            ->allowEmptyString('attributes')
+            ->add('attributes', 'lineLength', [
+                'rule' => fn($value) => max(array_map('mb_strlen', ShopItem::parseAttributes($value)) ?: [0]) <= self::ATTRIBUTE_MAX_LENGTH,
+                'message' => __('An attribute can have at most {0} characters.', self::ATTRIBUTE_MAX_LENGTH),
+            ]);
+
+        $validator
+            ->boolean('allow_out_of_stock')
+            ->notEmptyString('allow_out_of_stock');
+
         return $validator;
     }
 
@@ -95,6 +135,7 @@ class ShopItemsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
+        $rules->add($rules->existsIn('site_id', 'Sites'), ['errorField' => 'site_id']);
         $rules->addDelete($rules->isNotLinkedTo('MemberOrders', 'member_orders', __('This item has orders, disable it instead.')));
 
         return $rules;
@@ -131,7 +172,25 @@ class ShopItemsTable extends Table
      */
     public function findActive(Query $query, array $options): Query
     {
-        return $query->where(['active' => true]);
+        return $query->where(['ShopItems.active' => true]);
+    }
+
+    /**
+     * Items of a city
+     */
+    public function findInSite(Query $query, int $siteId): Query
+    {
+        return $query->where(['ShopItems.site_id' => $siteId]);
+    }
+
+    /**
+     * Items of a city for a select, sorted by label
+     *
+     * @return array<int, string> [id => label]
+     */
+    public function listInSite(int $siteId): array
+    {
+        return $this->find('list')->find('inSite', siteId: $siteId)->orderBy(['ShopItems.label' => 'ASC'])->toArray();
     }
 
     /**

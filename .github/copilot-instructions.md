@@ -79,6 +79,9 @@
 - Keep responsive behavior intact on mobile and desktop.
 
 ## CSS and Frontend Good Practices (Important)
+- Follow the style guide page /admin/typography (templates/Admin/typography.php); tokens and action buttons are in webroot/css/theme.css.
+	- Colors through the --aa-* CSS variables, never hardcoded hex values.
+	- One button class per type of action: btn-save, btn-add, btn-edit, btn-delete, btn-nav, btn-export, btn-bulk, btn-filter (+ pressed). See CLAUDE.md for the details.
 - Do not hardcode visual styling in HTML attributes.
 	- Avoid style="..." on elements.
 	- Avoid passing inline style strings in helper options unless absolutely unavoidable.

@@ -10,7 +10,7 @@
       <?= $this->my->memberFilterLinks(['action' => 'list', $teamId], $memberFilter, [1, 2, 3]) ?>
       |
       <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'list', $teamId == $key ? 0 : $key, $memberFilter], ['class' => 'btn btn-primary btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+        <?= $this->Html->link(h($team), ['action' => 'list', $teamId == $key ? 0 : $key, $memberFilter], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>

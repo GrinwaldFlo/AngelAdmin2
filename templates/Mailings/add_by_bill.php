@@ -22,7 +22,7 @@ $withEmail = array_filter($recipients, fn ($member) => trim((string)$member->ema
         <div class="ml-search">
           <?= $this->Form->control('bill_label', ['label' => __('Text in the bill label'), 'maxlength' => 200, 'value' => $search,
             'placeholder' => __('e.g. {0}', 'Uniforme 2025')]) ?>
-          <?= $this->Form->button(__('Search'), ['name' => 'step', 'value' => 'search', 'class' => 'button-outline']) ?>
+          <?= $this->Form->button(__('Search'), ['name' => 'step', 'value' => 'search', 'class' => 'btn btn-filter']) ?>
         </div>
 
         <?php if ($search !== '') : ?>
@@ -68,7 +68,7 @@ $withEmail = array_filter($recipients, fn ($member) => trim((string)$member->ema
         <?= $this->element('Mailings/compose', compact('placeholders')) ?>
       </fieldset>
       <p class="ml-muted"><?= __('The emails are prepared on the next page, where you can start sending them.') ?></p>
-      <?= $this->Form->button(__('Next'), ['name' => 'step', 'value' => 'next']) ?>
+      <?= $this->Form->button(__('Next'), ['name' => 'step', 'value' => 'next', 'class' => 'btn btn-save']) ?>
       <?= $this->Form->end() ?>
     </div>
   </div>

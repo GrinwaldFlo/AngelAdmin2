@@ -14,8 +14,8 @@
           echo $this->Form->control('member_id', ['value' => $value->member->id, 'type' => 'hidden']);
           ?>
         </fieldset>
-        <?= $this->Form->button(__('Validate')) ?>
-        <?= $this->Form->button(__('Delete'), ['name' => 'Delete', 'value' => 'Delete']) ?>
+        <?= $this->Form->button(__('Validate'), ['class' => 'btn btn-save']) ?>
+        <?= $this->Form->button(__('Delete'), ['name' => 'Delete', 'value' => 'Delete', 'class' => 'btn btn-delete']) ?>
         <?= $this->Form->end() ?>
       </div>
     </div>

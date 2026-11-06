@@ -54,6 +54,13 @@ class AdminController extends AppController
 
     }
 
+    /**
+     * Style guide of the website (colors, buttons, typography, components), admin only
+     */
+    public function typography()
+    {
+    }
+
     public function resetMembership(int $validation = 0)
     {
         // Shown with GET, the reset itself is a POST
