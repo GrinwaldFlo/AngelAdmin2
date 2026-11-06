@@ -32,8 +32,10 @@
   /* Shapes */
   --aa-radius: 0.4rem;
   --aa-radius-card: 12px;
+  --aa-btn-height: 26px;
+  --aa-btn-height-sm: 22px;
   --aa-touch: 44px;
-  --aa-touch-sm: 2.5rem;
+  --aa-touch-sm: 40px;
 }
 
 /* *********************************************************************************************************
@@ -188,16 +190,28 @@
   --bs-btn-hover-border-color: var(--aa-brand-dark);
 }
 
+/* Button sizes: compact on desktop (26px, 22px for .btn-sm) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--aa-btn-height);
+  line-height: 1.2;
+  padding: 0 0.7rem;
+}
+
+.btn-sm {
+  height: var(--aa-btn-height-sm);
+  padding: 0 0.5rem;
+  font-size: 0.65rem;
+}
+
 /* Touch screens: every button becomes a touch target (44px, 40px for .btn-sm).
-   Same breakpoint as the collapsed navbar (mobile-nav.css), desktop keeps the compact 2rem .btn of cake.css */
+   Same breakpoint as the collapsed navbar (mobile-nav.css) */
 @media (max-width: 991.98px) {
   .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     height: auto;
     min-height: var(--aa-touch);
-    line-height: 1.2;
     padding: 0.5rem 0.9rem;
     font-size: 0.8rem;
   }

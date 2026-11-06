@@ -65,7 +65,7 @@ The root `_*.bat` files are Windows wrappers for the same commands. CI (`.github
     - `btn-export`: PDF, download, print, CSV, email pack.
     - `btn-bulk`: operations on many records or hard to undo (Send all emails, Reset, Generate fees), with a confirm/validation step.
     - `btn-filter` (+ `pressed` on the current one): filters and toggles (teams, member status, periods).
-    - Sizes are responsive: compact 2rem `.btn` on desktop, touch size (44px, 40px for `.btn-sm`) below 992px via `theme.css`. Don't add page-specific button heights; wrap button groups in `.btn-bar` so they wrap on mobile.
+    - Sizes are responsive: compact on desktop (26px, 22px for `.btn-sm`), touch size (44px, 40px for `.btn-sm`) below 992px, all in `theme.css` (`--aa-btn-height*`, `--aa-touch*`). Don't add page-specific button heights; wrap button groups in `.btn-bar` so they wrap on mobile.
     - Never use the Milligram `.button`/`.button-outline` classes nor raw `btn-primary`/`btn-secondary`/`btn-success`/`btn-danger`/`btn-warning`/`btn-info`/`btn-outline-*` (the whole site has been migrated). JS that changes a button's state toggles a class (`pressed`, `btn-bulk`/`btn-delete`), never `style`.
     - Domain-specific button systems (e.g. `mt-btn` in `meetings.css`) are allowed, but their colors come from the `--aa-*` tokens.
   - Table row actions: gg-* icon links (`gg-pen`, `gg-add-r`, `gg-file-document`) in `<td class="actions"><div class="icon">`; other icons via `$this->my->icon()` / `$this->my->symbol()`.

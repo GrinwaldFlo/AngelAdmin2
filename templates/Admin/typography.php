@@ -147,7 +147,7 @@ $statusBadges = [
   <section class="tg-section" id="buttons">
     <h3><?= h($sections['buttons']) ?></h3>
     <p><?= __('Always .btn + one action class. Add .btn-sm in toolbars, filters and table rows. Keep the default size for the submit button of a form.') ?></p>
-    <p><?= __('Sizes are responsive: compact on desktop (2rem), touch size below 992px (44px, 40px for .btn-sm). Resize the window to see it.') ?></p>
+    <p><?= __('Sizes are responsive: compact on desktop (26px, 22px for .btn-sm), touch size below 992px (44px, 40px for .btn-sm). Resize the window to see it.') ?></p>
     <div class="table-responsive">
       <table class="table table-sm table-hover">
         <thead>
