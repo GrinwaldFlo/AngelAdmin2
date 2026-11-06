@@ -10,10 +10,10 @@ $this->Html->css('shop', ['block' => true]);
     <aside class="col-md-3">
         <div class="side-nav shop-side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('Edit Shop Item'), ['action' => 'edit', $shopItem->id], ['class' => 'btn btn-secondary']) ?>
-            <?= $this->Form->postLink(__('Delete Shop Item'), ['action' => 'delete', $shopItem->id], ['confirm' => __('Are you sure you want to delete # {0}?', $shopItem->id), 'class' => 'btn btn-danger']) ?>
-            <?= $this->Html->link(__('List Shop Items'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
-            <?= $this->Html->link(__('New Shop Item'), ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
+            <?= $this->Html->link(__('Edit Shop Item'), ['action' => 'edit', $shopItem->id], ['class' => 'btn btn-edit']) ?>
+            <?= $this->Form->postLink(__('Delete Shop Item'), ['action' => 'delete', $shopItem->id], ['confirm' => __('Are you sure you want to delete # {0}?', $shopItem->id), 'class' => 'btn btn-delete']) ?>
+            <?= $this->Html->link(__('List Shop Items'), ['action' => 'index'], ['class' => 'btn btn-nav']) ?>
+            <?= $this->Html->link(__('New Shop Item'), ['action' => 'add'], ['class' => 'btn btn-add']) ?>
         </div>
     </aside>
     <div class="col-md-9">

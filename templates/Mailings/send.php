@@ -20,7 +20,7 @@ $startLabel = $counts['sent'] + $counts['invalid'] > 0 || !$failedItems->isEmpty
      data-csrf="<?= h($this->request->getAttribute('csrfToken')) ?>"
      data-leave="<?= h(__('Emails are being sent, leaving the page will stop the sending.')) ?>"
      data-network-error="<?= h(__('The server could not be reached. Check your connection and resume.')) ?>">
-  <?= $this->Html->link(__('Emails to teams'), ['action' => 'index'], ['class' => 'button float-end']) ?>
+  <?= $this->Html->link(__('Emails to teams'), ['action' => 'index'], ['class' => 'btn btn-nav btn-sm float-end']) ?>
   <h3><?= h($mailing->title) ?></h3>
   <p class="ml-muted">
     <?= h($mailing->created->i18nFormat('dd.MM.yyyy HH:mm')) ?> · <?= $mailing->isByBill() ? '' : __('Teams') . ': ' ?><?= h($mailing->recipientsLabel()) ?>
@@ -47,7 +47,7 @@ $startLabel = $counts['sent'] + $counts['invalid'] > 0 || !$failedItems->isEmpty
           <option value="<?= $seconds ?>" <?= $seconds == 2 ? 'selected' : '' ?>><?= __('{0} s', $seconds) ?></option>
         <?php endforeach; ?>
       </select>
-      <button type="button" class="btn btn-primary ml-start"
+      <button type="button" class="btn btn-bulk ml-start"
               data-label-start="<?= h($startLabel) ?>"
               data-label-stop="<?= h(__('Stop')) ?>"><?= h($startLabel) ?></button>
     </div>
@@ -56,7 +56,7 @@ $startLabel = $counts['sent'] + $counts['invalid'] > 0 || !$failedItems->isEmpty
   <?php if ($counts['sent'] == 0) : ?>
     <div class="ml-delete">
       <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $mailing->id], [
-        'class' => 'btn btn-danger btn-sm',
+        'class' => 'btn btn-delete btn-sm',
         'confirm' => __('Are you sure you want to delete {0}?', $mailing->title),
       ]) ?>
     </div>

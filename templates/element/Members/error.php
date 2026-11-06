@@ -25,9 +25,9 @@
                 <div class="mt-4">
                     <h5><?= __('What can you do?') ?></h5>
                     <div class="d-grid gap-2 d-md-block">
-                        <?= $this->Html->link(__('Go to Homepage'), ['controller' => 'Pages', 'action' => 'Home'], ['class' => 'btn btn-primary']) ?>
+                        <?= $this->Html->link(__('Go to Homepage'), ['controller' => 'Pages', 'action' => 'Home'], ['class' => 'btn btn-nav']) ?>
                         <?php if (isset($contactEmail)): ?>
-                            <a href="mailto:<?= h($contactEmail) ?>?subject=<?= urlencode(__('Problem accessing personal page')) ?>" class="btn btn-secondary">
+                            <a href="mailto:<?= h($contactEmail) ?>?subject=<?= urlencode(__('Problem accessing personal page')) ?>" class="btn btn-nav">
                                 <?= __('Contact Support') ?>
                             </a>
                         <?php endif; ?>

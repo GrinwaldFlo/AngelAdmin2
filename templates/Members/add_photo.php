@@ -21,7 +21,7 @@
                 <?= $this->Form->file('submittedfile', ['accept' => $acceptedFormats]); ?>
             </fieldset>
             <br />
-            <?= $this->Form->submit(__('Send')); ?>
+            <?= $this->Form->submit(__('Send'), ['class' => 'btn btn-save']); ?>
             <?= $this->Form->end() ?>
             <br />
 

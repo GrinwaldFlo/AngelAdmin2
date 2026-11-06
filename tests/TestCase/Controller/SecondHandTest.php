@@ -225,14 +225,14 @@ class SecondHandTest extends TestCase
         $this->assertResponseContains('/second-hand/view/1?category=1"');
         $this->assertResponseNotContains('/second-hand/view/2');
         // First of the list: previous is disabled, not hidden
-        $this->assertResponseContains('<a class="btn btn-primary btn-sm disabled" aria-disabled="true">&lt; ');
+        $this->assertResponseContains('<a class="btn btn-nav btn-sm disabled" aria-disabled="true">&lt; ');
 
         $this->get('/second-hand/view/1?category=1');
         $this->assertResponseContains('/second-hand/view/3?category=1"');
 
         // From the whole list, all the categories
         $this->get('/second-hand/view/3');
-        $this->assertResponseContains('href="/second-hand" class="btn btn-secondary');
+        $this->assertResponseContains('href="/second-hand" class="btn btn-nav');
         $this->assertResponseContains('/second-hand/view/2"');
         $this->get('/second-hand/view/2');
         $this->assertResponseContains('/second-hand/view/3"');

@@ -12,7 +12,7 @@ $monthStr = [0 => '', 1 => __('January'), 2 => __('February'), 3 => __('March'),
       <?= $this->my->memberFilterLinks(['action' => 'birthdays', $teamId], $memberFilter, [1, 2]) ?>
       |
       <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'birthdays', $teamId == $key ? 0 : $key, $memberFilter], ['class' => 'btn btn-primary btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+        <?= $this->Html->link(h($team), ['action' => 'birthdays', $teamId == $key ? 0 : $key, $memberFilter], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>

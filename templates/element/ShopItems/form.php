@@ -13,9 +13,9 @@ $this->Html->css('shop', ['block' => true]);
         <div class="side-nav shop-side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
             <?php if (!$shopItem->isNew()): ?>
-                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $shopItem->id], ['confirm' => __('Are you sure you want to delete # {0}?', $shopItem->id), 'class' => 'btn btn-danger']) ?>
+                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $shopItem->id], ['confirm' => __('Are you sure you want to delete # {0}?', $shopItem->id), 'class' => 'btn btn-delete']) ?>
             <?php endif; ?>
-            <?= $this->Html->link(__('List Shop Items'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+            <?= $this->Html->link(__('List Shop Items'), ['action' => 'index'], ['class' => 'btn btn-nav']) ?>
         </div>
     </aside>
     <div class="col-md-9">
@@ -48,7 +48,7 @@ $this->Html->css('shop', ['block' => true]);
                 ]);
                 ?>
             </fieldset>
-            <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary']) ?>
+            <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-save']) ?>
             <?= $this->Form->end() ?>
         </div>
     </div>

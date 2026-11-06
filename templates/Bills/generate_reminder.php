@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col">
     <div class="members view content">
-      <?= $this->Html->link(__('Active'), ['action' => 'generate_reminder', $memberStatus == 1 ? 0 : 1], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 1 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Alumni'), ['action' => 'generate_reminder', $memberStatus == 2 ? 0 : 2], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 2 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Active'), ['action' => 'generate_reminder', $memberStatus == 1 ? 0 : 1], ['class' => 'btn btn-filter btn-sm' . ($memberStatus == 1 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Alumni'), ['action' => 'generate_reminder', $memberStatus == 2 ? 0 : 2], ['class' => 'btn btn-filter btn-sm' . ($memberStatus == 2 ? ' pressed' : '')]) ?>
       |
       <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'generate_reminder', $memberStatus, $teamId == $key ? 0 : $key], ['class' => 'btn btn-primary btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+        <?= $this->Html->link(h($team), ['action' => 'generate_reminder', $memberStatus, $teamId == $key ? 0 : $key], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>
@@ -31,6 +31,6 @@
     </tbody>
   </table>
   <?= $this->Form->control('Penalty', ['type' => 'checkbox', 'label' => __('Add penalty fee')]); ?>
-  <?= $this->Form->button(__('Submit')) ?>
+  <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-save']) ?>
   <?= $this->Form->end() ?>
 </div>

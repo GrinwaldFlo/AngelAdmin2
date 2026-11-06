@@ -13,9 +13,9 @@ $this->Html->css('second-hand', ['block' => true]);
     <div class="sh-header">
         <h3><?= __('Second-hand') ?></h3>
         <span>
-            <?= $this->Html->link(__('Log of the items'), ['action' => 'itemsLog'], ['class' => 'btn btn-primary']) ?>
+            <?= $this->Html->link(__('Log of the items'), ['action' => 'itemsLog'], ['class' => 'btn btn-nav']) ?>
             <?php if ($enabled): ?>
-                <?= $this->Html->link(__('Open the second-hand page'), ['controller' => 'SecondHand', 'action' => 'index'], ['class' => 'btn btn-primary']) ?>
+                <?= $this->Html->link(__('Open the second-hand page'), ['controller' => 'SecondHand', 'action' => 'index'], ['class' => 'btn btn-nav']) ?>
             <?php endif; ?>
         </span>
     </div>
@@ -24,7 +24,7 @@ $this->Html->css('second-hand', ['block' => true]);
     <?= $this->Form->create(null, ['url' => ['action' => 'index']]) ?>
     <?= $this->Form->control('enabled', ['type' => 'checkbox', 'checked' => $enabled, 'label' => __('Enable the second-hand page')]) ?>
     <?= $this->Form->control('expiry_months', ['type' => 'number', 'min' => 1, 'max' => 120, 'value' => $months, 'label' => __('Items expire after (months)')]) ?>
-    <?= $this->Form->button(__('Save'), ['class' => 'btn btn-primary']) ?>
+    <?= $this->Form->button(__('Save'), ['class' => 'btn btn-save']) ?>
     <?= $this->Form->end() ?>
 
     <h4 class="sh-section"><?= __('Categories') ?></h4>
@@ -54,7 +54,7 @@ $this->Html->css('second-hand', ['block' => true]);
     <?= $this->Form->create($category, ['url' => ['action' => 'addCategory']]) ?>
     <div class="sh-inline-form">
         <?= $this->Form->control('name', ['label' => false, 'placeholder' => __('New category'), 'required' => true]) ?>
-        <?= $this->Form->button(__('Add'), ['class' => 'btn btn-primary']) ?>
+        <?= $this->Form->button(__('Add'), ['class' => 'btn btn-add']) ?>
     </div>
     <?= $this->Form->end() ?>
 </div>

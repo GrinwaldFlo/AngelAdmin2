@@ -43,8 +43,8 @@
           <?php endforeach; ?>
         </tbody>
       </table>
-      <?= $this->Form->button(__('Save')) ?>
-      <?= $this->Html->link(__('Cancel'), ['action' => 'subventions', $ageFilter], ['class' => 'btn btn-secondary']) ?>
+      <?= $this->Form->button(__('Save'), ['class' => 'btn btn-save']) ?>
+      <?= $this->Html->link(__('Cancel'), ['action' => 'subventions', $ageFilter], ['class' => 'btn btn-nav']) ?>
       <?= $this->Form->end() ?>
     </div>
   </div>

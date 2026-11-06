@@ -11,13 +11,13 @@
     <div class="members view content">
       <?php $memberFilters = $this->my->memberFilterLinks(['action' => 'index', $billStatus], $memberStatus, [1, 2]) ?>
       <?= $memberFilters !== '' ? $memberFilters . '|' : '' ?>
-      <?= $this->Html->link(__('Open'), ['action' => 'index', $billStatus == 1 ? 0 : 1, $memberStatus], ['class' => 'btn btn-primary btn-sm' . ($billStatus == 1 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Late'), ['action' => 'index', $billStatus == 2 ? 0 : 2, $memberStatus], ['class' => 'btn btn-primary btn-sm' . ($billStatus == 2 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Paid'), ['action' => 'index', $billStatus == 3 ? 0 : 3, $memberStatus], ['class' => 'btn btn-primary btn-sm' . ($billStatus == 3 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Draft'), ['action' => 'index', $billStatus == 4 ? 0 : 4, $memberStatus], ['class' => 'btn btn-primary btn-sm' . ($billStatus == 4 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Open'), ['action' => 'index', $billStatus == 1 ? 0 : 1, $memberStatus], ['class' => 'btn btn-filter btn-sm' . ($billStatus == 1 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Late'), ['action' => 'index', $billStatus == 2 ? 0 : 2, $memberStatus], ['class' => 'btn btn-filter btn-sm' . ($billStatus == 2 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Paid'), ['action' => 'index', $billStatus == 3 ? 0 : 3, $memberStatus], ['class' => 'btn btn-filter btn-sm' . ($billStatus == 3 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Draft'), ['action' => 'index', $billStatus == 4 ? 0 : 4, $memberStatus], ['class' => 'btn btn-filter btn-sm' . ($billStatus == 4 ? ' pressed' : '')]) ?>
       |
       <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'index', $billStatus, $memberStatus, $teamId == $key ? 0 : $key], ['class' => 'btn btn-primary btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+        <?= $this->Html->link(h($team), ['action' => 'index', $billStatus, $memberStatus, $teamId == $key ? 0 : $key], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>

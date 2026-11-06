@@ -7,7 +7,7 @@ $this->assign('title', ucfirst($type) . ' Log');
     <a href="<?= $this->Url->build(['action' => 'view_log', 'error']) ?>">Error Log</a> |
     <a href="<?= $this->Url->build(['action' => 'view_log', 'security']) ?>">Security Log</a>
     <?= $this->Form->create(null, ['style' => 'display:inline;']) ?>
-        <button type="submit" class="btn btn-danger">Delete Logs</button>
+        <button type="submit" class="btn btn-delete">Delete Logs</button>
     <?= $this->Form->end() ?>
 </nav>
 <style>

@@ -9,7 +9,7 @@
   <div class="col">
     <div class="members view content">
       <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'generateMembership', $teamId == $key ? 0 : $key], ['class' => 'btn btn-primary btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+        <?= $this->Html->link(h($team), ['action' => 'generateMembership', $teamId == $key ? 0 : $key], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>
@@ -54,8 +54,8 @@
       <?php endforeach; ?>
     </tbody>
   </table>
-  <?= $this->Form->button(__('Submit')) ?>
-  ¦ <div class="btn btn-primary btn-sm" id="CheckAll"><?= __("Check all") ?></div><div class="btn btn-primary btn-sm" id="CheckNone"><?= __("Check none") ?></div>
+  <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-save']) ?>
+  ¦ <div class="btn btn-filter btn-sm" id="CheckAll"><?= __("Check all") ?></div><div class="btn btn-filter btn-sm" id="CheckNone"><?= __("Check none") ?></div>
     <?= $this->Form->end() ?>
 </div>
 

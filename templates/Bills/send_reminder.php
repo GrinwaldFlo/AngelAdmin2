@@ -12,8 +12,8 @@ foreach ($members as $member) {
 <div class="row">
   <div class="col">
     <div class="members view content">
-      <?= $this->Html->link(__('Active'), ['action' => 'send_reminder', $memberStatus == 1 ? 0 : 1], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 1 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Alumni'), ['action' => 'send_reminder', $memberStatus == 2 ? 0 : 2], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 2 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Active'), ['action' => 'send_reminder', $memberStatus == 1 ? 0 : 1], ['class' => 'btn btn-filter btn-sm' . ($memberStatus == 1 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Alumni'), ['action' => 'send_reminder', $memberStatus == 2 ? 0 : 2], ['class' => 'btn btn-filter btn-sm' . ($memberStatus == 2 ? ' pressed' : '')]) ?>
     </div>
   </div>
 </div>
@@ -49,8 +49,8 @@ foreach ($members as $member) {
   <div class="col">
     <div class="members view content">
       <?= $this->Form->control('AcceptSend', ['type' => 'checkbox', 'required' => true, 'label' => __('I am sending emails to all checked members above')]); ?>
-      <?= $this->Form->button(__('Send all emails')) ?>
-      ¦ <div class="btn btn-primary btn-sm" id="CheckAll"><?= __("Check all") ?></div><div class="btn btn-primary btn-sm" id="CheckNone"><?= __("Check none") ?></div>
+      <?= $this->Form->button(__('Send all emails'), ['class' => 'btn btn-bulk']) ?>
+      ¦ <div class="btn btn-filter btn-sm" id="CheckAll"><?= __("Check all") ?></div><div class="btn btn-filter btn-sm" id="CheckNone"><?= __("Check none") ?></div>
         <?= $this->Form->end() ?>
     </div>
   </div>

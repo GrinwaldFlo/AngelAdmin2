@@ -31,14 +31,14 @@ if ($grid):
 <div class="row">
   <div class="col">
     <div class="members view content">
-      <?= $this->Html->link(__("All"), ['action' => 'subventions', 0], ['class' => 'btn btn-primary btn-sm' . ($ageFilter == 0 ? ' pressed' : '')]) ?>   
-      <?= $this->Html->link("<21", ['action' => 'subventions', 21], ['class' => 'btn btn-primary btn-sm' . ($ageFilter == 21 ? ' pressed' : '')]) ?>   
+      <?= $this->Html->link(__("All"), ['action' => 'subventions', 0], ['class' => 'btn btn-filter btn-sm' . ($ageFilter == 0 ? ' pressed' : '')]) ?>   
+      <?= $this->Html->link("<21", ['action' => 'subventions', 21], ['class' => 'btn btn-filter btn-sm' . ($ageFilter == 21 ? ' pressed' : '')]) ?>   
       |
-      <?= $this->Html->link(__("PDF"), ['action' => 'subventions_pdf', $ageFilter], ['class' => 'btn btn-primary btn-sm']) ?>
-      <?= $this->Html->link(__("Grid"), ['action' => 'subventions', $ageFilter, 1], ['class' => 'btn btn-primary btn-sm']) ?>
+      <?= $this->Html->link(__("PDF"), ['action' => 'subventions_pdf', $ageFilter], ['class' => 'btn btn-export btn-sm']) ?>
+      <?= $this->Html->link(__("Grid"), ['action' => 'subventions', $ageFilter, 1], ['class' => 'btn btn-export btn-sm']) ?>
       |
-      <?= $this->Html->link(__("Email pack"), ['action' => 'subventions_email_pack', $ageFilter], ['class' => 'btn btn-primary btn-sm']) ?>
-      <?= $this->Html->link(__("Municipality emails"), ['action' => 'subvention_emails', $ageFilter], ['class' => 'btn btn-primary btn-sm']) ?>
+      <?= $this->Html->link(__("Email pack"), ['action' => 'subventions_email_pack', $ageFilter], ['class' => 'btn btn-export btn-sm']) ?>
+      <?= $this->Html->link(__("Municipality emails"), ['action' => 'subvention_emails', $ageFilter], ['class' => 'btn btn-edit btn-sm']) ?>
     </div>
   </div>
 </div>

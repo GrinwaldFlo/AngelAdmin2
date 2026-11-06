@@ -18,6 +18,6 @@ $this->Html->css('second-hand', ['block' => true]);
     </ul>
     <?= $this->Form->create(null) ?>
     <?= $this->Form->control('accept', ['type' => 'checkbox', 'label' => __('I accept these rules'), 'required' => true]) ?>
-    <?= $this->Form->button(__('Continue'), ['class' => 'btn btn-primary']) ?>
+    <?= $this->Form->button(__('Continue'), ['class' => 'btn btn-save']) ?>
     <?= $this->Form->end() ?>
 </div>

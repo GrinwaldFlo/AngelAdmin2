@@ -18,7 +18,7 @@
         }
         ?>
       </fieldset>
-      <?= $this->Form->button(__('Leave the club')) ?>
+      <?= $this->Form->button(__('Leave the club'), ['class' => 'btn btn-delete']) ?>
       <?= $this->Form->end() ?>
     </div>
   </div>

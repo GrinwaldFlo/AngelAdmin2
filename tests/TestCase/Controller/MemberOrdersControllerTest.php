@@ -102,6 +102,11 @@ class MemberOrdersControllerTest extends TestCase
         $this->assertSame([1, 2, 3], $this->listedIds('/member-orders'));
         $this->assertResponseContains('Shirt');
         $this->assertSame(ShopItemsTable::getCategoryOptions(), $this->viewVariable('categoryOptions'));
+        // Style guide (/admin/typography) button classes: order 1 is delivered, 2 and 3 are not
+        $this->assertResponseContains('btn btn-sm btn-filter pressed');
+        $this->assertResponseContains('btn btn-sm btn-add mo-action-main');
+        $this->assertResponseContains('btn btn-sm btn-delete mo-action-main');
+        $this->assertResponseNotContains('btn-outline-');
     }
 
     public function testIndexFilters(): void
@@ -213,6 +218,8 @@ class MemberOrdersControllerTest extends TestCase
         $this->assertResponseOk();
         $this->assertResponseContains('Trip');
         $this->assertSame(11, $this->viewVariable('memberOrder')->bill->id);
+        $this->assertResponseContains('class="btn btn-add"');
+        $this->assertResponseContains('class="btn btn-nav"');
     }
 
     public function testMarkDeliveredAndNotDelivered(): void

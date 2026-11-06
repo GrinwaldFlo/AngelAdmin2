@@ -55,6 +55,10 @@
   text-decoration: none;
 }
 
+.shop-action-delete {
+  color: var(--aa-danger);
+}
+
 .shop-number {
   text-align: right;
 }

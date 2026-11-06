@@ -19,7 +19,7 @@ $sections = [
     'tables' => __('Tables'),
     'forms' => __('Forms'),
     'layout' => __('Layout and mobile'),
-    'review' => __('Review of the current website'),
+    'review' => __('Don\'t'),
 ];
 
 // [css token, swatch class, name, usage]
@@ -351,26 +351,23 @@ PHP) ?></code></pre>
   <!-- ******************************************************************************************* -->
   <section class="tg-section" id="review">
     <h3><?= h($sections['review']) ?></h3>
-    <p><?= __('Inconsistencies found in the existing templates, to migrate progressively when a page is touched:') ?></p>
+    <p><?= __('Patterns removed from the website when it was migrated to this guide. Do not reintroduce them:') ?></p>
     <ul class="tg-rules">
-      <li><span class="tg-dont"><?= __('Now') ?></span> <?= __('btn-primary is used for everything (filters, edit, quit membership, reset, PDF).') ?>
-        <span class="tg-do"><?= __('Target') ?></span> <?= __('the action class of the table above.') ?></li>
-      <li><span class="tg-dont"><?= __('Now') ?></span> <?= __('filters use "btn btn-primary btn-sm" + pressed (MyHelper::teamLinks, memberFilterLinks, adminButtons, Bills and ShopOrders filters).') ?>
-        <span class="tg-do"><?= __('Target') ?></span> <?= __('"btn btn-filter btn-sm" + pressed.') ?></li>
-      <li><span class="tg-dont"><?= __('Now') ?></span> <?= __('Form->button(__(\'Submit\')) without class renders grey.') ?>
-        <span class="tg-do"><?= __('Target') ?></span> <?= __('[\'class\' => \'btn btn-save\'].') ?></li>
-      <li><span class="tg-dont"><?= __('Now') ?></span> <?= __('"New ..." links use the Milligram class "button" (no color, e.g. Teams, Sites, Users, Roles, Contents, Mailings).') ?>
-        <span class="tg-do"><?= __('Target') ?></span> <?= __('"btn btn-add btn-sm float-end".') ?></li>
-      <li><span class="tg-dont"><?= __('Now') ?></span> <?= __('delete buttons mix btn-danger, btn-outline-danger and btn-primary (reset pages).') ?>
-        <span class="tg-do"><?= __('Target') ?></span> <?= __('btn-delete, and btn-bulk for resets / mass operations.') ?></li>
-      <li><span class="tg-dont"><?= __('Now') ?></span> <?= __('outline buttons need style="color: black" because the global .btn forces white text (Members bills filter).') ?>
-        <span class="tg-do"><?= __('Target') ?></span> <?= __('action classes set their own text color.') ?></li>
-      <li><span class="tg-dont"><?= __('Now') ?></span> <?= __('meetings.css (mt-btn) and admin-dashboard.css have their own primary colors (#7f3fb0, #0d6efd).') ?>
-        <span class="tg-do"><?= __('Target') ?></span> <?= __('take the values from the --aa-* tokens.') ?></li>
-      <li><span class="tg-dont"><?= __('Now') ?></span> <?= __('inline styles remain (maintenance banner in the layout, Members bills filter).') ?>
-        <span class="tg-do"><?= __('Target') ?></span> <?= __('classes.') ?></li>
-      <li><span class="tg-dont"><?= __('Now') ?></span> <?= __('the global .btn is 2rem high (uppercase, 0.7rem): below the 44px touch size on mobile.') ?>
-        <span class="tg-do"><?= __('Target') ?></span> <?= __('.btn-touch on member facing main actions.') ?></li>
+      <li><span class="tg-dont"><?= __('Don\'t') ?></span> <?= __('btn-primary, btn-secondary, btn-success, btn-danger, btn-warning, btn-info or btn-outline-* on buttons.') ?>
+        <span class="tg-do"><?= __('Do') ?></span> <?= __('the action class of the table above.') ?></li>
+      <li><span class="tg-dont"><?= __('Don\'t') ?></span> <?= __('Form->button() or Form->submit() without class (grey btn-secondary).') ?>
+        <span class="tg-do"><?= __('Do') ?></span> <?= __('[\'class\' => \'btn btn-save\'].') ?></li>
+      <li><span class="tg-dont"><?= __('Don\'t') ?></span> <?= __('the Milligram classes "button" and "button-outline".') ?>
+        <span class="tg-do"><?= __('Do') ?></span> <?= __('"btn btn-add btn-sm float-end" for a New ... link.') ?></li>
+      <li><span class="tg-dont"><?= __('Don\'t') ?></span> <?= __('style="color: ..." to fix the text of a button, or set styles from JavaScript.') ?>
+        <span class="tg-do"><?= __('Do') ?></span> <?= __('toggle a class (pressed, hidden attribute).') ?></li>
+      <li><span class="tg-dont"><?= __('Don\'t') ?></span> <?= __('hex colors of the palette in domain CSS files.') ?>
+        <span class="tg-do"><?= __('Do') ?></span> <?= __('var(--aa-*).') ?></li>
+    </ul>
+    <h4><?= __('Still open') ?></h4>
+    <ul class="tg-rules">
+      <li><?= __('Some inline styles remain in templates (widths, member photos, PDF and email templates).') ?></li>
+      <li><?= __('The global .btn is 2rem high (uppercase, 0.7rem): below the 44px touch size on mobile, use .btn-touch on member facing main actions.') ?></li>
     </ul>
   </section>
 </div>

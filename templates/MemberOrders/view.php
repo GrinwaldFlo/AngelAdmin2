@@ -10,11 +10,11 @@
         <div class="side-nav shop-side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
             <?php if (!$memberOrder->delivered): ?>
-                <?= $this->Form->postLink(__('Mark Delivered'), ['action' => 'markDelivered', $memberOrder->id], ['confirm' => __('Mark this order as delivered?'), 'class' => 'btn btn-success']) ?>
+                <?= $this->Form->postLink(__('Mark Delivered'), ['action' => 'markDelivered', $memberOrder->id], ['confirm' => __('Mark this order as delivered?'), 'class' => 'btn btn-add']) ?>
             <?php else: ?>
-                <?= $this->Form->postLink(__('Mark Not Delivered'), ['action' => 'markNotDelivered', $memberOrder->id], ['confirm' => __('Mark this order as not delivered?'), 'class' => 'btn btn-warning']) ?>
+                <?= $this->Form->postLink(__('Mark Not Delivered'), ['action' => 'markNotDelivered', $memberOrder->id], ['confirm' => __('Mark this order as not delivered?'), 'class' => 'btn btn-delete']) ?>
             <?php endif; ?>
-            <?= $this->Html->link(__('List Member Orders'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+            <?= $this->Html->link(__('List Member Orders'), ['action' => 'index'], ['class' => 'btn btn-nav']) ?>
         </div>
     </aside>
     <div class="col-md-9">

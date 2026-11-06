@@ -29,10 +29,10 @@ use Cake\Error\Debugger;
                 <br />
                 <?php if ($curMember->RegistrationStep($config['year']) == 1): ?>
                     <strong><?= __('Please check your contact information') ?></strong>
-                    <?= $this->Form->postLink(__('The information is correct'), ['controller' => 'Members', 'action' => 'checked', $curMember->id], ['class' => 'btn btn-primary btn-sm']) ?>
+                    <?= $this->Form->postLink(__('The information is correct'), ['controller' => 'Members', 'action' => 'checked', $curMember->id], ['class' => 'btn btn-save btn-sm']) ?>
 
                     <?php if (isset($contactEmail)): ?>
-                        <a href="mailto:<?= h($contactEmail) ?>?subject=<?= urlencode(__('Ask for modifications')) ?>" class="btn btn-secondary">
+                        <a href="mailto:<?= h($contactEmail) ?>?subject=<?= urlencode(__('Ask for modifications')) ?>" class="btn btn-nav">
                             <?= __('Ask for modifications') ?>
                         </a>
                     <?php endif; ?>
@@ -55,7 +55,7 @@ use Cake\Error\Debugger;
                 <br /><br />
                 <?php if ($curMember->active): ?>
                     <?= __('But if you would not like to continue') ?>
-                    <?= $this->Html->link(__('Quit membership'), ['controller' => 'Members', 'action' => 'cancelRegistration', $curMember->id], ['class' => 'btn btn-primary btn-sm']); ?>
+                    <?= $this->Html->link(__('Quit membership'), ['controller' => 'Members', 'action' => 'cancelRegistration', $curMember->id], ['class' => 'btn btn-delete btn-sm']); ?>
                 <?php endif; ?>
 
             </div>

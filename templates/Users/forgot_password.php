@@ -10,7 +10,7 @@
       <fieldset>
         <?= $this->Form->control('email_or_username', ['required' => true, 'label' => __('Please enter your email or username')]) ?>
       </fieldset>
-      <?= $this->Form->submit(__('Send')); ?>
+      <?= $this->Form->submit(__('Send'), ['class' => 'btn btn-save']); ?>
       <?= $this->Form->end() ?>
 
       <?= $this->Html->link(__("Register"), ['controller' => 'Members', 'action' => 'register']) ?>

@@ -5,7 +5,7 @@
  */
 ?>
 <div class="billTemplates index content">
-  <?= $this->Html->link(__('New invoice Template'), ['action' => 'add'], ['class' => 'button float-end']) ?>
+  <?= $this->Html->link(__('New invoice Template'), ['action' => 'add'], ['class' => 'btn btn-add btn-sm float-end']) ?>
   <h3><?= __('Invoice Templates') ?></h3>
   <table class="table table-striped table-hover table-sm">
     <thead>

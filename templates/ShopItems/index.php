@@ -42,7 +42,7 @@ $this->Html->css('shop', ['block' => true]);
                         <td class="actions shop-actions">
                             <?= $this->Html->link('visibility', ['action' => 'view', $shopItem->id], ['class' => 'material-icons shop-action-icon', 'title' => __('View')]) ?>
                             <?= $this->Html->link('edit', ['action' => 'edit', $shopItem->id], ['class' => 'material-icons shop-action-icon', 'title' => __('Edit')]) ?>
-                            <?= $this->Form->postLink('delete', ['action' => 'delete', $shopItem->id], ['confirm' => __('Are you sure you want to delete # {0}?', $shopItem->id), 'class' => 'material-icons-outlined btn-outline-danger shop-action-icon', 'title' => __('Delete')]) ?>
+                            <?= $this->Form->postLink('delete', ['action' => 'delete', $shopItem->id], ['confirm' => __('Are you sure you want to delete # {0}?', $shopItem->id), 'class' => 'material-icons-outlined shop-action-icon shop-action-delete', 'title' => __('Delete')]) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

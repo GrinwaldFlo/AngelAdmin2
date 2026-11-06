@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col">
     <div class="members view content">
-      <?= $this->Html->link(__('Active'), ['action' => 'mail_print', $memberStatus == 1 ? 0 : 1], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 1 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Alumni'), ['action' => 'mail_print', $memberStatus == 2 ? 0 : 2], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 2 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Active'), ['action' => 'mail_print', $memberStatus == 1 ? 0 : 1], ['class' => 'btn btn-filter btn-sm' . ($memberStatus == 1 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Alumni'), ['action' => 'mail_print', $memberStatus == 2 ? 0 : 2], ['class' => 'btn btn-filter btn-sm' . ($memberStatus == 2 ? ' pressed' : '')]) ?>
       |
       <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'mail_print', $memberStatus, $teamId == $key ? 0 : $key], ['class' => 'btn btn-primary btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+        <?= $this->Html->link(h($team), ['action' => 'mail_print', $memberStatus, $teamId == $key ? 0 : $key], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>
@@ -51,7 +51,7 @@
       <?= $this->Form->control('siteId', ['type' => 'hidden', 'value' => $siteId]); ?>
       
       <?= $this->Form->control('MarkSent', ['type' => 'checkbox', 'required' => false, 'label' => __('Mark invoices as sent')]); ?>
-      <?= $this->Form->button(__('Download PDF')) ?>
+      <?= $this->Form->button(__('Download PDF'), ['class' => 'btn btn-export']) ?>
       <?= $this->Form->end() ?>
     </div>
   </div>

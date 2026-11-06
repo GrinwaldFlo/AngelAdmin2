@@ -5,7 +5,7 @@
  */
 ?>
 <div class="roles index content">
-  <?= $this->Html->link(__('New Role'), ['action' => 'add'], ['class' => 'button float-end']) ?>
+  <?= $this->Html->link(__('New Role'), ['action' => 'add'], ['class' => 'btn btn-add btn-sm float-end']) ?>
   <h3><?= __('Roles') ?></h3>
   <table class="table table-striped table-hover table-sm">
     <thead>

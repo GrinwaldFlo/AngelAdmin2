@@ -14,9 +14,9 @@ $this->Html->css('second-hand', ['block' => true]);
     <?= $this->element('SecondHand/nav', ['active' => 'index', 'isHashUser' => $isHashUser]) ?>
 
     <div class="sh-filters">
-        <?= $this->Html->link(__('All'), ['action' => 'index'], ['class' => 'btn btn-primary btn-sm' . ($categoryId == 0 ? ' pressed' : '')]) ?>
+        <?= $this->Html->link(__('All'), ['action' => 'index'], ['class' => 'btn btn-filter btn-sm' . ($categoryId == 0 ? ' pressed' : '')]) ?>
         <?php foreach ($categories as $id => $name): ?>
-            <?= $this->Html->link($name, ['action' => 'index', $id], ['class' => 'btn btn-primary btn-sm' . ($categoryId == $id ? ' pressed' : '')]) ?>
+            <?= $this->Html->link($name, ['action' => 'index', $id], ['class' => 'btn btn-filter btn-sm' . ($categoryId == $id ? ' pressed' : '')]) ?>
         <?php endforeach; ?>
     </div>
 

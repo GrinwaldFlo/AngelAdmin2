@@ -37,7 +37,7 @@ $texts = [
     <div class="col px-0 mx-0">
         <div class="members view content">
             <h4>
-                <a class="btn btn-primary pt-1 px-1" data-bs-toggle="collapse" href="#shopSection" role="button" aria-expanded="false" aria-controls="shopSection">
+                <a class="btn btn-filter pt-1 px-1" data-bs-toggle="collapse" href="#shopSection" role="button" aria-expanded="false" aria-controls="shopSection">
                     <?= $this->my->icon("shopping_cart") ?>
                 </a>
             </h4>
@@ -90,7 +90,7 @@ $texts = [
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 text-md-end">
-                                <?= $this->Form->button(__('Place Order'), ['class' => 'btn btn-primary shop-order-button', 'id' => 'place-order-btn', 'type' => 'button']) ?>
+                                <?= $this->Form->button(__('Place Order'), ['class' => 'btn btn-save shop-order-button', 'id' => 'place-order-btn', 'type' => 'button']) ?>
                             </div>
                         </div>
                     </div>

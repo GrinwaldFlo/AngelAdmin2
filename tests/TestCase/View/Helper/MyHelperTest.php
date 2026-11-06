@@ -254,7 +254,7 @@ class MyHelperTest extends TestCase
 
         $this->assertSame(3, substr_count($html, '<a '));
         // Pressed filter links back to no filter
-        $this->assertStringContainsString('href="/members/index/2/0" class="btn btn-primary btn-sm pressed"', $html);
+        $this->assertStringContainsString('href="/members/index/2/0" class="btn btn-filter btn-sm pressed"', $html);
         $this->assertStringContainsString('href="/members/index/2/3"', $html);
     }
 
@@ -279,7 +279,7 @@ class MyHelperTest extends TestCase
         $html = $this->My->teamLinks($pref, 'index');
 
         $this->assertStringContainsString('>A &amp; B</a>', $html);
-        $this->assertStringContainsString('href="/members/index/0/1" class="btn btn-primary btn-sm pressed"', $html);
+        $this->assertStringContainsString('href="/members/index/0/1" class="btn btn-filter btn-sm pressed"', $html);
         $this->assertStringContainsString('href="/members/index/3/1"', $html);
     }
 

@@ -203,3 +203,11 @@
   gap: 0.25rem;
   margin-bottom: 0.75rem;
 }
+
+/* Layout: shown to admins while the maintenance mode is enabled */
+.maintenance-banner {
+  background: var(--aa-warning);
+  color: var(--aa-text);
+  padding: 10px;
+  text-align: center;
+}

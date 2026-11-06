@@ -17,7 +17,7 @@
                     echo $this->Form->control('member_id', ['options' => $members]);
                 ?>
             </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
+            <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-save']) ?>
             <?= $this->Form->end() ?>
         </div>
     </div>

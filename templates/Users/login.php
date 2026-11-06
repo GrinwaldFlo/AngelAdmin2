@@ -76,7 +76,7 @@ use Cake\Core\Configure;
                                     'name' => 'full_name'
                                 ]) ?>
                             </fieldset>
-                            <?= $this->Form->submit(__('Send login link')); ?>
+                            <?= $this->Form->submit(__('Send login link'), ['class' => 'btn btn-save']); ?>
                             <?= $this->Form->end() ?>
                         </div>
 
@@ -105,7 +105,7 @@ use Cake\Core\Configure;
                                     'name' => 'password'
                                 ]) ?>
                             </fieldset>
-                            <?= $this->Form->submit(__('Login')); ?>
+                            <?= $this->Form->submit(__('Login'), ['class' => 'btn btn-save']); ?>
                             <?= $this->Form->end() ?>
                         </div>
                     </div>

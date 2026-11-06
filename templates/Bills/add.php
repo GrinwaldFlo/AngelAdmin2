@@ -31,19 +31,19 @@ $dateBill->add($interval);
         echo $this->Form->control('site_id', ['options' => $sites]);
         ?>
       </fieldset>
-      <?= $this->Form->button(__('Submit')) ?>
+      <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-save']) ?>
       <?= $this->Form->end() ?>
       <hr>      
       <h3><?= __("Templates") ?></h3>
       <div>
-        <div class="btn btn-primary btn-sm" id="clear"><?= __("Clear") ?></div>
-        <div class="btn btn-primary btn-sm" id="Membership"><?= __("Membership fee") ?></div>
-        <div class="btn btn-primary btn-sm" id="Membership1_2"><?= __("Membership fee") . " 1/2" ?></div>
-        <div class="btn btn-primary btn-sm" id="Membership2_2"><?= __("Membership fee") . " 2/2" ?></div>
+        <div class="btn btn-filter btn-sm" id="clear"><?= __("Clear") ?></div>
+        <div class="btn btn-filter btn-sm" id="Membership"><?= __("Membership fee") ?></div>
+        <div class="btn btn-filter btn-sm" id="Membership1_2"><?= __("Membership fee") . " 1/2" ?></div>
+        <div class="btn btn-filter btn-sm" id="Membership2_2"><?= __("Membership fee") . " 2/2" ?></div>
       </div>
       <div>
         <?php foreach ($billTemplates as $value) : ?>
-          <div class="btn btn-primary btn-sm" id="<?= $value->id ?>"><?= h($value->label) ?></div>
+          <div class="btn btn-filter btn-sm" id="<?= $value->id ?>"><?= h($value->label) ?></div>
         <?php endforeach; ?>
       </div>
     </div>

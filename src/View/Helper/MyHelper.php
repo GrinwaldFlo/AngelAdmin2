@@ -98,9 +98,9 @@ class MyHelper extends Helper
 
     public function adminButtons($pageId): string
     {
-        $r = $this->getView()->Html->link(__('Main configuration'), ['controller' => 'configurations', 'action' => 'index'], ['class' => 'btn btn-primary btn-sm' . ($pageId == 1 ? ' pressed' : '')]);
-        $r .= $this->getView()->Html->link(__('Locations'), ['controller' => 'sites', 'action' => 'index'], ['class' => 'btn btn-primary btn-sm' . ($pageId == 2 ? ' pressed' : '')]);
-        $r .= $this->getView()->Html->link(__('Custom fields'), ['controller' => 'field_types', 'action' => 'index'], ['class' => 'btn btn-primary btn-sm' . ($pageId == 3 ? ' pressed' : '')]);
+        $r = $this->getView()->Html->link(__('Main configuration'), ['controller' => 'configurations', 'action' => 'index'], ['class' => 'btn btn-filter btn-sm' . ($pageId == 1 ? ' pressed' : '')]);
+        $r .= $this->getView()->Html->link(__('Locations'), ['controller' => 'sites', 'action' => 'index'], ['class' => 'btn btn-filter btn-sm' . ($pageId == 2 ? ' pressed' : '')]);
+        $r .= $this->getView()->Html->link(__('Custom fields'), ['controller' => 'field_types', 'action' => 'index'], ['class' => 'btn btn-filter btn-sm' . ($pageId == 3 ? ' pressed' : '')]);
 
         return $r;
     }
@@ -207,7 +207,7 @@ class MyHelper extends Helper
                 $label .= ' ' . $this->getView()->Html->link(__('Link'), $meet->webUrl(), ['target' => '_blank', 'rel' => 'noopener']);
 
             if ($meet->doodle && $meet->my == null) {
-                $label .= ' ' . $this->getView()->Form->postLink(__('Join'), ['controller' => 'meetings', 'action' => 'join', $meet->id], ['confirm' => __('Are you sure you want to join the event ?'), 'class' => 'btn btn-primary btn-sm']);
+                $label .= ' ' . $this->getView()->Form->postLink(__('Join'), ['controller' => 'meetings', 'action' => 'join', $meet->id], ['confirm' => __('Are you sure you want to join the event ?'), 'class' => 'btn btn-add btn-sm']);
             }
             if ($meet->doodle && $meet->my != null && $meet->my->state == 1) {
                 $label .= ' ' . $this->tags('span', __('Registered'), ['class' => "badge bg-info"]);
@@ -313,7 +313,7 @@ class MyHelper extends Helper
             $links .= $this->getView()->Html->link(
                 $labels[$filter],
                 array_merge($url, [$isCurrent ? 0 : $filter]),
-                ['class' => 'btn btn-primary btn-sm' . ($isCurrent ? ' pressed' : '')]
+                ['class' => 'btn btn-filter btn-sm' . ($isCurrent ? ' pressed' : '')]
             ) . "\n";
         }
         return $links;
@@ -329,7 +329,7 @@ class MyHelper extends Helper
                 $isCurrent ? 0 : $key,
                 $pref->memberFilter
             ];
-            $class = 'btn btn-primary btn-sm' . ($isCurrent ? ' pressed' : '');
+            $class = 'btn btn-filter btn-sm' . ($isCurrent ? ' pressed' : '');
             $links .= $this->getView()->Html->link(
                 $team,
                 $url,

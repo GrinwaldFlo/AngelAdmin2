@@ -76,8 +76,8 @@ https://css.gg/app
 
 .btn-primary
 {
-  background-color: #9b4dca;
-  border: 0.1rem solid #9b4dca;
+  background-color: var(--aa-brand);
+  border: 0.1rem solid var(--aa-brand);
 }
 .btn-primary:hover
 {
@@ -96,7 +96,7 @@ https://css.gg/app
 
 .divTableColor
 {
-  background-color: #f5f7fa;
+  background-color: var(--aa-bg);
   
 }
 
@@ -171,13 +171,13 @@ hr {
 
 a {
   font-family: "Raleway", sans-serif;
-  color: #500080;
+  color: var(--aa-link);
 }
 
 
 /* Main */
 body {
-  background: #f5f7fa;
+  background: var(--aa-bg);
   color: black;
   line-height: 1.4;
 }
@@ -327,8 +327,8 @@ th {
 
 .pressed
 {
-  background-color: #45006f;
-  border-color: #45006f;
+  background-color: var(--aa-brand-dark);
+  border-color: var(--aa-brand-dark);
 }
 
 .collapsible {
@@ -418,7 +418,7 @@ th {
   list-style-type: none;
 }
 .star:before {
-  color: #45006f;
+  color: var(--aa-brand-dark);
   content: '\e105';
 }
 .star {
@@ -428,7 +428,7 @@ th {
 .flag:before {
   font-family: 'typicons', sans-serif;
   vertical-align: -1px;
-  color: #45006f;
+  color: var(--aa-brand-dark);
   content: '\e073';
 }
 .flag {
@@ -438,7 +438,7 @@ th {
 .user:before {
   font-family: 'typicons', sans-serif;
   vertical-align: -1px;
-  color: #45006f;
+  color: var(--aa-brand-dark);
   content: '\e12c';
 }
 .user {
@@ -446,7 +446,7 @@ th {
 }
 
 .warn:before {
-  color: #45006f;
+  color: var(--aa-brand-dark);
   content: '\e137';
 }
 .warn {
@@ -454,7 +454,7 @@ th {
 }
 
 .arrowRight:before {
-  color: #45006f;
+  color: var(--aa-brand-dark);
   content: '\e01a';
 }
 .arrowRight {
@@ -475,6 +475,11 @@ th {
   width: 300px;
   max-width: 100%;
   height: 32px;
+}
+
+/* element/Members/bills.php: action icons of an invoice */
+.bill-actions-icon {
+  width: 90px;
 }
 
 /* AppView::backButtonCtrl */

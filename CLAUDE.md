@@ -66,7 +66,8 @@ The root `_*.bat` files are Windows wrappers for the same commands. CI (`.github
     - `btn-bulk`: operations on many records or hard to undo (Send all emails, Reset, Generate fees), with a confirm/validation step.
     - `btn-filter` (+ `pressed` on the current one): filters and toggles (teams, member status, periods).
     - `btn-touch` for the main action of member-facing mobile pages; wrap button groups in `.btn-bar`.
-    - Don't use the Milligram `.button` class nor raw `btn-primary`/`btn-secondary`/`btn-danger`... in new code; migrate them when touching a page.
+    - Never use the Milligram `.button`/`.button-outline` classes nor raw `btn-primary`/`btn-secondary`/`btn-success`/`btn-danger`/`btn-warning`/`btn-info`/`btn-outline-*` (the whole site has been migrated). JS that changes a button's state toggles a class (`pressed`, `btn-bulk`/`btn-delete`), never `style`.
+    - Domain-specific button systems (e.g. `mt-btn` in `meetings.css`) are allowed, but their colors come from the `--aa-*` tokens.
   - Table row actions: gg-* icon links (`gg-pen`, `gg-add-r`, `gg-file-document`) in `<td class="actions"><div class="icon">`; other icons via `$this->my->icon()` / `$this->my->symbol()`.
   - Status badges: `badge bg-{success|danger|warning|info|dark}`, color computed in the entity (e.g. `Bill::$statusHtml`): success = done/paid, danger = late/problem, warning = draft/waiting, info = in progress, dark = canceled.
   - Tables: `table table-striped table-hover table-sm` inside `.table-responsive`. Messages: `$this->Flash->success|error|warning()` after actions, `alert alert-*` inside a page. Headings: h2/h3 page title, h4 sections.

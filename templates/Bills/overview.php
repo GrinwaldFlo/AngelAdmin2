@@ -4,19 +4,19 @@ $rowCount = 0;
 <div class="row">
   <div class="col">
     <div class="members view content">
-      <?= $this->Html->link(__('Active'), ['action' => 'overview', $memberStatus == 1 ? 0 : 1, $teamId, $year, $billTemplateId], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 1 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Alumni'), ['action' => 'overview', $memberStatus == 2 ? 0 : 2, $teamId, $year, $billTemplateId], ['class' => 'btn btn-primary btn-sm' . ($memberStatus == 2 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Active'), ['action' => 'overview', $memberStatus == 1 ? 0 : 1, $teamId, $year, $billTemplateId], ['class' => 'btn btn-filter btn-sm' . ($memberStatus == 1 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Alumni'), ['action' => 'overview', $memberStatus == 2 ? 0 : 2, $teamId, $year, $billTemplateId], ['class' => 'btn btn-filter btn-sm' . ($memberStatus == 2 ? ' pressed' : '')]) ?>
       |      
-      <?= $this->Html->link(__('This year'), ['action' => 'overview', $memberStatus, $teamId, 0, $billTemplateId], ['class' => 'btn btn-primary btn-sm' . ($year == 0 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Two years'), ['action' => 'overview', $memberStatus, $teamId, 1, $billTemplateId], ['class' => 'btn btn-primary btn-sm' . ($year == 1 ? ' pressed' : '')]) ?>
-      <?= $this->Html->link(__('Three years'), ['action' => 'overview', $memberStatus, $teamId, 2, $billTemplateId], ['class' => 'btn btn-primary btn-sm' . ($year == 2 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('This year'), ['action' => 'overview', $memberStatus, $teamId, 0, $billTemplateId], ['class' => 'btn btn-filter btn-sm' . ($year == 0 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Two years'), ['action' => 'overview', $memberStatus, $teamId, 1, $billTemplateId], ['class' => 'btn btn-filter btn-sm' . ($year == 1 ? ' pressed' : '')]) ?>
+      <?= $this->Html->link(__('Three years'), ['action' => 'overview', $memberStatus, $teamId, 2, $billTemplateId], ['class' => 'btn btn-filter btn-sm' . ($year == 2 ? ' pressed' : '')]) ?>
       |
       <?php foreach ($billTemplates as $bill): ?>
-        <?= $this->Html->link(h($bill->label), ['action' => 'overview', $memberStatus, $teamId, $year, $billTemplateId == $bill->id ? 0 : $bill->id], ['class' => 'btn btn-primary btn-sm' . ($bill->id == $billTemplateId ? ' pressed' : '')]) ?>      
+        <?= $this->Html->link(h($bill->label), ['action' => 'overview', $memberStatus, $teamId, $year, $billTemplateId == $bill->id ? 0 : $bill->id], ['class' => 'btn btn-filter btn-sm' . ($bill->id == $billTemplateId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
       <br>  
       <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'overview', $memberStatus, $teamId == $key ? 0 : $key, $year, $billTemplateId], ['class' => 'btn btn-primary btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+        <?= $this->Html->link(h($team), ['action' => 'overview', $memberStatus, $teamId == $key ? 0 : $key, $year, $billTemplateId], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>
@@ -53,7 +53,7 @@ $rowCount = 0;
                   <?= $this->Form->control('memberId', ['type' => 'hidden', 'value' => $memberId]) ?>
                   <?= $this->Form->control('amount', ['type' => 'hidden', 'value' => $InvoiceItem]) ?>
                   <?= $this->Form->control('name', ['type' => 'hidden', 'value' => $InvoiceName]) ?>
-                  <?= $this->Form->submit(__('Add {0}CHF', $InvoiceItem)); ?>
+                  <?= $this->Form->submit(__('Add {0}CHF', $InvoiceItem), ['class' => 'btn btn-add btn-sm']); ?>
                   <?= $this->Form->end() ?>
                 <?php endif; ?>
               <?php else : ?>

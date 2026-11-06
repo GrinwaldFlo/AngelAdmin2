@@ -14,7 +14,7 @@ $this->Html->css('second-hand', ['block' => true]);
     <div class="sh-header">
         <h3><?= __('My items') ?></h3>
         <?php if ($profile->canSell()): ?>
-            <?= $this->Html->link(__('Add an item'), ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
+            <?= $this->Html->link(__('Add an item'), ['action' => 'add'], ['class' => 'btn btn-add']) ?>
         <?php endif; ?>
     </div>
 
@@ -65,9 +65,9 @@ $this->Html->css('second-hand', ['block' => true]);
                         </td>
                         <td class="actions">
                             <?php if ($item->sold === null && !$expired): ?>
-                                <?= $this->Form->postLink(__('Mark as sold'), ['action' => 'sold', $item->id], ['class' => 'btn btn-sm btn-primary']) ?>
+                                <?= $this->Form->postLink(__('Mark as sold'), ['action' => 'sold', $item->id], ['class' => 'btn btn-sm btn-add']) ?>
                             <?php endif; ?>
-                            <?= $this->Form->postLink(__('Remove'), ['action' => 'delete', $item->id], ['class' => 'btn btn-sm btn-danger', 'confirm' => __('Remove this item for good?')]) ?>
+                            <?= $this->Form->postLink(__('Remove'), ['action' => 'delete', $item->id], ['class' => 'btn btn-sm btn-delete', 'confirm' => __('Remove this item for good?')]) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

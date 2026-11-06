@@ -17,10 +17,10 @@ $this->Html->css('member-orders', ['block' => true]);
 $this->Html->css('shop', ['block' => true]);
 
 $filterGroups = [
-    ['label' => __('Category:'), 'current' => $categoryFilter, 'class' => 'btn-primary', 'options' => $categoryOptions],
-    ['label' => __('Delivery:'), 'current' => $deliveredFilter, 'class' => 'btn-secondary', 'options' => [1 => __('Delivered'), 2 => __('Not Delivered')]],
-    ['label' => __('Payment:'), 'current' => $paidFilter, 'class' => 'btn-info', 'options' => [1 => __('Paid'), 2 => __('Not Paid')]],
-    ['label' => __('Item:'), 'current' => $itemFilter, 'class' => 'btn-outline-primary', 'options' => $itemOptions],
+    ['label' => __('Category:'), 'current' => $categoryFilter, 'options' => $categoryOptions],
+    ['label' => __('Delivery:'), 'current' => $deliveredFilter, 'options' => [1 => __('Delivered'), 2 => __('Not Delivered')]],
+    ['label' => __('Payment:'), 'current' => $paidFilter, 'options' => [1 => __('Paid'), 2 => __('Not Paid')]],
+    ['label' => __('Item:'), 'current' => $itemFilter, 'options' => $itemOptions],
 ];
 $filterValues = array_column($filterGroups, 'current');
 $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['sort', 'direction']));
@@ -35,7 +35,7 @@ $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['
                 // Pressing the selected filter again removes it
                 $values[$position] = $group['current'] == $value ? 0 : $value;
                 ?>
-                <?= $this->Html->link($label, ['action' => 'index', ...$values, '?' => $sortQuery], ['class' => 'btn btn-sm ' . $group['class'] . ($group['current'] == $value ? ' pressed' : '')]) ?>
+                <?= $this->Html->link($label, ['action' => 'index', ...$values, '?' => $sortQuery], ['class' => 'btn btn-sm btn-filter' . ($group['current'] == $value ? ' pressed' : '')]) ?>
             <?php endforeach; ?>
         </div>
     <?php endforeach; ?>
@@ -45,7 +45,7 @@ $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['
     <?= $this->element('Shop/title', ['title' => __('Member Orders'), 'shopSite' => $shopSite, 'count' => $memberOrders->totalCount()]) ?>
     <p class="text-muted shop-intro"><?= __('Mark the items as given to the members. The orders are deleted on the orders page.') ?></p>
     <div class="table-responsive">
-        <table class="table table-striped mo-table">
+        <table class="table table-striped table-hover table-sm mo-table">
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
@@ -86,9 +86,9 @@ $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['
                         <td class="mo-created"><?= h($memberOrder->created) ?></td>
                         <td class="actions mo-actions">
                             <?php if (!$memberOrder->delivered): ?>
-                                <?= $this->Form->postLink(__('Mark Delivered'), ['action' => 'markDelivered', $memberOrder->id], ['confirm' => __('Mark this order as delivered?'), 'class' => 'btn btn-sm btn-success mo-action-main']) ?>
+                                <?= $this->Form->postLink(__('Mark Delivered'), ['action' => 'markDelivered', $memberOrder->id], ['confirm' => __('Mark this order as delivered?'), 'class' => 'btn btn-sm btn-add mo-action-main']) ?>
                             <?php else: ?>
-                                <?= $this->Form->postLink(__('Mark Not Delivered'), ['action' => 'markNotDelivered', $memberOrder->id], ['confirm' => __('Mark this order as not delivered?'), 'class' => 'btn btn-sm btn-warning mo-action-main']) ?>
+                                <?= $this->Form->postLink(__('Mark Not Delivered'), ['action' => 'markNotDelivered', $memberOrder->id], ['confirm' => __('Mark this order as not delivered?'), 'class' => 'btn btn-sm btn-delete mo-action-main']) ?>
                             <?php endif; ?>
                             <?= $this->Html->link('visibility', ['action' => 'view', $memberOrder->id], ['class' => 'material-icons mo-action-icon', 'title' => __('View')]) ?>
                         </td>

@@ -117,7 +117,7 @@ if (Configure::read('debug')) {
 </head>
 
 <?php if ($this->getRequest()->getAttribute('maintenanceBanner')): ?>
-    <div style="background: orange; color: #fff; padding: 10px; text-align: center;">
+    <div class="maintenance-banner">
         <strong><?= __("Maintenance Mode Enabled") ?></strong>
     </div>
 <?php endif; ?>

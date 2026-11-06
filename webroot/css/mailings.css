@@ -1,7 +1,7 @@
 /* Emails to teams or by bill (templates/Mailings) */
 
 .ml-muted {
-  color: #6b717a;
+  color: var(--aa-muted);
   font-size: 0.875rem;
 }
 
@@ -34,15 +34,15 @@
 .btn.ml-placeholder:hover,
 .btn.ml-placeholder:focus {
   color: #fff;
-  background-color: #9b4dca;
-  border-color: #9b4dca;
+  background-color: var(--aa-brand);
+  border-color: var(--aa-brand);
 }
 
 .ml-preview {
   display: block;
   width: 100%;
   height: 16rem;
-  border: 1px solid #e3e5e8;
+  border: 1px solid var(--aa-border);
   border-radius: 6px;
   margin-bottom: 1rem;
   background: #fff;
@@ -55,7 +55,7 @@
 .ml-bar {
   width: 100%;
   height: 1.25rem;
-  accent-color: #7f3fb0;
+  accent-color: var(--aa-brand-hover);
 }
 
 .ml-controls {

@@ -39,7 +39,7 @@
                   <?= $this->Form->control('memberId', ['type' => 'hidden', 'value' => $member->id]); ?>
                   <?= $this->Form->file('submittedfile1', ['accept' => 'application/pdf']); ?>
                 </fieldset>
-                <?= $this->Form->submit(__('Send')); ?>
+                <?= $this->Form->submit(__('Send'), ['class' => 'btn btn-save']); ?>
                 <?= $this->Form->end() ?>
               </td>
             </tr>
