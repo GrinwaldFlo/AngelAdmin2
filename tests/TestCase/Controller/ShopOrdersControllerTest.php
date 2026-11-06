@@ -112,7 +112,7 @@ class ShopOrdersControllerTest extends TestCase
         // Style guide (/admin/typography) button classes
         $this->assertResponseContains('btn btn-sm btn-filter pressed');
         $this->assertResponseContains('btn btn-sm btn-save');
-        $this->assertResponseContains('btn btn-sm btn-delete');
+        $this->assertResponseContains('class="icon-btn icon-btn-delete"');
         $this->assertResponseNotContains('btn-outline-');
 
         $this->get("/shop-orders/index/{$this->cap}/0");

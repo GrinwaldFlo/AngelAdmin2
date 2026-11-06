@@ -97,7 +97,7 @@ $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['
                                 ? __('Delete this order? Its bill {0} will not be changed: an email will be sent to correct it.', $memberOrder->bill->reference)
                                 : __('Are you sure you want to delete # {0}?', $memberOrder->id);
                             ?>
-                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $memberOrder->id], ['confirm' => $confirm, 'class' => 'btn btn-sm btn-delete mo-action-main']) ?>
+                            <?= $this->my->iconPostLink('delete', ['action' => 'delete', $memberOrder->id], __('Delete'), ['confirm' => $confirm, 'class' => 'icon-btn-delete']) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
