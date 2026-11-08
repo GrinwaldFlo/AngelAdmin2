@@ -71,8 +71,11 @@ if (Configure::check('App.author')) {
 $this->prepend('meta', $this->Html->meta('favicon.ico', '/favicon.ico', ['type' => 'icon']));
 $this->prepend('meta', $this->Html->meta('icon', '/favicon-32x32.png', ['type' => 'image/png', 'sizes' => '32x32']));
 $this->prepend('meta', $this->Html->meta('icon', '/favicon-16x16.png', ['type' => 'image/png', 'sizes' => '16x16']));
-$this->prepend('meta', $this->Html->meta('apple-touch-icon', '/apple-touch-icon.png', ['type' => 'image/png', 'sizes' => '180x180']));
-$this->prepend('meta', '<link rel="manifest" href="/site.webmanifest">');
+// Apple touch icons (180x180 is the default one, without size in the name)
+foreach (['/apple-touch-icon.png' => '180x180', '/apple-touch-icon-152x152.png' => '152x152', '/apple-touch-icon-120x120.png' => '120x120', '/apple-touch-icon-76x76.png' => '76x76', '/apple-touch-icon-60x60.png' => '60x60'] as $iconUrl => $iconSize) {
+    $this->prepend('meta', $this->Html->meta(['rel' => 'apple-touch-icon', 'link' => $iconUrl, 'sizes' => $iconSize]));
+}
+$this->prepend('meta', $this->Html->meta(['rel' => 'manifest', 'link' => '/site.webmanifest']));
 
 /**
  * Prepend `css` block with Bootstrap stylesheets

@@ -492,8 +492,11 @@ class MembersController extends AppController
                 case 'redirect_home':
                     return $this->redirect(['controller' => 'Pages', 'action' => 'Home']);
                 case 'contact_info_needed':
+                    // Show the form again (FormHelper refills it from the posted data) under the message
                     $this->set('ContactInfo', true);
-                    return;
+                    $member = $this->Members->newEmptyEntity();
+                    $this->Members->Fields->AddMissing($member);
+                    break;
             }
         }
 
