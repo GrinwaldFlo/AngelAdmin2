@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Controller;
 
 use App\Controller\MembersController;
+use App\Controller\PrefResult;
 use App\Test\TestSuite\TestDataTrait;
 use Cake\I18n\DateTime;
 use Cake\TestSuite\IntegrationTestTrait;
@@ -36,6 +37,8 @@ class MembersControllerTest extends TestCase
         'app.Meetings',
         'app.Roles',
         'app.Configurations',
+        'app.Fields',
+        'app.FieldTypes',
     ];
 
     /**
@@ -147,5 +150,39 @@ class MembersControllerTest extends TestCase
 
         $this->assertRedirect('/');
         $this->assertSame('fr', $this->getTableLocator()->get('Members')->get(1)->language);
+    }
+
+    /**
+     * Public registration form
+     */
+    public function testRegisterForm(): void
+    {
+        PrefResult::$sites = null;
+
+        $this->get('/members/register');
+
+        $this->assertResponseOk();
+        $this->assertResponseContains('name="first_name"');
+    }
+
+    /**
+     * A known name with another email shows the contact message and the form again, filled with the posted data
+     */
+    public function testRegisterKnownNameWithAnotherEmail(): void
+    {
+        PrefResult::$sites = null;
+        $this->addMember(100, [1]);
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
+
+        $form = $this->memberForm(['first_name' => 'First100', 'last_name' => 'Last100', 'email' => 'x@example.ch']);
+        $this->post('/members/register', $form);
+
+        $this->assertResponseOk();
+        $this->assertTrue($this->viewVariable('ContactInfo'));
+        $this->assertResponseContains('href="mailto:');
+        $this->assertResponseContains('value="x@example.ch"');
+        $members = $this->getTableLocator()->get('Members');
+        $this->assertSame(1, $members->find()->where(['first_name' => 'First100'])->count());
     }
 }

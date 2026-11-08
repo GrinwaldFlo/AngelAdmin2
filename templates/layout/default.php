@@ -67,12 +67,20 @@ if (Configure::check('App.author')) {
     $this->prepend('meta', $this->Html->meta('author', null, ['name' => 'author', 'content' => Configure::read('App.author')]));
 }
 
-// Enhanced favicon setup for better browser support
-$this->prepend('meta', $this->Html->meta('favicon.ico', '/favicon.ico', ['type' => 'icon']));
-$this->prepend('meta', $this->Html->meta('icon', '/favicon-32x32.png', ['type' => 'image/png', 'sizes' => '32x32']));
-$this->prepend('meta', $this->Html->meta('icon', '/favicon-16x16.png', ['type' => 'image/png', 'sizes' => '16x16']));
-$this->prepend('meta', $this->Html->meta('apple-touch-icon', '/apple-touch-icon.png', ['type' => 'image/png', 'sizes' => '180x180']));
-$this->prepend('meta', '<link rel="manifest" href="/site.webmanifest">');
+/*
+ * Favicons, all generated from webroot/favicon.svg (which switches colors itself in dark mode):
+ * SVG for modern browsers, 96x96 PNG, ICO (16/32/48) as fallback, a single 180x180 touch icon (iOS scales it down)
+ * and the 192/512 icons in site.webmanifest. Other apple-touch-icon URLs are rewritten in webroot/.htaccess.
+ */
+$favicons = [
+    $this->Html->meta('icon', '/favicon.svg', ['type' => 'image/svg+xml']),
+    $this->Html->meta('icon', '/favicon-96x96.png', ['type' => 'image/png', 'sizes' => '96x96']),
+    $this->Html->meta('icon', '/favicon.ico', ['type' => 'image/x-icon', 'sizes' => 'any']),
+    $this->Html->meta(['rel' => 'apple-touch-icon', 'link' => '/apple-touch-icon.png', 'sizes' => '180x180']),
+    $this->Html->meta(['name' => 'apple-mobile-web-app-title', 'content' => 'AngelAdmin']),
+    $this->Html->meta(['rel' => 'manifest', 'link' => '/site.webmanifest']),
+];
+$this->prepend('meta', implode("\n    ", $favicons));
 
 /**
  * Prepend `css` block with Bootstrap stylesheets

@@ -23,6 +23,8 @@
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    # iOS probes sized/"-precomposed" touch icons (e.g. apple-touch-icon-120x120-precomposed.png): serve the single 180x180 one
+    RewriteRule ^apple-touch-icon-.+\.png$ apple-touch-icon.png [L]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
