@@ -198,6 +198,11 @@ class UsersController extends AppController
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $emailOrUsername = trim((string)$this->request->getData('email_or_username'));
+            // An empty value would match the accounts whose member has no email
+            if ($emailOrUsername === '') {
+                $this->Flash->error(__('Please enter your email or username'));
+                return;
+            }
             if (!$this->allowEmailRequest()) {
                 return;
             }

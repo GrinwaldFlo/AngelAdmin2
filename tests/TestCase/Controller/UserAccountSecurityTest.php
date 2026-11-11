@@ -7,6 +7,7 @@ namespace App\Test\TestCase\Controller;
 use App\Controller\PrefResult;
 use App\Test\TestSuite\TestDataTrait;
 use App\Utility\RateLimiter;
+use Cake\Core\Configure;
 use Cake\I18n\DateTime;
 use Cake\TestSuite\EmailTrait;
 use Cake\TestSuite\IntegrationTestTrait;
@@ -68,6 +69,20 @@ class UserAccountSecurityTest extends TestCase
     private function user(int $id)
     {
         return $this->getTableLocator()->get('Users')->get($id);
+    }
+
+    /**
+     * Next requests come from this IP. configRequest() merges the environment recursively
+     * (calling it twice gives REMOTE_ADDR "ip1, ip2"), so the environment is replaced.
+     */
+    private function fromIp(string $remoteAddr, ?string $forwardedFor = null): void
+    {
+        unset($this->_request['environment']);
+        $environment = ['REMOTE_ADDR' => $remoteAddr];
+        if ($forwardedFor !== null) {
+            $environment['HTTP_X_FORWARDED_FOR'] = $forwardedFor;
+        }
+        $this->configRequest(['environment' => $environment]);
     }
 
     private function loginAsMember(): void
@@ -431,7 +446,7 @@ class UserAccountSecurityTest extends TestCase
         for ($i = 0; $i < 6; $i++) {
             DateTime::setTestNow(DateTime::parse('2026-11-11 08:00:00')->addMinutes(11 * $i));
             // From another IP each time
-            $this->configRequest(['environment' => ['REMOTE_ADDR' => '10.0.0.' . $i]]);
+            $this->fromIp('10.0.0.' . $i);
             $this->post('/users/email-login', ['full_name' => 'm1@example.com']);
         }
 
@@ -454,7 +469,7 @@ class UserAccountSecurityTest extends TestCase
 
     public function testEmailRequestsLimitedPerIp(): void
     {
-        $this->configRequest(['environment' => ['REMOTE_ADDR' => '10.0.0.1']]);
+        $this->fromIp('10.0.0.1');
         for ($id = 2; $id <= 6; $id++) {
             $this->addMember($id);
             // The login page and the password reset share the limit
@@ -472,15 +487,53 @@ class UserAccountSecurityTest extends TestCase
         $this->assertMailCount(5);
 
         // The other IPs are not blocked
-        $this->configRequest(['environment' => ['REMOTE_ADDR' => '10.0.0.2']]);
+        $this->fromIp('10.0.0.2');
         $this->post('/users/email-login', ['full_name' => 'm7@example.com']);
         $this->assertMailCount(6);
 
         // Free again after 15 minutes
         DateTime::setTestNow('2026-11-11 10:15:00');
-        $this->configRequest(['environment' => ['REMOTE_ADDR' => '10.0.0.1']]);
+        $this->fromIp('10.0.0.1');
         $this->post('/users/email-login', ['full_name' => 'First7 Last7']);
         $this->assertFlashElement('flash/success');
+    }
+
+    public function testEmailRequestsLimitedPerClientIpBehindATrustedProxy(): void
+    {
+        Configure::write('App.trustedProxies', ['10.0.0.1']);
+        $this->fromIp('10.0.0.1', '192.0.2.1');
+        for ($i = 0; $i < 6; $i++) {
+            $this->post('/users/email-login', ['full_name' => 'Nobody ' . $i]);
+        }
+        $this->assertFlashElement('flash/error');
+
+        // Another client behind the same proxy is not blocked
+        $this->fromIp('10.0.0.1', '192.0.2.2');
+        $this->post('/users/email-login', ['full_name' => 'Nobody']);
+        $this->assertFlashElement('flash/success');
+    }
+
+    public function testForwardedIpIgnoredWithoutTrustedProxy(): void
+    {
+        // A client can't escape the limit by changing the header
+        for ($i = 0; $i < 6; $i++) {
+            $this->fromIp('10.0.0.1', '192.0.2.' . $i);
+            $this->post('/users/email-login', ['full_name' => 'Nobody ' . $i]);
+        }
+
+        $this->assertFlashElement('flash/error');
+    }
+
+    public function testForgotPasswordWithAnEmptyValue(): void
+    {
+        // A member without email must not get the reset of an empty value
+        $this->getTableLocator()->get('Members')->updateAll(['email' => ''], ['id' => 1]);
+
+        $this->post('/users/forgot-password', ['email_or_username' => '   ']);
+
+        $this->assertResponseOk();
+        $this->assertFlashElement('flash/error');
+        $this->assertNoMailSent();
     }
 
     public function testEmailRequestsLimitedPerDayForAnIp(): void
