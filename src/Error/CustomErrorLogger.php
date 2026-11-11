@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\Error;
 
-use Authorization\Exception\ForbiddenException;
+use Authorization\Exception\ForbiddenException as AuthorizationForbiddenException;
 use Cake\Error\ErrorLogger;
+use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\InvalidCsrfTokenException;
 use Cake\Http\Exception\MissingControllerException;
 use Cake\Controller\Exception\MissingActionException;
@@ -70,7 +71,8 @@ class CustomErrorLogger extends ErrorLogger
      */
     protected function is403Exception(Throwable $exception): bool
     {
-        return $exception instanceof ForbiddenException
+        return $exception instanceof AuthorizationForbiddenException
+            || $exception instanceof ForbiddenException
             || $exception instanceof InvalidCsrfTokenException;
     }
 

@@ -79,6 +79,39 @@ class ErrorControllerTest extends TestCase
         $this->assertStringNotContainsString('Stack Trace', $lines[0]);
     }
 
+    public function testForbiddenWithReasonShowsIt(): void
+    {
+        Log::setConfig('forbidden', ['className' => 'Array', 'levels' => ['warning', 'error']]);
+        // Member link of member 100 on the page of member 1
+        $this->addMember(100, [1]);
+        $this->cookie('member_hash', sha1('member100'));
+
+        $this->get('/members/edit/1');
+
+        $lines = Log::engine('forbidden')->read();
+        Log::drop('forbidden');
+        $this->assertResponseCode(403);
+        $this->assertTemplate('error400');
+        // The reason given by the controller, translated, not a "page not found"
+        $this->assertResponseContains(h(__('This link does not give access to this member.')));
+        $this->assertResponseNotContains(h(__('Error 404 - Page Not Found')));
+        $this->assertCount(1, $lines);
+        $this->assertStringStartsWith('warning: [403] ForbiddenException: /members/edit/1', $lines[0]);
+    }
+
+    public function testOtherClientErrorShowsItsMessage(): void
+    {
+        $this->loginWith([]);
+
+        // GET on a POST only action
+        $this->get('/presences/set-presence/1');
+
+        $this->assertResponseCode(405);
+        $this->assertTemplate('error400');
+        $this->assertResponseContains('Method Not Allowed');
+        $this->assertResponseNotContains(h(__('Error 404 - Page Not Found')));
+    }
+
     public function testExpiredFormShowsPageExpired(): void
     {
         // No CSRF token sent: like a form left open after the cookie expired

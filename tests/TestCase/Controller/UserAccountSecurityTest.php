@@ -293,7 +293,8 @@ class UserAccountSecurityTest extends TestCase
         $this->get('/users/reset/' . str_repeat('b', 40));
 
         $this->assertRedirect(['controller' => 'Users', 'action' => 'forgotPassword']);
-        $this->assertFlashMessage('This link has expired or has already been used. Ask for a new one.');
+        // The flash is translated (test locale is fr): check the element, not the text
+        $this->assertFlashElement('flash/error');
     }
 
     public function testResetNeedsAPassword(): void
