@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Model\Entity;
+
 use Cake\ORM\Entity;
 
 /**
@@ -28,7 +31,7 @@ class FieldType extends Entity
    *
    * @var array
    */
-  protected array $_accessible = [
+    protected array $_accessible = [
     'label' => true,
     'style' => true,
     'member_edit' => true,
@@ -36,22 +39,21 @@ class FieldType extends Entity
     'sort' => true,
     'hidden' => true,
     'mandatory' => true,
-  ];
+    ];
   /**
    * Virtual fields that are computed from other fields.
    *
    * @var array
    */
-  protected array $_virtual = ['style_str'];
+    protected array $_virtual = ['style_str'];
 
-  protected function _getStyleList()
-  {
-    return [0 => __x('Value type of a field', 'Text'), 1 => __('Email'), 2 => __('Phone'), 3 => __('Number'), 4 => __('Checkbox'), 5 => __('Date'), 6 => __('Picture'), 7 => __('Cloth Size')];
-  }
+    protected function _getStyleList()
+    {
+        return [0 => __x('Value type of a field', 'Text'), 1 => __('Email'), 2 => __('Phone'), 3 => __('Number'), 4 => __('Checkbox'), 5 => __('Date'), 6 => __('Picture'), 7 => __('Cloth Size')];
+    }
 
-  protected function _getStyleStr()
-  {
-    return $this->_getStyleList()[$this->style] ?? '';
-  }
-
+    protected function _getStyleStr()
+    {
+        return $this->_getStyleList()[$this->style] ?? '';
+    }
 }

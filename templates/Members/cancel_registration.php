@@ -12,9 +12,8 @@
       <fieldset>
         <?php
         echo $this->Form->control('leaving_comment', ['label' => __('Comments')]);
-        if ($openBills->count() > 0)
-        {
-          echo $this->Form->control('validation', ['type' => 'checkbox', 'required' => true, 'label' => __('All open invoices are still due after leaving')]);
+        if ($openBills->count() > 0) {
+            echo $this->Form->control('validation', ['type' => 'checkbox', 'required' => true, 'label' => __('All open invoices are still due after leaving')]);
         }
         ?>
       </fieldset>
@@ -23,7 +22,7 @@
     </div>
   </div>
 </div>
-<?php if ($openBills->count() > 0): ?>
+<?php if ($openBills->count() > 0) : ?>
   <div class="row">
     <div class="col">
       <div class="members from content">

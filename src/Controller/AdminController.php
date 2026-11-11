@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Controller;
+
 use App\Controller\AppController;
 use App\Model\Entity\Content;
 use Cake\Event\EventInterface;
@@ -51,7 +54,6 @@ class AdminController extends AppController
 
     public function newYear()
     {
-
     }
 
     /**
@@ -71,7 +73,6 @@ class AdminController extends AppController
         $members = $membersReg->find('all')->where(['membership_fee_paid >' => 0]);
 
         if ($validation == 0) {
-
         } elseif ($validation == $this->Session->read("resetValidation")) {
             $membersReg->updateAll(['membership_fee_paid' => 0], ['membership_fee_paid >' => 0]);
 
@@ -96,7 +97,6 @@ class AdminController extends AppController
         $members = $membersReg->find('all')->where(['registered >' => 0]);
 
         if ($validation == 0) {
-
         } elseif ($validation == $this->Session->read("resetValidation")) {
             $membersReg->updateAll(['registered' => 0], ['registered >' => 0]);
 

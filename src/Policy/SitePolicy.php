@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Policy;
+
 use App\Model\Entity\Site;
 use Authorization\IdentityInterface;
 
@@ -9,8 +12,8 @@ use Authorization\IdentityInterface;
  */
 class SitePolicy
 {
-  public function canAdmin(IdentityInterface $user, Site $site)
-  {
-    return $user->Role->Admin;
-  }
+    public function canAdmin(IdentityInterface $user, Site $site)
+    {
+        return $user->Role->Admin;
+    }
 }

@@ -36,7 +36,7 @@ $mailto = 'mailto:' . $seller->email . '?subject=' . rawurlencode($subject) . '&
             <?= $stepLink(__('next') . ' >', $neighbours['next']) ?>
         </span>
     </div>
-    <?php if (!$forSale): ?>
+    <?php if (!$forSale) : ?>
         <div class="alert alert-warning"><?= __('This item is not shown to buyers (sold, expired or email not confirmed).') ?></div>
     <?php endif; ?>
     <div class="row">
@@ -54,19 +54,19 @@ $mailto = 'mailto:' . $seller->email . '?subject=' . rawurlencode($subject) . '&
             <p><?= h($seller->name) ?><br /><?= h($seller->city) ?></p>
             <div class="sh-contact">
                 <?= $this->Html->link(__('Call {0}', $seller->phone), 'tel:' . $seller->phoneLink(), ['class' => 'btn btn-nav']) ?>
-                <?php if ($seller->whatsapp): ?>
+                <?php if ($seller->whatsapp) : ?>
                     <?= $this->Html->link(__('WhatsApp'), 'https://wa.me/' . $seller->whatsappNumber(), ['class' => 'btn btn-nav', 'target' => '_blank', 'rel' => 'noopener']) ?>
                 <?php endif; ?>
                 <?= $this->Html->link(__('Send an email'), $mailto, ['class' => 'btn btn-nav']) ?>
             </div>
             <p class="sh-muted"><?= __('No money goes through the club: you arrange the payment and the delivery with the seller.') ?></p>
 
-            <?php if ($isOwn && $item->sold === null): ?>
+            <?php if ($isOwn && $item->sold === null) : ?>
                 <?= $this->Form->postLink(__('Mark as sold'), ['action' => 'sold', $item->id], ['class' => 'btn btn-add']) ?>
             <?php endif; ?>
-            <?php if ($isOwn): ?>
+            <?php if ($isOwn) : ?>
                 <?= $this->Form->postLink(__('Remove'), ['action' => 'delete', $item->id], ['class' => 'btn btn-delete', 'confirm' => __('Remove this item for good?')]) ?>
-            <?php elseif ($isAdmin): ?>
+            <?php elseif ($isAdmin) : ?>
                 <?= $this->Form->postLink(__('Delete'), ['controller' => 'SecondHandAdmin', 'action' => 'deleteItem', $item->id], ['class' => 'btn btn-delete', 'confirm' => __('Delete this item for good?')]) ?>
             <?php endif; ?>
         </div>

@@ -53,7 +53,7 @@
             <div class="row">
                 <div class="col">
                     <?= $this->Form->create() ?>
-                    <?php foreach ($agreements as $agreement): ?>
+                    <?php foreach ($agreements as $agreement) : ?>
                         <div>
                             <?= $this->Form->control('A' . $agreement->param, ['type' => 'checkbox', 'label' => $agreement->value, 'required' => true, 'escape' => false]); ?>
                         </div>

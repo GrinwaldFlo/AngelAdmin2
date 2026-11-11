@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Fields shared by the add and edit forms of a meeting
  *

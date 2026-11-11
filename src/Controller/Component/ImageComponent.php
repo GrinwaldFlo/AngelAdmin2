@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Controller\Component;
+
 use Cake\Controller\Component;
 use Cake\Log\Log;
 use App\Utility\ImageHelper;
@@ -11,7 +13,7 @@ class ImageComponent extends Component
 
     /**
      * Validate uploaded file to ensure it's a processable image (JPEG or HEIC)
-     * 
+     *
      * @param mixed $fileobject Uploaded file object with getClientMediaType() and getStream() methods
      * @return array Validation result with 'valid', 'isHeic', 'isJpeg', and 'errorMessage' keys
      */
@@ -20,7 +22,7 @@ class ImageComponent extends Component
         $clientMediaType = $fileobject->getClientMediaType();
         $isJpeg = $clientMediaType === "image/jpeg";
         $isHeic = ImageHelper::isHeicMimeType($clientMediaType);
-        
+
         // First check MIME type
         if (!$isJpeg && !$isHeic) {
             return [
@@ -30,7 +32,7 @@ class ImageComponent extends Component
                 'errorMessage' => $this->getSupportedFormatsMessage()
             ];
         }
-        
+
         // Get the uploaded file path for content validation
         $tempFile = $fileobject->getStream()->getMetadata('uri');
         if (!$tempFile) {
@@ -41,15 +43,15 @@ class ImageComponent extends Component
         } else {
             $needsCleanup = false;
         }
-        
+
         // Validate actual file content
         $contentValidation = $this->validateImageContent($tempFile, $isJpeg, $isHeic);
-        
+
         // Clean up temporary file if we created one
         if ($needsCleanup && file_exists($tempFile)) {
             unlink($tempFile);
         }
-        
+
         if (!$contentValidation['valid']) {
             return [
                 'valid' => false,
@@ -58,7 +60,7 @@ class ImageComponent extends Component
                 'errorMessage' => $contentValidation['errorMessage']
             ];
         }
-        
+
         return [
             'valid' => true,
             'isHeic' => $isHeic,
@@ -69,7 +71,7 @@ class ImageComponent extends Component
 
     /**
      * Validate image file content to ensure it's actually a processable image
-     * 
+     *
      * @param string $filePath Path to the image file
      * @param bool $expectedJpeg Whether the file is expected to be JPEG
      * @param bool $expectedHeic Whether the file is expected to be HEIC
@@ -83,7 +85,7 @@ class ImageComponent extends Component
                 'errorMessage' => __('Image file is not accessible for validation')
             ];
         }
-        
+
         // Check file size (basic sanity check)
         $fileSize = filesize($filePath);
         if ($fileSize === false || $fileSize === 0) {
@@ -92,17 +94,17 @@ class ImageComponent extends Component
                 'errorMessage' => __('Image file appears to be empty or corrupted')
             ];
         }
-        
+
         // For JPEG validation
         if ($expectedJpeg) {
             return $this->validateJpegContent($filePath);
         }
-        
+
         // For HEIC validation
         if ($expectedHeic) {
             return $this->validateHeicContent($filePath);
         }
-        
+
         return [
             'valid' => false,
             'errorMessage' => __('Unknown image format')
@@ -111,7 +113,7 @@ class ImageComponent extends Component
 
     /**
      * Validate JPEG file content
-     * 
+     *
      * @param string $filePath Path to the JPEG file
      * @return array Validation result
      */
@@ -129,7 +131,7 @@ class ImageComponent extends Component
                 'errorMessage' => __('File is not a valid JPEG image')
             ];
         }
-        
+
         // Check if it's actually a JPEG
         if ($imageInfo[2] !== IMAGETYPE_JPEG) {
             Log::warning('JPEG validation failed: wrong image type {type} for {file}', [
@@ -142,7 +144,7 @@ class ImageComponent extends Component
                 'errorMessage' => __('File claims to be JPEG but has different format')
             ];
         }
-        
+
         // Check image dimensions are reasonable
         if ($imageInfo[0] <= 0 || $imageInfo[1] <= 0) {
             Log::warning('JPEG validation failed: invalid dimensions {width}x{height} for {file}', [
@@ -156,7 +158,7 @@ class ImageComponent extends Component
                 'errorMessage' => __('JPEG image has invalid dimensions')
             ];
         }
-        
+
         // Additional validation: try to create image resource
         $imageResource = @imagecreatefromjpeg($filePath);
         if ($imageResource === false) {
@@ -169,17 +171,17 @@ class ImageComponent extends Component
                 'errorMessage' => __('JPEG image cannot be processed - file may be corrupted')
             ];
         }
-        
+
         // Clean up
         imagedestroy($imageResource);
-        
+
         Log::debug('JPEG validation successful for {file} ({width}x{height})', [
             'file' => $filePath,
             'width' => $imageInfo[0],
             'height' => $imageInfo[1],
             'scope' => 'image'
         ]);
-        
+
         return [
             'valid' => true,
             'errorMessage' => null
@@ -188,7 +190,7 @@ class ImageComponent extends Component
 
     /**
      * Validate HEIC file content
-     * 
+     *
      * @param string $filePath Path to the HEIC file
      * @return array Validation result
      */
@@ -201,7 +203,7 @@ class ImageComponent extends Component
                 'errorMessage' => __('HEIC format is not supported on this server')
             ];
         }
-        
+
         // Read file header to validate HEIC signature
         $handle = @fopen($filePath, 'rb');
         if ($handle === false) {
@@ -214,11 +216,11 @@ class ImageComponent extends Component
                 'errorMessage' => __('Cannot read uploaded HEIC file')
             ];
         }
-        
+
         // Read first 12 bytes to check HEIC signature
         $header = fread($handle, 12);
         fclose($handle);
-        
+
         if (strlen($header) < 12) {
             Log::warning('HEIC validation failed: file too small ({size} bytes) for {file}', [
                 'size' => strlen($header),
@@ -230,7 +232,7 @@ class ImageComponent extends Component
                 'errorMessage' => __('HEIC file is too small or corrupted')
             ];
         }
-        
+
         // HEIC files start with specific signatures
         // Check for 'ftyp' at offset 4-7 and HEIC brands
         $ftypSignature = substr($header, 4, 4);
@@ -245,7 +247,7 @@ class ImageComponent extends Component
                 'errorMessage' => __('File is not a valid HEIC image - invalid signature')
             ];
         }
-        
+
         // Check HEIC brand (next 4 bytes after ftyp)
         $brand = substr($header, 8, 4);
         $validBrands = ['heic', 'heix', 'hevc', 'hevx', 'heim', 'heis', 'hevm', 'hevs', 'mif1'];
@@ -260,7 +262,7 @@ class ImageComponent extends Component
                 'errorMessage' => __('File is not a valid HEIC image - unsupported brand: {0}', $brand)
             ];
         }
-        
+
         // Try to process with ImageMagick if available for deeper validation
         if (extension_loaded('imagick')) {
             try {
@@ -269,7 +271,7 @@ class ImageComponent extends Component
                 $width = $imagick->getImageWidth();
                 $height = $imagick->getImageHeight();
                 $imagick->destroy();
-                
+
                 if ($width <= 0 || $height <= 0) {
                     Log::warning('HEIC validation failed: invalid dimensions {width}x{height} for {file}', [
                         'width' => $width,
@@ -282,7 +284,7 @@ class ImageComponent extends Component
                         'errorMessage' => __('HEIC image has invalid dimensions')
                     ];
                 }
-                
+
                 Log::debug('HEIC validation successful for {file} ({width}x{height}, brand: {brand})', [
                     'file' => $filePath,
                     'width' => $width,
@@ -290,7 +292,6 @@ class ImageComponent extends Component
                     'brand' => $brand,
                     'scope' => 'image'
                 ]);
-                
             } catch (\Exception $e) {
                 Log::warning('HEIC validation failed: ImageMagick error for {file}: {error}', [
                     'file' => $filePath,
@@ -309,7 +310,7 @@ class ImageComponent extends Component
                 'scope' => 'image'
             ]);
         }
-        
+
         return [
             'valid' => true,
             'errorMessage' => null
@@ -318,7 +319,7 @@ class ImageComponent extends Component
 
     /**
      * Get supported image formats message
-     * 
+     *
      * @return string User-friendly message about supported formats
      */
     public function getSupportedFormatsMessage(): string
@@ -332,13 +333,13 @@ class ImageComponent extends Component
 
     /**
      * Get accepted MIME types for file input
-     * 
+     *
      * @return string Comma-separated list of accepted MIME types
      */
     public function getAcceptedMimeTypes(): string
     {
         $types = ['image/jpeg'];
-        
+
         if (ImageHelper::isHeicSupported()) {
             $types = array_merge($types, [
                 'image/heic',
@@ -347,23 +348,23 @@ class ImageComponent extends Component
                 'image/heif-sequence'
             ]);
         }
-        
+
         return implode(',', $types);
     }
 
     /**
      * Get accepted file extensions
-     * 
+     *
      * @return array Array of accepted file extensions
      */
     public function getAcceptedExtensions(): array
     {
         $extensions = ['jpg', 'jpeg'];
-        
+
         if (ImageHelper::isHeicSupported()) {
             $extensions = array_merge($extensions, ['heic', 'heif']);
         }
-        
+
         return $extensions;
     }
 
@@ -417,12 +418,12 @@ class ImageComponent extends Component
 
         // Apply rotation based on orientation
         $rotatedImage = $this->applyOrientation($image, $ort);
-        
+
         if ($rotatedImage) {
             // Save the rotated image
             $result = imagejpeg($rotatedImage, $filename);
             imagedestroy($rotatedImage);
-            
+
             if ($result) {
                 Log::info('Image successfully rotated and saved: {filename}', ['filename' => $filename, 'scope' => 'image']);
                 return true;
@@ -431,7 +432,7 @@ class ImageComponent extends Component
                 return false;
             }
         }
-        
+
         imagedestroy($image);
         return false;
     }
@@ -492,7 +493,7 @@ class ImageComponent extends Component
     public function diagnoseExif($filename)
     {
         Log::info('=== EXIF Diagnostic for: {filename} ===', ['filename' => $filename, 'scope' => 'image']);
-        
+
         if (!file_exists($filename)) {
             Log::error('❌ File not found', ['scope' => 'image', 'filename' => $filename]);
             return false;
@@ -527,7 +528,7 @@ class ImageComponent extends Component
 
         // Read EXIF data
         $exif = @exif_read_data($filename);
-        
+
         if ($exif === false) {
             Log::error('❌ Failed to read EXIF data', ['scope' => 'image', 'filename' => $filename]);
             return false;
@@ -546,7 +547,7 @@ class ImageComponent extends Component
             Log::info('✅ Orientation in root: {orientation}', ['orientation' => $exif['Orientation'], 'scope' => 'image']);
             $orientationFound = true;
         }
-        
+
         if (isset($exif['IFD0']['Orientation'])) {
             Log::info('✅ Orientation in IFD0: {orientation}', ['orientation' => $exif['IFD0']['Orientation'], 'scope' => 'image']);
             $orientationFound = true;
@@ -749,5 +750,4 @@ class ImageComponent extends Component
 
         return false;
     }
-
 }

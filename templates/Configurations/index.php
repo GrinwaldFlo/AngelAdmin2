@@ -17,7 +17,7 @@
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($configurations as $configuration): ?>
+      <?php foreach ($configurations as $configuration) : ?>
         <tr>
           <td><?= $this->Number->format($configuration->id) ?></td>
           <td><?= h($configuration->label) ?></td>

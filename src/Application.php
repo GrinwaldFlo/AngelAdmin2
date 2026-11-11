@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -14,6 +15,7 @@ declare(strict_types=1);
  * @since     3.3.0
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App;
 
 use Cake\Core\Configure;
@@ -29,7 +31,6 @@ use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use App\Middleware\MaintenanceMiddleware;
 use App\Middleware\SecurityMiddleware;
-
 // Authentication
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
@@ -125,7 +126,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
                 'httponly' => true,
                 'secure' => (bool)(Configure::read('Session.ini')['session.cookie_secure'] ?? false),
             ]))
-            
+
             ;
 
         return $middlewareQueue;

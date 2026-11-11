@@ -27,14 +27,14 @@ $withEmail = array_filter($recipients, fn ($member) => trim((string)$member->ema
 
         <?php if ($search !== '') : ?>
           <h4 class="ml-recipients-title"><?= __('Recipients') ?> (<?= count($withEmail) ?>)</h4>
-          <?php if (empty($recipients)) : ?>
+            <?php if (empty($recipients)) : ?>
             <p class="ml-invalid"><?= __('No bill contains this text.') ?></p>
-          <?php else : ?>
+            <?php else : ?>
             <p class="ml-muted">
-              <?= __('{0} emails will be sent.', count($withEmail)) ?>
-              <?php if (count($withEmail) < count($recipients)) : ?>
+                <?= __('{0} emails will be sent.', count($withEmail)) ?>
+                <?php if (count($withEmail) < count($recipients)) : ?>
                 <span class="ml-invalid"><?= __('{0} members without email will not receive it.', count($recipients) - count($withEmail)) ?></span>
-              <?php endif; ?>
+                <?php endif; ?>
             </p>
             <table class="table table-striped table-sm">
               <thead>
@@ -53,7 +53,7 @@ $withEmail = array_filter($recipients, fn ($member) => trim((string)$member->ema
                       <?php if (trim((string)$member->email) === '') : ?>
                         <span class="ml-invalid"><?= __('No email, not sent') ?></span>
                       <?php else : ?>
-                        <?= h($member->email) ?>
+                          <?= h($member->email) ?>
                       <?php endif; ?>
                     </td>
                     <td><?= $member->active ? __('Active') : __('Past member') ?></td>
@@ -62,7 +62,7 @@ $withEmail = array_filter($recipients, fn ($member) => trim((string)$member->ema
                 <?php endforeach; ?>
               </tbody>
             </table>
-          <?php endif; ?>
+            <?php endif; ?>
         <?php endif; ?>
 
         <?= $this->element('Mailings/compose', compact('placeholders')) ?>

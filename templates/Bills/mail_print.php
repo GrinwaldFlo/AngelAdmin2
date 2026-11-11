@@ -4,8 +4,8 @@
       <?= $this->Html->link(__('Active'), ['action' => 'mail_print', $memberStatus == 1 ? 0 : 1], ['class' => 'btn btn-filter btn-sm' . ($memberStatus == 1 ? ' pressed' : '')]) ?>
       <?= $this->Html->link(__('Alumni'), ['action' => 'mail_print', $memberStatus == 2 ? 0 : 2], ['class' => 'btn btn-filter btn-sm' . ($memberStatus == 2 ? ' pressed' : '')]) ?>
       |
-      <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'mail_print', $memberStatus, $teamId == $key ? 0 : $key], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+      <?php foreach ($teams as $key => $team) : ?>
+          <?= $this->Html->link(h($team), ['action' => 'mail_print', $memberStatus, $teamId == $key ? 0 : $key], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>
@@ -27,8 +27,8 @@
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($bills as $bill): ?>
-        <?php //debug($bill); break; ?>
+      <?php foreach ($bills as $bill) : ?>
+            <?php //debug($bill); break; ?>
         <tr>
           <td><?= $this->Form->control('BillId.' . $bill->id, ['type' => 'hidden', 'checked' => true, 'label' => false, 'class' => 'checkable']);  ?></td>
           <td><?= $this->Html->link(h($bill->Reference), ['controller' => 'Bills', 'action' => 'view', $bill->id], ['target' => '_blank']) ?></td>

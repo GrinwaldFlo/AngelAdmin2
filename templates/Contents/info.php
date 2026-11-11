@@ -10,27 +10,27 @@
           <div class="col">
 
             <?php foreach ($teams as $key => $team) : ?>
-              <?php if ($key % 2 == 0) : ?>
+                <?php if ($key % 2 == 0) : ?>
                 <h5><?= h($team->name) ?></h5> 
                 <ul>
-                  <?= __('Fees: {0}CHF, Size: {1}', $team->membership_fee, $team->nbMembers) ?>
+                    <?= __('Fees: {0}CHF, Size: {1}', $team->membership_fee, $team->nbMembers) ?>
                   <br>
-                  <?= h($team->description) ?>
+                    <?= h($team->description) ?>
                 </ul>
-              <?php endif; ?>
+                <?php endif; ?>
             <?php endforeach; ?>              
 
           </div>
           <div class="col">
             <?php foreach ($teams as $key => $team) : ?>
-              <?php if ($key % 2 == 1) : ?>
+                <?php if ($key % 2 == 1) : ?>
                 <h5><?= h($team->name) ?></h5> 
                 <ul>
-                  <?= __('Fees: {0}CHF, Size: {1}', $team->membership_fee, $team->nbMembers) ?>
+                    <?= __('Fees: {0}CHF, Size: {1}', $team->membership_fee, $team->nbMembers) ?>
                   <br>
-                  <?= h($team->description) ?>
+                    <?= h($team->description) ?>
                 </ul>
-              <?php endif; ?>
+                <?php endif; ?>
             <?php endforeach; ?>             
           </div>
         </div>
@@ -41,10 +41,11 @@
           <div class="col">
             <ul>
               <?php foreach ($contents as $key => $content) : ?>
-                <?php
-                if ($key % 2 == 0)
-                  echo $content['text'];
-                ?>
+                    <?php
+                    if ($key % 2 == 0) {
+                        echo $content['text'];
+                    }
+                    ?>
                 <hr class="animated fadeInLeft" style="visibility: visible;">
               <?php endforeach; ?>              
             </ul>
@@ -52,10 +53,11 @@
           <div class="col">
             <ul>
               <?php foreach ($contents as $key => $content) : ?>
-                <?php
-                if ($key % 2 == 1)
-                  echo $content['text'];
-                ?>
+                    <?php
+                    if ($key % 2 == 1) {
+                        echo $content['text'];
+                    }
+                    ?>
                 <hr class="animated fadeInLeft" style="visibility: visible;">
               <?php endforeach; ?>              
             </ul>

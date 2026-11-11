@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Coaches and help-coaches of the active teams
  *
@@ -19,52 +20,52 @@ $types = TeamsCoach::types();
     <p><?= __('No active team.') ?></p>
   <?php endif; ?>
   <?php foreach ($teams as $teamId => $teamName) : ?>
-    <?php
-    $assigned = [];
-    foreach ($coaches[$teamId] as $row) {
-      $assigned[$row->member_id] = true;
-    }
-    $available = array_diff_key($candidates, $assigned);
-    ?>
+        <?php
+        $assigned = [];
+        foreach ($coaches[$teamId] as $row) {
+            $assigned[$row->member_id] = true;
+        }
+        $available = array_diff_key($candidates, $assigned);
+        ?>
     <section class="teams-coaches-team" id="team-<?= $teamId ?>">
       <h4><?= $this->Html->link($teamName, ['action' => 'view', $teamId]) ?></h4>
-      <?php if (empty($coaches[$teamId])) : ?>
+        <?php if (empty($coaches[$teamId])) : ?>
         <p class="text-muted"><?= __('No coach') ?></p>
-      <?php else : ?>
+        <?php else : ?>
         <ul class="teams-coaches-list">
-          <?php foreach ($coaches[$teamId] as $row) : ?>
+            <?php foreach ($coaches[$teamId] as $row) : ?>
             <li>
               <span class="teams-coaches-type"><?= h($types[$row->type] ?? '') ?></span>
-              <?= h($row->member->fullName) ?>
-              <?= $this->Form->postLink('-', ['action' => 'removeCoach', $row->id], [
+                <?= h($row->member->fullName) ?>
+                <?= $this->Form->postLink('-', ['action' => 'removeCoach', $row->id], [
                 'class' => 'btn btn-delete btn-sm',
                 'title' => __('Remove'),
                 'confirm' => __('Remove {0} from the coaches of {1}?', $row->member->fullName, $teamName),
               ]) ?>
             </li>
-          <?php endforeach; ?>
+            <?php endforeach; ?>
         </ul>
-      <?php endif; ?>
-      <?php if (!empty($available)) : ?>
-        <?= $this->Form->create(null, ['url' => ['action' => 'addCoach'], 'class' => 'teams-coaches-add']) ?>
-        <?= $this->Form->hidden('team_id', ['value' => $teamId]) ?>
-        <?= $this->Form->control('member_id', [
-          'type' => 'select',
-          'options' => $available,
-          'empty' => __('Choose a member'),
-          'required' => true,
-          'label' => false,
-          'aria-label' => __('Member'),
+        <?php endif; ?>
+        <?php if (!empty($available)) : ?>
+            <?= $this->Form->create(null, ['url' => ['action' => 'addCoach'], 'class' => 'teams-coaches-add']) ?>
+            <?= $this->Form->hidden('team_id', ['value' => $teamId]) ?>
+            <?= $this->Form->control('member_id', [
+            'type' => 'select',
+            'options' => $available,
+            'empty' => __('Choose a member'),
+            'required' => true,
+            'label' => false,
+            'aria-label' => __('Member'),
         ]) ?>
-        <?= $this->Form->control('type', [
-          'type' => 'select',
-          'options' => $types,
-          'label' => false,
-          'aria-label' => __('Type'),
+            <?= $this->Form->control('type', [
+            'type' => 'select',
+            'options' => $types,
+            'label' => false,
+            'aria-label' => __('Type'),
         ]) ?>
-        <?= $this->Form->button(__('Add'), ['class' => 'btn btn-add btn-sm']) ?>
-        <?= $this->Form->end() ?>
-      <?php endif; ?>
+            <?= $this->Form->button(__('Add'), ['class' => 'btn btn-add btn-sm']) ?>
+            <?= $this->Form->end() ?>
+        <?php endif; ?>
     </section>
   <?php endforeach; ?>
 </div>

@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Model\Table;
+
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -31,18 +34,18 @@ class SitesTable extends Table
    * @param array $config The configuration for the Table.
    * @return void
    */
-  public function initialize(array $config): void
-  {
-    parent::initialize($config);
+    public function initialize(array $config): void
+    {
+        parent::initialize($config);
 
-    $this->setTable('sites');
-    $this->setDisplayField('city');
-    $this->setPrimaryKey('id');
+        $this->setTable('sites');
+        $this->setDisplayField('city');
+        $this->setPrimaryKey('id');
 
-    $this->hasMany('Members', [
-      'foreignKey' => 'site_id',
-    ]);
-  }
+        $this->hasMany('Members', [
+        'foreignKey' => 'site_id',
+        ]);
+    }
 
   /**
    * A city with members can't be deleted: they must be moved to another city first
@@ -50,12 +53,12 @@ class SitesTable extends Table
    * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
    * @return \Cake\ORM\RulesChecker
    */
-  public function buildRules(RulesChecker $rules): RulesChecker
-  {
-    $rules->addDelete($rules->isNotLinkedTo('Members', 'id', __('This location has members, move them to another location first.')));
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->addDelete($rules->isNotLinkedTo('Members', 'id', __('This location has members, move them to another location first.')));
 
-    return $rules;
-  }
+        return $rules;
+    }
 
   /**
    * Default validation rules.
@@ -63,75 +66,74 @@ class SitesTable extends Table
    * @param \Cake\Validation\Validator $validator Validator instance.
    * @return \Cake\Validation\Validator
    */
-  public function validationDefault(Validator $validator): Validator
-  {
-    $validator
-      ->integer('id')
-      ->allowEmptyString('id', null, 'create');
+    public function validationDefault(Validator $validator): Validator
+    {
+        $validator
+        ->integer('id')
+        ->allowEmptyString('id', null, 'create');
 
-    $validator
-      ->scalar('city')
-      ->maxLength('city', 100)
-      ->requirePresence('city', 'create')
-      ->notEmptyString('city');
+        $validator
+        ->scalar('city')
+        ->maxLength('city', 100)
+        ->requirePresence('city', 'create')
+        ->notEmptyString('city');
 
-    $validator
-      ->scalar('address')
-      ->maxLength('address', 100)
-      ->allowEmptyString('address');
+        $validator
+        ->scalar('address')
+        ->maxLength('address', 100)
+        ->allowEmptyString('address');
 
-    $validator
-      ->scalar('account_designation')
-      ->maxLength('account_designation', 100)
-      ->allowEmptyString('account_designation');
+        $validator
+        ->scalar('account_designation')
+        ->maxLength('account_designation', 100)
+        ->allowEmptyString('account_designation');
 
-    $validator
-      ->scalar('postcode')
-      ->maxLength('postcode', 100)
-      ->allowEmptyString('postcode');
+        $validator
+        ->scalar('postcode')
+        ->maxLength('postcode', 100)
+        ->allowEmptyString('postcode');
 
-    $validator
-      ->scalar('iban')
-      ->maxLength('iban', 100)
-      ->allowEmptyString('iban');
+        $validator
+        ->scalar('iban')
+        ->maxLength('iban', 100)
+        ->allowEmptyString('iban');
 
-    $validator
-      ->scalar('bic')
-      ->maxLength('bic', 100)
-      ->allowEmptyString('bic');
+        $validator
+        ->scalar('bic')
+        ->maxLength('bic', 100)
+        ->allowEmptyString('bic');
 
-    $validator
-      ->integer('feeMax')
-      ->requirePresence('feeMax', 'create')
-      ->notEmptyString('feeMax');
+        $validator
+        ->integer('feeMax')
+        ->requirePresence('feeMax', 'create')
+        ->notEmptyString('feeMax');
 
-    $validator
-      ->integer('reminder_penalty')
-      ->notEmptyString('reminder_penalty');
+        $validator
+        ->integer('reminder_penalty')
+        ->notEmptyString('reminder_penalty');
 
-    $validator
-      ->scalar('sender_email')
-      ->maxLength('sender_email', 100)
-      ->requirePresence('sender_email', 'create')
-      ->notEmptyString('sender_email');
+        $validator
+        ->scalar('sender_email')
+        ->maxLength('sender_email', 100)
+        ->requirePresence('sender_email', 'create')
+        ->notEmptyString('sender_email');
 
-    $validator
-      ->scalar('sender')
-      ->maxLength('sender', 100)
-      ->requirePresence('sender', 'create')
-      ->notEmptyString('sender');
+        $validator
+        ->scalar('sender')
+        ->maxLength('sender', 100)
+        ->requirePresence('sender', 'create')
+        ->notEmptyString('sender');
 
-    $validator
-      ->scalar('sender_phone')
-      ->maxLength('sender_phone', 100)
-      ->allowEmptyString('sender_phone');
+        $validator
+        ->scalar('sender_phone')
+        ->maxLength('sender_phone', 100)
+        ->allowEmptyString('sender_phone');
 
-    $validator
-      ->integer('add_invoice_num')
-      ->requirePresence('add_invoice_num', 'create')
-      ->notEmptyString('add_invoice_num');
+        $validator
+        ->integer('add_invoice_num')
+        ->requirePresence('add_invoice_num', 'create')
+        ->notEmptyString('add_invoice_num');
 
-    return $validator;
-  }
-
+        return $validator;
+    }
 }

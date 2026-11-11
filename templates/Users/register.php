@@ -9,7 +9,7 @@
         <div class="users form content">
             <?= $this->Form->create($user) ?>
             <fieldset>
-                <legend><?= __('Create your login for').' '.$member->FullName ?></legend>
+                <legend><?= __('Create your login for') . ' ' . $member->FullName ?></legend>
                 <?php
                     echo $this->Form->control('username', ['label' => __('New username')]);
                     echo $this->Form->control('password', ['label' => __('New password')]);

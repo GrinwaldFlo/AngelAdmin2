@@ -9,12 +9,12 @@
     <div class="side-nav">
       <h4 class="heading"><?= __('Actions') ?></h4>
       <?=
-      $this->Form->postLink(
-        __('Delete'),
-        ['action' => 'delete', $fieldType->id],
-        ['confirm' => __('Are you sure you want to delete # {0}?', $fieldType->id), 'class' => 'side-nav-item']
-      )
-      ?>
+        $this->Form->postLink(
+            __('Delete'),
+            ['action' => 'delete', $fieldType->id],
+            ['confirm' => __('Are you sure you want to delete # {0}?', $fieldType->id), 'class' => 'side-nav-item']
+        )
+        ?>
       <?= $this->Html->link(__('List Fields'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
     </div>
   </aside>

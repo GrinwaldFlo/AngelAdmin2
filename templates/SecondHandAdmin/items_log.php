@@ -25,7 +25,7 @@ $this->Html->css('second-hand', ['block' => true]);
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($logs as $log): ?>
+            <?php foreach ($logs as $log) : ?>
                 <tr>
                     <td><?= $log->created ? h($log->created->i18nFormat('dd.MM.yyyy')) : '' ?></td>
                     <td>
@@ -39,12 +39,12 @@ $this->Html->css('second-hand', ['block' => true]);
                     <td><?= $this->Number->currency($log->price, 'CHF') ?></td>
                     <td>
                         <?= h($log->statusLabel($months)) ?>
-                        <?php if ($log->closed): ?>
+                        <?php if ($log->closed) : ?>
                             <div class="sh-muted"><?= h($log->closed->i18nFormat('dd.MM.yyyy')) ?></div>
                         <?php endif; ?>
                     </td>
                     <td class="actions">
-                        <?php if (isset($existingIds[$log->item_id])): ?>
+                        <?php if (isset($existingIds[$log->item_id])) : ?>
                             <?= $this->Html->link(__('View'), ['controller' => 'SecondHand', 'action' => 'view', $log->item_id]) ?>
                             <?= $this->Form->postLink(__('Delete'), ['action' => 'deleteItem', $log->item_id], ['confirm' => __('Delete this item for good?')]) ?>
                         <?php endif; ?>

@@ -1,9 +1,11 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Member $member
  */
 use Cake\Core\Configure;
+
 ?>
 <?php if (!empty($ContactInfo)) : ?>
   <div class="row">

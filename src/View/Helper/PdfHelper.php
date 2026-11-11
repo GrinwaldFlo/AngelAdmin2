@@ -1,6 +1,8 @@
 <?php
+
 /* src/View/Helper/PdfHelper.php */
 namespace App\View\Helper;
+
 use App\Model\Entity\Content;
 use Cake\View\Helper;
 use Cake\Core\Configure;
@@ -88,10 +90,12 @@ class PdfHelper extends Helper
     public function setFontText($bold = false, $italic = false, $size = 0)
     {
         $type = "";
-        if ($bold)
+        if ($bold) {
             $type = $type . "B";
-        if ($italic)
+        }
+        if ($italic) {
             $type = $type . "I";
+        }
 
         $fontSize = 0;
         switch ($size) {
@@ -347,7 +351,7 @@ class PdfHelper extends Helper
         if ($bill->reminder > 0) {
             if ($bill->reminder == 1) {
                 $txt = $txt . __('First reminder');
-            } else if ($bill->reminder > 1) {
+            } elseif ($bill->reminder > 1) {
                 $txt = $txt . __('Reminder N°{0}', $bill->reminder);
             }
             $txt = $txt . "\r\n" . __x("{0} is a date", "To date, we have not received the {0} payment.", $bill->due_date_ori);
@@ -368,8 +372,9 @@ class PdfHelper extends Helper
         $this->pdf->Cell(50, 6, $bill->due_date, 0, 1);
 
         $this->pdf->ln(1);
-        if (!empty($bill->site->reminder_penalty))
+        if (!empty($bill->site->reminder_penalty)) {
             $this->pdf->Cell(0, 0, __("Late payments will result in a reminder fee of {0} CHF", $bill->site->reminder_penalty), 0, 1);
+        }
         $this->pdf->Cell(0, 0, __("In case of difficulty in payment, you can contact me for a payment in several installments"), 0, 1);
 
         $this->pdf->ln(3);
@@ -491,8 +496,9 @@ class PdfHelper extends Helper
 
     public function CreateQR($bill)
     {
-        if ($bill->amount < 1)
+        if ($bill->amount < 1) {
             return;
+        }
         // Create a new instance of QrBill, containing default headers with fixed values
         $qrBill = QrBill\QrBill::create();
 
@@ -564,5 +570,4 @@ class PdfHelper extends Helper
             throw new \RuntimeException(__('The QR code of the invoice {0} could not be created: {1}', $bill->Reference, implode(' ', $messages) ?: $e->getMessage()), 0, $e);
         }
     }
-
 }

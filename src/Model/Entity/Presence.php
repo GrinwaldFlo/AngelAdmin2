@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Model\Entity;
+
 use Cake\ORM\Entity;
 
 /**
@@ -18,30 +21,30 @@ use Cake\ORM\Entity;
  */
 class Presence extends Entity
 {
-  public const NONE = -1;
-  public const ABSENT = 0;
-  public const PRESENT = 1;
-  public const EXCUSED = 2;
-  public const LATE = 3;
+    public const NONE = -1;
+    public const ABSENT = 0;
+    public const PRESENT = 1;
+    public const EXCUSED = 2;
+    public const LATE = 3;
 
   /**
    * States a member can be set to, in the display order of the attendance page
    * @return array [state => ['key' => css suffix, 'label' => text, 'icon' => material symbol]]
    */
-  public static function states(): array
-  {
-    return [
-      self::PRESENT => ['key' => 'present', 'label' => __('Present'), 'icon' => 'check'],
-      self::ABSENT => ['key' => 'absent', 'label' => __('Absent'), 'icon' => 'close'],
-      self::EXCUSED => ['key' => 'excused', 'label' => __('Excused'), 'icon' => 'event_busy'],
-      self::LATE => ['key' => 'late', 'label' => __('Late'), 'icon' => 'schedule'],
-    ];
-  }
+    public static function states(): array
+    {
+        return [
+        self::PRESENT => ['key' => 'present', 'label' => __('Present'), 'icon' => 'check'],
+        self::ABSENT => ['key' => 'absent', 'label' => __('Absent'), 'icon' => 'close'],
+        self::EXCUSED => ['key' => 'excused', 'label' => __('Excused'), 'icon' => 'event_busy'],
+        self::LATE => ['key' => 'late', 'label' => __('Late'), 'icon' => 'schedule'],
+        ];
+    }
 
-  public static function isValidState(int $state): bool
-  {
-    return isset(self::states()[$state]);
-  }
+    public static function isValidState(int $state): bool
+    {
+        return isset(self::states()[$state]);
+    }
 
   /**
    * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -52,7 +55,7 @@ class Presence extends Entity
    *
    * @var array
    */
-  protected array $_accessible = [
+    protected array $_accessible = [
       'meeting_id' => true,
       'member_id' => true,
       'created' => true,
@@ -60,36 +63,35 @@ class Presence extends Entity
       'state' => true,
       'meeting' => true,
       'member' => true,
-  ];
-  protected function _getStatusHtml()
-  {
-    switch ($this->state)
+    ];
+    protected function _getStatusHtml()
     {
-      case 0: // Absent
-        return 'danger';
-      case 1: // Present
-        return 'success';
-      case 2: // Excused
-        return 'primary';
-      case 3: // Late
-        return 'warning';
-      case -1: // No
-        return 'black';
-      default:
-        return "XXX";
+        switch ($this->state) {
+            case 0: // Absent
+                return 'danger';
+            case 1: // Present
+                return 'success';
+            case 2: // Excused
+                return 'primary';
+            case 3: // Late
+                return 'warning';
+            case -1: // No
+                return 'black';
+            default:
+                return "XXX";
+        }
     }
-  }
 
-  public function Season($firstDayOfYear): string
-  {
-    $curYear = (int)$this->meeting->meeting_date->format('Y');
-    
-    $firstDay = new \DateTime($firstDayOfYear . '.' . $curYear);
-    
-    if($this->meeting->meeting_date < $firstDay)
-      return ($curYear-1).'-'.$curYear;
-    else
-      return $curYear.'-'.($curYear + 1);
-  }
+    public function Season($firstDayOfYear): string
+    {
+        $curYear = (int)$this->meeting->meeting_date->format('Y');
 
+        $firstDay = new \DateTime($firstDayOfYear . '.' . $curYear);
+
+        if ($this->meeting->meeting_date < $firstDay) {
+            return ($curYear - 1) . '-' . $curYear;
+        } else {
+            return $curYear . '-' . ($curYear + 1);
+        }
+    }
 }

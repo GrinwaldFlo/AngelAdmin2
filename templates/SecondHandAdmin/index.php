@@ -14,7 +14,7 @@ $this->Html->css('second-hand', ['block' => true]);
         <h3><?= __('Second-hand') ?></h3>
         <span>
             <?= $this->Html->link(__('Log of the items'), ['action' => 'itemsLog'], ['class' => 'btn btn-nav']) ?>
-            <?php if ($enabled): ?>
+            <?php if ($enabled) : ?>
                 <?= $this->Html->link(__('Open the second-hand page'), ['controller' => 'SecondHand', 'action' => 'index'], ['class' => 'btn btn-nav']) ?>
             <?php endif; ?>
         </span>
@@ -37,13 +37,13 @@ $this->Html->css('second-hand', ['block' => true]);
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($categories as $row): ?>
+            <?php foreach ($categories as $row) : ?>
                 <tr>
                     <td><?= h($row->name) ?></td>
                     <td><?= (int)$row->items ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('Edit'), ['action' => 'editCategory', $row->id]) ?>
-                        <?php if ($row->items == 0): ?>
+                        <?php if ($row->items == 0) : ?>
                             <?= $this->Form->postLink(__('Delete'), ['action' => 'deleteCategory', $row->id], ['confirm' => __('Delete the category {0}?', $row->name)]) ?>
                         <?php endif; ?>
                     </td>

@@ -12,7 +12,7 @@ $this->Html->css('shop', ['block' => true]);
     <aside class="col-md-3">
         <div class="side-nav shop-side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
-            <?php if (!$shopItem->isNew()): ?>
+            <?php if (!$shopItem->isNew()) : ?>
                 <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $shopItem->id], ['confirm' => __('Are you sure you want to delete # {0}?', $shopItem->id), 'class' => 'btn btn-delete']) ?>
             <?php endif; ?>
             <?= $this->Html->link(__('List Shop Items'), ['action' => 'index'], ['class' => 'btn btn-nav']) ?>

@@ -19,9 +19,9 @@ if (empty($member->presences) || sizeof($member->presences) == 0) {
                 // Sort attendance keys in descending order (newest first)
                 $sortedAttendance = $attendance;
                 krsort($sortedAttendance);
-                
+
                 $firstTab = true;
-                foreach ($sortedAttendance as $key => $value):
+                foreach ($sortedAttendance as $key => $value) :
                     $id = "Y" . str_replace("-", "", $key);
                     ?>
                     <li class="nav-item" role="presentation">
@@ -42,7 +42,7 @@ if (empty($member->presences) || sizeof($member->presences) == 0) {
             <div class="tab-content mt-3" id="attendanceTabContent">
                 <?php
                 $firstContent = true;
-                foreach ($sortedAttendance as $key => $items):
+                foreach ($sortedAttendance as $key => $items) :
                     $id = "Y" . str_replace("-", "", $key);
                     ?>
                     <div class="tab-pane fade<?= $firstContent ? ' show active' : '' ?>" 
@@ -51,7 +51,7 @@ if (empty($member->presences) || sizeof($member->presences) == 0) {
                          aria-labelledby="<?= $id ?>-tab"
                          tabindex="0">
                         <div class="d-flex flex-wrap gap-2">
-                            <?php foreach ($items as $itemKey => $item): ?>
+                            <?php foreach ($items as $itemKey => $item) : ?>
                                 <span class="badge bg-<?= h($item->statusHtml) ?>" 
                                       data-bs-toggle="tooltip" 
                                       data-bs-placement="top"

@@ -9,10 +9,10 @@
 ?>
 <div class="shop-title">
     <h3><?= h($title) ?></h3>
-    <?php if (isset($count)): ?>
+    <?php if (isset($count)) : ?>
         <span class="mo-count">(<?= $this->Number->format($count) ?>)</span>
     <?php endif; ?>
-    <?php if (!empty($shopSite)): ?>
+    <?php if (!empty($shopSite)) : ?>
         <span class="badge bg-secondary shop-site"><?= h($shopSite->city) ?></span>
     <?php endif; ?>
 </div>

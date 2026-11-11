@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Shop page opened with "All locations" chosen in the menu
  * @var \App\View\AppView $this

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -40,13 +41,13 @@ class TestHeicCommand extends Command
     {
         $io->out('Testing HEIC Support...');
         $io->hr();
-        
+
         // Get detailed support information
         $supportInfo = ImageHelper::getHeicSupportInfo();
-        
+
         $io->out('HEIC Support Status: ' . ($supportInfo['supported'] ? '<success>Supported</success>' : '<error>Not Supported</error>'));
         $io->out('Reason: ' . $supportInfo['reason']);
-        
+
         if (!empty($supportInfo['requirements'])) {
             $io->out('');
             $io->out('<warning>Requirements to enable HEIC support:</warning>');
@@ -54,16 +55,16 @@ class TestHeicCommand extends Command
                 $io->out('  • ' . $requirement);
             }
         }
-        
+
         $io->hr();
-        
+
         // Show user instructions
         $instructions = ImageHelper::getHeicInstructions();
         $io->out('<info>User Instructions:</info>');
         $io->out($instructions);
-        
+
         $io->hr();
-        
+
         if ($supportInfo['supported']) {
             $io->out('<success>? Your application is ready to handle HEIC images!</success>');
             $io->out('<info>Users can now upload HEIC photos from iOS devices.</info>');
@@ -71,7 +72,7 @@ class TestHeicCommand extends Command
             $io->out('<warning>? HEIC images will be rejected during upload.</warning>');
             $io->out('<info>Users will need to convert HEIC to JPEG manually.</info>');
         }
-        
+
         return 0;
     }
 }

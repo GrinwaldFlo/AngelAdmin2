@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Model\Entity;
+
 use Cake\ORM\Entity;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\ORM\TableRegistry;
@@ -27,9 +30,9 @@ class User extends Entity
   /**
    * @var mixed|null
    */
-  protected $_hasAllowsNull;
+    protected $_hasAllowsNull;
 
-  protected $roleCache = null;
+    protected $roleCache = null;
 
   /**
    * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -40,7 +43,7 @@ class User extends Entity
    *
    * @var array
    */
-  protected array $_accessible = [
+    protected array $_accessible = [
     'username' => true,
     'password' => true,
     'role_id' => true,
@@ -52,30 +55,29 @@ class User extends Entity
     'role' => true,
     'member' => true,
     'last_login' => true,
-  ];
+    ];
   /**
    * Fields that are excluded from JSON versions of the entity.
    *
    * @var array
    */
-  protected array $_hidden = [
+    protected array $_hidden = [
     'password',
-  ];
-  protected function _setPassword(string $password): ?string
-  {
-    if (strlen($password) > 0) {
-      return (new DefaultPasswordHasher())->hash($password);
+    ];
+    protected function _setPassword(string $password): ?string
+    {
+        if (strlen($password) > 0) {
+            return (new DefaultPasswordHasher())->hash($password);
+        }
     }
-  }
 
-  protected function _getRole()
-  {
-    if ($this->roleCache != null) {
-      return $this->roleCache;
+    protected function _getRole()
+    {
+        if ($this->roleCache != null) {
+            return $this->roleCache;
+        }
+        $roles = TableRegistry::getTableLocator()->get('Roles');
+        $this->roleCache = $roles->findById($this->role_id)->firstOrFail();
+        return $this->roleCache;
     }
-    $roles = TableRegistry::getTableLocator()->get('Roles');
-    $this->roleCache = $roles->findById($this->role_id)->firstOrFail();
-    return $this->roleCache;
-  }
-
 }

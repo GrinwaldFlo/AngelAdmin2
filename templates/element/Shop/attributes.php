@@ -5,11 +5,11 @@
  * @var string[] $attributes
  */
 ?>
-<?php if ($attributes === []): ?>
+<?php if ($attributes === []) : ?>
     <span class="text-muted">-</span>
-<?php else: ?>
+<?php else : ?>
     <span class="shop-attributes">
-        <?php foreach ($attributes as $attribute): ?>
+        <?php foreach ($attributes as $attribute) : ?>
             <span class="badge bg-light text-dark shop-attribute"><?= h($attribute) ?></span>
         <?php endforeach; ?>
     </span>

@@ -1,6 +1,8 @@
 <?php
+
 /* src/View/Helper/PdfHelper.php */
 namespace App\View\Helper;
+
 use App\Controller\PrefResult;
 use Cake\View\Helper;
 
@@ -61,16 +63,18 @@ class MyHelper extends Helper
     public function ImageFromBlob($res)
     {
         $content = stream_get_contents($res);
-        if (empty($content))
+        if (empty($content)) {
             return "";
+        }
         return '<img src="data:image/png;base64,' . explode(",", $content)[1] . '" />';
     }
 
     public function DataFromBlob($res)
     {
         $content = stream_get_contents($res);
-        if (empty($content))
+        if (empty($content)) {
             return "";
+        }
         return base64_decode(explode(",", $content)[1]);
     }
 
@@ -175,8 +179,9 @@ class MyHelper extends Helper
 
     public function tags($element, $value, $option = null): string
     {
-        if (empty($element))
+        if (empty($element)) {
             return $value;
+        }
 
         $opt = "";
         if (!empty($option)) {
@@ -192,8 +197,9 @@ class MyHelper extends Helper
     {
         echo '<div class="col-sm-12 col-md-4">';
         $this->echo("h4", strip_tags($title), null);
-        if ($comment)
+        if ($comment) {
             $this->echo("i", strip_tags($comment), null);
+        }
         echo '<ul>';
         foreach ($meetings as $meet) {
             $label = "";
@@ -203,8 +209,9 @@ class MyHelper extends Helper
                 $label = h(__('{0} - {1}', $meet->meeting_date->i18nFormat($config['dateEvent']), $meet->name));
             }
 
-            if ($meet->webUrl())
+            if ($meet->webUrl()) {
                 $label .= ' ' . $this->getView()->Html->link(__('Link'), $meet->webUrl(), ['target' => '_blank', 'rel' => 'noopener']);
+            }
 
             if ($meet->doodle && $meet->my == null) {
                 $label .= ' ' . $this->getView()->Form->postLink(__('Join'), ['controller' => 'meetings', 'action' => 'join', $meet->id], ['confirm' => __('Are you sure you want to join the event ?'), 'class' => 'btn btn-add btn-sm']);
@@ -233,8 +240,7 @@ class MyHelper extends Helper
             echo $this->tags(
                 'div',
                 $this->tags('div', $label, ['class' => 'col-12 col-md-5 divTableLabel' . $backColor]) .
-                $this->tags('div', $value, ['class' => 'col-12 col-md-7' . $backColor])
-                ,
+                $this->tags('div', $value, ['class' => 'col-12 col-md-7' . $backColor]),
                 ['class' => 'row']
             );
         } else {
@@ -242,8 +248,7 @@ class MyHelper extends Helper
                 echo $this->tags(
                     'div',
                     $this->tags('div', $label, ['class' => 'col-12 col-md-5 divTableLabel' . $backColor]) .
-                    $this->tags('div', __("MISSING"), ['class' => 'col-12 col-md-7' . $backColor . ' missing'])
-                    ,
+                    $this->tags('div', __("MISSING"), ['class' => 'col-12 col-md-7' . $backColor . ' missing']),
                     ['class' => 'row']
                 );
             }

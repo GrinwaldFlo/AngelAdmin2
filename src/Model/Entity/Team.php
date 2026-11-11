@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Model\Entity;
+
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 
@@ -31,7 +34,7 @@ class Team extends Entity
    *
    * @var array
    */
-  protected array $_accessible = [
+    protected array $_accessible = [
       'name' => true,
       'membership_fee' => true,
       'created' => true,
@@ -42,29 +45,32 @@ class Team extends Entity
       'meetings' => true,
       'members' => true,
       'site' => true,
-  ];
-  protected function _getNbMembers()
-  {
-    if (!empty($this->cacheNbMembers))
-      return $this->cacheNbMembers;
-    $membersTable = TableRegistry::getTableLocator()->get('Members');
-    $this->cacheNbMembers = $membersTable->find('Members',
-    teamId: $this->id,
-    memberFilter: 1)->contain('Teams')->count();
-    return $this->cacheNbMembers;
-  }
+    ];
+    protected function _getNbMembers()
+    {
+        if (!empty($this->cacheNbMembers)) {
+            return $this->cacheNbMembers;
+        }
+        $membersTable = TableRegistry::getTableLocator()->get('Members');
+        $this->cacheNbMembers = $membersTable->find(
+            'Members',
+            teamId: $this->id,
+            memberFilter: 1
+        )->contain('Teams')->count();
+        return $this->cacheNbMembers;
+    }
 
   /**
    * Coaches then help-coaches of the team
    * @return \App\Model\Entity\Member[]
    */
-  protected function _getCoachs()
-  {
-    if (!empty($this->cacheCoachs))
-      return $this->cacheCoachs;
-    $byType = TableRegistry::getTableLocator()->get('TeamsCoaches')->coachesOf($this->id);
-    $this->cacheCoachs = array_merge(...array_values($byType));
-    return $this->cacheCoachs;
-  }
-
+    protected function _getCoachs()
+    {
+        if (!empty($this->cacheCoachs)) {
+            return $this->cacheCoachs;
+        }
+        $byType = TableRegistry::getTableLocator()->get('TeamsCoaches')->coachesOf($this->id);
+        $this->cacheCoachs = array_merge(...array_values($byType));
+        return $this->cacheCoachs;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -199,7 +200,7 @@ class ShopItemsTable extends Table
     public function findOrdersByPaymentStatus(Query $query, array $options): Query
     {
         $query = $query->contain(['MemberOrders', 'MemberOrders.Bills']);
-        
+
         if (isset($options['paid']) && $options['paid'] === true) {
             $query->innerJoinWith('MemberOrders.Bills')->where(['Bills.paid' => 1]);
         } elseif (isset($options['paid']) && $options['paid'] === false) {
@@ -210,7 +211,7 @@ class ShopItemsTable extends Table
                 ]
             ]);
         }
-        
+
         return $query;
     }
 }

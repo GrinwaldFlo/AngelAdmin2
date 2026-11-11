@@ -85,7 +85,7 @@ $statusBadges = [
   </p>
 
   <ul class="tg-toc">
-    <?php foreach ($sections as $anchor => $title): ?>
+    <?php foreach ($sections as $anchor => $title) : ?>
       <li><a href="#<?= $anchor ?>"><?= h($title) ?></a></li>
     <?php endforeach; ?>
   </ul>
@@ -106,10 +106,10 @@ $statusBadges = [
   <!-- ******************************************************************************************* -->
   <section class="tg-section" id="colors">
     <h3><?= h($sections['colors']) ?></h3>
-    <?php foreach ($colorGroups as $groupName => $colors): ?>
+    <?php foreach ($colorGroups as $groupName => $colors) : ?>
       <h4><?= h($groupName) ?></h4>
       <div class="tg-swatches">
-        <?php foreach ($colors as [$token, $swatchClass, $hex, $usage]): ?>
+        <?php foreach ($colors as [$token, $swatchClass, $hex, $usage]) : ?>
           <div class="tg-swatch">
             <div class="tg-swatch-color <?= $swatchClass ?>"></div>
             <div class="tg-swatch-info">
@@ -159,7 +159,7 @@ $statusBadges = [
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($buttonTypes as [$class, $label, $when, $examples]): ?>
+          <?php foreach ($buttonTypes as [$class, $label, $when, $examples]) : ?>
             <tr>
               <td>
                 <div class="tg-sample">
@@ -236,7 +236,7 @@ PHP) ?></code></pre>
     <p><?= __('Thin outlined Material Symbols (weight 300), round highlight on hover (red for delete). 28px on desktop, 44px touch size below 992px. Names: fonts.google.com/icons.') ?></p>
     <h4><?= __('Other icons') ?></h4>
     <div class="tg-specimen tg-icons">
-      <?php foreach ($icons as [$markup, $name, $usage]): ?>
+      <?php foreach ($icons as [$markup, $name, $usage]) : ?>
         <div class="tg-icon-item">
           <div class="tg-icon-box"><?= $markup ?></div>
           <code><?= h($name) ?></code>
@@ -255,7 +255,7 @@ PHP) ?></code></pre>
     <h3><?= h($sections['badges']) ?></h3>
     <h4><?= __('Invoice status (Bill::$statusHtml)') ?></h4>
     <div class="tg-specimen">
-      <?php foreach ($statusBadges as [$color, $meaning]): ?>
+      <?php foreach ($statusBadges as [$color, $meaning]) : ?>
         <span class="badge bg-<?= $color ?>"><?= h($meaning) ?></span>
       <?php endforeach; ?>
     </div>

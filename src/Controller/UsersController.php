@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Controller;
+
 use App\Model\Table\UsersTable;
 use App\Utility\RateLimiter;
 use Cake\Log\Log;
@@ -182,7 +185,7 @@ class UsersController extends AppController
 
             if (!$passwordMatch) {
                 $this->Flash->error(__('Please enter twice the same passowrd'));
-            } else if ($this->Users->save($user)) {
+            } elseif ($this->Users->save($user)) {
                 $this->Flash->success(__('You have been successfully registered, now you can login'));
                 return $this->redirect('/');
             } else {
@@ -207,7 +210,8 @@ class UsersController extends AppController
                 return;
             }
 
-            $user = $this->Users->find('all',
+            $user = $this->Users->find(
+                'all',
                 conditions: [
                     'OR' => [
                         'Members.email' => $emailOrUsername,

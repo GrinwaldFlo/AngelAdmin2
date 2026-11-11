@@ -9,9 +9,9 @@
     <aside class="col-md-3">
         <div class="side-nav shop-side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
-            <?php if (!$memberOrder->delivered): ?>
+            <?php if (!$memberOrder->delivered) : ?>
                 <?= $this->Form->postLink(__('Mark Delivered'), ['action' => 'markDelivered', $memberOrder->id], ['confirm' => __('Mark this order as delivered?'), 'class' => 'btn btn-add']) ?>
-            <?php else: ?>
+            <?php else : ?>
                 <?= $this->Form->postLink(__('Mark Not Delivered'), ['action' => 'markNotDelivered', $memberOrder->id], ['confirm' => __('Mark this order as not delivered?'), 'class' => 'btn btn-delete']) ?>
             <?php endif; ?>
             <?= $this->Html->link(__('List Member Orders'), ['action' => 'index'], ['class' => 'btn btn-nav']) ?>
@@ -48,9 +48,9 @@
                 <tr>
                     <th><?= __('Delivered') ?></th>
                     <td>
-                        <?php if ($memberOrder->delivered): ?>
+                        <?php if ($memberOrder->delivered) : ?>
                             <span class="badge bg-success"><?= __('Yes') ?></span>
-                        <?php else: ?>
+                        <?php else : ?>
                             <span class="badge bg-warning"><?= __('No') ?></span>
                         <?php endif; ?>
                     </td>

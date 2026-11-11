@@ -11,7 +11,7 @@ $this->Html->css('mailings', ['block' => true]);
 <div class="mailings index content">
   <div class="float-end ml-actions">
     <?php if ($canSendByBill) : ?>
-      <?= $this->Html->link(__('New email by bill'), ['action' => 'addByBill'], ['class' => 'btn btn-add btn-sm']) ?>
+        <?= $this->Html->link(__('New email by bill'), ['action' => 'addByBill'], ['class' => 'btn btn-add btn-sm']) ?>
     <?php endif; ?>
     <?= $this->Html->link(__('New email'), ['action' => 'add'], ['class' => 'btn btn-add btn-sm']) ?>
   </div>
@@ -43,12 +43,12 @@ $this->Html->css('mailings', ['block' => true]);
           <td><?= $mailing->isDone() ? __('Done') : __('{0} pending', $count['pending']) ?></td>
           <td class="actions">
             <?php if ($manageable[$mailing->id]) : ?>
-              <?= $this->Html->link($mailing->isDone() ? __('View') : __('Resume'), ['action' => 'send', $mailing->id]) ?>
+                <?= $this->Html->link($mailing->isDone() ? __('View') : __('Resume'), ['action' => 'send', $mailing->id]) ?>
             <?php endif; ?>
             <?php if (!$mailing->isByBill()) : ?>
-              <?= $this->Html->link(__('New'), ['action' => 'add', $mailing->id], ['title' => __('New email with the same subject, content and teams')]) ?>
+                <?= $this->Html->link(__('New'), ['action' => 'add', $mailing->id], ['title' => __('New email with the same subject, content and teams')]) ?>
             <?php elseif ($canSendByBill) : ?>
-              <?= $this->Html->link(__('New'), ['action' => 'addByBill', $mailing->id], ['title' => __('New email with the same subject, content and bills')]) ?>
+                <?= $this->Html->link(__('New'), ['action' => 'addByBill', $mailing->id], ['title' => __('New email with the same subject, content and bills')]) ?>
             <?php endif; ?>
           </td>
         </tr>

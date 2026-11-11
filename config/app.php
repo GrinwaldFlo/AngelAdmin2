@@ -7,7 +7,8 @@ use Cake\Log\Engine\FileLog;
 use Cake\Mailer\Transport\SmtpTransport;
 
 if (!function_exists('env')) {
-    function env($key, $default = null) {
+    function env($key, $default = null)
+    {
         $value = getenv($key);
         if ($value === false) {
             return $default;

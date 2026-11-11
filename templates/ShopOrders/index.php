@@ -20,10 +20,10 @@ $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['
 ?>
 <?= $this->element('Shop/tabs', ['active' => 'index']) ?>
 <div class="memberOrders filter content">
-    <?php foreach ($filterGroups as $position => $group): ?>
+    <?php foreach ($filterGroups as $position => $group) : ?>
         <div class="mo-filter">
             <strong class="mo-filter-label"><?= $group['label'] ?></strong>
-            <?php foreach ([0 => __('All')] + $group['options'] as $value => $label): ?>
+            <?php foreach ([0 => __('All')] + $group['options'] as $value => $label) : ?>
                 <?php
                 $values = $filterValues;
                 // Pressing the selected filter again removes it
@@ -53,14 +53,14 @@ $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($memberOrders as $memberOrder): ?>
+                <?php foreach ($memberOrders as $memberOrder) : ?>
                     <?php $item = $memberOrder->shop_item; ?>
                     <tr>
                         <td class="mo-id"><?= $this->Number->format($memberOrder->id) ?></td>
                         <td class="mo-member"><?= $this->element('Shop/member_link', ['member' => $memberOrder->member ?? null]) ?></td>
                         <td class="mo-item"><?= h($item->label) ?></td>
                         <td class="mo-attribute">
-                            <?php if (!$memberOrder->delivered && $item->hasAttributes()): ?>
+                            <?php if (!$memberOrder->delivered && $item->hasAttributes()) : ?>
                                 <?php
                                 $choices = array_combine($item->getAttributeList(), $item->getAttributeList());
                                 // A removed attribute stays the current value of the order
@@ -77,15 +77,15 @@ $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['
                                 ]) ?>
                                 <?= $this->Form->button(__('Change'), ['class' => 'btn btn-sm btn-save']) ?>
                                 <?= $this->Form->end() ?>
-                            <?php elseif ($memberOrder->attribute !== null): ?>
+                            <?php elseif ($memberOrder->attribute !== null) : ?>
                                 <span class="badge bg-light text-dark shop-attribute"><?= h($memberOrder->attribute) ?></span>
                             <?php endif; ?>
                         </td>
                         <td class="mo-quantity"><?= $this->Number->format($memberOrder->quantity) ?></td>
                         <td class="mo-delivered">
-                            <?php if ($memberOrder->delivered): ?>
+                            <?php if ($memberOrder->delivered) : ?>
                                 <span class="badge bg-success"><?= __('Delivered') ?></span>
-                            <?php else: ?>
+                            <?php else : ?>
                                 <span class="badge bg-warning"><?= __('Not Delivered') ?></span>
                             <?php endif; ?>
                         </td>

@@ -9,8 +9,8 @@ if (empty($member)) {
     return;
 }
 ?>
-<?php if (!empty($curRole->MemberViewAll)): ?>
+<?php if (!empty($curRole->MemberViewAll)) : ?>
     <?= $this->Html->link($member->fullName, ['controller' => 'Members', 'action' => 'view', $member->id]) ?>
-<?php else: ?>
+<?php else : ?>
     <?= h($member->fullName) ?>
-<?php endif; ?>
+<?php endif;

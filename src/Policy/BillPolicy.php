@@ -1,40 +1,43 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Policy;
+
 use App\Model\Entity\Bill;
 use Authorization\IdentityInterface;
+
 /**
  * Bill policy
  */
 class BillPolicy
 {
     public function canViewAll(IdentityInterface $user, Bill $bill)
-  {
-    return $user->Role->BillViewAll;
-  }
+    {
+        return $user->Role->BillViewAll;
+    }
 
   // Coaches do not see the overview of all the bills
-  public function canOverview(IdentityInterface $user, Bill $bill)
-  {
-    return TeamScope::canUnscoped($user, 'BillViewAll');
-  }
-
-  public function canEdit(IdentityInterface $user, Bill $bill)
-  {
-    return $user->Role->BillEditAll;
-  }
-
-  public function canAdmin(IdentityInterface $user, Bill $bill)
-  {
-    return $user->Role->Admin;
-  }
-
-  public function canView(IdentityInterface $user, Bill $bill)
-  {
-    if ($user->member_id == $bill->member_id)
+    public function canOverview(IdentityInterface $user, Bill $bill)
     {
-      return true;
+        return TeamScope::canUnscoped($user, 'BillViewAll');
     }
-    return $user->Role->BillViewAll && TeamScope::canAccessMember($user, $bill->member_id);
-  }
+
+    public function canEdit(IdentityInterface $user, Bill $bill)
+    {
+        return $user->Role->BillEditAll;
+    }
+
+    public function canAdmin(IdentityInterface $user, Bill $bill)
+    {
+        return $user->Role->Admin;
+    }
+
+    public function canView(IdentityInterface $user, Bill $bill)
+    {
+        if ($user->member_id == $bill->member_id) {
+            return true;
+        }
+        return $user->Role->BillViewAll && TeamScope::canAccessMember($user, $bill->member_id);
+    }
 }

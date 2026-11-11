@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Seller details
  * @var \App\View\AppView $this

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Command;
 
 use Cake\Command\Command;
@@ -76,7 +77,7 @@ class ExifDiagnosticCommand extends Command
 
             $io->out('');
             $io->out('<info>Looking for sample images to test...</info>');
-            
+
             $tested = false;
             foreach ($samplePaths as $path) {
                 if (is_dir($path)) {
@@ -127,7 +128,7 @@ class ExifDiagnosticCommand extends Command
 
         // Read EXIF data
         $exifData = @exif_read_data($imagePath);
-        
+
         if ($exifData === false) {
             $io->out('<error>? Failed to read EXIF data from image</error>');
             $io->out('Possible reasons:');
@@ -143,7 +144,7 @@ class ExifDiagnosticCommand extends Command
         }
 
         $io->out('<success>? EXIF data found</success>');
-        
+
         // Check for orientation specifically
         $orientation = null;
         if (isset($exifData['Orientation'])) {
@@ -167,7 +168,7 @@ class ExifDiagnosticCommand extends Command
                 7 => 'Horizontal flip + 90° rotation',
                 8 => '90° counter-clockwise rotation'
             ];
-            
+
             $label = $orientationLabels[$orientation] ?? 'Unknown orientation value';
             $io->out('- Orientation meaning: ' . $label);
         }
@@ -176,7 +177,7 @@ class ExifDiagnosticCommand extends Command
         $io->out('');
         $io->out('<info>Key EXIF fields present:</info>');
         $keyFields = ['Make', 'Model', 'DateTime', 'Software', 'Orientation', 'ColorSpace', 'ExifImageWidth', 'ExifImageLength'];
-        
+
         foreach ($keyFields as $field) {
             if (isset($exifData[$field])) {
                 $io->out('- ' . $field . ': ' . $exifData[$field]);

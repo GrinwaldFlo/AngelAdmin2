@@ -24,7 +24,7 @@
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($bills as $bill): ?>
+      <?php foreach ($bills as $bill) : ?>
         <tr>
           <td>
             <?= $this->Form->control($bill->id, ['type' => 'checkbox', 'label' => false]); ?>

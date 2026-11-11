@@ -22,7 +22,7 @@
 
 <p><strong>Factures en attente de paiement :</strong></p>
 <ul>
-    <?php foreach ($lateBills as $bill): ?>
+    <?php foreach ($lateBills as $bill) : ?>
         <li><?= h($bill->label) ?> — <?= h($bill->amount) ?> CHF</li>
     <?php endforeach; ?>
 </ul>

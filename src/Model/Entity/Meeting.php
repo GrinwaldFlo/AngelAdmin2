@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Model\Entity;
+
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validation;
@@ -37,7 +40,7 @@ class Meeting extends Entity
    *
    * @var array
    */
-  protected array $_accessible = [
+    protected array $_accessible = [
       'meeting_date' => true,
       'team_id' => true,
       'name' => true,
@@ -48,73 +51,71 @@ class Meeting extends Entity
       'big_event' => true,
       'url' => true,
       'doodle' => true,
-  ];
-  protected function _getPresencesStr()
-  {
-    $this->CheckPresences(false);
-    return __('{0}/{1}/{2}/{3}', $this->present, $this->absent, $this->excused, $this->late); // $this->_fields['first_name'] . ' ' . $this->_fields['last_name'];
-  }
+    ];
+    protected function _getPresencesStr()
+    {
+        $this->CheckPresences(false);
+        return __('{0}/{1}/{2}/{3}', $this->present, $this->absent, $this->excused, $this->late); // $this->_fields['first_name'] . ' ' . $this->_fields['last_name'];
+    }
 
   /**
    * Number of members by state, recomputed only when the cached counters are unknown
    * @return array [Presence::PRESENT => n, Presence::ABSENT => n, Presence::EXCUSED => n, Presence::LATE => n]
    */
-  public function counts(): array
-  {
-    $this->CheckPresences(false);
-    return [
-      Presence::PRESENT => (int)$this->present,
-      Presence::ABSENT => (int)$this->absent,
-      Presence::EXCUSED => (int)$this->excused,
-      Presence::LATE => (int)$this->late,
-    ];
-  }
+    public function counts(): array
+    {
+        $this->CheckPresences(false);
+        return [
+        Presence::PRESENT => (int)$this->present,
+        Presence::ABSENT => (int)$this->absent,
+        Presence::EXCUSED => (int)$this->excused,
+        Presence::LATE => (int)$this->late,
+        ];
+    }
 
   /**
    * True when the cached counters are known (they are -1 until computed)
    */
-  public function hasCounts(): bool
-  {
-    return $this->present != -1 && $this->absent != -1 && $this->excused != -1 && $this->late != -1;
-  }
+    public function hasCounts(): bool
+    {
+        return $this->present != -1 && $this->absent != -1 && $this->excused != -1 && $this->late != -1;
+    }
 
   /**
    * Set the cached counters from the number of presences by state
    * @param array $nbByState [state => count], missing states count 0
    */
-  public function setCounts(array $nbByState): void
-  {
-    $this->present = (int)($nbByState[Presence::PRESENT] ?? 0);
-    $this->absent = (int)($nbByState[Presence::ABSENT] ?? 0);
-    $this->excused = (int)($nbByState[Presence::EXCUSED] ?? 0);
-    $this->late = (int)($nbByState[Presence::LATE] ?? 0);
-  }
-
-  public function CheckPresences($force)
-  {
-    if (!$force && $this->hasCounts())
+    public function setCounts(array $nbByState): void
     {
-      return;
+        $this->present = (int)($nbByState[Presence::PRESENT] ?? 0);
+        $this->absent = (int)($nbByState[Presence::ABSENT] ?? 0);
+        $this->excused = (int)($nbByState[Presence::EXCUSED] ?? 0);
+        $this->late = (int)($nbByState[Presence::LATE] ?? 0);
     }
-    $meetings = TableRegistry::getTableLocator()->get('Meetings');
-    $this->setCounts($meetings->countPresences([$this->id])[$this->id] ?? []);
-    $meetings->save($this);
-  }
+
+    public function CheckPresences($force)
+    {
+        if (!$force && $this->hasCounts()) {
+            return;
+        }
+        $meetings = TableRegistry::getTableLocator()->get('Meetings');
+        $this->setCounts($meetings->countPresences([$this->id])[$this->id] ?? []);
+        $meetings->save($this);
+    }
 
   /**
    * Only http(s) links are allowed, other schemes (javascript:, data:, ...) could run code when clicked
    */
-  public static function isWebUrl(?string $url): bool
-  {
-    return $url !== null && preg_match('#^https?://#i', $url) === 1 && Validation::url($url, true);
-  }
+    public static function isWebUrl(?string $url): bool
+    {
+        return $url !== null && preg_match('#^https?://#i', $url) === 1 && Validation::url($url, true);
+    }
 
   /**
    * Link of the meeting, null if empty or not a web link
    */
-  public function webUrl(): ?string
-  {
-    return self::isWebUrl($this->url) ? $this->url : null;
-  }
-
+    public function webUrl(): ?string
+    {
+        return self::isWebUrl($this->url) ? $this->url : null;
+    }
 }

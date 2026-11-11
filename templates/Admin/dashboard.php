@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var array $members
@@ -86,13 +87,13 @@ $monthlyMax = max([1, ...array_column($finances['monthly'], 'invoiced')]);
       <?= $d->bars($members['ages']) ?>
 
       <h4><?= __('Birthdays in the next {0} days', $members['birthdayDays']) ?></h4>
-      <?php if (empty($members['birthdays'])): ?>
+      <?php if (empty($members['birthdays'])) : ?>
         <p class="dash-empty"><?= __('None') ?></p>
-      <?php else: ?>
+      <?php else : ?>
         <ul class="dash-list">
-          <?php foreach ($members['birthdays'] as $birthday): ?>
+          <?php foreach ($members['birthdays'] as $birthday) : ?>
             <li>
-              <?= $this->Html->link(h($birthday['member']->first_name . ' ' . $birthday['member']->last_name), ['controller' => 'Members', 'action' => 'view', $birthday['member']->id]) ?>
+                <?= $this->Html->link(h($birthday['member']->first_name . ' ' . $birthday['member']->last_name), ['controller' => 'Members', 'action' => 'view', $birthday['member']->id]) ?>
               <span><?= $birthday['date']->format('d.m') ?> · <?= __('{0} years', $birthday['age']) ?></span>
             </li>
           <?php endforeach; ?>
@@ -145,7 +146,7 @@ $monthlyMax = max([1, ...array_column($finances['monthly'], 'invoiced')]);
         <span class="dash-legend-invoiced"><?= __('Invoiced') ?></span>
         <span class="dash-legend-paid"><?= __('Paid') ?></span>
       </div>
-      <?php foreach (array_reverse($finances['monthly'], true) as $month => $amounts): ?>
+      <?php foreach (array_reverse($finances['monthly'], true) as $month => $amounts) : ?>
         <div class="dash-month">
           <span class="dash-bar-label"><?= h(Date::parse($month . '-01')->i18nFormat('MMM yy')) ?></span>
           <div class="dash-month-bars">
@@ -168,24 +169,24 @@ $monthlyMax = max([1, ...array_column($finances['monthly'], 'invoiced')]);
       </ul>
 
       <h4><?= __('Attendance per team ({0} days)', $attendance['days']) ?></h4>
-      <?php if (empty($attendance['teamRates'])): ?>
+      <?php if (empty($attendance['teamRates'])) : ?>
         <p class="dash-empty"><?= __('No presence recorded') ?></p>
       <?php endif; ?>
-      <?php foreach ($teams as $team): ?>
-        <?php if (isset($attendance['teamRates'][$team->id])): ?>
-          <?php $rate = $attendance['teamRates'][$team->id]; ?>
-          <?= $d->bar($team->name, $rate, 100, $d->percentStr($rate), $d->rateVariant($rate)) ?>
-        <?php endif; ?>
+      <?php foreach ($teams as $team) : ?>
+            <?php if (isset($attendance['teamRates'][$team->id])) : ?>
+                <?php $rate = $attendance['teamRates'][$team->id]; ?>
+                <?= $d->bar($team->name, $rate, 100, $d->percentStr($rate), $d->rateVariant($rate)) ?>
+            <?php endif; ?>
       <?php endforeach; ?>
 
       <h4><?= __('Next {0} days', $attendance['upcomingDays']) ?></h4>
-      <?php if ($attendance['upcoming']->isEmpty()): ?>
+      <?php if ($attendance['upcoming']->isEmpty()) : ?>
         <p class="dash-empty"><?= __('No event') ?></p>
-      <?php else: ?>
+      <?php else : ?>
         <ul class="dash-list">
-          <?php foreach ($attendance['upcoming'] as $meeting): ?>
+          <?php foreach ($attendance['upcoming'] as $meeting) : ?>
             <li>
-              <?= $this->Html->link(h($meeting->name), ['controller' => 'Meetings', 'action' => 'view', $meeting->id]) ?>
+                <?= $this->Html->link(h($meeting->name), ['controller' => 'Meetings', 'action' => 'view', $meeting->id]) ?>
               <span><?= $meeting->meeting_date->i18nFormat($config['dateEvent']) ?> · <?= h($meeting->team->name) ?></span>
             </li>
           <?php endforeach; ?>
@@ -196,18 +197,18 @@ $monthlyMax = max([1, ...array_column($finances['monthly'], 'invoiced')]);
 
   <h3 class="dash-title"><?= __('Teams') ?></h3>
   <div class="dash-teams">
-    <?php foreach ($teams as $team): ?>
-      <?php $rate = $attendance['teamRates'][$team->id] ?? null; ?>
+    <?php foreach ($teams as $team) : ?>
+        <?php $rate = $attendance['teamRates'][$team->id] ?? null; ?>
       <div class="dash-card dash-team">
         <div class="dash-team-header">
           <?= $this->Html->link(h($team->name), ['controller' => 'Teams', 'action' => 'view', $team->id], ['class' => 'dash-team-name']) ?>
-          <?php if ($rate !== null): ?>
+          <?php if ($rate !== null) : ?>
             <span class="dash-badge dash-badge-<?= $d->rateVariant($rate) ?>" title="<?= __('Attendance ({0} days)', $attendance['days']) ?>"><?= $rate ?> %</span>
           <?php endif; ?>
         </div>
         <div class="dash-team-members"><?= __('{0} members', $team->NbMembers) ?></div>
         <div class="dash-team-coaches">
-          <?php foreach ($team->Coachs as $coach): ?>
+          <?php foreach ($team->Coachs as $coach) : ?>
             <span class="dash-chip"><?= h($coach->first_name) ?></span>
           <?php endforeach; ?>
         </div>

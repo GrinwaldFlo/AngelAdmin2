@@ -17,8 +17,8 @@
             <fieldset>
                 <legend><?= __('Add Field') ?></legend>
                 <?php
-                    echo $this->Form->control('sort', [ 'label' => __x('Like alphabetical order','Order')]);
-                    echo $this->Form->control('label', [ 'label' => __x('noun','Label')]);
+                    echo $this->Form->control('sort', [ 'label' => __x('Like alphabetical order', 'Order')]);
+                    echo $this->Form->control('label', [ 'label' => __x('noun', 'Label')]);
                     echo $this->Form->control('style', ['options' => $fieldType->StyleList, 'label' => __('Style')]);
                     echo $this->Form->control('member_edit', ['label' => __('Allow member to edit')]);
                     echo $this->Form->control('hidden', ['label' => __('Hidden')]);

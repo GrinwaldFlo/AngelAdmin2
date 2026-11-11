@@ -13,8 +13,8 @@
       <h3><?= __('Municipality emails') ?></h3>
       <?php if (!$hasBody) : ?>
         <div class="alert alert-warning">
-          <?= __('The email body is empty: add a content with the location "{0}".', 'Email subventions') ?>
-          <?= $this->Html->link(__('Contents'), ['controller' => 'Contents', 'action' => 'add']) ?>
+            <?= __('The email body is empty: add a content with the location "{0}".', 'Email subventions') ?>
+            <?= $this->Html->link(__('Contents'), ['controller' => 'Contents', 'action' => 'add']) ?>
         </div>
       <?php endif; ?>
       <p><?= __('The email pack contains one email per city, with its letter attached. Without an email address, the recipient must be added in the email client.') ?></p>
@@ -39,7 +39,7 @@
                 <?= $this->Form->control("cities.$i.email", ['type' => 'email', 'label' => false, 'value' => $email]) ?>
               </td>
             </tr>
-            <?php $i++; ?>
+                <?php $i++; ?>
           <?php endforeach; ?>
         </tbody>
       </table>

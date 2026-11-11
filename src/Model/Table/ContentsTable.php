@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Model\Table;
+
 use ArrayObject;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
@@ -35,28 +38,28 @@ class ContentsTable extends Table
    * @param array $config The configuration for the Table.
    * @return void
    */
-  public function initialize(array $config): void
-  {
-    parent::initialize($config);
+    public function initialize(array $config): void
+    {
+        parent::initialize($config);
 
-    $this->setTable('contents');
-    $this->setDisplayField('id');
-    $this->setPrimaryKey('id');
+        $this->setTable('contents');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
-    $this->belongsTo('Teams', [
+        $this->belongsTo('Teams', [
         'foreignKey' => 'team_id',
-    ]);
-  }
+        ]);
+    }
 
   /**
    * team_id is not nullable: no team (empty choice of the forms) is 0
    */
-  public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options): void
-  {
-    if (array_key_exists('team_id', (array)$data) && ($data['team_id'] === '' || $data['team_id'] === null)) {
-      $data['team_id'] = 0;
+    public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options): void
+    {
+        if (array_key_exists('team_id', (array)$data) && ($data['team_id'] === '' || $data['team_id'] === null)) {
+            $data['team_id'] = 0;
+        }
     }
-  }
 
   /**
    * Default validation rules.
@@ -64,30 +67,29 @@ class ContentsTable extends Table
    * @param \Cake\Validation\Validator $validator Validator instance.
    * @return \Cake\Validation\Validator
    */
-  public function validationDefault(Validator $validator): Validator
-  {
-    $validator
-      ->integer('id')
-      ->allowEmptyString('id', null, 'create');
+    public function validationDefault(Validator $validator): Validator
+    {
+        $validator
+        ->integer('id')
+        ->allowEmptyString('id', null, 'create');
 
-    $validator
-      ->scalar('text')
-      ->allowEmptyString('text');
+        $validator
+        ->scalar('text')
+        ->allowEmptyString('text');
 
-    $validator
-      ->integer('location')
-      ->notEmptyString('location');
+        $validator
+        ->integer('location')
+        ->notEmptyString('location');
 
-    $validator
-      ->scalar('url')
-      ->maxLength('url', 1000)
-      ->allowEmptyString('url');
+        $validator
+        ->scalar('url')
+        ->maxLength('url', 1000)
+        ->allowEmptyString('url');
 
-    $validator
-      ->integer('sort')
-      ->notEmptyString('sort');
+        $validator
+        ->integer('sort')
+        ->notEmptyString('sort');
 
-    return $validator;
-  }
-
+        return $validator;
+    }
 }

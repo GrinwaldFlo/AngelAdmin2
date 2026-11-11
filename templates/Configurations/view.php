@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Configuration $configuration
@@ -17,7 +18,7 @@
             <h3><?= h($configuration->id) ?></h3>
             <table class="table table-striped table-hover table-sm">
                 <tr>
-                    <th><?= __x('noun','Label') ?></th>
+                    <th><?= __x('noun', 'Label') ?></th>
                     <td><?= h($configuration->label) ?></td>
                 </tr>
                 <tr>

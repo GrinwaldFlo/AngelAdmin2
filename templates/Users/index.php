@@ -18,7 +18,7 @@
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($users as $user): ?>
+      <?php foreach ($users as $user) : ?>
         <tr>
           <td><?= $this->Number->format($user->id) ?></td>
           <td><?= $this->Html->link($user->username, ['action' => 'view', $user->id]) ?></td>

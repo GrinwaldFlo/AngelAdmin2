@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Controller;
 
 /**
@@ -14,20 +16,20 @@ class FieldTypesController extends AppController
       'limit' => 500,
       'maxLimit' => 1000,
       'order' => ['FieldTypes.sort' => 'asc']
-  ];
-    
+    ];
+
   /**
    * Index method
    *
    * @return \Cake\Http\Response|null|void Renders view
    */
-  public function index()
-  {
-    $this->Authorization->authorize($this->FieldTypes->newEmptyEntity(), 'admin');
-    $fieldTypes = $this->paginate($this->FieldTypes);
+    public function index()
+    {
+        $this->Authorization->authorize($this->FieldTypes->newEmptyEntity(), 'admin');
+        $fieldTypes = $this->paginate($this->FieldTypes);
 
-    $this->set(compact('fieldTypes'));
-  }
+        $this->set(compact('fieldTypes'));
+    }
 
   /**
    * View method
@@ -36,38 +38,36 @@ class FieldTypesController extends AppController
    * @return \Cake\Http\Response|null|void Renders view
    * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
    */
-  public function view(int|null $id = null)
-  {
-    $this->Authorization->authorize($this->FieldTypes->newEmptyEntity(), 'admin');
+    public function view(int|null $id = null)
+    {
+        $this->Authorization->authorize($this->FieldTypes->newEmptyEntity(), 'admin');
 
-    $fieldType = $this->FieldTypes->get($id, contain: ['Fields']);
+        $fieldType = $this->FieldTypes->get($id, contain: ['Fields']);
 
-    $this->set('fieldType', $fieldType);
-  }
+        $this->set('fieldType', $fieldType);
+    }
 
   /**
    * Add method
    *
    * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
    */
-  public function add()
-  {
-    $this->Authorization->authorize($this->FieldTypes->newEmptyEntity(), 'admin');
-
-    $fieldType = $this->FieldTypes->newEmptyEntity();
-    if ($this->request->is('post'))
+    public function add()
     {
-      $fieldType = $this->FieldTypes->patchEntity($fieldType, $this->request->getData());
-      if ($this->FieldTypes->save($fieldType))
-      {
-        $this->Flash->success(__('The field has been saved.'));
+        $this->Authorization->authorize($this->FieldTypes->newEmptyEntity(), 'admin');
 
-        return $this->redirect(['action' => 'index']);
-      }
-      $this->Flash->error(__('The field could not be saved.'));
+        $fieldType = $this->FieldTypes->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $fieldType = $this->FieldTypes->patchEntity($fieldType, $this->request->getData());
+            if ($this->FieldTypes->save($fieldType)) {
+                $this->Flash->success(__('The field has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The field could not be saved.'));
+        }
+        $this->set(compact('fieldType'));
     }
-    $this->set(compact('fieldType'));
-  }
 
   /**
    * Edit method
@@ -76,24 +76,22 @@ class FieldTypesController extends AppController
    * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
    * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
    */
-  public function edit(int|null $id = null)
-  {
-    $this->Authorization->authorize($this->FieldTypes->newEmptyEntity(), 'admin');
-
-    $fieldType = $this->FieldTypes->get($id, contain: []);
-    if ($this->request->is(['patch', 'post', 'put']))
+    public function edit(int|null $id = null)
     {
-      $fieldType = $this->FieldTypes->patchEntity($fieldType, $this->request->getData());
-      if ($this->FieldTypes->save($fieldType))
-      {
-        $this->Flash->success(__('The field has been saved.'));
+        $this->Authorization->authorize($this->FieldTypes->newEmptyEntity(), 'admin');
 
-        return $this->redirect(['action' => 'index']);
-      }
-      $this->Flash->error(__('The field could not be saved.'));
+        $fieldType = $this->FieldTypes->get($id, contain: []);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $fieldType = $this->FieldTypes->patchEntity($fieldType, $this->request->getData());
+            if ($this->FieldTypes->save($fieldType)) {
+                $this->Flash->success(__('The field has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The field could not be saved.'));
+        }
+        $this->set(compact('fieldType'));
     }
-    $this->set(compact('fieldType'));
-  }
 
   /**
    * Delete method
@@ -102,22 +100,18 @@ class FieldTypesController extends AppController
    * @return \Cake\Http\Response|null|void Redirects to index.
    * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
    */
-  public function delete(int|null $id = null)
-  {
-    $this->Authorization->authorize($this->FieldTypes->newEmptyEntity(), 'admin');
-
-    $this->request->allowMethod(['post', 'delete']);
-    $fieldType = $this->FieldTypes->get($id);
-    if ($this->FieldTypes->delete($fieldType))
+    public function delete(int|null $id = null)
     {
-      $this->Flash->success(__('The field has been deleted.'));
-    }
-    else
-    {
-      $this->Flash->error(__('The field could not be deleted.'));
-    }
+        $this->Authorization->authorize($this->FieldTypes->newEmptyEntity(), 'admin');
 
-    return $this->redirect(['action' => 'index']);
-  }
+        $this->request->allowMethod(['post', 'delete']);
+        $fieldType = $this->FieldTypes->get($id);
+        if ($this->FieldTypes->delete($fieldType)) {
+            $this->Flash->success(__('The field has been deleted.'));
+        } else {
+            $this->Flash->error(__('The field could not be deleted.'));
+        }
 
+        return $this->redirect(['action' => 'index']);
+    }
 }

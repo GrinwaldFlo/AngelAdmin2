@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Meeting $meeting
@@ -42,22 +43,22 @@ $separatorShown = false;
 
   <nav class="mt-neighbours" aria-label="<?= __('Other meetings') ?>">
     <?php foreach (['prev' => ['chevron_left', __('Previous')], 'next' => ['chevron_right', __('Next')]] as $key => [$icon, $label]) : ?>
-      <?php if ($neighbours[$key]) : ?>
-        <?= $this->Html->link(
-            ($key == 'prev' ? $m->icon($icon) : '') . '<span>' . h($neighbours[$key]->meeting_date->i18nFormat('dd.MM')) . ' ' . h($neighbours[$key]->name) . '</span>' . ($key == 'next' ? $m->icon($icon) : ''),
-            ['action' => 'view', $neighbours[$key]->id],
-            ['class' => 'mt-neighbour mt-neighbour-' . $key, 'escape' => false, 'title' => $label]
-        ) ?>
-      <?php else : ?>
+        <?php if ($neighbours[$key]) : ?>
+            <?= $this->Html->link(
+                ($key == 'prev' ? $m->icon($icon) : '') . '<span>' . h($neighbours[$key]->meeting_date->i18nFormat('dd.MM')) . ' ' . h($neighbours[$key]->name) . '</span>' . ($key == 'next' ? $m->icon($icon) : ''),
+                ['action' => 'view', $neighbours[$key]->id],
+                ['class' => 'mt-neighbour mt-neighbour-' . $key, 'escape' => false, 'title' => $label]
+            ) ?>
+        <?php else : ?>
         <span class="mt-neighbour"></span>
-      <?php endif; ?>
+        <?php endif; ?>
     <?php endforeach; ?>
   </nav>
 
   <div class="mt-toolbar">
     <div class="mt-filters">
       <?php foreach ($m->filters() as $filter => $info) : ?>
-        <?= $m->filterButton((string)$filter, $info['label'], $info['key'], $info['icon']) ?>
+            <?= $m->filterButton((string)$filter, $info['label'], $info['key'], $info['icon']) ?>
       <?php endforeach; ?>
     </div>
     <button type="button" class="mt-btn mt-btn-outline mt-bulk" data-state="<?= Presence::PRESENT ?>" hidden>
@@ -67,17 +68,17 @@ $separatorShown = false;
 
   <?php if (empty($attendance)) : ?>
     <div class="mt-empty">
-      <?= $m->icon('group_off', 'mt-empty-icon') ?>
+        <?= $m->icon('group_off', 'mt-empty-icon') ?>
       <p><?= __('No active member in this team') ?></p>
     </div>
   <?php endif; ?>
 
   <ul class="mt-members">
     <?php foreach ($attendance as $row) : ?>
-      <?php if (!$row['inTeam'] && !$separatorShown) : ?>
-        <?php $separatorShown = true; ?>
+        <?php if (!$row['inTeam'] && !$separatorShown) : ?>
+            <?php $separatorShown = true; ?>
         <li class="mt-separator"><?= __('Not in the team anymore') ?></li>
-      <?php endif; ?>
+        <?php endif; ?>
       <li class="mt-member" data-member="<?= $row['id'] ?>" data-state="<?= $row['state'] ?>">
         <span class="mt-member-name"><?= h($row['name']) ?></span>
         <?= $m->stateButtons((int)$row['state']) ?>

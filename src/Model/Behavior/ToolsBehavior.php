@@ -1,13 +1,16 @@
 <?php
+
 namespace App\Model\Behavior;
+
 use Cake\ORM\Behavior;
 
 class ToolsBehavior extends Behavior
 {
     function formatTel($val)
     {
-        if ($val === null || strlen($val) < 10)
+        if ($val === null || strlen($val) < 10) {
             return $val;
+        }
 
         $val = str_replace(" ", "", $val);
         $val = str_replace("/", "", $val);
@@ -18,16 +21,18 @@ class ToolsBehavior extends Behavior
             $val = "0" . substr($val, 3);
         }
 
-        if (strlen($val) != 10)
+        if (strlen($val) != 10) {
             return $val;
+        }
 
         return substr($val, 0, 3) . " " . substr($val, 3, 3) . " " . substr($val, 6, 2) . " " . substr($val, 8, 2);
     }
 
     function formatAddress($val)
     {
-        if ($val === null || strlen($val) < 5)
+        if ($val === null || strlen($val) < 5) {
             return $val;
+        }
 
         $val = str_replace("Avenue ", "Av. ", $val);
         $val = str_replace("Route ", "Rte ", $val);
@@ -40,5 +45,4 @@ class ToolsBehavior extends Behavior
 
         return $val;
     }
-
 }

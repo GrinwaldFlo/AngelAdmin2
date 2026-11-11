@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\MemberOrder> $memberOrders
@@ -26,10 +27,10 @@ $filterValues = array_column($filterGroups, 'current');
 $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['sort', 'direction']));
 ?>
 <div class="memberOrders filter content">
-    <?php foreach ($filterGroups as $position => $group): ?>
+    <?php foreach ($filterGroups as $position => $group) : ?>
         <div class="mo-filter">
             <strong class="mo-filter-label"><?= $group['label'] ?></strong>
-            <?php foreach ([0 => __('All')] + $group['options'] as $value => $label): ?>
+            <?php foreach ([0 => __('All')] + $group['options'] as $value => $label) : ?>
                 <?php
                 $values = $filterValues;
                 // Pressing the selected filter again removes it
@@ -62,7 +63,7 @@ $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($memberOrders as $memberOrder): ?>
+                <?php foreach ($memberOrders as $memberOrder) : ?>
                     <tr>
                         <td class="mo-id"><?= $this->Number->format($memberOrder->id) ?></td>
                         <td class="mo-member"><?= $this->element('Shop/member_link', ['member' => $memberOrder->member ?? null]) ?></td>
@@ -71,23 +72,23 @@ $sortQuery = array_intersect_key($this->request->getQueryParams(), array_flip(['
                         <td class="mo-category"><?= $memberOrder->hasValue('shop_item') ? h(ShopItemsTable::getCategoryLabel($memberOrder->shop_item->category)) : '' ?></td>
                         <td class="mo-quantity"><?= $this->Number->format($memberOrder->quantity) ?></td>
                         <td class="mo-delivered">
-                            <?php if ($memberOrder->delivered): ?>
+                            <?php if ($memberOrder->delivered) : ?>
                                 <span class="badge bg-success"><?= __('Delivered') ?></span>
-                            <?php else: ?>
+                            <?php else : ?>
                                 <span class="badge bg-warning"><?= __('Not Delivered') ?></span>
                             <?php endif; ?>
                         </td>
                         <td class="mo-bill"><?= $this->element('Shop/bill_link', ['bill' => $memberOrder->bill ?? null]) ?></td>
                         <td class="mo-status">
-                            <?php if ($memberOrder->hasValue('bill')): ?>
+                            <?php if ($memberOrder->hasValue('bill')) : ?>
                                 <span class="badge bg-<?= h($memberOrder->bill->statusHtml) ?>"><?= h($memberOrder->bill->statusString) ?></span>
                             <?php endif; ?>
                         </td>
                         <td class="mo-created"><?= h($memberOrder->created) ?></td>
                         <td class="actions mo-actions">
-                            <?php if (!$memberOrder->delivered): ?>
+                            <?php if (!$memberOrder->delivered) : ?>
                                 <?= $this->Form->postLink(__('Mark Delivered'), ['action' => 'markDelivered', $memberOrder->id], ['confirm' => __('Mark this order as delivered?'), 'class' => 'btn btn-sm btn-add mo-action-main']) ?>
-                            <?php else: ?>
+                            <?php else : ?>
                                 <?= $this->Form->postLink(__('Mark Not Delivered'), ['action' => 'markNotDelivered', $memberOrder->id], ['confirm' => __('Mark this order as not delivered?'), 'class' => 'btn btn-sm btn-delete mo-action-main']) ?>
                             <?php endif; ?>
                             <?= $this->my->iconLink('visibility', ['action' => 'view', $memberOrder->id], __('View')) ?>

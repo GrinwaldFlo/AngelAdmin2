@@ -1,4 +1,5 @@
 <?php
+
 /**
  * New item for sale
  * @var \App\View\AppView $this

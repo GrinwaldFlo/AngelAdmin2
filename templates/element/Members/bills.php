@@ -14,7 +14,7 @@ if (!$allowViewBills) {
 <div class="row px-0 mx-0">
     <div class="col px-0 mx-0">
         <div class="members view content">
-            <?php if ($curRole->BillEditAll): ?>
+            <?php if ($curRole->BillEditAll) : ?>
                 <?= $this->Html->link('', ['controller' => 'Bills', 'action' => 'add', $member->id], ['class' => 'float-end gg-add-r']) ?>
             <?php endif; ?>
             <div class="d-flex align-items-center mb-3 gap-3">
@@ -35,7 +35,7 @@ if (!$allowViewBills) {
             </div>
             
             <div id="bills-content">
-                <?php if (!empty($member->bills)): ?>
+                <?php if (!empty($member->bills)) : ?>
                     <!-- Desktop view -->
                     <div class="d-none d-md-block">
                         <table class="table table-striped table-hover table-sm">
@@ -54,18 +54,24 @@ if (!$allowViewBills) {
                                 <?php
                                 // Sort bills: Unpaid first, then by due_date ascending
                                 $sortedBills = $member->bills;
-                                usort($sortedBills, function($a, $b) {
+                                usort($sortedBills, function ($a, $b) {
                                     if ($a->paid !== $b->paid) {
                                         return $a->paid <=> $b->paid;
                                     }
                                     return $a->due_date <=> $b->due_date;
                                 });
-                                
-                                foreach ($sortedBills as $bill): 
+
+                                foreach ($sortedBills as $bill) :
                                     $billClasses = [];
-                                    if ($bill->paid && !$bill->canceled) $billClasses[] = 'bill-paid';
-                                    if (!$bill->paid && !$bill->canceled) $billClasses[] = 'bill-open';
-                                    if ($bill->canceled) $billClasses[] = 'bill-canceled';
+                                    if ($bill->paid && !$bill->canceled) {
+                                        $billClasses[] = 'bill-paid';
+                                    }
+                                    if (!$bill->paid && !$bill->canceled) {
+                                        $billClasses[] = 'bill-open';
+                                    }
+                                    if ($bill->canceled) {
+                                        $billClasses[] = 'bill-canceled';
+                                    }
                                     ?>
                                     <tr class="bill-row <?= implode(' ', $billClasses) ?>">
                                         <td><?= $curRole->BillEditAll ? $this->Html->link(h($bill->Reference), ['controller' => 'Bills', 'action' => 'view', $bill->id]) : h($bill->Reference) ?></td>
@@ -88,11 +94,17 @@ if (!$allowViewBills) {
 
                     <!-- Mobile view -->
                     <div class="d-md-none" id="bills-mobile-list">
-                        <?php foreach ($sortedBills as $bill): 
+                        <?php foreach ($sortedBills as $bill) :
                             $billClasses = [];
-                            if ($bill->paid && !$bill->canceled) $billClasses[] = 'bill-paid';
-                            if (!$bill->paid && !$bill->canceled) $billClasses[] = 'bill-open';
-                            if ($bill->canceled) $billClasses[] = 'bill-canceled';
+                            if ($bill->paid && !$bill->canceled) {
+                                $billClasses[] = 'bill-paid';
+                            }
+                            if (!$bill->paid && !$bill->canceled) {
+                                $billClasses[] = 'bill-open';
+                            }
+                            if ($bill->canceled) {
+                                $billClasses[] = 'bill-canceled';
+                            }
                             ?>
                             <div class="card mb-3 bill-row <?= implode(' ', $billClasses) ?>">
                                 <div class="card-body">
@@ -102,7 +114,7 @@ if (!$allowViewBills) {
                                                 ('#' . $this->Html->link(h($bill->Reference), ['controller' => 'Bills', 'action' => 'view', $bill->id]) . ($bill->reminder > 0 ? ' (' . __('Remin.') . ' ' . h($bill->reminder) . ')' : ''))
                                                 :
                                                 '#' . h($bill->Reference)
-                                                ?>
+                                            ?>
                                         </h6>
                                         <span class="badge bg-<?= h($bill->statusHtml) ?>"><?= h($bill->statusString) ?></span>
                                         <div class="icon bill-actions-icon">
@@ -136,7 +148,7 @@ if (!$allowViewBills) {
                     <div id="no-bills-message" class="alert alert-info" role="alert" hidden>
                         <span id="no-bills-text"></span>
                     </div>
-                <?php else: ?>
+                <?php else : ?>
                     <div class="alert alert-info" role="alert">
                         <?= __('No invoices found.') ?>
                     </div>

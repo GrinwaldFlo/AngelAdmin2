@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var string $message
@@ -13,7 +14,7 @@ use Cake\Http\Exception\InvalidCsrfTokenException;
 
 $this->setLayout('error');
 
-if (Configure::read('debug')):
+if (Configure::read('debug')) :
     $this->setLayout('dev_error');
 
     $this->assign('title', $message);
@@ -70,7 +71,7 @@ $this->assign('title', $title);
         <i class="bi bi-info-circle-fill text-danger me-3 mt-1"></i>
         <div>
             <strong class="d-block mb-2"><?= h($heading) ?></strong>
-            <?php if ($text !== null): ?>
+            <?php if ($text !== null) : ?>
                 <p class="mb-0"><?= $text ?></p>
             <?php endif; ?>
         </div>
@@ -83,7 +84,7 @@ $this->assign('title', $title);
         <?= __('Suggestions:') ?>
     </h6>
     <ul class="list-unstyled mb-0 small text-muted">
-        <?php foreach ($suggestions as $suggestion): ?>
+        <?php foreach ($suggestions as $suggestion) : ?>
             <li class="mb-1">
                 <i class="bi bi-check2 text-success me-2"></i>
                 <?= h($suggestion) ?>

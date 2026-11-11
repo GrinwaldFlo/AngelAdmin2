@@ -25,7 +25,7 @@
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($roles as $role): ?>
+      <?php foreach ($roles as $role) : ?>
         <tr>
           <td><?= $this->Number->format($role->id) ?></td>
           <td><?= $this->Html->link(h($role->name), ['action' => 'view', $role->id]) ?></td>

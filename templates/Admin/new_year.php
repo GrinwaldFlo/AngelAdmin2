@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Configuration $configuration
@@ -21,9 +22,9 @@
         <tr>
           <th><?= __('Actions') ?></th>
           <td>
-            <?= $this->Html->link(__('Reset membership fees').'...', ['action' => 'resetMembership'], ['class' => 'btn btn-nav btn-sm']) ?>
-            <?= $this->Html->link(__('Generate membership fees').'...', ['action' => 'generateMembership'], ['class' => 'btn btn-nav btn-sm']) ?>
-            <?= $this->Html->link(__('Reset registration').'...', ['action' => 'resetRegistration'], ['class' => 'btn btn-nav btn-sm']) ?>
+            <?= $this->Html->link(__('Reset membership fees') . '...', ['action' => 'resetMembership'], ['class' => 'btn btn-nav btn-sm']) ?>
+            <?= $this->Html->link(__('Generate membership fees') . '...', ['action' => 'generateMembership'], ['class' => 'btn btn-nav btn-sm']) ?>
+            <?= $this->Html->link(__('Reset registration') . '...', ['action' => 'resetRegistration'], ['class' => 'btn btn-nav btn-sm']) ?>
           </td>
         </tr>
       </table>

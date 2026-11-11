@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Error;
@@ -16,7 +17,7 @@ use Throwable;
 
 /**
  * Custom Error Logger
- * 
+ *
  * Reduces verbose logging for all 404 errors to single-line entries
  * Refused accesses (403) are expected (old links, bookmarks, expired forms): one warning line, without trace
  */
@@ -34,7 +35,7 @@ class CustomErrorLogger extends ErrorLogger
     {
         // Check if simplified logging is enabled (can be disabled via environment variable)
         $enableSimplifiedLogging = env('ENABLE_SIMPLIFIED_404_LOGGING', true);
-        
+
         if ($enableSimplifiedLogging && $this->is404Exception($exception) && $request !== null) {
             $requestUri = $request->getRequestTarget();
             $this->logSimplified404($exception, $requestUri);
@@ -109,7 +110,7 @@ class CustomErrorLogger extends ErrorLogger
     protected function logSimplified404(Throwable $exception, string $requestUri): void
     {
         $exceptionName = (new \ReflectionClass($exception))->getShortName();
-        
+
         $message = sprintf(
             '[404] %s: %s',
             $exceptionName,

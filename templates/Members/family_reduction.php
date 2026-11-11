@@ -18,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($members2 as $member): ?>
+        <?php foreach ($members2 as $member) : ?>
           <tr>
             <td><?= $this->Html->link($member->fullName, ['action' => 'view', $member->id]) ?></td>
             <td><?= h($member->TeamString) ?></td>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Orders page, summary: ordered items by item and attribute, with the stock
  * The member orders are deducted from the stock when placed: a negative stock is the quantity to order
@@ -22,9 +23,9 @@ $this->Html->css('shop', ['block' => true]);
         <?= $this->Html->link(__('Only to order'), ['action' => 'summary', '?' => ['toOrder' => 1]], ['class' => 'btn btn-sm btn-filter' . ($onlyToOrder ? ' pressed' : '')]) ?>
     </div>
 
-    <?php if ($rows === []): ?>
+    <?php if ($rows === []) : ?>
         <p class="shop-empty"><?= __('Nothing to show.') ?></p>
-    <?php else: ?>
+    <?php else : ?>
         <div class="table-responsive">
             <table class="table table-striped table-hover table-sm shop-summary-table">
                 <thead>
@@ -39,7 +40,7 @@ $this->Html->css('shop', ['block' => true]);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($rows as $row): ?>
+                    <?php foreach ($rows as $row) : ?>
                         <?php
                         $stock = $row['stock'];
                         $toOrder = $stock->toOrder();
@@ -47,10 +48,10 @@ $this->Html->css('shop', ['block' => true]);
                         <tr class="<?= $toOrder > 0 ? 'shop-row-to-order' : '' ?>">
                             <td class="shop-summary-item"><?= h($row['item']->label) ?></td>
                             <td class="shop-summary-attribute">
-                                <?php if ($row['attribute'] !== ''): ?>
+                                <?php if ($row['attribute'] !== '') : ?>
                                     <span class="badge bg-light text-dark shop-attribute"><?= h($row['attribute']) ?></span>
                                 <?php endif; ?>
-                                <?php if (!$row['offered']): ?>
+                                <?php if (!$row['offered']) : ?>
                                     <span class="badge bg-secondary"><?= __('No longer offered') ?></span>
                                 <?php endif; ?>
                             </td>

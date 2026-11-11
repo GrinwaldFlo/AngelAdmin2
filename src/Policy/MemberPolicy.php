@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Policy;
+
 use App\Model\Entity\Member;
 use Authorization\IdentityInterface;
 
@@ -10,57 +13,57 @@ use Authorization\IdentityInterface;
  */
 class MemberPolicy
 {
-  public function canViewAll(?IdentityInterface $user, Member $member)
-  {
-    return $user !== null && $user->Role->MemberViewAll;
-  }
-
-  public function canEdit(?IdentityInterface $user, Member $member)
-  {
-    if ($user === null) {
-      return false;
+    public function canViewAll(?IdentityInterface $user, Member $member)
+    {
+        return $user !== null && $user->Role->MemberViewAll;
     }
 
-    if ($member->id == $user->member_id && $user->Role->MemberEditOwn) {
-      return true;
-    }
+    public function canEdit(?IdentityInterface $user, Member $member)
+    {
+        if ($user === null) {
+            return false;
+        }
 
-    return $user->Role->MemberEditAll && ($member->isNew() || TeamScope::canAccessMember($user, $member->id));
-  }
+        if ($member->id == $user->member_id && $user->Role->MemberEditOwn) {
+            return true;
+        }
+
+        return $user->Role->MemberEditAll && ($member->isNew() || TeamScope::canAccessMember($user, $member->id));
+    }
 
   // Not for the coaches: pages about all the members (signatures validation)
-  public function canEditAll(?IdentityInterface $user, Member $member)
-  {
-    return TeamScope::canUnscoped($user, 'MemberEditAll');
-  }
+    public function canEditAll(?IdentityInterface $user, Member $member)
+    {
+        return TeamScope::canUnscoped($user, 'MemberEditAll');
+    }
 
   // Members to validate (without team): not for the coaches
-  public function canViewNew(?IdentityInterface $user, Member $member)
-  {
-    return TeamScope::canUnscoped($user, 'MemberViewAll');
-  }
+    public function canViewNew(?IdentityInterface $user, Member $member)
+    {
+        return TeamScope::canUnscoped($user, 'MemberViewAll');
+    }
 
   // Only the admins see the site (city) menu, the other roles work on the city of their member
-  public function canSetSite(?IdentityInterface $user, Member $member)
-  {
-    return $user !== null && (bool)$user->Role->Admin;
-  }
-
-  public function canAdmin(?IdentityInterface $user, Member $member)
-  {
-    return $user !== null && $user->Role->Admin;
-  }
-
-  public function canView(?IdentityInterface $user, Member $member)
-  {
-    if ($user === null) {
-      return false;
+    public function canSetSite(?IdentityInterface $user, Member $member)
+    {
+        return $user !== null && (bool)$user->Role->Admin;
     }
 
-    if ($user->member_id == $member->id) {
-      return true;
+    public function canAdmin(?IdentityInterface $user, Member $member)
+    {
+        return $user !== null && $user->Role->Admin;
     }
 
-    return $user->Role->MemberViewAll && TeamScope::canAccessMember($user, $member->id);
-  }
+    public function canView(?IdentityInterface $user, Member $member)
+    {
+        if ($user === null) {
+            return false;
+        }
+
+        if ($user->member_id == $member->id) {
+            return true;
+        }
+
+        return $user->Role->MemberViewAll && TeamScope::canAccessMember($user, $member->id);
+    }
 }

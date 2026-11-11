@@ -17,7 +17,7 @@
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($fields as $field): ?>
+      <?php foreach ($fields as $field) : ?>
         <tr>
           <td><?= $field->has('member') ? $this->Html->link($field->member->id, ['controller' => 'Members', 'action' => 'view', $field->member->id]) : '' ?></td>
           <td><?= $field->has('field_type') ? $this->Html->link($field->field_type->id, ['controller' => 'FieldTypes', 'action' => 'view', $field->field_type->id]) : '' ?></td>

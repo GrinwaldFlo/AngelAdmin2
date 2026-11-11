@@ -9,7 +9,7 @@
     <div class="users view content">
       <div class="icon float-end">
         <?php if ($curRole->Admin) : ?>
-          <?= $this->Html->link('<i class="gg-pen"></i>', ['action' => 'edit', $user->id], ['escape' => false]) ?>
+            <?= $this->Html->link('<i class="gg-pen"></i>', ['action' => 'edit', $user->id], ['escape' => false]) ?>
         <?php endif; ?>
         <?= $this->backButtonCtrl('Users', 'index') ?>
       </div>

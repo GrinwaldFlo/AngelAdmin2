@@ -1,4 +1,5 @@
 <?php
+
 namespace App\View\Helper;
 
 use App\Model\Entity\Meeting;

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
@@ -6,7 +7,7 @@ use Cake\ORM\TableRegistry;
 
 /**
  * Member Data Component
- * 
+ *
  * Handles member data processing and business logic
  */
 class MemberDataComponent extends Component

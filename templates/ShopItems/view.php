@@ -53,7 +53,7 @@ $this->Html->css('shop', ['block' => true]);
                     <td><?= h($shopItem->modified) ?></td>
                 </tr>
             </table>
-            <?php if (!empty($shopItem->member_orders)): ?>
+            <?php if (!empty($shopItem->member_orders)) : ?>
             <div class="related">
                 <h4><?= __('Related Member Orders') ?></h4>
                 <div class="table-responsive">
@@ -65,7 +65,7 @@ $this->Html->css('shop', ['block' => true]);
                             <th><?= __('Delivered') ?></th>
                             <th><?= __('Created') ?></th>
                         </tr>
-                        <?php foreach ($shopItem->member_orders as $memberOrder): ?>
+                        <?php foreach ($shopItem->member_orders as $memberOrder) : ?>
                         <tr>
                             <td><?= $this->element('Shop/member_link', ['member' => $memberOrder->member ?? null]) ?></td>
                             <td><?= h($memberOrder->attribute ?? '-') ?></td>
