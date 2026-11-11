@@ -213,6 +213,9 @@ class UsersController extends AppController
                     ->setLayout('default');
 
                 $mailer->deliver();
+            } else {
+                // No account: a member with this email can still use the login link of its personal page
+                $this->sendLoginLinks((string)$emailOrUsername, false);
             }
             $this->Flash->success(__('If this email or username exists, a reset link has been sent to the associated email'));
         }
@@ -302,32 +305,42 @@ class UsersController extends AppController
         $this->request->allowMethod(['post']);
 
         if ($this->request->is('post')) {
-            $fullName = trim($this->request->getData('full_name'));
+            // The field accepts the full name or the email of the member
+            $emailOrName = trim((string)$this->request->getData('full_name'));
 
-            if (empty($fullName)) {
-                $this->Flash->error(__('Please enter your full name'));
+            if (empty($emailOrName)) {
+                $this->Flash->error(__('Please enter your full name or your email'));
                 return $this->redirect(['action' => 'login']);
             }
 
-            // Find member by concatenating first_name and last_name (case insensitive)
-            $member = $this->Users->Members->find('all')
-                ->where([
-                    'LOWER(CONCAT(first_name, " ", last_name)) =' => strtolower($fullName)
-                ])
-                ->first();
-
-            if ($member) {
-                // Load the MemberRegistration component and send login link
-                $this->loadComponent('MemberRegistration');
-                $this->MemberRegistration->sendMyPageToMember($member);
+            if (!$this->sendLoginLinks($emailOrName, true)) {
+                $this->Mail->mailNotif(__('Wrong name entered for {0}', $emailOrName), '', null, 0);
             }
-            else
-            {
-                $this->Mail->mailNotif(__('Wrong name entered for {0}', $fullName), '', null, 0);
-            }
-            $this->Flash->success(__('If the member exists, a login link has been sent to the member {0}', $fullName));
+            $this->Flash->success(
+                __('If the member exists, a login link has been sent to the member {0}', $emailOrName)
+            );
         }
 
         return $this->redirect(['action' => 'login']);
+    }
+
+    /**
+     * Send the login link (personal page) to every member found, e.g. each child sharing the email of a parent
+     * @param string $emailOrName email of the members, or full name when $withName
+     * @return bool true if at least one member has been found
+     */
+    private function sendLoginLinks(string $emailOrName, bool $withName): bool
+    {
+        $members = $this->fetchTable('Members')->findForLoginLink($emailOrName, $withName);
+        if ($members === []) {
+            return false;
+        }
+
+        $this->loadComponent('MemberRegistration');
+        foreach ($members as $member) {
+            $this->MemberRegistration->sendMyPageToMember($member);
+        }
+
+        return true;
     }
 }

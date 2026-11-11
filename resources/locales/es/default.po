@@ -2836,3 +2836,12 @@ msgstr "Este equipo tiene miembros de otra ubicación: quítalos primero del equ
 #: src/Controller/TeamsController.php
 msgid "This member is in another location than the team."
 msgstr "Este miembro está en otra ubicación que el equipo."
+
+msgid "Please enter your full name or your email"
+msgstr "Introduce tu nombre completo o tu email"
+
+msgid "Enter your full name or your email to receive a login link by email"
+msgstr "Introduce tu nombre completo o tu email para recibir un enlace de acceso por email"
+
+msgid "Full name (First name Last name) or email"
+msgstr "Nombre completo (Nombre Apellido) o email"

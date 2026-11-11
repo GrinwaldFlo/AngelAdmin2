@@ -315,6 +315,85 @@ class UserAccountSecurityTest extends TestCase
         $this->assertMailSentTo('club@example.com');
     }
 
+    public function testEmailLoginWithTheEmailOfTheMember(): void
+    {
+        $this->post('/users/email-login', ['full_name' => ' M1@Example.com ']);
+
+        $this->assertMailCount(1);
+        $this->assertMailSentTo('m1@example.com');
+        $this->assertMailContains('/members/my-page/1111111111111111111111111111111111111111');
+    }
+
+    public function testEmailLoginSendsALinkForEachChildOfTheEmail(): void
+    {
+        $this->addMember(2, [], ['email' => 'parent@example.com']);
+        $this->addMember(3, [], ['email' => 'Parent@Example.com']);
+        $this->addMember(4, [], ['email' => 'other@example.com']);
+
+        $this->post('/users/email-login', ['full_name' => 'parent@example.com']);
+
+        $this->assertMailCount(2);
+        $this->assertMailContainsAt(0, '/members/my-page/' . sha1('member2'));
+        $this->assertMailContainsAt(1, '/members/my-page/' . sha1('member3'));
+        $this->assertMailContainsAt(0, 'First2 Last2');
+        $this->assertMailContainsAt(1, 'First3 Last3');
+    }
+
+    public function testEmailLoginWithTheNameOfAMemberWithoutHash(): void
+    {
+        $this->addMember(2, [], ['hash' => '']);
+
+        $this->post('/users/email-login', ['full_name' => 'first2   last2']);
+
+        $hash = $this->getTableLocator()->get('Members')->get(2)->hash;
+        $this->assertMatchesRegularExpression('/^[0-9a-f]{40}$/', $hash);
+        $this->assertMailCount(1);
+        $this->assertMailContains('/members/my-page/' . $hash);
+    }
+
+    public function testEmailLoginWithAnEmptyValue(): void
+    {
+        $this->post('/users/email-login', ['full_name' => '  ']);
+
+        $this->assertRedirect(['controller' => 'Users', 'action' => 'login']);
+        $this->assertFlashElement('flash/error');
+        $this->assertNoMailSent();
+    }
+
+    public function testForgotPasswordOfAMemberWithoutAccountSendsTheLoginLink(): void
+    {
+        $this->addMember(2, [], ['email' => 'parent@example.com']);
+        $this->addMember(3, [], ['email' => 'parent@example.com']);
+        $token = $this->user(1)->tokenhash;
+
+        $this->post('/users/forgot-password', ['email_or_username' => 'Parent@example.com']);
+
+        $this->assertFlashElement('flash/success');
+        $this->assertMailCount(2);
+        $this->assertMailSentTo('parent@example.com');
+        $this->assertMailContainsAt(0, '/members/my-page/' . sha1('member2'));
+        $this->assertMailContainsAt(1, '/members/my-page/' . sha1('member3'));
+        // The account of the other member is not touched
+        $this->assertSame($token, $this->user(1)->tokenhash);
+    }
+
+    public function testForgotPasswordDoesNotSendTheLoginLinkByName(): void
+    {
+        $this->addMember(2);
+
+        $this->post('/users/forgot-password', ['email_or_username' => 'First2 Last2']);
+
+        $this->assertNoMailSent();
+    }
+
+    public function testForgotPasswordOfAnAccountSendsOnlyTheReset(): void
+    {
+        $this->post('/users/forgot-password', ['email_or_username' => 'm1@example.com']);
+
+        $this->assertMailCount(1);
+        $this->assertMailContains('/users/reset/');
+    }
+
     public function testEmailLoginNeedsAPost(): void
     {
         $this->get('/users/email-login');

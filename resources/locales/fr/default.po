@@ -641,8 +641,8 @@ msgid "Your password has been updated"
 msgstr "Ton mot de passe a été mis à jour"
 
 #: src/Controller/UsersController.php:301
-msgid "Please enter your full name"
-msgstr "Entre ton nom complet"
+msgid "Please enter your full name or your email"
+msgstr "Entre ton nom complet ou ton email"
 
 #: src/Controller/UsersController.php:319
 msgid "Wrong name entered for {0}"
@@ -2513,16 +2513,16 @@ msgid "With login"
 msgstr "Par login"
 
 #: templates/Users/login.php:67
-msgid "Enter your full name to receive a login link by email"
-msgstr "Entre ton nom complet pour recevoir un lien par email"
+msgid "Enter your full name or your email to receive a login link by email"
+msgstr "Entre ton nom complet ou ton email pour recevoir un lien par email"
 
 #: templates/Users/login.php:68
 msgid "We will send you a secure link to access your account"
 msgstr "On t’enverra un lien sécurisé pour accéder à ton compte"
 
 #: templates/Users/login.php:73
-msgid "Full Name (First Name Last Name)"
-msgstr "Nom complet (Prénom Nom)"
+msgid "Full name (First name Last name) or email"
+msgstr "Nom complet (Prénom Nom) ou email"
 
 #: templates/Users/login.php:79
 msgid "Send login link"

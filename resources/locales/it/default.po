@@ -2976,3 +2976,12 @@ msgstr "Questa squadra ha membri di un'altra sede: rimuovili prima dalla squadra
 #: src/Controller/TeamsController.php
 msgid "This member is in another location than the team."
 msgstr "Questo membro è in un'altra sede rispetto alla squadra."
+
+msgid "Please enter your full name or your email"
+msgstr "Inserisci il tuo nome completo o la tua email"
+
+msgid "Enter your full name or your email to receive a login link by email"
+msgstr "Inserisci il tuo nome completo o la tua email per ricevere un link di accesso via email"
+
+msgid "Full name (First name Last name) or email"
+msgstr "Nome completo (Nome Cognome) o email"

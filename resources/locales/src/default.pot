@@ -903,7 +903,7 @@ msgid "Your password has been updated"
 msgstr ""
 
 #: ./src/Controller/UsersController.php:308
-msgid "Please enter your full name"
+msgid "Please enter your full name or your email"
 msgstr ""
 
 #: ./src/Controller/UsersController.php:326
@@ -4131,7 +4131,7 @@ msgid "With login"
 msgstr ""
 
 #: ./templates/Users/login.php:67
-msgid "Enter your full name to receive a login link by email"
+msgid "Enter your full name or your email to receive a login link by email"
 msgstr ""
 
 #: ./templates/Users/login.php:68
@@ -4139,7 +4139,7 @@ msgid "We will send you a secure link to access your account"
 msgstr ""
 
 #: ./templates/Users/login.php:73
-msgid "Full Name (First Name Last Name)"
+msgid "Full name (First name Last name) or email"
 msgstr ""
 
 #: ./templates/Users/login.php:79

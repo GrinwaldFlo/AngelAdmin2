@@ -205,7 +205,9 @@ class MemberRegistrationComponent extends Component
 
     public function sendMyPageToMember($member)
     {
-        $url = Router::url(array('controller' => 'Members', 'action' => 'my-page', $member->hash), true);
+        // A member without hash would get a broken link
+        $hash = TableRegistry::getTableLocator()->get('Members')->ensureHash($member);
+        $url = Router::url(array('controller' => 'Members', 'action' => 'my-page', $hash), true);
         $url = '<a href="' . $url . '">' . __("Your personal page") . '</a>';
 
         if($member->registered)

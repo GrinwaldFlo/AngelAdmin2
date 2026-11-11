@@ -280,6 +280,33 @@ class MembersTable extends Table
         return $member->hash;
     }
 
+    /**
+     * Members who can receive a login link (link to their personal page), case insensitive.
+     * Many members can share an email (children of the same parent), so all of them are returned.
+     * @param string $value email of the members, or their full name "First name Last name" when $withName
+     * @param bool $withName also search by the full name
+     * @return \App\Model\Entity\Member[]
+     */
+    public function findForLoginLink(string $value, bool $withName = true): array
+    {
+        $value = mb_strtolower(trim((string)preg_replace('/\s+/u', ' ', $value)));
+        if ($value === '') {
+            return [];
+        }
+
+        $query = $this->find();
+        $lower = fn($expression) => $query->func()->lower([$expression]);
+        $conditions = [$query->newExpr()->eq($lower($query->identifier('Members.email')), $value)];
+        if ($withName) {
+            $fullName = $query->func()->concat([
+                'Members.first_name' => 'identifier', ' ', 'Members.last_name' => 'identifier',
+            ]);
+            $conditions[] = $query->newExpr()->eq($lower($fullName), $value);
+        }
+
+        return $query->where(['OR' => $conditions])->orderBy(['Members.id'])->all()->toArray();
+    }
+
     public function beforeSave($event, $entity, $options)
     {
         // Address, city and phone are optional (null)
