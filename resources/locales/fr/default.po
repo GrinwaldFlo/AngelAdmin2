@@ -4046,3 +4046,6 @@ msgstr "Cette équipe a des membres d'un autre lieu : retire-les d'abord de l'é
 #: src/Controller/TeamsController.php
 msgid "This member is in another location than the team."
 msgstr "Ce membre est dans un autre lieu que l'équipe."
+
+msgid "Too many requests, please try again later"
+msgstr "Trop de demandes, réessaie plus tard"

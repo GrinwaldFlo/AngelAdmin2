@@ -2985,3 +2985,6 @@ msgstr "Inserisci il tuo nome completo o la tua email per ricevere un link di ac
 
 msgid "Full name (First name Last name) or email"
 msgstr "Nome completo (Nome Cognome) o email"
+
+msgid "Too many requests, please try again later"
+msgstr "Troppe richieste, riprova più tardi"

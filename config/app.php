@@ -126,6 +126,17 @@ return [
         ],
 
         /*
+         * Counters of App\Utility\RateLimiter (e.g. login links sent by email per IP and per member)
+         */
+        'rate_limit' => [
+            'className' => FileEngine::class,
+            'prefix' => 'rate_limit_',
+            'path' => CACHE . 'rate_limit' . DS,
+            'serialize' => true,
+            'duration' => '+1 day',
+        ],
+
+        /*
          * Configure the cache used for general framework caching.
          * Translation cache files are stored with this configuration.
          * Duration will be set to '+2 minutes' in bootstrap.php when debug = true

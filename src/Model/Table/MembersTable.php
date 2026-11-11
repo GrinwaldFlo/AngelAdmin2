@@ -296,12 +296,12 @@ class MembersTable extends Table
 
         $query = $this->find();
         $lower = fn($expression) => $query->func()->lower([$expression]);
-        $conditions = [$query->newExpr()->eq($lower($query->identifier('Members.email')), $value)];
+        $conditions = [$query->expr()->eq($lower($query->identifier('Members.email')), $value)];
         if ($withName) {
             $fullName = $query->func()->concat([
                 'Members.first_name' => 'identifier', ' ', 'Members.last_name' => 'identifier',
             ]);
-            $conditions[] = $query->newExpr()->eq($lower($fullName), $value);
+            $conditions[] = $query->expr()->eq($lower($fullName), $value);
         }
 
         return $query->where(['OR' => $conditions])->orderBy(['Members.id'])->all()->toArray();

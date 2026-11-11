@@ -2888,3 +2888,6 @@ msgstr "Gib deinen vollständigen Namen oder deine E-Mail ein, um einen Anmeldel
 
 msgid "Full name (First name Last name) or email"
 msgstr "Vollständiger Name (Vorname Nachname) oder E-Mail"
+
+msgid "Too many requests, please try again later"
+msgstr "Zu viele Anfragen, bitte versuche es später erneut"

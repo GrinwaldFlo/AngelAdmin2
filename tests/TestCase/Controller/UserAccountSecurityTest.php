@@ -6,6 +6,8 @@ namespace App\Test\TestCase\Controller;
 
 use App\Controller\PrefResult;
 use App\Test\TestSuite\TestDataTrait;
+use App\Utility\RateLimiter;
+use Cake\I18n\DateTime;
 use Cake\TestSuite\EmailTrait;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
@@ -32,6 +34,8 @@ class UserAccountSecurityTest extends TestCase
     {
         parent::setUp();
         PrefResult::$sites = null;
+        RateLimiter::clear();
+        DateTime::setTestNow('2026-11-11 10:00:00');
         $this->enableCsrfToken();
         $this->enableRetainFlashMessages();
         $this->getTableLocator()->get('Roles')->insertQuery()
@@ -48,6 +52,8 @@ class UserAccountSecurityTest extends TestCase
     protected function tearDown(): void
     {
         PrefResult::$sites = null;
+        RateLimiter::clear();
+        DateTime::setTestNow(null);
         parent::tearDown();
     }
 
@@ -230,6 +236,8 @@ class UserAccountSecurityTest extends TestCase
     {
         $this->post('/users/forgot-password', ['email_or_username' => 'Lorem ipsum dolor sit amet']);
         $first = $this->user(1)->tokenhash;
+        // After the cooldown of the emails to one account
+        DateTime::setTestNow('2026-11-11 10:11:00');
         $this->post('/users/forgot-password', ['email_or_username' => 'm1@example.com']);
         $second = $this->user(1)->tokenhash;
 
@@ -392,6 +400,107 @@ class UserAccountSecurityTest extends TestCase
 
         $this->assertMailCount(1);
         $this->assertMailContains('/users/reset/');
+    }
+
+    // ---------------------------------------------------------------- limits of the emails
+
+    public function testLoginLinkCooldownForEachMember(): void
+    {
+        $this->addMember(2, [], ['email' => 'parent@example.com']);
+        $this->addMember(3, [], ['email' => 'parent@example.com']);
+        $this->post('/users/email-login', ['full_name' => 'First2 Last2']);
+        $this->assertMailCount(1);
+
+        // Somebody knowing the email asks again: only the child who got nothing yet
+        $this->post('/users/email-login', ['full_name' => 'parent@example.com']);
+        $this->assertFlashElement('flash/success');
+        $this->assertMailCount(2);
+        $this->assertMailContainsAt(1, 'First3 Last3');
+
+        DateTime::setTestNow('2026-11-11 10:05:00');
+        $this->post('/users/email-login', ['full_name' => 'parent@example.com']);
+        $this->assertMailCount(2);
+
+        DateTime::setTestNow('2026-11-11 10:11:00');
+        $this->post('/users/email-login', ['full_name' => 'parent@example.com']);
+        $this->assertMailCount(4);
+    }
+
+    public function testLoginLinkLimitedPerDayForEachMember(): void
+    {
+        for ($i = 0; $i < 6; $i++) {
+            DateTime::setTestNow(DateTime::parse('2026-11-11 08:00:00')->addMinutes(11 * $i));
+            // From another IP each time
+            $this->configRequest(['environment' => ['REMOTE_ADDR' => '10.0.0.' . $i]]);
+            $this->post('/users/email-login', ['full_name' => 'm1@example.com']);
+        }
+
+        $this->assertMailCount(5);
+    }
+
+    public function testPasswordResetCooldownForEachAccount(): void
+    {
+        $this->post('/users/forgot-password', ['email_or_username' => 'm1@example.com']);
+        $token = $this->user(1)->tokenhash;
+
+        DateTime::setTestNow('2026-11-11 10:05:00');
+        $this->post('/users/forgot-password', ['email_or_username' => 'Lorem ipsum dolor sit amet']);
+
+        // Same message, the link sent first still works
+        $this->assertFlashElement('flash/success');
+        $this->assertMailCount(1);
+        $this->assertSame($token, $this->user(1)->tokenhash);
+    }
+
+    public function testEmailRequestsLimitedPerIp(): void
+    {
+        $this->configRequest(['environment' => ['REMOTE_ADDR' => '10.0.0.1']]);
+        for ($id = 2; $id <= 6; $id++) {
+            $this->addMember($id);
+            // The login page and the password reset share the limit
+            $url = $id % 2 ? '/users/forgot-password' : '/users/email-login';
+            $this->post($url, ['full_name' => "m$id@example.com", 'email_or_username' => "m$id@example.com"]);
+        }
+        $this->assertMailCount(5);
+
+        $this->addMember(7);
+        $this->post('/users/email-login', ['full_name' => 'm7@example.com']);
+        $this->assertFlashElement('flash/error');
+        $this->post('/users/forgot-password', ['email_or_username' => 'm7@example.com']);
+        $this->assertResponseOk();
+        $this->assertFlashElement('flash/error');
+        $this->assertMailCount(5);
+
+        // The other IPs are not blocked
+        $this->configRequest(['environment' => ['REMOTE_ADDR' => '10.0.0.2']]);
+        $this->post('/users/email-login', ['full_name' => 'm7@example.com']);
+        $this->assertMailCount(6);
+
+        // Free again after 15 minutes
+        DateTime::setTestNow('2026-11-11 10:15:00');
+        $this->configRequest(['environment' => ['REMOTE_ADDR' => '10.0.0.1']]);
+        $this->post('/users/email-login', ['full_name' => 'First7 Last7']);
+        $this->assertFlashElement('flash/success');
+    }
+
+    public function testEmailRequestsLimitedPerDayForAnIp(): void
+    {
+        for ($i = 0; $i < 21; $i++) {
+            DateTime::setTestNow(DateTime::parse('2026-11-11 00:00:00')->addMinutes(16 * $i));
+            $this->post('/users/email-login', ['full_name' => 'Nobody ' . $i]);
+        }
+
+        $this->assertFlashElement('flash/error');
+    }
+
+    public function testWrongLoginNotificationsLimitedPerIp(): void
+    {
+        for ($i = 0; $i < 7; $i++) {
+            $this->post('/users/login', ['username' => 'Lorem ipsum dolor sit amet', 'password' => 'wrong ' . $i]);
+        }
+
+        $this->assertMailCount(5);
+        $this->assertMailSentTo('club@example.com');
     }
 
     public function testEmailLoginNeedsAPost(): void

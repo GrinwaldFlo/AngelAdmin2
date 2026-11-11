@@ -2845,3 +2845,6 @@ msgstr "Introduce tu nombre completo o tu email para recibir un enlace de acceso
 
 msgid "Full name (First name Last name) or email"
 msgstr "Nombre completo (Nombre Apellido) o email"
+
+msgid "Too many requests, please try again later"
+msgstr "Demasiadas solicitudes, inténtalo más tarde"

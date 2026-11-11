@@ -4544,3 +4544,6 @@ msgstr ""
 #: src/Controller/TeamsController.php
 msgid "This member is in another location than the team."
 msgstr ""
+
+msgid "Too many requests, please try again later"
+msgstr ""

@@ -17,6 +17,9 @@ declare(strict_types=1);
 
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
+use App\Utility\RateLimiter;
+use Cake\Cache\Cache;
+use Cake\Cache\Engine\ArrayEngine;
 use Cake\Mailer\Transport\DebugTransport;
 use Cake\Mailer\TransportFactory;
 use Migrations\TestSuite\Migrator;
@@ -40,6 +43,10 @@ foreach (TransportFactory::configured() as $transport) {
     TransportFactory::drop($transport);
     TransportFactory::setConfig($transport, ['className' => DebugTransport::class]);
 }
+
+// Rate limits counted in memory (cleared by the tests using them), never in the cache files of the app
+Cache::drop(RateLimiter::CACHE);
+Cache::setConfig(RateLimiter::CACHE, ['className' => ArrayEngine::class]);
 
 // Force the app's default connection to use the test datasource during tests.
 ConnectionManager::alias('test', 'default');
