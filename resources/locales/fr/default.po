@@ -4049,3 +4049,33 @@ msgstr "Ce membre est dans un autre lieu que l'équipe."
 
 msgid "Too many requests, please try again later"
 msgstr "Trop de demandes, réessaie plus tard"
+
+msgid "This link has expired or has already been used. Ask for a new one."
+msgstr "Ce lien a expiré ou a déjà été utilisé. Demandes-en un nouveau."
+
+msgid "Access denied"
+msgstr "Accès refusé"
+
+msgid "You cannot open this page"
+msgstr "Tu ne peux pas ouvrir cette page"
+
+msgid "Your account does not have the rights to see this page. If you think it is a mistake, contact the club."
+msgstr "Ton compte n'a pas les droits pour voir cette page. Si tu penses que c'est une erreur, contacte le club."
+
+msgid "Return to the homepage and use the menu"
+msgstr "Retourne à la page d'accueil et utilise le menu"
+
+msgid "Check that you are logged in with the right account"
+msgstr "Vérifie que tu es connecté avec le bon compte"
+
+msgid "Page expired"
+msgstr "Page expirée"
+
+msgid "The page has expired"
+msgstr "La page a expiré"
+
+msgid "The page was open for too long or your browser blocked a cookie, so the form could not be sent."
+msgstr "La page est restée ouverte trop longtemps ou ton navigateur a bloqué un cookie, le formulaire n'a donc pas pu être envoyé."
+
+msgid "Go back, reload the page and try again"
+msgstr "Reviens en arrière, recharge la page et réessaie"

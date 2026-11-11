@@ -7,6 +7,7 @@ namespace App\Test\TestCase\Controller;
 use App\Controller\PrefResult;
 use App\Test\TestSuite\TestDataTrait;
 use Cake\Core\Configure;
+use Cake\Log\Log;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
@@ -59,5 +60,32 @@ class ErrorControllerTest extends TestCase
 
         $this->assertResponseCode(403);
         $this->assertTemplate('error400');
+        // Not a "page not found": the user learns the page exists but is not for this account
+        $this->assertResponseContains('Access denied');
+        $this->assertResponseNotContains('Page Not Found');
+    }
+
+    public function testForbiddenLoggedOnOneLine(): void
+    {
+        Log::setConfig('forbidden', ['className' => 'Array', 'levels' => ['warning', 'error']]);
+        $this->loginWith([]);
+
+        $this->get('/shop-items');
+
+        $lines = Log::engine('forbidden')->read();
+        Log::drop('forbidden');
+        $this->assertCount(1, $lines);
+        $this->assertStringStartsWith('warning: [403] ForbiddenException: /shop-items (user ', $lines[0]);
+        $this->assertStringNotContainsString('Stack Trace', $lines[0]);
+    }
+
+    public function testExpiredFormShowsPageExpired(): void
+    {
+        // No CSRF token sent: like a form left open after the cookie expired
+        $this->post('/users/forgot-password', ['email_or_username' => 'nobody']);
+
+        $this->assertResponseCode(403);
+        $this->assertTemplate('error400');
+        $this->assertResponseContains('The page has expired');
     }
 }

@@ -33,7 +33,7 @@ $this->assign('title', __('Internal Server Error'));
 ?>
 
 <div class="d-flex align-items-center justify-content-center mb-3">
-    <i class="bi bi-exclamation-octagon-fill text-danger me-2" style="font-size: 2rem;"></i>
+    <i class="bi bi-exclamation-octagon-fill text-danger me-2 error-heading-icon"></i>
     <h2 class="mb-0 text-danger fw-bold"><?= __('An internal error has occurred') ?></h2>
 </div>
 

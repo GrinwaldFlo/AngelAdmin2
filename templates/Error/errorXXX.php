@@ -40,7 +40,7 @@ $this->assign('title', __('System Error'));
 
 <div class="d-flex align-items-center justify-content-center mb-3">
     <span class="status-indicator status-error"></span>
-    <i class="bi bi-exclamation-diamond-fill text-danger me-2" style="font-size: 2rem;"></i>
+    <i class="bi bi-exclamation-diamond-fill text-danger me-2 error-heading-icon"></i>
     <h2 class="mb-0 text-danger fw-bold"><?= __('A system error has occurred') ?></h2>
 </div>
 
