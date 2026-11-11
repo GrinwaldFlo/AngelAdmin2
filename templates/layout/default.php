@@ -1,11 +1,14 @@
 <?php
+
 /**
  * @var \Cake\View\View $this
  */
 use Cake\Core\Configure;
+
 /**
  * Default `html` block.
  */
+
 if (!$this->fetch('html')) {
     $this->start('html');
     if (Configure::check('App.language')) {
@@ -124,13 +127,13 @@ if (Configure::read('debug')) {
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght@20..48,100..700" rel="stylesheet" />
 </head>
 
-<?php if ($this->getRequest()->getAttribute('maintenanceBanner')): ?>
+<?php if ($this->getRequest()->getAttribute('maintenanceBanner')) : ?>
     <div class="maintenance-banner">
         <strong><?= __("Maintenance Mode Enabled") ?></strong>
     </div>
 <?php endif; ?>
 
-<?php if ($isLogged): ?>
+<?php if ($isLogged) : ?>
     <?php $isScoped ??= false; // coaches: links refused to them are hidden ?>
     <?php $canAssignCoaches ??= false; ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
@@ -153,14 +156,14 @@ if (Configure::read('debug')) {
                 <li class="nav-item">
                     <?= $this->Html->link(__('Home'), ['controller' => 'Pages', 'action' => 'home'], ['class' => 'nav-link']) ?>
                 </li>
-                <?php if (!empty($showSiteMenu) && count($navSites ?? []) > 1): ?>
+                <?php if (!empty($showSiteMenu) && count($navSites ?? []) > 1) : ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSite" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <?= isset($navSites[$navSiteId]) ? h($navSites[$navSiteId]->city) : __('All locations') ?>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownSite">
                             <li><?= $this->Form->postLink(__('All locations'), ['controller' => 'Members', 'action' => 'setSite', 0], ['class' => 'dropdown-item' . ($navSiteId == 0 ? ' active' : '')]) ?></li>
-                            <?php foreach ($navSites as $site): ?>
+                            <?php foreach ($navSites as $site) : ?>
                                 <li><?= $this->Form->postLink(h($site->city), ['controller' => 'Members', 'action' => 'setSite', $site->id], ['class' => 'dropdown-item' . ($site->id == $navSiteId ? ' active' : '')]) ?></li>
                             <?php endforeach; ?>
                         </ul>
@@ -169,31 +172,31 @@ if (Configure::read('debug')) {
                 <li class="nav-item">
                     <?= $this->Html->link(__('My account'), ['controller' => 'Members', 'action' => 'view', $curUser->member_id], ['class' => 'nav-link']) ?>
                 </li>
-                <?php if (!empty($config['secondHandEnabled'])): ?>
+                <?php if (!empty($config['secondHandEnabled'])) : ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Second-hand'), ['controller' => 'SecondHand', 'action' => 'index'], ['class' => 'nav-link']) ?>
                     </li>
                 <?php endif; ?>
-                <?php if ($curRole->MemberViewAll): ?>
+                <?php if ($curRole->MemberViewAll) : ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <?= __('Members') ?>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMembers">
                             <li><?= $this->Html->link(__('List'), ['controller' => 'Members', 'action' => 'index'], ['class' => 'dropdown-item']); ?></li>
-                            <?php if (!$isScoped): ?>
+                            <?php if (!$isScoped) : ?>
                                 <li><?= $this->Html->link(__('Signatures validation'), ['controller' => 'Members', 'action' => 'signatures'], ['class' => 'dropdown-item']); ?></li>
                             <?php endif; ?>
                             <li><?= $this->Html->link(__('Invite'), ['controller' => 'Members', 'action' => 'invite'], ['class' => 'dropdown-item']); ?></li>
                         </ul>
                     </li>
                 <?php endif; ?>
-                <?php if ($curRole->MemberViewAll): ?>
+                <?php if ($curRole->MemberViewAll) : ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Attendance'), ['controller' => 'Meetings', 'action' => 'index'], ['class' => 'nav-link']); ?>
                     </li>
                 <?php endif; ?>
-                <?php if ($curRole->BillViewAll): ?>
+                <?php if ($curRole->BillViewAll) : ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <?= __('Invoices') ?>
@@ -210,30 +213,30 @@ if (Configure::read('debug')) {
                         </div>
                     </li>
                 <?php endif; ?>
-                <?php if (!empty($canManageShop) || !empty($canManageSecondHand)): ?>
+                <?php if (!empty($canManageShop) || !empty($canManageSecondHand)) : ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownShop" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <?= __('Shop') ?>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownShop">
-                            <?php if (!empty($canManageShop)): ?>
+                            <?php if (!empty($canManageShop)) : ?>
                                 <li><?= $this->Html->link(__('Shop items'), ['controller' => 'ShopItems', 'action' => 'index'], ['class' => 'dropdown-item']) ?></li>
                                 <li><?= $this->Html->link(__('Give ordered items'), ['controller' => 'MemberOrders', 'action' => 'index'], ['class' => 'dropdown-item']) ?></li>
                                 <li><?= $this->Html->link(__('Orders and stock'), ['controller' => 'ShopOrders', 'action' => 'index'], ['class' => 'dropdown-item']) ?></li>
                             <?php endif; ?>
-                            <?php if (!empty($canManageSecondHand)): ?>
+                            <?php if (!empty($canManageSecondHand)) : ?>
                                 <li><?= $this->Html->link(__('Second-hand'), ['controller' => 'SecondHandAdmin', 'action' => 'index'], ['class' => 'dropdown-item']) ?></li>
                             <?php endif; ?>
                         </ul>
                     </li>
                 <?php endif; ?>
-                <?php if ($curRole->Admin || $curRole->MemberViewAll): ?>
+                <?php if ($curRole->Admin || $curRole->MemberViewAll) : ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <?= __('Admin') ?>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <?= $this->Html->link(__('Teams'), ['controller' => 'Teams', 'action' => 'index'], ['class' => 'dropdown-item']); ?>
+                            <?= $curRole->MemberViewAll ? $this->Html->link(__('Teams'), ['controller' => 'Teams', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $canAssignCoaches ? $this->Html->link(__('Coaches'), ['controller' => 'Teams', 'action' => 'coaches'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Dashboard'), ['controller' => 'Admin', 'action' => 'dashboard'], ['class' => 'dropdown-item']) : '' ?>
                             <?= $curRole->Admin ? $this->Html->link(__('Users'), ['controller' => 'Users', 'action' => 'index'], ['class' => 'dropdown-item']) : '' ?>
@@ -253,13 +256,13 @@ if (Configure::read('debug')) {
                         </div>
                     </li>
                 <?php endif; ?>
-                <?php if (!empty($externalLinks)): ?>
+                <?php if (!empty($externalLinks)) : ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <?= __('External links') ?>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <?php foreach ($externalLinks as $link): ?>
+                            <?php foreach ($externalLinks as $link) : ?>
                                 <?= $this->Html->link(strip_tags($link['text']), $link['url'], ['class' => 'dropdown-item', 'target' => '_blank']); ?>
                             <?php endforeach; ?>
                         </div>
@@ -269,13 +272,13 @@ if (Configure::read('debug')) {
                     <?= $config['showInfo'] ? $this->Html->link(__('Info'), ['controller' => 'Contents', 'action' => 'info'], ['class' => 'nav-link']) : ""; ?>
                 </li>
                 <?php $lngList = $this->my->Languages($config); ?>
-                <?php if (sizeof($lngList) > 0): ?>
+                <?php if (sizeof($lngList) > 0) : ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle flag" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <?= ''; ?>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <?php foreach ($lngList as $lng): ?>
+                            <?php foreach ($lngList as $lng) : ?>
                                 <?= $this->Html->link($lng[0], ['controller' => 'Members', 'action' => 'setLanguage', $lng[1]], ['class' => 'dropdown-item']) ?>
                             <?php endforeach; ?>
                         </div>

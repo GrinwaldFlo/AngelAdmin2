@@ -40,30 +40,30 @@ $teams = $pref->teams;
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($members as $member): ?>
+      <?php foreach ($members as $member) : ?>
         <tr>
           <td><?= $this->Html->link($member->fullName, ['action' => 'view', $member->id]) ?></td>
           <td><?= $member->registered ? __("Yes") : $this->Form->control('MemberId.' . $member->id, ['type' => 'checkbox', 'label' => __("Invite")])  ?></td>
           <td><?= $member->date_birth ? h($member->Age) : '' ?></td>
           <td><?= h($member->TeamString) ?></td>
-          <?php if (empty($member->user->username)) : ?>
+            <?php if (empty($member->user->username)) : ?>
             <td>
             </td>
             <td>
             </td>
             <td>
             </td>
-          <?php else : ?>
+            <?php else : ?>
             <td>
-              <?= h($member->user->username) ?>
+                <?= h($member->user->username) ?>
             </td>
             <td>
-              <?= h($member->user->lastLogin) ?>
+                <?= h($member->user->lastLogin) ?>
             </td>
             <td>
-              <?= h($member->user->Role->name) ?>
+                <?= h($member->user->Role->name) ?>
             </td>
-          <?php endif; ?>
+            <?php endif; ?>
           </td>
         </tr>
       <?php endforeach; ?>

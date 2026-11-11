@@ -27,13 +27,13 @@
 
             <div class="alert alert-info">
                 <i class="bi bi-info-circle me-2"></i>
-                <?php if ($heicSupported): ?>
+                <?php if ($heicSupported) : ?>
                     <strong><?= __('Supported formats:') ?></strong> 
                     <?= __('JPEG (.jpg, .jpeg) and HEIC (.heic, .heif)') ?><br>
                     <small class="text-muted">
                         <?= __('HEIC images from iOS devices will be automatically converted to JPEG.') ?>
                     </small>
-                <?php else: ?>
+                <?php else : ?>
                     <strong><?= __('Supported formats:') ?></strong> 
                     <?= __('JPEG (.jpg, .jpeg) only') ?><br>
                     <small class="text-muted">

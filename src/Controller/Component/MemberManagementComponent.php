@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller\Component;
 
 use App\Controller\PrefResult;
@@ -8,7 +9,7 @@ use App\Policy\TeamScope;
 
 /**
  * Member Management Component
- * 
+ *
  * Handles CRUD operations and status changes for members
  */
 class MemberManagementComponent extends Component
@@ -27,24 +28,24 @@ class MemberManagementComponent extends Component
         $controller = $this->getController();
         $member = $controller->Members->newEmptyEntity();
         $controller->Members->getAssociation('Fields')->AddMissing($member);
-        
+
         // Hash authenticated users should not be able to create new members
         if ($controller->isHashAuthenticated()) {
             $controller->Flash->error(__('You do not have permission to create new members.'));
             return 'redirect_home';
         }
-        
+
         $controller->Authorization->authorize($member, 'edit');
 
         if (!empty($data)) {
             $member = $controller->Members->patchEntity($member, $data, ['fields' => MembersTable::STAFF_FIELDS]);
             $member->date_arrival = new \Cake\I18n\Date();
             $member->hash = MembersTable::newHash();
-            
+
             if (array_key_exists('field', $data)) {
                 $controller->Members->getAssociation('Fields')->patchFields($member, $data['field']);
             }
-            
+
             $checkMember = $controller->Members->find('all')
                 ->where(['first_name =' => $member->first_name, 'last_name =' => $member->last_name])
                 ->first();
@@ -63,7 +64,7 @@ class MemberManagementComponent extends Component
 
             $controller->Flash->error(__('The member could not be saved.'));
         }
-        
+
         return $member;
     }
 
@@ -79,7 +80,7 @@ class MemberManagementComponent extends Component
         usort($member->fields, function ($a, $b) {
             return $a->field_type->sort <=> $b->field_type->sort;
         });
-        
+
         // For regular users, use normal authorization
         if (!$isAllowed && $controller->Authentication->getIdentity() !== null) {
             $controller->Authorization->authorize($member);
@@ -99,7 +100,7 @@ class MemberManagementComponent extends Component
             }
             $controller->Flash->error(__('The member could not be saved.'));
         }
-        
+
         return $member;
     }
 
@@ -111,8 +112,7 @@ class MemberManagementComponent extends Component
         $controller = $this->getController();
         $member = $controller->Members->get($id, contain: ['Teams']);
 
-        if(!$isAllowed)
-        {
+        if (!$isAllowed) {
             $controller->Authorization->authorize($member, 'edit');
         }
 
@@ -170,7 +170,7 @@ class MemberManagementComponent extends Component
             $member->registered = false;
             $member->active = false;
             $member->date_fin = new \Cake\I18n\Date();
-            
+
             if ($controller->Members->save($member)) {
                 $controller->Flash->success(__('The member has been saved.'));
                 return true;
@@ -189,7 +189,7 @@ class MemberManagementComponent extends Component
     {
         $controller = $this->getController();
         $member = $controller->Members->get($id);
-        
+
         if ($controller->Members->delete($member)) {
             $controller->Flash->success(__('The member has been deleted.'));
             return true;
@@ -205,7 +205,7 @@ class MemberManagementComponent extends Component
     public function setMemberLanguage($lng)
     {
         $controller = $this->getController();
-        
+
         // Only the languages enabled in the configuration
         if ($lng == null || !in_array($lng, ['en', 'fr', 'de', 'es', 'it'], true) || empty($controller->config[$lng])) {
             $controller->Flash->error(__("This language doesn't exists"));
@@ -217,7 +217,7 @@ class MemberManagementComponent extends Component
             $controller->fetchTable('Members')->updateAll(['language' => $lng], ['id' => $controller->curMember->id]);
         }
         $controller->getPrefSessionStr('lng', $lng, 'fr');
-        
+
         return true;
     }
 

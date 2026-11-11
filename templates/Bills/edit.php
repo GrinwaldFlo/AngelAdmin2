@@ -19,13 +19,12 @@
 //                    echo $this->Form->control('due_date_ori');
         echo $this->Form->control('link_membership_fee', ['label' => __('Linked to a membership')]);
 
-        if ($curRole->BillValidate)
-        {
-          echo $this->Form->control('printed', ['label' => __('Printed'), 'disabled' => 'disabled']);
-          echo $this->Form->control('paid', ['label' => __('Paid')]);
-          echo $this->Form->control('reminder', ['label' => __('No. of reminders')]);
-          echo $this->Form->control('canceled', ['label' => __('Canceled')]);
-          echo $this->Form->control('state_id', ['options' => $bill->StateList, 'label' => __x('Status of the invoice (send, draft,...)', 'State')]);
+        if ($curRole->BillValidate) {
+            echo $this->Form->control('printed', ['label' => __('Printed'), 'disabled' => 'disabled']);
+            echo $this->Form->control('paid', ['label' => __('Paid')]);
+            echo $this->Form->control('reminder', ['label' => __('No. of reminders')]);
+            echo $this->Form->control('canceled', ['label' => __('Canceled')]);
+            echo $this->Form->control('state_id', ['options' => $bill->StateList, 'label' => __x('Status of the invoice (send, draft,...)', 'State')]);
         }
 //                    echo $this->Form->control('tokenhash');
 //                    echo $this->Form->control('confirmation', ['empty' => true]);

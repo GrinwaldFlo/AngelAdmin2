@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Model\Entity;
+
 use Cake\ORM\Entity;
 use Cake\Collection\Collection;
 use Cake\ORM\TableRegistry;
@@ -67,7 +70,7 @@ class Member extends Entity
    *
    * @var array
    */
-  protected array $_accessible = [
+    protected array $_accessible = [
     'first_name' => true,
     'last_name' => true,
     'date_birth' => true,
@@ -97,303 +100,310 @@ class Member extends Entity
     'teams' => true,
     'team_string' => true,
     'hash' => true,
-    'leaving_comment'=> true,
+    'leaving_comment' => true,
     'reminder_sent' => true,
     'member_orders' => true,
     'site_id' => true,
-  ];
-  protected function _getFullName()
-  {
-    return "{$this->first_name} {$this->last_name}";
-  }
-
-  protected function _getFullNameShort()
-  {
-    return $this->first_name . ' ' . mb_substr($this->last_name, 0, 2) . '.';
-  }
-
-  protected function _getLabel()
-  {
-    return $this->_fields['first_name'] . ' ' . $this->_fields['last_name'];
-  }
-
-  protected function _getIsAdult()
-  {
-    return $this->_getAge() >= 18;
-  }
-
-  protected function _getAge()
-  {
-    if (empty($this->date_birth))
-      return 0;
-    return date_diff($this->date_birth->toDateTimeImmutable(), new \DateTime())->format('%y');
-  }
-
-  protected function _getTeamString()
-  {
-    if (isset($this->_fields['team_string'])) {
-      return $this->_fields['team_string'];
+    ];
+    protected function _getFullName()
+    {
+        return "{$this->first_name} {$this->last_name}";
     }
-    return $this->buildTeamString(false);
-  }
+
+    protected function _getFullNameShort()
+    {
+        return $this->first_name . ' ' . mb_substr($this->last_name, 0, 2) . '.';
+    }
+
+    protected function _getLabel()
+    {
+        return $this->_fields['first_name'] . ' ' . $this->_fields['last_name'];
+    }
+
+    protected function _getIsAdult()
+    {
+        return $this->_getAge() >= 18;
+    }
+
+    protected function _getAge()
+    {
+        if (empty($this->date_birth)) {
+            return 0;
+        }
+        return date_diff($this->date_birth->toDateTimeImmutable(), new \DateTime())->format('%y');
+    }
+
+    protected function _getTeamString()
+    {
+        if (isset($this->_fields['team_string'])) {
+            return $this->_fields['team_string'];
+        }
+        return $this->buildTeamString(false);
+    }
 
   /**
    * Same as team_string, but archived teams (active = 0) are hidden
    */
-  protected function _getActiveTeamString()
-  {
-    return $this->buildTeamString(true);
-  }
-
-  private function buildTeamString(bool $activeOnly): string
-  {
-    $teams = new Collection($this->teams ?? []);
-    if ($activeOnly) {
-      $teams = $teams->filter(fn($team) => $team->active !== false);
-    }
-    $names = $teams->extract('name')->toList();
-    if (empty($names)) {
-      return __('No team');
-    }
-    return implode(', ', $names);
-  }
-
-  protected function _getTeamIds()
-  {
-    if (empty($this->teams)) {
-      return [0];
+    protected function _getActiveTeamString()
+    {
+        return $this->buildTeamString(true);
     }
 
-    $result = [0];
-
-    foreach ($this->teams as $value) {
-      array_push($result, $value->id);
+    private function buildTeamString(bool $activeOnly): string
+    {
+        $teams = new Collection($this->teams ?? []);
+        if ($activeOnly) {
+            $teams = $teams->filter(fn($team) => $team->active !== false);
+        }
+        $names = $teams->extract('name')->toList();
+        if (empty($names)) {
+            return __('No team');
+        }
+        return implode(', ', $names);
     }
 
-    return $result;
-  }
+    protected function _getTeamIds()
+    {
+        if (empty($this->teams)) {
+            return [0];
+        }
 
-  public function CheckFolder()
-  {
-    $folder = $this->memberPath;
+        $result = [0];
 
-    // The members folder itself is not in git
-    if (!file_exists($folder))
-      mkdir($folder, 0755, true);
+        foreach ($this->teams as $value) {
+            array_push($result, $value->id);
+        }
 
-    return $folder;
-  }
+        return $result;
+    }
 
-  protected function _getImgExists()
-  {
-    return file_exists($this->GetImgPath(300));
-  }
+    public function CheckFolder()
+    {
+        $folder = $this->memberPath;
+
+      // The members folder itself is not in git
+        if (!file_exists($folder)) {
+            mkdir($folder, 0755, true);
+        }
+
+        return $folder;
+    }
+
+    protected function _getImgExists()
+    {
+        return file_exists($this->GetImgPath(300));
+    }
 
   /**
-   * 
+   *
    * @param int $size Size: 100, 200, 300, 1000, 2000
    * @return string
    */
-  public function GetImgPath($size = 300)
-  {
-    return $this->memberPath . $this->id . '_portrait_' . $size . '.jpg';
-  }
+    public function GetImgPath($size = 300)
+    {
+        return $this->memberPath . $this->id . '_portrait_' . $size . '.jpg';
+    }
 
   /**
-   * 
+   *
    * @param int $size Size: 100, 200, 300, 1000, 2000
    * @return string
    */
-  public function GetImgUrl($size = 300)
-  {
-    return "{$this->memberUrl}{$this->id}_portrait_{$size}.jpg";
-  }
+    public function GetImgUrl($size = 300)
+    {
+        return "{$this->memberUrl}{$this->id}_portrait_{$size}.jpg";
+    }
 
-  protected function _getImgIdExists()
-  {
-    return file_exists($this->GetImgIdPath(300));
-  }
+    protected function _getImgIdExists()
+    {
+        return file_exists($this->GetImgIdPath(300));
+    }
 
   /**
-   * 
+   *
    * @param int $size Size: 100, 200, 300, 1000, 2000
    * @return string
    */
-  public function GetImgIdPath($size = 300)
-  {
-    return "{$this->memberPath}{$this->id}_id_{$size}.jpg";
-  }
+    public function GetImgIdPath($size = 300)
+    {
+        return "{$this->memberPath}{$this->id}_id_{$size}.jpg";
+    }
 
   /**
-   * 
+   *
    * @param int $size Size: 100, 200, 300, 1000, 2000
    * @return string
    */
-  public function GetImgIdUrl($size = 300)
-  {
-    return "{$this->memberUrl}{$this->id}_id_{$size}.jpg";
-  }
-
-  public function GetAllMails(): array
-  {
-    $emails = [$this->email];
-
-    foreach ($this->fields as $field) {
-      if ($field->field_type->style == 1 && $field->value != "" && strcasecmp($field->value, $this->email) != 0) {
-        array_push($emails, $field->value);
-      }
-    }
-    return $emails;
-  }
-
-  protected function _getMemberPath()
-  {
-    return WWW_ROOT . 'img/members/' . $this->hash . '/';
-  }
-
-  protected function _getMemberUrl()
-  {
-    return "/img/members/{$this->hash}/";
-  }
-
-  public function GetDocPath($type)
-  {
-    return "{$this->memberPath}{$this->id}_{$type}.pdf";
-  }
-
-  public function GetDocUrl($type)
-  {
-    return "{$this->memberUrl}{$this->id}_{$type}.pdf";
-  }
-
-  public function DocExists($type)
-  {
-    $file = $this->GetDocPath($type);
-    return file_exists($file);
-  }
-
-  public function GetRegPath($year)
-  {
-    return "{$this->memberPath}{$this->id}_Registration_{$year}.pdf";
-  }
-
-  public function GetRegUrl($year)
-  {
-    return "{$this->memberUrl}{$this->id}_Registration_{$year}.pdf";
-  }
-
-  public function RegExists($year)
-  {
-    $file = $this->GetRegPath($year);
-    return file_exists($file);
-  }
-
-  protected function _getInvoicesOpen()
-  {
-    $bills = TableRegistry::getTableLocator()->get('Bills');
-    return $bills->find('all')->where(['member_id =' => $this->id, 'canceled =' => 0, 'paid =' => 0])->count();
-  }
-
-  protected function _getInvoicesTotal()
-  {
-    $bills = TableRegistry::getTableLocator()->get('Bills');
-    return $bills->find('all')->where(['member_id =' => $this->id, 'canceled =' => 0])->count();
-  }
-
-  public function SignStatus($year)
-  {
-    $registrations = TableRegistry::getTableLocator()->get('Registrations');
-
-    $registration = $registrations->find('all')
-      ->where(['year =' => $year, 'member_id =' => $this->id])
-      ->select(['id', 'member_id', 'validation_id'])->first();
-
-    if (empty($registration))
-      return 0;
-
-    if ($registration->validation_id == 0)
-      return 1;
-
-    return 2;
-  }
-
-  public function RegistrationStep($year)
-  {
-    if (!$this->active)
-      return 2;
-
-    if (!$this->checked)
-      return 1;
-
-    if (!$this->registered) {
-      switch ($this->SignStatus($year)) {
-        case 0: // Not signed
-          return 3;
-        case 1: // Not approved
-          return 4;
-        case 2: // Approved (should not append)
-          return 5;
-      }
-    }
-    if (empty($this->teams))
-      return 6;
-
-    return 0;
-  }
-
-  protected function _getGenderList()
-  {
-    return [0 => __('Unknown'), 1 => __('Female'), 2 => __('Male')];
-  }
-
-  protected function _getGenderStr()
-  {
-    return $this->_getGenderList()[$this->gender_id];
-  }
-
-  protected function _getCommunicationMethodList()
-  {
-    return [0 => __('-'), 1 => __('Email'), 2 => __('Letter')];
-  }
-
-  protected function _getCommunicationMethodStr()
-  {
-    return $this->_getCommunicationMethodList()[$this->communication_method_id];
-  }
-
-  public function MembershipFee($max)
-  {
-    $amount = 0;
-    if (empty($this->teams)) {
-      return -1;
+    public function GetImgIdUrl($size = 300)
+    {
+        return "{$this->memberUrl}{$this->id}_id_{$size}.jpg";
     }
 
-    foreach ($this->teams as $value) {
-      $amount += $value->membership_fee;
+    public function GetAllMails(): array
+    {
+        $emails = [$this->email];
+
+        foreach ($this->fields as $field) {
+            if ($field->field_type->style == 1 && $field->value != "" && strcasecmp($field->value, $this->email) != 0) {
+                array_push($emails, $field->value);
+            }
+        }
+        return $emails;
     }
 
-    $amount -= $this->discount;
+    protected function _getMemberPath()
+    {
+        return WWW_ROOT . 'img/members/' . $this->hash . '/';
+    }
 
-    if ($amount > $max)
-      return $max;
-    return $amount;
-  }
+    protected function _getMemberUrl()
+    {
+        return "/img/members/{$this->hash}/";
+    }
 
-  public function HasMembershipFee($config)
-  {
-    $bills = TableRegistry::getTableLocator()->get('Bills');
-    $nbMFee = $bills->find('all')->where(['member_id =' => $this->id, 'canceled =' => 0, 'label LIKE' => $bills->GetFeeLabel($config) . "%"])->count();
-    return $nbMFee > 0;
-  }
+    public function GetDocPath($type)
+    {
+        return "{$this->memberPath}{$this->id}_{$type}.pdf";
+    }
 
-  public function MembershipFeePaid($config)
-  {
-    $bills = TableRegistry::getTableLocator()->get('Bills');
-    $query = $bills->find('all')->where(['member_id =' => $this->id, 'canceled =' => 0, 'paid =' => 1, 'label LIKE' => $bills->GetFeeLabel($config) . "%"]);
+    public function GetDocUrl($type)
+    {
+        return "{$this->memberUrl}{$this->id}_{$type}.pdf";
+    }
 
-    $result = $query->select(['sum' => $query->func()->sum('Bills.amount')])->first();
+    public function DocExists($type)
+    {
+        $file = $this->GetDocPath($type);
+        return file_exists($file);
+    }
 
-    return $result->sum;
-  }
+    public function GetRegPath($year)
+    {
+        return "{$this->memberPath}{$this->id}_Registration_{$year}.pdf";
+    }
 
+    public function GetRegUrl($year)
+    {
+        return "{$this->memberUrl}{$this->id}_Registration_{$year}.pdf";
+    }
+
+    public function RegExists($year)
+    {
+        $file = $this->GetRegPath($year);
+        return file_exists($file);
+    }
+
+    protected function _getInvoicesOpen()
+    {
+        $bills = TableRegistry::getTableLocator()->get('Bills');
+        return $bills->find('all')->where(['member_id =' => $this->id, 'canceled =' => 0, 'paid =' => 0])->count();
+    }
+
+    protected function _getInvoicesTotal()
+    {
+        $bills = TableRegistry::getTableLocator()->get('Bills');
+        return $bills->find('all')->where(['member_id =' => $this->id, 'canceled =' => 0])->count();
+    }
+
+    public function SignStatus($year)
+    {
+        $registrations = TableRegistry::getTableLocator()->get('Registrations');
+
+        $registration = $registrations->find('all')
+        ->where(['year =' => $year, 'member_id =' => $this->id])
+        ->select(['id', 'member_id', 'validation_id'])->first();
+
+        if (empty($registration)) {
+            return 0;
+        }
+
+        if ($registration->validation_id == 0) {
+            return 1;
+        }
+
+        return 2;
+    }
+
+    public function RegistrationStep($year)
+    {
+        if (!$this->active) {
+            return 2;
+        }
+
+        if (!$this->checked) {
+            return 1;
+        }
+
+        if (!$this->registered) {
+            switch ($this->SignStatus($year)) {
+                case 0: // Not signed
+                    return 3;
+                case 1: // Not approved
+                    return 4;
+                case 2: // Approved (should not append)
+                    return 5;
+            }
+        }
+        if (empty($this->teams)) {
+            return 6;
+        }
+
+        return 0;
+    }
+
+    protected function _getGenderList()
+    {
+        return [0 => __('Unknown'), 1 => __('Female'), 2 => __('Male')];
+    }
+
+    protected function _getGenderStr()
+    {
+        return $this->_getGenderList()[$this->gender_id];
+    }
+
+    protected function _getCommunicationMethodList()
+    {
+        return [0 => __('-'), 1 => __('Email'), 2 => __('Letter')];
+    }
+
+    protected function _getCommunicationMethodStr()
+    {
+        return $this->_getCommunicationMethodList()[$this->communication_method_id];
+    }
+
+    public function MembershipFee($max)
+    {
+        $amount = 0;
+        if (empty($this->teams)) {
+            return -1;
+        }
+
+        foreach ($this->teams as $value) {
+            $amount += $value->membership_fee;
+        }
+
+        $amount -= $this->discount;
+
+        if ($amount > $max) {
+            return $max;
+        }
+        return $amount;
+    }
+
+    public function HasMembershipFee($config)
+    {
+        $bills = TableRegistry::getTableLocator()->get('Bills');
+        $nbMFee = $bills->find('all')->where(['member_id =' => $this->id, 'canceled =' => 0, 'label LIKE' => $bills->GetFeeLabel($config) . "%"])->count();
+        return $nbMFee > 0;
+    }
+
+    public function MembershipFeePaid($config)
+    {
+        $bills = TableRegistry::getTableLocator()->get('Bills');
+        $query = $bills->find('all')->where(['member_id =' => $this->id, 'canceled =' => 0, 'paid =' => 1, 'label LIKE' => $bills->GetFeeLabel($config) . "%"]);
+
+        $result = $query->select(['sum' => $query->func()->sum('Bills.amount')])->first();
+
+        return $result->sum;
+    }
 }

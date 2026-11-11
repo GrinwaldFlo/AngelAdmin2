@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Controller;
 
 /**
@@ -11,24 +13,24 @@ namespace App\Controller;
  */
 class BillTemplatesController extends AppController
 {
-  public array $paginate = [
+    public array $paginate = [
     'limit' => 500,
     'maxLimit' => 1000,
     'finder' => 'withSites',
-  ];
+    ];
 
   /**
    * Index method
    *
    * @return \Cake\Http\Response|null|void Renders view
    */
-  public function index()
-  {
-    $this->Authorization->authorize($this->BillTemplates->newEmptyEntity(), 'admin');
-    $billTemplates = $this->paginate($this->BillTemplates);
+    public function index()
+    {
+        $this->Authorization->authorize($this->BillTemplates->newEmptyEntity(), 'admin');
+        $billTemplates = $this->paginate($this->BillTemplates);
 
-    $this->set(compact('billTemplates'));
-  }
+        $this->set(compact('billTemplates'));
+    }
 
   /**
    * View method
@@ -37,36 +39,36 @@ class BillTemplatesController extends AppController
    * @return \Cake\Http\Response|null|void Renders view
    * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
    */
-  public function view(int|null $id = null)
-  {
-    $this->Authorization->authorize($this->BillTemplates->newEmptyEntity(), 'admin');
-    $billTemplate = $this->BillTemplates->get($id, contain: ['Sites']);
+    public function view(int|null $id = null)
+    {
+        $this->Authorization->authorize($this->BillTemplates->newEmptyEntity(), 'admin');
+        $billTemplate = $this->BillTemplates->get($id, contain: ['Sites']);
 
-    $this->set(compact('billTemplate'));
-  }
+        $this->set(compact('billTemplate'));
+    }
 
   /**
    * Add method
    *
    * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
    */
-  public function add()
-  {
-    $this->Authorization->authorize($this->BillTemplates->newEmptyEntity(), 'admin');
+    public function add()
+    {
+        $this->Authorization->authorize($this->BillTemplates->newEmptyEntity(), 'admin');
 
-    $billTemplate = $this->BillTemplates->newEmptyEntity();
-    if ($this->request->is('post')) {
-      $billTemplate = $this->BillTemplates->patchEntity($billTemplate, $this->request->getData());
-      if ($this->BillTemplates->save($billTemplate)) {
-        $this->Flash->success(__('The invoice template has been saved.'));
+        $billTemplate = $this->BillTemplates->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $billTemplate = $this->BillTemplates->patchEntity($billTemplate, $this->request->getData());
+            if ($this->BillTemplates->save($billTemplate)) {
+                $this->Flash->success(__('The invoice template has been saved.'));
 
-        return $this->redirect(['action' => 'index']);
-      }
-      $this->Flash->error(__('The invoice template could not be saved.'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The invoice template could not be saved.'));
+        }
+        $sites = $this->BillTemplates->Sites->find('list', limit: 200);
+        $this->set(compact('billTemplate', 'sites'));
     }
-    $sites = $this->BillTemplates->Sites->find('list', limit: 200);
-    $this->set(compact('billTemplate', 'sites'));
-  }
 
   /**
    * Edit method
@@ -75,23 +77,23 @@ class BillTemplatesController extends AppController
    * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
    * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
    */
-  public function edit(int|null $id = null)
-  {
-    $this->Authorization->authorize($this->BillTemplates->newEmptyEntity(), 'admin');
+    public function edit(int|null $id = null)
+    {
+        $this->Authorization->authorize($this->BillTemplates->newEmptyEntity(), 'admin');
 
-    $billTemplate = $this->BillTemplates->get($id, contain: []);
-    if ($this->request->is(['patch', 'post', 'put'])) {
-      $billTemplate = $this->BillTemplates->patchEntity($billTemplate, $this->request->getData());
-      if ($this->BillTemplates->save($billTemplate)) {
-        $this->Flash->success(__('The invoice template has been saved.'));
+        $billTemplate = $this->BillTemplates->get($id, contain: []);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $billTemplate = $this->BillTemplates->patchEntity($billTemplate, $this->request->getData());
+            if ($this->BillTemplates->save($billTemplate)) {
+                $this->Flash->success(__('The invoice template has been saved.'));
 
-        return $this->redirect(['action' => 'index']);
-      }
-      $this->Flash->error(__('The invoice template could not be saved.'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The invoice template could not be saved.'));
+        }
+        $sites = $this->BillTemplates->Sites->find('list', limit: 200);
+        $this->set(compact('billTemplate', 'sites'));
     }
-    $sites = $this->BillTemplates->Sites->find('list', limit: 200);
-    $this->set(compact('billTemplate', 'sites'));
-  }
 
   /**
    * Delete method
@@ -100,19 +102,18 @@ class BillTemplatesController extends AppController
    * @return \Cake\Http\Response|null|void Redirects to index.
    * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
    */
-  public function delete(int|null $id = null)
-  {
-    $this->Authorization->authorize($this->BillTemplates->newEmptyEntity(), 'admin');
+    public function delete(int|null $id = null)
+    {
+        $this->Authorization->authorize($this->BillTemplates->newEmptyEntity(), 'admin');
 
-    $this->request->allowMethod(['post', 'delete']);
-    $billTemplate = $this->BillTemplates->get($id);
-    if ($this->BillTemplates->delete($billTemplate)) {
-      $this->Flash->success(__('The invoice template has been deleted.'));
-    } else {
-      $this->Flash->error(__('The invoice template could not be deleted.'));
+        $this->request->allowMethod(['post', 'delete']);
+        $billTemplate = $this->BillTemplates->get($id);
+        if ($this->BillTemplates->delete($billTemplate)) {
+            $this->Flash->success(__('The invoice template has been deleted.'));
+        } else {
+            $this->Flash->error(__('The invoice template could not be deleted.'));
+        }
+
+        return $this->redirect(['action' => 'index']);
     }
-
-    return $this->redirect(['action' => 'index']);
-  }
-
 }

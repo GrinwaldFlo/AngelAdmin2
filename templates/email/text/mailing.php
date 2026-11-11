@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Email to teams, see \App\Model\Entity\Mailing::renderText()
  *

@@ -20,7 +20,7 @@
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($sites as $site): ?>
+      <?php foreach ($sites as $site) : ?>
         <tr>
           <td><?= h($site->city) ?></td>
           <td><?= h($site->account_designation) ?></td>

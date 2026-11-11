@@ -2988,3 +2988,33 @@ msgstr "Nome completo (Nome Cognome) o email"
 
 msgid "Too many requests, please try again later"
 msgstr "Troppe richieste, riprova più tardi"
+
+msgid "This link has expired or has already been used. Ask for a new one."
+msgstr "Questo link è scaduto o è già stato utilizzato. Richiedine uno nuovo."
+
+msgid "Access denied"
+msgstr "Accesso negato"
+
+msgid "You cannot open this page"
+msgstr "Non puoi aprire questa pagina"
+
+msgid "Your account does not have the rights to see this page. If you think it is a mistake, contact the club."
+msgstr "Il tuo account non ha i diritti per vedere questa pagina. Se pensi che sia un errore, contatta il club."
+
+msgid "Return to the homepage and use the menu"
+msgstr "Torna alla pagina iniziale e usa il menu"
+
+msgid "Check that you are logged in with the right account"
+msgstr "Verifica di aver effettuato l'accesso con l'account giusto"
+
+msgid "Page expired"
+msgstr "Pagina scaduta"
+
+msgid "The page has expired"
+msgstr "La pagina è scaduta"
+
+msgid "The page was open for too long or your browser blocked a cookie, so the form could not be sent."
+msgstr "La pagina è rimasta aperta troppo a lungo o il tuo browser ha bloccato un cookie, quindi il modulo non è stato inviato."
+
+msgid "Go back, reload the page and try again"
+msgstr "Torna indietro, ricarica la pagina e riprova"

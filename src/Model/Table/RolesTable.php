@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Model\Table;
+
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -33,18 +36,18 @@ class RolesTable extends Table
    * @param array $config The configuration for the Table.
    * @return void
    */
-  public function initialize(array $config): void
-  {
-    parent::initialize($config);
+    public function initialize(array $config): void
+    {
+        parent::initialize($config);
 
-    $this->setTable('roles');
-    $this->setDisplayField('name');
-    $this->setPrimaryKey('id');
+        $this->setTable('roles');
+        $this->setDisplayField('name');
+        $this->setPrimaryKey('id');
 
-    $this->hasMany('Users', [
+        $this->hasMany('Users', [
         'foreignKey' => 'role_id',
-    ]);
-  }
+        ]);
+    }
 
   /**
    * Default validation rules.
@@ -52,58 +55,57 @@ class RolesTable extends Table
    * @param \Cake\Validation\Validator $validator Validator instance.
    * @return \Cake\Validation\Validator
    */
-  public function validationDefault(Validator $validator): Validator
-  {
-    $validator
-      ->nonNegativeInteger('id')
-      ->allowEmptyString('id', null, 'create');
+    public function validationDefault(Validator $validator): Validator
+    {
+        $validator
+        ->nonNegativeInteger('id')
+        ->allowEmptyString('id', null, 'create');
 
-    $validator
-      ->scalar('name')
-      ->maxLength('name', 50)
-      ->requirePresence('name', 'create')
-      ->notEmptyString('name');
+        $validator
+        ->scalar('name')
+        ->maxLength('name', 50)
+        ->requirePresence('name', 'create')
+        ->notEmptyString('name');
 
-    $validator
-      ->boolean('MemberViewAll')
-      ->requirePresence('MemberViewAll', 'create')
-      ->notEmptyString('MemberViewAll');
+        $validator
+        ->boolean('MemberViewAll')
+        ->requirePresence('MemberViewAll', 'create')
+        ->notEmptyString('MemberViewAll');
 
-    $validator
-      ->boolean('MemberEditAll')
-      ->requirePresence('MemberEditAll', 'create')
-      ->notEmptyString('MemberEditAll');
+        $validator
+        ->boolean('MemberEditAll')
+        ->requirePresence('MemberEditAll', 'create')
+        ->notEmptyString('MemberEditAll');
 
-    $validator
-      ->boolean('MemberEditOwn')
-      ->requirePresence('MemberEditOwn', 'create')
-      ->notEmptyString('MemberEditOwn');
+        $validator
+        ->boolean('MemberEditOwn')
+        ->requirePresence('MemberEditOwn', 'create')
+        ->notEmptyString('MemberEditOwn');
 
-    $validator
-      ->boolean('BillViewAll')
-      ->requirePresence('BillViewAll', 'create')
-      ->notEmptyString('BillViewAll');
+        $validator
+        ->boolean('BillViewAll')
+        ->requirePresence('BillViewAll', 'create')
+        ->notEmptyString('BillViewAll');
 
-    $validator
-      ->boolean('BillEditAll')
-      ->requirePresence('BillEditAll', 'create')
-      ->notEmptyString('BillEditAll');
+        $validator
+        ->boolean('BillEditAll')
+        ->requirePresence('BillEditAll', 'create')
+        ->notEmptyString('BillEditAll');
 
-    $validator
-      ->boolean('BillValidate')
-      ->requirePresence('BillValidate', 'create')
-      ->notEmptyString('BillValidate');
+        $validator
+        ->boolean('BillValidate')
+        ->requirePresence('BillValidate', 'create')
+        ->notEmptyString('BillValidate');
 
-    $validator
-      ->boolean('Editor')
-      ->requirePresence('Editor', 'create')
-      ->notEmptyString('Editor');
+        $validator
+        ->boolean('Editor')
+        ->requirePresence('Editor', 'create')
+        ->notEmptyString('Editor');
 
-    $validator
-      ->boolean('TeamScoped');
+        $validator
+        ->boolean('TeamScoped');
 
-    
-    return $validator;
-  }
 
+        return $validator;
+    }
 }

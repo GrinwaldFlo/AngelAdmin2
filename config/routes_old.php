@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Routes configuration.
  *
@@ -20,9 +21,11 @@
  * @link          https://cakephp.org CakePHP(tm) Project
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
+
 use Cake\Http\Middleware\CsrfProtectionMiddleware;
 use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
+
 /*
  * The default class to use for all routes
  *
@@ -43,37 +46,35 @@ use Cake\Routing\RouteBuilder;
 /** @var \Cake\Routing\RouteBuilder $routes */
 $routes->setRouteClass(DashedRoute::class);
 
-$routes->scope('/', function (RouteBuilder $builder)
-{
+$routes->scope('/', function (RouteBuilder $builder) {
   // Register scoped middleware for in scopes.
-  $builder->registerMiddleware('csrf', new CsrfProtectionMiddleware([
+    $builder->registerMiddleware('csrf', new CsrfProtectionMiddleware([
         'httponly' => true,
-  ]));
+    ]));
 
   /*
    * Apply a middleware to the current route scope.
    * Requires middleware to be registered through `Application::routes()` with `registerMiddleware()`
    */
-  $builder->applyMiddleware('csrf');
+    $builder->applyMiddleware('csrf');
 
   /*
    * Here, we are connecting '/' (base path) to a controller called 'Pages',
    * its action called 'display', and we pass a param to select the view file
    * to use (in this case, templates/Pages/home.php)...
    */
-  $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+    $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 
   /*
    * ...and connect the rest of 'Pages' controller's URLs.
    */
-  $builder->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
+    $builder->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
 
   // The trailing `*` tells CakePHP that this action has
   // passed parameters.
-  $builder->scope('/members', function (RouteBuilder $builder)
-  {
-    $builder->connect('/grouped/*', ['controller' => 'Members', 'action' => 'teams']);
-  });
+    $builder->scope('/members', function (RouteBuilder $builder) {
+        $builder->connect('/grouped/*', ['controller' => 'Members', 'action' => 'teams']);
+    });
   /*
    * Connect catchall routes for all controllers.
    *
@@ -87,7 +88,7 @@ $routes->scope('/', function (RouteBuilder $builder)
    * You can remove these routes once you've connected the
    * routes you want in your application.
    */
-  $builder->fallbacks();
+    $builder->fallbacks();
 });
 
 /*

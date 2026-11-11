@@ -45,7 +45,7 @@ $texts = [
                 <div class="card card-body">
                     <?= $this->Form->create(null, ['url' => $formUrl, 'id' => 'shop-order-form', 'data-texts' => json_encode($texts)]) ?>
                     <div class="row g-2">
-                        <?php foreach ($shopOffer as $entry): ?>
+                        <?php foreach ($shopOffer as $entry) : ?>
                             <?php $item = $entry['item']; ?>
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="card h-100">
@@ -55,7 +55,7 @@ $texts = [
                                             <span class="fw-bold"><?= $this->Number->currency($item->price, 'CHF') ?></span>
                                         </p>
                                         <div class="shop-options">
-                                            <?php foreach ($entry['options'] as $option): ?>
+                                            <?php foreach ($entry['options'] as $option) : ?>
                                                 <?php
                                                 $name = $option['key'] === null ? "shop_order[{$item->id}]" : "shop_order[{$item->id}][{$option['key']}]";
                                                 $inputId = 'shop-order-' . $item->id . ($option['key'] === null ? '' : '-' . $option['key']);

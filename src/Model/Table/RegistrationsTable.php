@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -52,7 +53,6 @@ class RegistrationsTable extends Table
             'foreignKey' => 'member_id',
             'joinType' => 'INNER',
         ]);
-
     }
 
     /**

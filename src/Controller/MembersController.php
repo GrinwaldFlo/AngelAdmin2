@@ -267,12 +267,12 @@ class MembersController extends AppController
         // Handle shop orders if no errors
         if (!isset($pageData['error'])) {
             $shopOrderResult = $this->handleShopOrder($pageData['member'], 'myPage');
-            
+
             // If handleShopOrder returns a redirect response, return it
             if ($shopOrderResult instanceof \Cake\Http\Response) {
                 return $shopOrderResult;
             }
-            
+
             // Otherwise, $shopOrderResult contains what the member can order
             $pageData['shopOffer'] = $shopOrderResult;
         }
@@ -346,9 +346,7 @@ class MembersController extends AppController
             $curRole = $this->getHashCurRole();
             $curUser = $this->getHashCurUser($id);
             $this->set(compact('curRole', 'curUser'));
-        }
-        else
-        {
+        } else {
             $this->Authorization->authorize($member, 'edit');
         }
 
@@ -397,12 +395,12 @@ class MembersController extends AppController
 
         // Handle shop orders
         $shopOrderResult = $this->handleShopOrder($member, 'view');
-        
+
         // If handleShopOrder returns a redirect response, return it
         if ($shopOrderResult instanceof \Cake\Http\Response) {
             return $shopOrderResult;
         }
-        
+
         // Otherwise, add what the member can order to view data
         $viewData['shopOffer'] = $shopOrderResult;
 
@@ -449,8 +447,7 @@ class MembersController extends AppController
 
         // A failed save stays on the form to show the field errors
         if ($this->request->is(['patch', 'post', 'put']) && $member && $member->id && !$member->hasErrors()) {
-            if($this->isHashAuthenticated())
-            {
+            if ($this->isHashAuthenticated()) {
                 return $this->redirect(['action' => 'my-page']);
             }
             return $this->redirect(['action' => 'view', $id]);
@@ -463,8 +460,9 @@ class MembersController extends AppController
         $isHashValid = $this->hashAccess($id);
 
         $this->MemberManagement->setMemberChecked($id, $isHashValid);
-        if ($isHashValid)
+        if ($isHashValid) {
             return $this->redirect(['action' => 'myPage']);
+        }
         return $this->redirect(['action' => 'view', $id]);
     }
 
@@ -474,8 +472,9 @@ class MembersController extends AppController
         $isHashValid = $this->hashAccess($id);
 
         $this->MemberManagement->setMemberActive($id, $isHashValid);
-        if ($isHashValid)
+        if ($isHashValid) {
             return $this->redirect(['action' => 'myPage']);
+        }
         return $this->redirect('/');
     }
 
@@ -518,21 +517,19 @@ class MembersController extends AppController
                 $member = $pageData['member'];
                 $this->Authorization->skipAuthorization();
                 $haskOk = true;
-            }
-            else
-            {
+            } else {
                 $this->Flash->error(__('There where an issue with the connection. Please try again or ask Florian. Cookies has to be allowed.'));
                 return $this->redirect('/');
             }
         } else {
             $curUser = $this->Authentication->getIdentity();
-            
+
             // Check if user is authenticated and has a member_id
             if (!$curUser || !$curUser->member_id) {
                 $this->Flash->error(__('There where an issue with the connection. Please try again or ask Florian. Cookies has to be allowed.'));
                 return $this->redirect('/');
             }
-            
+
             $member = $this->Members->findById($curUser->member_id)->contain('Teams')->firstOrFail();
         }
 

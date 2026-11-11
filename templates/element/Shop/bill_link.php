@@ -8,16 +8,16 @@
  */
 $withStatus ??= false;
 ?>
-<?php if (empty($bill)): ?>
+<?php if (empty($bill)) : ?>
     <span class="text-muted"><?= __('No Bill') ?></span>
-<?php else: ?>
+<?php else : ?>
     <span class="mo-bill-label"><?= __('Bill') ?></span>
-    <?php if (!empty($curRole->BillViewAll)): ?>
+    <?php if (!empty($curRole->BillViewAll)) : ?>
         <?= $this->Html->link($bill->reference, ['controller' => 'Bills', 'action' => 'view', $bill->id]) ?>
-    <?php else: ?>
+    <?php else : ?>
         <?= h($bill->reference) ?>
     <?php endif; ?>
-    <?php if ($withStatus): ?>
+    <?php if ($withStatus) : ?>
         <span class="badge bg-<?= h($bill->statusHtml) ?>"><?= h($bill->statusString) ?></span>
     <?php endif; ?>
 <?php endif; ?>

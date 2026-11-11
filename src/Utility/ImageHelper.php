@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Utility;
 
 use Intervention\Image\ImageManager;
@@ -83,7 +84,6 @@ class ImageHelper
 
             $info['supported'] = true;
             $info['reason'] = 'HEIC support fully available';
-
         } catch (\Exception $e) {
             $info['reason'] = 'Error checking ImageMagick formats: ' . $e->getMessage();
         }

@@ -24,7 +24,7 @@ $this->Html->css('shop', ['block' => true]);
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($shopItems as $shopItem): ?>
+                <?php foreach ($shopItems as $shopItem) : ?>
                     <tr>
                         <td class="shop-cell-muted"><?= $this->Number->format($shopItem->id) ?></td>
                         <td class="shop-cell-main"><?= h($shopItem->label) ?></td>
@@ -35,7 +35,7 @@ $this->Html->css('shop', ['block' => true]);
                             <span class="badge <?= $shopItem->active ? 'bg-success' : 'bg-secondary' ?>"><?= $shopItem->active ? __('Active') : __('Inactive') ?></span>
                         </td>
                         <td>
-                            <?php if ($shopItem->allow_out_of_stock): ?>
+                            <?php if ($shopItem->allow_out_of_stock) : ?>
                                 <span class="badge bg-info"><?= __('Can be ordered when out of stock') ?></span>
                             <?php endif; ?>
                         </td>

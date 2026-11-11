@@ -6,7 +6,7 @@
 <p>amount: <b><?= $this->Number->currency($bill->amount, 'CHF') ?></b></p>
 <p>Délais de paiement:  <b><?= $bill->due_date ?></b></p>
 <p>Consultez vos informations et l'état de vos factures avec ce lien:</p>
-<?= '<p><a href="'.$url.'">'.$url.'</a></p>'; ?>
+<?= '<p><a href="' . $url . '">' . $url . '</a></p>'; ?>
 <br>
 <p>Salutations</p>
 <p><?= h($bill->site->sender) ?></p>

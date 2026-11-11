@@ -20,15 +20,15 @@
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($members as $member): ?>
+      <?php foreach ($members as $member) : ?>
         <tr>
           <td><?= $this->Html->link($member->fullName, ['action' => 'view', $member->id]) ?></td>
           <td><?= $member->date_birth ? h(date_diff($member->date_birth->toDateTimeImmutable(), new DateTime())->format('%y')) : '' ?></td>
-          <?php if ($curRole->MemberEditAll) : ?>
+            <?php if ($curRole->MemberEditAll) : ?>
             <td class="actions">
-              <?= $this->Html->link(__('Edit'), ['action' => 'edit', $member->id]) ?>
+                <?= $this->Html->link(__('Edit'), ['action' => 'edit', $member->id]) ?>
             </td>
-          <?php endif; ?>
+            <?php endif; ?>
         </tr>
       <?php endforeach; ?>
     </tbody>

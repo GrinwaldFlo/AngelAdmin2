@@ -22,9 +22,9 @@ if (isset($curUser)) {
 $contactEmail = $config['email'];
 ?>
 
-<?php if (isset($hashError) && $hashError): ?>
+<?php if (isset($hashError) && $hashError) : ?>
     <?= $this->element('Members/error', compact('contactEmail')) ?>
-<?php else: ?>
+<?php else : ?>
     <div class="row p-0 m-0 mb-1">
         <div class="col p-0 m-0">
             <div class="members view content">
@@ -38,11 +38,11 @@ $contactEmail = $config['email'];
                 </div>
             </div>
         <hr />        
-        <?php if (sizeof($files) > 0 || $member->RegExists($config['year'])): ?>
+        <?php if (sizeof($files) > 0 || $member->RegExists($config['year'])) : ?>
             <?= $this->element('Members/files', compact('member', 'files', 'config')) ?>
         <?php endif; ?>
 
-        <?php if (!empty($shopOffer) && $isOwn && $member->registered): ?>
+        <?php if (!empty($shopOffer) && $isOwn && $member->registered) : ?>
             <?= $this->element('Members/shop', compact('member', 'shopOffer', 'isOwn')) ?>
             <hr />
         <?php endif; ?>

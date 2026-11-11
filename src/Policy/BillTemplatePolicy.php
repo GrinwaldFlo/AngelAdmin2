@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Policy;
+
 use App\Model\Entity\BillTemplate;
 use Authorization\IdentityInterface;
 
@@ -9,11 +12,8 @@ use Authorization\IdentityInterface;
  */
 class BillTemplatePolicy
 {
-
-  
-  public function canAdmin(IdentityInterface $user, BillTemplate $billTemplate)
-  {
-    return $user->Role->Admin;
-  }
-
+    public function canAdmin(IdentityInterface $user, BillTemplate $billTemplate)
+    {
+        return $user->Role->Admin;
+    }
 }

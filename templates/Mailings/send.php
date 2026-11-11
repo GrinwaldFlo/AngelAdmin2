@@ -55,7 +55,7 @@ $startLabel = $counts['sent'] + $counts['invalid'] > 0 || !$failedItems->isEmpty
 
   <?php if ($counts['sent'] == 0) : ?>
     <div class="ml-delete">
-      <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $mailing->id], [
+        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $mailing->id], [
         'class' => 'btn btn-delete btn-sm',
         'confirm' => __('Are you sure you want to delete {0}?', $mailing->title),
       ]) ?>

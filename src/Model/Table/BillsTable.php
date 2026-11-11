@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -39,7 +40,7 @@ class BillsTable extends Table
   /**
    * Maximum length of a bill label
    */
-  public const LABEL_MAX_LENGTH = 200;
+    public const LABEL_MAX_LENGTH = 200;
 
   /**
    * Initialize method
@@ -47,26 +48,26 @@ class BillsTable extends Table
    * @param array $config The configuration for the Table.
    * @return void
    */
-  public function initialize(array $config): void
-  {
-    parent::initialize($config);
+    public function initialize(array $config): void
+    {
+        parent::initialize($config);
 
-    $this->setTable('bills');
-    $this->setDisplayField('id');
-    $this->setPrimaryKey('id');
+        $this->setTable('bills');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
-    $this->addBehavior('Timestamp');
+        $this->addBehavior('Timestamp');
 
-    $this->belongsTo('Members', [
-      'foreignKey' => 'member_id',
-      'joinType' => 'INNER',
-    ]);
+        $this->belongsTo('Members', [
+        'foreignKey' => 'member_id',
+        'joinType' => 'INNER',
+        ]);
 
-    $this->belongsTo('Sites', [
-      'foreignKey' => 'site_id',
-      'joinType' => 'INNER',
-    ]);
-  }
+        $this->belongsTo('Sites', [
+        'foreignKey' => 'site_id',
+        'joinType' => 'INNER',
+        ]);
+    }
 
   /**
    * Default validation rules.
@@ -74,68 +75,68 @@ class BillsTable extends Table
    * @param \Cake\Validation\Validator $validator Validator instance.
    * @return \Cake\Validation\Validator
    */
-  public function validationDefault(Validator $validator): Validator
-  {
-    $validator
-      ->integer('id')
-      ->allowEmptyString('id', null, 'create');
+    public function validationDefault(Validator $validator): Validator
+    {
+        $validator
+        ->integer('id')
+        ->allowEmptyString('id', null, 'create');
 
-    $validator
-      ->scalar('label')
-      ->maxLength('label', self::LABEL_MAX_LENGTH)
-      ->requirePresence('label', 'create')
-      ->notEmptyString('label');
+        $validator
+        ->scalar('label')
+        ->maxLength('label', self::LABEL_MAX_LENGTH)
+        ->requirePresence('label', 'create')
+        ->notEmptyString('label');
 
-    $validator
-      ->integer('amount')
-      ->requirePresence('amount', 'create')
-      ->notEmptyString('amount');
+        $validator
+        ->integer('amount')
+        ->requirePresence('amount', 'create')
+        ->notEmptyString('amount');
 
-    $validator
-      ->boolean('printed')
-      ->requirePresence('printed', 'create')
-      ->notEmptyString('printed');
+        $validator
+        ->boolean('printed')
+        ->requirePresence('printed', 'create')
+        ->notEmptyString('printed');
 
-    $validator
-      ->boolean('paid')
-      ->requirePresence('paid', 'create')
-      ->notEmptyString('paid');
+        $validator
+        ->boolean('paid')
+        ->requirePresence('paid', 'create')
+        ->notEmptyString('paid');
 
-    $validator
-      ->integer('reminder')
-      ->requirePresence('reminder', 'create')
-      ->notEmptyString('reminder');
+        $validator
+        ->integer('reminder')
+        ->requirePresence('reminder', 'create')
+        ->notEmptyString('reminder');
 
-    $validator
-      ->date('due_date')
-      ->notEmptyDate('due_date');
+        $validator
+        ->date('due_date')
+        ->notEmptyDate('due_date');
 
-    $validator
-      ->date('due_date_ori')
-      ->requirePresence('due_date_ori', 'create')
-      ->notEmptyDate('due_date_ori');
+        $validator
+        ->date('due_date_ori')
+        ->requirePresence('due_date_ori', 'create')
+        ->notEmptyDate('due_date_ori');
 
-    $validator
-      ->boolean('link_membership_fee')
-      ->notEmptyString('link_membership_fee');
+        $validator
+        ->boolean('link_membership_fee')
+        ->notEmptyString('link_membership_fee');
 
-    $validator
-      ->boolean('canceled')
-      ->requirePresence('canceled', 'create')
-      ->notEmptyString('canceled');
+        $validator
+        ->boolean('canceled')
+        ->requirePresence('canceled', 'create')
+        ->notEmptyString('canceled');
 
-    $validator
-      ->scalar('tokenhash')
-      ->maxLength('tokenhash', 255)
-      ->requirePresence('tokenhash', 'create')
-      ->notEmptyString('tokenhash');
+        $validator
+        ->scalar('tokenhash')
+        ->maxLength('tokenhash', 255)
+        ->requirePresence('tokenhash', 'create')
+        ->notEmptyString('tokenhash');
 
-    $validator
-      ->dateTime('confirmation')
-      ->allowEmptyDateTime('confirmation');
+        $validator
+        ->dateTime('confirmation')
+        ->allowEmptyDateTime('confirmation');
 
-    return $validator;
-  }
+        return $validator;
+    }
 
   /**
    * Returns a rules checker object that will be used for validating
@@ -144,78 +145,78 @@ class BillsTable extends Table
    * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
    * @return \Cake\ORM\RulesChecker
    */
-  public function buildRules(RulesChecker $rules): RulesChecker
-  {
-    $rules->add($rules->existsIn(['member_id'], 'Members'));
-    $rules->add($rules->existsIn(['site_id'], 'Sites'));
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->add($rules->existsIn(['member_id'], 'Members'));
+        $rules->add($rules->existsIn(['site_id'], 'Sites'));
 
-    return $rules;
-  }
+        return $rules;
+    }
   // Just kept for sample, use App GetBills()
-  public function findBills(Query $query, array $options)
-  {
-    $columns = [
-      'Bills.id',
-      'Bills.label',
-      'Bills.amount',
-      'Bills.reminder',
-      'Bills.due_date',
-      'Bills.printed',
-      'Bills.paid',
-      'Bills.canceled',
-      'Members.first_name',
-      'Members.last_name',
-      'Members.hash',
-      'Members.id'
-    ];
-    $query = $query->select($columns)->distinct($columns);
-    $query->contain([
-      'Members',
-      'Members.Teams',
-    ]);
+    public function findBills(Query $query, array $options)
+    {
+        $columns = [
+        'Bills.id',
+        'Bills.label',
+        'Bills.amount',
+        'Bills.reminder',
+        'Bills.due_date',
+        'Bills.printed',
+        'Bills.paid',
+        'Bills.canceled',
+        'Members.first_name',
+        'Members.last_name',
+        'Members.hash',
+        'Members.id'
+        ];
+        $query = $query->select($columns)->distinct($columns);
+        $query->contain([
+        'Members',
+        'Members.Teams',
+        ]);
 
-    //************************************** Bill status **************************************
-    //We never show canceled bills
-    //$query->where(['Bills.canceled =' => 0]);
-    switch ($options['billStatus'] ) {
-      case 1:
-        $query->where(['Bills.paid =' => 0]);
-        break;
-      case 2:
-        $query->where(['Bills.due_date <' => new \DateTime()])->where(['Bills.paid =' => 0]);
-        break;
-      case 3:
-        $query->where(['Bills.paid =' => 1]);
-        break;
-      case 4:
-        $query->where(['Bills.printed =' => 0]);
-        break;
+      //************************************** Bill status **************************************
+      //We never show canceled bills
+      //$query->where(['Bills.canceled =' => 0]);
+        switch ($options['billStatus']) {
+            case 1:
+                $query->where(['Bills.paid =' => 0]);
+                break;
+            case 2:
+                $query->where(['Bills.due_date <' => new \DateTime()])->where(['Bills.paid =' => 0]);
+                break;
+            case 3:
+                $query->where(['Bills.paid =' => 1]);
+                break;
+            case 4:
+                $query->where(['Bills.printed =' => 0]);
+                break;
+        }
+      //************************************** Member status **************************************
+        switch ($options['memberStatus']) {
+            case 1:
+                $query->where(['Members.active =' => 1]);
+                break;
+            case 2:
+                $query->where(['Members.active =' => 0]);
+                break;
+        }
+      //************************************** Team filter **************************************
+        if (false && !empty($options['teamId']) && $options['teamId'] != 0) {
+          //$query->innerJoinWith('Teams')->where(['Teams.id =' => $options['teamId']]);
+    //$query->contain('Members', 'Teams')->where(['Teams.id =' => $options['teamId']]);
+            $teamId = $options['teamId'];
+            $query->matching('Members.Teams', function ($q) use ($teamId) {
+                return $q->where(['Teams.id' => $teamId]);
+            });
+          //       // In a controller or table method.
+    //$query = $products->find()->matching(
+  //   'Shops.Cities.Countries', function ($q) {
+  //      return $q->where(['Countries.name' => 'Japan']);    });
+        }
+      // sql($query);
+        return $query; //->team(['Bills.id']);
     }
-    //************************************** Member status **************************************
-    switch ($options['memberStatus']) {
-      case 1:
-        $query->where(['Members.active =' => 1]);
-        break;
-      case 2:
-        $query->where(['Members.active =' => 0]);
-        break;
-    }
-    //************************************** Team filter **************************************
-    if (false && !empty($options['teamId']) && $options['teamId'] != 0) {
-      //$query->innerJoinWith('Teams')->where(['Teams.id =' => $options['teamId']]);
-//$query->contain('Members', 'Teams')->where(['Teams.id =' => $options['teamId']]);
-      $teamId = $options['teamId'];
-      $query->matching('Members.Teams', function ($q) use ($teamId) {
-        return $q->where(['Teams.id' => $teamId]);
-      });
-      //       // In a controller or table method.
-//$query = $products->find()->matching(
-//   'Shops.Cities.Countries', function ($q) {
-//      return $q->where(['Countries.name' => 'Japan']);    });
-    }
-    // sql($query);
-    return $query; //->team(['Bills.id']);
-  }
 
   /**
    * Get all late bills from a member
@@ -223,131 +224,132 @@ class BillsTable extends Table
    * @param int $memberId
    * @return ResultSetInterface
    */
-  public function getLateBillsByMemberId(int $memberId): ResultSetInterface
-  {
-    return $this->find()
-      ->where([
+    public function getLateBillsByMemberId(int $memberId): ResultSetInterface
+    {
+        return $this->find()
+        ->where([
         'Bills.member_id' => $memberId,
         'Bills.paid' => 0,
         'Bills.canceled' => 0,
         'Bills.due_date <' => new \DateTime()
-      ])
-      ->all();
-  }
+        ])
+        ->all();
+    }
 
-  public function findwithMembersTeamsSites(Query $query, array $options)
-  {
-    return $query
-      ->contain(['Members', 'Members.Teams', 'Sites']);
-  }
+    public function findwithMembersTeamsSites(Query $query, array $options)
+    {
+        return $query
+        ->contain(['Members', 'Members.Teams', 'Sites']);
+    }
 
-  public function GetNbOpenInvoice(int $siteId = 0)
-  {
-    return $this->GetCount(['Bills.paid =' => 0, 'Bills.canceled =' => 0], $siteId);
-  }
-  public function GetSumOpenInvoice(int $siteId = 0)
-  {
-    return $this->GetSum(['Bills.paid =' => 0, 'Bills.canceled =' => 0], $siteId);
-  }
+    public function GetNbOpenInvoice(int $siteId = 0)
+    {
+        return $this->GetCount(['Bills.paid =' => 0, 'Bills.canceled =' => 0], $siteId);
+    }
+    public function GetSumOpenInvoice(int $siteId = 0)
+    {
+        return $this->GetSum(['Bills.paid =' => 0, 'Bills.canceled =' => 0], $siteId);
+    }
   /**
    * @param int $siteId 0 = all sites
    */
-  public function GetSum($condition, int $siteId = 0)
-  {
-    $query = $this->find();
-    $result = $query->select(['sum' => $query->func()->sum('Bills.amount')])
-      ->where($this->siteCondition($condition, $siteId))->first();
-    return $result->sum;
-  }
-  public function GetSumPaidFees($dateFrom, int $siteId = 0)
-  {
-    return $this->GetSum(['Bills.created >' => $dateFrom, 'Bills.paid =' => 1, 'Bills.canceled =' => 0, 'Bills.link_membership_fee =' => 1], $siteId);
-  }
-  public function GetSumFeesFrom($dateFrom, int $siteId = 0)
-  {
-    return $this->GetSum(['Bills.created >' => $dateFrom, 'Bills.canceled =' => 0, 'Bills.link_membership_fee =' => 1], $siteId);
-  }
-  public function GetSumInvoicedFrom($dateFrom, int $siteId = 0)
-  {
-    return $this->GetSum(['Bills.created >' => $dateFrom, 'Bills.canceled =' => 0], $siteId);
-  }
-  public function GetSumInvoicedPaidFrom($dateFrom, int $siteId = 0)
-  {
-    return $this->GetSum(['Bills.paid =' => 1, 'Bills.created >' => $dateFrom, 'Bills.canceled =' => 0], $siteId);
-  }
+    public function GetSum($condition, int $siteId = 0)
+    {
+        $query = $this->find();
+        $result = $query->select(['sum' => $query->func()->sum('Bills.amount')])
+        ->where($this->siteCondition($condition, $siteId))->first();
+        return $result->sum;
+    }
+    public function GetSumPaidFees($dateFrom, int $siteId = 0)
+    {
+        return $this->GetSum(['Bills.created >' => $dateFrom, 'Bills.paid =' => 1, 'Bills.canceled =' => 0, 'Bills.link_membership_fee =' => 1], $siteId);
+    }
+    public function GetSumFeesFrom($dateFrom, int $siteId = 0)
+    {
+        return $this->GetSum(['Bills.created >' => $dateFrom, 'Bills.canceled =' => 0, 'Bills.link_membership_fee =' => 1], $siteId);
+    }
+    public function GetSumInvoicedFrom($dateFrom, int $siteId = 0)
+    {
+        return $this->GetSum(['Bills.created >' => $dateFrom, 'Bills.canceled =' => 0], $siteId);
+    }
+    public function GetSumInvoicedPaidFrom($dateFrom, int $siteId = 0)
+    {
+        return $this->GetSum(['Bills.paid =' => 1, 'Bills.created >' => $dateFrom, 'Bills.canceled =' => 0], $siteId);
+    }
   /**
    * @param int $siteId 0 = all sites
    */
-  public function GetCount(array $condition, int $siteId = 0): int
-  {
-    return $this->find('all')->where($this->siteCondition($condition, $siteId))->count();
-  }
+    public function GetCount(array $condition, int $siteId = 0): int
+    {
+        return $this->find('all')->where($this->siteCondition($condition, $siteId))->count();
+    }
   /**
    * Unpaid invoices with due date passed
    */
-  public function GetLateCondition(): array
-  {
-    return ['Bills.paid =' => 0, 'Bills.canceled =' => 0, 'Bills.due_date <' => date('Y-m-d')];
-  }
+    public function GetLateCondition(): array
+    {
+        return ['Bills.paid =' => 0, 'Bills.canceled =' => 0, 'Bills.due_date <' => date('Y-m-d')];
+    }
   /**
    * Invoiced and paid amounts per month of creation
    * @return array ['Y-m' => ['invoiced' => int, 'paid' => int]] for each month from $dateFrom to now
    */
-  public function GetMonthlyFrom(\DateTimeInterface $dateFrom, int $siteId = 0): array
-  {
-    $months = [];
-    $month = \DateTime::createFromInterface($dateFrom)->modify('first day of this month');
-    while ($month <= new \DateTime()) {
-      $months[$month->format('Y-m')] = ['invoiced' => 0, 'paid' => 0];
-      $month->modify('+1 month');
-    }
+    public function GetMonthlyFrom(\DateTimeInterface $dateFrom, int $siteId = 0): array
+    {
+        $months = [];
+        $month = \DateTime::createFromInterface($dateFrom)->modify('first day of this month');
+        while ($month <= new \DateTime()) {
+            $months[$month->format('Y-m')] = ['invoiced' => 0, 'paid' => 0];
+            $month->modify('+1 month');
+        }
 
-    $bills = $this->find()
-      ->select(['Bills.created', 'Bills.amount', 'Bills.paid'])
-      ->where($this->siteCondition(['Bills.created >=' => $dateFrom, 'Bills.canceled =' => 0], $siteId));
-    foreach ($bills as $bill) {
-      $key = $bill->created->format('Y-m');
-      if (isset($months[$key])) {
-        $months[$key]['invoiced'] += $bill->amount;
-        $months[$key]['paid'] += $bill->paid ? $bill->amount : 0;
-      }
+        $bills = $this->find()
+        ->select(['Bills.created', 'Bills.amount', 'Bills.paid'])
+        ->where($this->siteCondition(['Bills.created >=' => $dateFrom, 'Bills.canceled =' => 0], $siteId));
+        foreach ($bills as $bill) {
+            $key = $bill->created->format('Y-m');
+            if (isset($months[$key])) {
+                $months[$key]['invoiced'] += $bill->amount;
+                $months[$key]['paid'] += $bill->paid ? $bill->amount : 0;
+            }
+        }
+        return $months;
     }
-    return $months;
-  }
   /**
    * Add the site filter to a condition, 0 = all sites
    */
-  private function siteCondition(array $condition, int $siteId): array
-  {
-    if ($siteId > 0) {
-      $condition['Bills.site_id ='] = $siteId;
+    private function siteCondition(array $condition, int $siteId): array
+    {
+        if ($siteId > 0) {
+            $condition['Bills.site_id ='] = $siteId;
+        }
+        return $condition;
     }
-    return $condition;
-  }
-  public function GetFeeLabel($config)
-  {
-    return $config['feeLabel'] . " " . __("{0}-{1}", $config['year'], $config['year'] + 1);
-  }
-  public function CreateMembershipFee($config, $member, $extraLabel, $date, $amount, $siteId)
-  {
-    $bill = $this->newEmptyEntity();
-    $bill->member_id = $member->id;
-    $bill->site_id = $siteId;
-    $bill->label = $this->GetFeeLabel($config);
-    if (!empty($extraLabel))
-      $bill->label = $bill->label . " " . $extraLabel;
-    $bill->amount = $amount;
-    $bill->printed = 0;
-    $bill->paid = 0;
-    $bill->reminder = 0;
-    $bill->due_date = $date;
-    $bill->due_date_ori = $date;
-    $bill->link_membership_fee = 1;
-    $bill->canceled = 0;
-    $bill->state_id = 0;
-    $bill->tokenhash = Text::uuid();
-    $this->save($bill);
-  }
+    public function GetFeeLabel($config)
+    {
+        return $config['feeLabel'] . " " . __("{0}-{1}", $config['year'], $config['year'] + 1);
+    }
+    public function CreateMembershipFee($config, $member, $extraLabel, $date, $amount, $siteId)
+    {
+        $bill = $this->newEmptyEntity();
+        $bill->member_id = $member->id;
+        $bill->site_id = $siteId;
+        $bill->label = $this->GetFeeLabel($config);
+        if (!empty($extraLabel)) {
+            $bill->label = $bill->label . " " . $extraLabel;
+        }
+        $bill->amount = $amount;
+        $bill->printed = 0;
+        $bill->paid = 0;
+        $bill->reminder = 0;
+        $bill->due_date = $date;
+        $bill->due_date_ori = $date;
+        $bill->link_membership_fee = 1;
+        $bill->canceled = 0;
+        $bill->state_id = 0;
+        $bill->tokenhash = Text::uuid();
+        $this->save($bill);
+    }
 
   /**
    * Create a shop bill for member orders
@@ -357,39 +359,39 @@ class BillsTable extends Table
    * @param int $siteId The site ID
    * @return \App\Model\Entity\Bill|false The created bill or false on failure
    */
-  public function CreateShopBill($member, $orderItems, $siteId)
-  {
-    $dateBill = new \DateTime();
-    $dateBill->add(new \DateInterval('P10D'));
+    public function CreateShopBill($member, $orderItems, $siteId)
+    {
+        $dateBill = new \DateTime();
+        $dateBill->add(new \DateInterval('P10D'));
 
-    // Calculate total amount
-    $totalAmount = 0;
-    $itemLabels = [];
-    foreach ($orderItems as $item) {
-      $totalAmount += $item['price'] * $item['quantity'];
-      $itemLabels[] = $item['label'] . ' (x' . $item['quantity'] . ')';
+      // Calculate total amount
+        $totalAmount = 0;
+        $itemLabels = [];
+        foreach ($orderItems as $item) {
+            $totalAmount += $item['price'] * $item['quantity'];
+            $itemLabels[] = $item['label'] . ' (x' . $item['quantity'] . ')';
+        }
+
+        $bill = $this->newEmptyEntity();
+        $bill->printed = 0;
+        $bill->paid = 0;
+        $bill->reminder = 0;
+        $bill->canceled = false;
+        $bill->due_date = new \Cake\I18n\Date($dateBill);
+        $bill->state_id = 0;
+        $bill->tokenhash = Text::uuid();
+        $bill->due_date_ori = new \Cake\I18n\Date($dateBill);
+        $bill->link_membership_fee = 0;
+        $bill->member_id = $member->id;
+        $bill->site_id = $siteId;
+        $bill->amount = $totalAmount;
+      // Many lines don't fit in the label: trimmed to its maximum length
+        $bill->label = Text::truncate(__('Shop Order: {0}', implode(', ', $itemLabels)), self::LABEL_MAX_LENGTH, ['exact' => true]);
+
+        if ($this->save($bill)) {
+            return $bill;
+        }
+
+        return false;
     }
-
-    $bill = $this->newEmptyEntity();
-    $bill->printed = 0;
-    $bill->paid = 0;
-    $bill->reminder = 0;
-    $bill->canceled = false;
-    $bill->due_date = new \Cake\I18n\Date($dateBill);
-    $bill->state_id = 0;
-    $bill->tokenhash = Text::uuid();
-    $bill->due_date_ori = new \Cake\I18n\Date($dateBill);
-    $bill->link_membership_fee = 0;
-    $bill->member_id = $member->id;
-    $bill->site_id = $siteId;
-    $bill->amount = $totalAmount;
-    // Many lines don't fit in the label: trimmed to its maximum length
-    $bill->label = Text::truncate(__('Shop Order: {0}', implode(', ', $itemLabels)), self::LABEL_MAX_LENGTH, ['exact' => true]);
-
-    if ($this->save($bill)) {
-      return $bill;
-    }
-    
-    return false;
-  }
 }

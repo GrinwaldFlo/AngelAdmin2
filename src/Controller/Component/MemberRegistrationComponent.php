@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
@@ -210,16 +211,11 @@ class MemberRegistrationComponent extends Component
         $url = Router::url(array('controller' => 'Members', 'action' => 'my-page', $hash), true);
         $url = '<a href="' . $url . '">' . __("Your personal page") . '</a>';
 
-        if($member->registered)
-        {
+        if ($member->registered) {
             $title = __("Your personal page");
-        }
-        elseif($member->active)
-        {
+        } elseif ($member->active) {
             $title = __("Action needed, registrer for the year (or leave the club)");
-        }
-        else
-        {
+        } else {
             $title = __("Want to come back ?");
         }
 

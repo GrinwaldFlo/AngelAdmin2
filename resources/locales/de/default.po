@@ -2891,3 +2891,33 @@ msgstr "Vollständiger Name (Vorname Nachname) oder E-Mail"
 
 msgid "Too many requests, please try again later"
 msgstr "Zu viele Anfragen, bitte versuche es später erneut"
+
+msgid "This link has expired or has already been used. Ask for a new one."
+msgstr "Dieser Link ist abgelaufen oder wurde bereits verwendet. Fordere einen neuen an."
+
+msgid "Access denied"
+msgstr "Zugriff verweigert"
+
+msgid "You cannot open this page"
+msgstr "Du kannst diese Seite nicht öffnen"
+
+msgid "Your account does not have the rights to see this page. If you think it is a mistake, contact the club."
+msgstr "Dein Konto hat keine Berechtigung, diese Seite anzuzeigen. Wenn du denkst, dass es ein Fehler ist, kontaktiere den Verein."
+
+msgid "Return to the homepage and use the menu"
+msgstr "Kehre zur Startseite zurück und benutze das Menü"
+
+msgid "Check that you are logged in with the right account"
+msgstr "Prüfe, ob du mit dem richtigen Konto angemeldet bist"
+
+msgid "Page expired"
+msgstr "Seite abgelaufen"
+
+msgid "The page has expired"
+msgstr "Die Seite ist abgelaufen"
+
+msgid "The page was open for too long or your browser blocked a cookie, so the form could not be sent."
+msgstr "Die Seite war zu lange geöffnet oder dein Browser hat ein Cookie blockiert, daher konnte das Formular nicht gesendet werden."
+
+msgid "Go back, reload the page and try again"
+msgstr "Geh zurück, lade die Seite neu und versuche es erneut"

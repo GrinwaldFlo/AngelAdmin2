@@ -7,7 +7,7 @@
 $tabs = ['index' => __('Detail'), 'summary' => __('Summary and stock')];
 ?>
 <ul class="nav nav-tabs shop-tabs">
-    <?php foreach ($tabs as $action => $label): ?>
+    <?php foreach ($tabs as $action => $label) : ?>
         <li class="nav-item">
             <?= $this->Html->link($label, ['controller' => 'ShopOrders', 'action' => $action], ['class' => 'nav-link' . ($active === $action ? ' active' : '')]) ?>
         </li>

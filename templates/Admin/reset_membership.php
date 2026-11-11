@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($members as $member): ?>
+        <?php foreach ($members as $member) : ?>
           <tr>
             <td><?= $this->Html->link($member->fullName, ['controller' => 'Members', 'action' => 'view', $member->id]) ?></td>
             <td><?= h($member->membership_fee_paid) ?></td>
@@ -19,5 +19,5 @@
         <?php endforeach; ?>
       </tbody>
     </table>
-    <?= $this->Form->postLink(__('Reset membership fees').' !', ['action' => 'resetMembership', $resetValidation], ['class' => 'btn btn-bulk btn-sm']) ?>
+    <?= $this->Form->postLink(__('Reset membership fees') . ' !', ['action' => 'resetMembership', $resetValidation], ['class' => 'btn btn-bulk btn-sm']) ?>
 </div>

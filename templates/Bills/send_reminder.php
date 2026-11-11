@@ -32,9 +32,9 @@ foreach ($members as $member) {
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($members as $member): ?>
+      <?php foreach ($members as $member) : ?>
         <tr>
-          <td><?= $this->Html->link($member->first_name." ".$member->last_name, ['controller' => 'Members', 'action' => 'view', $member->member_id], ['target' => '_blank'])  ?></td>
+          <td><?= $this->Html->link($member->first_name . " " . $member->last_name, ['controller' => 'Members', 'action' => 'view', $member->member_id], ['target' => '_blank'])  ?></td>
           <td><?= $this->Number->currency($member->total_amount, 'CHF') ?></td>
           <td><?= h($member->count) ?></td>
           <td><?= h($member->labels) ?></td>

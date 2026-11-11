@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Policy;
+
 use App\Model\Entity\Role;
 use Authorization\IdentityInterface;
 
@@ -9,9 +12,8 @@ use Authorization\IdentityInterface;
  */
 class RolePolicy
 {
-  public function canAdmin(IdentityInterface $user, Role $resource)
-  {
-    return $user->Role->Admin;
-  }
-
+    public function canAdmin(IdentityInterface $user, Role $resource)
+    {
+        return $user->Role->Admin;
+    }
 }

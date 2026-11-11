@@ -13,7 +13,7 @@
       <?= $this->element('Teams/coaches_line', compact('teamCoaches')) ?>
       <div class="icon float-end">
         <?php if ($curRole->Admin) : ?>
-          <?= $this->Html->link('<i class="gg-pen"></i>', ['action' => 'edit', $team->id], ['escape' => false]) ?>
+            <?= $this->Html->link('<i class="gg-pen"></i>', ['action' => 'edit', $team->id], ['escape' => false]) ?>
         <?php endif; ?>
         <?= $curRole->MemberViewAll ? $this->backButtonCtrl('Teams', 'index') : $this->BackButton('/') ?>
       </div>
@@ -48,9 +48,9 @@
                         steppedLine : true,
                         data: [
 <?php foreach ($team->meetings as $meeting) : ?>
-  <?php if ($meeting->present > 0) : ?>
+    <?php if ($meeting->present > 0) : ?>
                             {t:'<?= h($meeting->meeting_date) ?>', y:<?= h($meeting->present + $meeting->late) ?>},
-  <?php endif; ?>
+    <?php endif; ?>
 <?php endforeach; ?>
                         ]
                 }]
@@ -91,16 +91,16 @@
           <h4><?= __('Members') ?></h4>
           <?php if (!empty($membersIn)) : ?>
             <div class="d-flex flex-wrap gap-2">
-            <?php foreach ($membersIn as $member) : ?>
+                <?php foreach ($membersIn as $member) : ?>
               <div class="d-flex align-items-center mb-2">
-                <?= $this->Html->link($member->FullName, ['controller' => 'Members', 'action' => 'view', $member->id], ['class' => 'me-1']) ?>
-                <?= $this->Form->postLink('-', ['action' => 'removeMember', $team->id, $member->id], [
-                  'escape' => false,
-                  'class' => 'btn btn-delete btn-sm',
-                  'title' => __('Remove member')
+                    <?= $this->Html->link($member->FullName, ['controller' => 'Members', 'action' => 'view', $member->id], ['class' => 'me-1']) ?>
+                    <?= $this->Form->postLink('-', ['action' => 'removeMember', $team->id, $member->id], [
+                    'escape' => false,
+                    'class' => 'btn btn-delete btn-sm',
+                    'title' => __('Remove member')
                 ]) ?>
               </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
             </div>
           <?php endif; ?>
         </div>
@@ -108,20 +108,20 @@
           <h4><?= __('Add members') ?></h4>
           <?php if (!empty($membersOut)) : ?>
             <div class="d-flex flex-wrap gap-2">
-            <?php foreach ($membersOut as $member) : ?>
+                <?php foreach ($membersOut as $member) : ?>
               <div class="d-flex align-items-center mb-2">
-                <?php if (isset($visibleMemberIds[$member->id])) : ?>
-                  <?= $this->Html->link($member->FullName." (".$member->Age.")", ['controller' => 'Members', 'action' => 'view', $member->id], ['class' => 'me-1']) ?>
-                <?php else : ?>
-                  <span class="me-1"><?= h($member->FullName." (".$member->Age.")") ?></span>
-                <?php endif; ?>
-                <?= $this->Form->postLink('+', ['action' => 'addMember', $team->id, $member->id], [
-                  'escape' => false,
-                  'class' => 'btn btn-add btn-sm',
-                  'title' => __('Add member')
+                    <?php if (isset($visibleMemberIds[$member->id])) : ?>
+                        <?= $this->Html->link($member->FullName . " (" . $member->Age . ")", ['controller' => 'Members', 'action' => 'view', $member->id], ['class' => 'me-1']) ?>
+                    <?php else : ?>
+                  <span class="me-1"><?= h($member->FullName . " (" . $member->Age . ")") ?></span>
+                    <?php endif; ?>
+                    <?= $this->Form->postLink('+', ['action' => 'addMember', $team->id, $member->id], [
+                    'escape' => false,
+                    'class' => 'btn btn-add btn-sm',
+                    'title' => __('Add member')
                 ]) ?>
               </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
             </div>
           <?php endif; ?>
         </div>
@@ -142,21 +142,17 @@
             <?php $i = 0; ?>
             <tr>
               <?php foreach ($team->meetings as $meeting) : ?>
-
                 <td><?= h($meeting->meeting_date) ?></td>
                 <td><?= $this->Html->link(h($meeting->name), ['controller' => 'Meetings', 'action' => 'view', $meeting->id]) ?></td>
                 <td><?= h($meeting->PresencesStr) ?></td>
-                <?php
-                if ($i == 0)
-                {
-                  $i = 1;
-                }
-                else
-                {
-                  $i = 0;
-                  echo "</tr><tr>";
-                }
-                ?> 
+                    <?php
+                    if ($i == 0) {
+                        $i = 1;
+                    } else {
+                        $i = 0;
+                        echo "</tr><tr>";
+                    }
+                    ?> 
               <?php endforeach; ?>
             <tr>
           </table>

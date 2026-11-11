@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -13,6 +14,7 @@ declare(strict_types=1);
  * @since     3.0.0
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\View;
 
 use BootstrapUI\View\UIView;
@@ -36,48 +38,47 @@ class AppView extends UIView
    *
    * @return void
    */
-  public function initialize(): void
-  {
-    parent::initialize();
-    $this->addHelper('Pdf');
-    $this->addHelper('My');
-    $this->setLayout('default');
-  }
-
-  public function tableFieldCurrency($label, $value)
-  {
-    if ($value) {
-      return '<tr><th>' . $label . '</th><td>' . $this->Number->currency($value, 'CHF') . '</td></tr>';
-    } else {
-      return '';
-    }
-  }
-
-  public function tableField($label, $value)
-  {
-    if ($value) {
-      return '<tr><th>' . $label . '</th><td>' . h($value) . '</td></tr>';
-    } else {
-      return '';
-    }
-  }
-
-  public function backButton($refer, $floating = false)
-  {
-    if ($floating) {
-      return $this->Html->link('<i class="gg-arrow-left-r"></i>', $refer, ['escape' => false]);
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->addHelper('Pdf');
+        $this->addHelper('My');
+        $this->setLayout('default');
     }
 
-    return $this->Html->link('<i class="gg-arrow-left-r"></i>', $refer, ['escape' => false]);
-  }
-
-  public function backButtonCtrl($controler, $action, $floating = false)
-  {
-    if ($floating) {
-      return $this->Html->link('<i class="gg-arrow-left-r"></i>', ['controller' => $controler, 'action' => $action], ['escape' => false]);
+    public function tableFieldCurrency($label, $value)
+    {
+        if ($value) {
+            return '<tr><th>' . $label . '</th><td>' . $this->Number->currency($value, 'CHF') . '</td></tr>';
+        } else {
+            return '';
+        }
     }
 
-    return $this->Html->link('<i class="gg-arrow-left-r"></i>', ['controller' => $controler, 'action' => $action], ['escape' => false, 'class' => 'back-button']);
-  }
+    public function tableField($label, $value)
+    {
+        if ($value) {
+            return '<tr><th>' . $label . '</th><td>' . h($value) . '</td></tr>';
+        } else {
+            return '';
+        }
+    }
 
+    public function backButton($refer, $floating = false)
+    {
+        if ($floating) {
+            return $this->Html->link('<i class="gg-arrow-left-r"></i>', $refer, ['escape' => false]);
+        }
+
+        return $this->Html->link('<i class="gg-arrow-left-r"></i>', $refer, ['escape' => false]);
+    }
+
+    public function backButtonCtrl($controler, $action, $floating = false)
+    {
+        if ($floating) {
+            return $this->Html->link('<i class="gg-arrow-left-r"></i>', ['controller' => $controler, 'action' => $action], ['escape' => false]);
+        }
+
+        return $this->Html->link('<i class="gg-arrow-left-r"></i>', ['controller' => $controler, 'action' => $action], ['escape' => false, 'class' => 'back-button']);
+    }
 }

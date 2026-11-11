@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var string $message
@@ -9,7 +10,7 @@ use Cake\Error\Debugger;
 
 $this->setLayout('error');
 
-if (Configure::read('debug')):
+if (Configure::read('debug')) :
     $this->setLayout('dev_error');
 
     $this->assign('title', $message);
@@ -17,13 +18,13 @@ if (Configure::read('debug')):
 
     $this->start('file');
     ?>
-<?php if ($error instanceof Error): ?>
-    <?php $file = $error->getFile() ?>
-    <?php $line = $error->getLine() ?>
+    <?php if ($error instanceof Error) : ?>
+        <?php $file = $error->getFile() ?>
+        <?php $line = $error->getLine() ?>
     <strong>Error in: </strong>
-    <?= $this->Html->link(sprintf('%s, line %s', Debugger::trimPath($file), $line), Debugger::editorUrl($file, $line)); ?>
-<?php endif; ?>
-<?php
+        <?= $this->Html->link(sprintf('%s, line %s', Debugger::trimPath($file), $line), Debugger::editorUrl($file, $line)); ?>
+    <?php endif; ?>
+    <?php
         echo $this->element('auto_table_warning');
 
         $this->end();
@@ -33,7 +34,7 @@ $this->assign('title', __('Internal Server Error'));
 ?>
 
 <div class="d-flex align-items-center justify-content-center mb-3">
-    <i class="bi bi-exclamation-octagon-fill text-danger me-2" style="font-size: 2rem;"></i>
+    <i class="bi bi-exclamation-octagon-fill text-danger me-2 error-heading-icon"></i>
     <h2 class="mb-0 text-danger fw-bold"><?= __('An internal error has occurred') ?></h2>
 </div>
 

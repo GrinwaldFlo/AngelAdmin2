@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Controller;
 
 /**
@@ -15,13 +17,13 @@ class SitesController extends AppController
    *
    * @return \Cake\Http\Response|null|void Renders view
    */
-  public function index()
-  {
-    $this->Authorization->authorize($this->Sites->newEmptyEntity(), 'admin');
-    $sites = $this->paginate($this->Sites);
+    public function index()
+    {
+        $this->Authorization->authorize($this->Sites->newEmptyEntity(), 'admin');
+        $sites = $this->paginate($this->Sites);
 
-    $this->set(compact('sites'));
-  }
+        $this->set(compact('sites'));
+    }
 
   /**
    * View method
@@ -30,36 +32,34 @@ class SitesController extends AppController
    * @return \Cake\Http\Response|null|void Renders view
    * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
    */
-  public function view(int|null $id = null)
-  {
-    $this->Authorization->authorize($this->Sites->newEmptyEntity(), 'admin');
-    $site = $this->Sites->get($id, contain: []);
+    public function view(int|null $id = null)
+    {
+        $this->Authorization->authorize($this->Sites->newEmptyEntity(), 'admin');
+        $site = $this->Sites->get($id, contain: []);
 
-    $this->set('site', $site);
-  }
+        $this->set('site', $site);
+    }
 
   /**
    * Add method
    *
    * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
    */
-  public function add()
-  {
-    $this->Authorization->authorize($this->Sites->newEmptyEntity(), 'admin');
-    $site = $this->Sites->newEmptyEntity();
-    if ($this->request->is('post'))
+    public function add()
     {
-      $site = $this->Sites->patchEntity($site, $this->request->getData());
-      if ($this->Sites->save($site))
-      {
-        $this->Flash->success(__('The site has been saved.'));
+        $this->Authorization->authorize($this->Sites->newEmptyEntity(), 'admin');
+        $site = $this->Sites->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $site = $this->Sites->patchEntity($site, $this->request->getData());
+            if ($this->Sites->save($site)) {
+                $this->Flash->success(__('The site has been saved.'));
 
-        return $this->redirect(['action' => 'index']);
-      }
-      $this->Flash->error(__('The site could not be saved.'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The site could not be saved.'));
+        }
+        $this->set(compact('site'));
     }
-    $this->set(compact('site'));
-  }
 
   /**
    * Edit method
@@ -68,23 +68,21 @@ class SitesController extends AppController
    * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
    * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
    */
-  public function edit(int|null $id = null)
-  {
-    $this->Authorization->authorize($this->Sites->newEmptyEntity(), 'admin');
-    $site = $this->Sites->get($id, contain: []);
-    if ($this->request->is(['patch', 'post', 'put']))
+    public function edit(int|null $id = null)
     {
-      $site = $this->Sites->patchEntity($site, $this->request->getData());
-      if ($this->Sites->save($site))
-      {
-        $this->Flash->success(__('The site has been saved.'));
+        $this->Authorization->authorize($this->Sites->newEmptyEntity(), 'admin');
+        $site = $this->Sites->get($id, contain: []);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $site = $this->Sites->patchEntity($site, $this->request->getData());
+            if ($this->Sites->save($site)) {
+                $this->Flash->success(__('The site has been saved.'));
 
-        return $this->redirect(['action' => 'index']);
-      }
-      $this->Flash->error(__('The site could not be saved.'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The site could not be saved.'));
+        }
+        $this->set(compact('site'));
     }
-    $this->set(compact('site'));
-  }
 
   /**
    * Delete method
@@ -93,22 +91,18 @@ class SitesController extends AppController
    * @return \Cake\Http\Response|null|void Redirects to index.
    * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
    */
-  public function delete(int|null $id = null)
-  {
-    $this->Authorization->authorize($this->Sites->newEmptyEntity(), 'admin');
-    $this->request->allowMethod(['post', 'delete']);
-    $site = $this->Sites->get($id);
-    if ($this->Sites->delete($site))
+    public function delete(int|null $id = null)
     {
-      $this->Flash->success(__('The site has been deleted.'));
-    }
-    else
-    {
-      $errors = $site->getError('id');
-      $this->Flash->error($errors ? implode(' ', $errors) : __('The site could not be deleted.'));
-    }
+        $this->Authorization->authorize($this->Sites->newEmptyEntity(), 'admin');
+        $this->request->allowMethod(['post', 'delete']);
+        $site = $this->Sites->get($id);
+        if ($this->Sites->delete($site)) {
+            $this->Flash->success(__('The site has been deleted.'));
+        } else {
+            $errors = $site->getError('id');
+            $this->Flash->error($errors ? implode(' ', $errors) : __('The site could not be deleted.'));
+        }
 
-    return $this->redirect(['action' => 'index']);
-  }
-
+        return $this->redirect(['action' => 'index']);
+    }
 }

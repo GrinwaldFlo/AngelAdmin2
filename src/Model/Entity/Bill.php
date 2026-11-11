@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Model\Entity;
+
 use Cake\ORM\Entity;
 
 /**
@@ -45,7 +48,7 @@ class Bill extends Entity
    *
    * @var array
    */
-  protected array $_accessible = [
+    protected array $_accessible = [
       'member_id' => true,
       'label' => true,
       'amount' => true,
@@ -64,86 +67,82 @@ class Bill extends Entity
       'site_id' => true,
       'member' => true,
       'site' => true,
-  ];
-  protected function _getStatusString()
-  {
-    if ($this->canceled)
+    ];
+    protected function _getStatusString()
     {
-      return __('Canceled');
+        if ($this->canceled) {
+            return __('Canceled');
+        }
+        if ($this->paid) {
+            return __('Paid');
+        }
+        if ($this->printed) {
+            if ($this->due_date < \Cake\I18n\FrozenDate::today()) {
+                return __('Late');
+            } else {
+                return __('Sent');
+            }
+        }
+        return __('Draft'); // $bills->status
     }
-    if ($this->paid)
+
+    protected function _getStatusHtml()
     {
-      return __('Paid');
+        if ($this->canceled) {
+            return 'dark';
+        }
+        if ($this->paid) {
+            return 'success';
+        }
+        if ($this->printed) {
+            if ($this->due_date < \Cake\I18n\FrozenDate::today()) {
+                return 'danger';
+            } else {
+                return 'info';
+            }
+        }
+        return 'warning'; // Draft
     }
-    if ($this->printed)
+
+    protected function _getBillPath()
     {
-      if ($this->due_date < \Cake\I18n\FrozenDate::today())
-        return __('Late');
-      else
-        return __('Sent');
+        return $this->member->MemberPath . 'Invoice_' . $this->Reference . '.pdf';
     }
-    return __('Draft'); // $bills->status
-  }
 
-  protected function _getStatusHtml()
-  {
-    if ($this->canceled)
+    protected function _getBillUrl()
     {
-      return 'dark';
+        return $this->member->MemberUrl . 'Invoice_' . $this->Reference . '.pdf';
     }
-    if ($this->paid)
+
+    protected function _getQRPath()
     {
-      return 'success';
+        return $this->member->MemberPath . 'QR_' . $this->Reference . '.svg';
     }
-    if ($this->printed)
+
+    protected function _getBillExists()
     {
-      if ($this->due_date < \Cake\I18n\FrozenDate::today())
-        return 'danger';
-      else
-        return 'info';
+        return file_exists($this->BillPath);
     }
-    return 'warning'; // Draft
-  }
 
-  protected function _getBillPath()
-  {
-    return $this->member->MemberPath . 'Invoice_' . $this->Reference . '.pdf';
-  }
+    public function DeleteBillPdf()
+    {
+        if (file_exists($this->BillPath)) {
+            unlink($this->BillPath);
+        }
+    }
 
-  protected function _getBillUrl()
-  {
-    return $this->member->MemberUrl . 'Invoice_' . $this->Reference . '.pdf';
-  }
+    protected function _getStateList()
+    {
+        return [0 => __('Draft'), 1 => __('Sent'), 2 => __x('In the way, it has been read', 'Read')];
+    }
 
-  protected function _getQRPath()
-  {
-    return $this->member->MemberPath . 'QR_' . $this->Reference . '.svg';
-  }
+    protected function _getStateStr()
+    {
+        return $this->_getStateList()[$this->state_id] ?? '';
+    }
 
-  protected function _getBillExists()
-  {
-    return file_exists($this->BillPath);
-  }
-
-  public function DeleteBillPdf()
-  {
-    if (file_exists($this->BillPath))
-      unlink($this->BillPath);
-  }
-
-  protected function _getStateList()
-  {
-    return [0 => __('Draft'), 1 => __('Sent'), 2 => __x('In the way, it has been read', 'Read')];
-  }
-
-  protected function _getStateStr()
-  {
-    return $this->_getStateList()[$this->state_id] ?? '';
-  }
-
-  protected function _getReference()
-  {
-    return $this->id + $this->site->add_invoice_num;
-  }
-
+    protected function _getReference()
+    {
+        return $this->id + $this->site->add_invoice_num;
+    }
 }

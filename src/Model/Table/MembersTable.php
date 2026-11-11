@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Model\Table;
+
 use App\Model\Entity\Member;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;

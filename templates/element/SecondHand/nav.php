@@ -11,12 +11,12 @@ $links = [
 ];
 ?>
 <nav class="sh-nav">
-    <?php foreach ($links as $action => $label): ?>
+    <?php foreach ($links as $action => $label) : ?>
         <?= $this->Html->link($label, ['controller' => 'SecondHand', 'action' => $action], ['class' => 'btn btn-filter btn-sm' . ($action === $active ? ' pressed' : '')]) ?>
     <?php endforeach; ?>
-    <?php if ($isHashUser): ?>
+    <?php if ($isHashUser) : ?>
         <?= $this->Html->link(__('My page'), ['controller' => 'Members', 'action' => 'myPage'], ['class' => 'btn btn-sm btn-nav']) ?>
-    <?php elseif (!empty($curRole->Admin)): ?>
+    <?php elseif (!empty($curRole->Admin)) : ?>
         <?= $this->Html->link(__('Admin'), ['controller' => 'SecondHandAdmin', 'action' => 'index'], ['class' => 'btn btn-sm btn-nav']) ?>
     <?php endif; ?>
 </nav>

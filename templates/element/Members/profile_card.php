@@ -22,17 +22,17 @@
         </div>
 
         <div class="card-body">
-            <?php if ($member->active): ?>
+            <?php if ($member->active) : ?>
                 <span class="badge bg-info"><?= __('Active') ?></span>
-            <?php else: ?>
+            <?php else : ?>
                 <span class="badge bg-danger"><?= __('Past') ?></span>
             <?php endif; ?>
-            <?php if ($member->registered): ?>
+            <?php if ($member->registered) : ?>
                 <span class="badge bg-info"><?= __('Registered') ?></span>
-            <?php else: ?>
+            <?php else : ?>
                 <span class="badge bg-danger"><?= __('Not registered') ?></span>
             <?php endif; ?>
-            <?php if (!$member->checked): ?>
+            <?php if (!$member->checked) : ?>
                 <span class="badge bg-danger"><?= __('Not reviewed') ?></span>
             <?php endif; ?>
         </div>

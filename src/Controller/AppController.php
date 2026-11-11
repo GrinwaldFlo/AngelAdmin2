@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -14,6 +15,7 @@ declare(strict_types=1);
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use Cake\Controller\Controller;
@@ -73,7 +75,7 @@ class AppController extends Controller
         $this->loadComponent('Authorization.Authorization');
         $this->loadComponent('Mail');
         $this->loadComponent('Get');
-        
+
         /*
          * Enable the following component for recommended CakePHP form protection settings.
          * see https://book.cakephp.org/5/en/controllers/components/form-protection.html#formprotection
@@ -88,7 +90,7 @@ class AppController extends Controller
         $this->set('isMobile', $this->request->is('Mobile'));
 
         $locale = $this->config['lng'] ?? 'fr';
-        if ($this->Authentication->getIdentity() != NULL) {
+        if ($this->Authentication->getIdentity() != null) {
             $members = TableRegistry::getTableLocator()->get('Members');
             $contents = TableRegistry::getTableLocator()->get('Contents');
             $this->curUser = $this->Authentication->getIdentity();
@@ -103,8 +105,7 @@ class AppController extends Controller
 
             $externalLinks = $contents->find('all')->where(['location =' => 1, 'team_id IN' => $this->curMember->TeamIds]);
             $this->set("externalLinks", $externalLinks);
-        } else
-        {
+        } else {
             // Check for hash authentication
             $this->initializeHashAuthentication();
 
@@ -189,7 +190,7 @@ class AppController extends Controller
         if (!$hash) {
             return false;
         }
-        
+
         $membersTable = TableRegistry::getTableLocator()->get('Members');
         $member = $membersTable->find()->where(['hash' => $hash])->first();
 
@@ -339,8 +340,9 @@ class AppController extends Controller
     {
         if ($curVal === null || $curVal == -999) {
             $curVal = $this->Session->read($name);
-            if ($curVal == "")
+            if ($curVal == "") {
                 $curVal = $default;
+            }
         }
         $this->Session->write($name, $curVal);
         return (int) $curVal;
@@ -391,8 +393,9 @@ class AppController extends Controller
     {
         if ($curVal === null || $curVal == -999) {
             $curVal = $this->Session->read($name);
-            if ($curVal == "")
+            if ($curVal == "") {
                 $curVal = $default;
+            }
         }
         $this->Session->write($name, $curVal);
         return $curVal;
@@ -580,10 +583,12 @@ class AppController extends Controller
 
     public function memberYoungerThan($member, $age)
     {
-        if ($age == 0)
+        if ($age == 0) {
             return true;
-        if ($member->Age == 0)
+        }
+        if ($member->Age == 0) {
             return false;
+        }
         return $member->Age < $age;
     }
 
@@ -599,8 +604,9 @@ class AppController extends Controller
         $curReg->signature_member = $signatureMember;
         $curReg->signature_parent = $signatureParent;
         $curReg->year = $year;
-        if (!$Registrations->save($curReg))
+        if (!$Registrations->save($curReg)) {
             return 0;
+        }
 
         return $curReg->id;
     }
@@ -608,7 +614,6 @@ class AppController extends Controller
 
     public function getMembersEvo($teamId = 0, $memberFilter = 0, $siteId = 0)
     {
-
     }
 
     /**
@@ -645,5 +650,4 @@ class AppController extends Controller
             return $this->redirect($url);
         }
     }
-
 }

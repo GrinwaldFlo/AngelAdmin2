@@ -1,9 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Error;
 
+use Authorization\Exception\ForbiddenException as AuthorizationForbiddenException;
 use Cake\Error\ErrorLogger;
+use Cake\Http\Exception\ForbiddenException;
+use Cake\Http\Exception\InvalidCsrfTokenException;
 use Cake\Http\Exception\MissingControllerException;
 use Cake\Controller\Exception\MissingActionException;
 use Cake\Http\Exception\NotFoundException;
@@ -13,8 +17,9 @@ use Throwable;
 
 /**
  * Custom Error Logger
- * 
+ *
  * Reduces verbose logging for all 404 errors to single-line entries
+ * Refused accesses (403) are expected (old links, bookmarks, expired forms): one warning line, without trace
  */
 class CustomErrorLogger extends ErrorLogger
 {
@@ -30,10 +35,15 @@ class CustomErrorLogger extends ErrorLogger
     {
         // Check if simplified logging is enabled (can be disabled via environment variable)
         $enableSimplifiedLogging = env('ENABLE_SIMPLIFIED_404_LOGGING', true);
-        
+
         if ($enableSimplifiedLogging && $this->is404Exception($exception) && $request !== null) {
             $requestUri = $request->getRequestTarget();
             $this->logSimplified404($exception, $requestUri);
+            return;
+        }
+
+        if ($this->is403Exception($exception) && $request !== null) {
+            $this->logSimplified403($exception, $request);
             return;
         }
 
@@ -55,6 +65,42 @@ class CustomErrorLogger extends ErrorLogger
     }
 
     /**
+     * Check if this is a refused access: no right on the page, or expired form
+     *
+     * @param \Throwable $exception The exception to check
+     * @return bool
+     */
+    protected function is403Exception(Throwable $exception): bool
+    {
+        return $exception instanceof AuthorizationForbiddenException
+            || $exception instanceof ForbiddenException
+            || $exception instanceof InvalidCsrfTokenException;
+    }
+
+    /**
+     * Log a refused access on one line, with the user to know who had the problem
+     *
+     * @param \Throwable $exception The exception
+     * @param \Psr\Http\Message\ServerRequestInterface $request The request
+     * @return void
+     */
+    protected function logSimplified403(Throwable $exception, ServerRequestInterface $request): void
+    {
+        $identity = $request->getAttribute('identity');
+        $user = $identity !== null ? 'user ' . $identity->id : 'not logged';
+
+        $message = sprintf(
+            '[403] %s: %s (%s) %s',
+            (new \ReflectionClass($exception))->getShortName(),
+            $request->getRequestTarget(),
+            $user,
+            $exception->getMessage()
+        );
+
+        Log::write('warning', $message);
+    }
+
+    /**
      * Log a simplified version of the 404 error
      *
      * @param \Throwable $exception The exception
@@ -64,7 +110,7 @@ class CustomErrorLogger extends ErrorLogger
     protected function logSimplified404(Throwable $exception, string $requestUri): void
     {
         $exceptionName = (new \ReflectionClass($exception))->getShortName();
-        
+
         $message = sprintf(
             '[404] %s: %s',
             $exceptionName,

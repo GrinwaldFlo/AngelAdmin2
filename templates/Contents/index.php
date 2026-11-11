@@ -19,7 +19,7 @@
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($contents as $content): ?>
+      <?php foreach ($contents as $content) : ?>
         <tr>
           <td><?= substr(strip_tags($content->text), 0, 20) ?></td>
           <td><?= h($content->locationStr) ?></td>

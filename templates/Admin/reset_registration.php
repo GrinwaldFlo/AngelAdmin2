@@ -10,12 +10,12 @@
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($members as $member): ?>
+        <?php foreach ($members as $member) : ?>
           <tr>
             <td><?= $this->Html->link($member->fullName, ['controller' => 'Members', 'action' => 'view', $member->id]) ?></td>
           </tr>
         <?php endforeach; ?>
       </tbody>
     </table>
-    <?= $this->Form->postLink(__('Reset registration').' !', ['action' => 'resetRegistration', $resetValidation], ['class' => 'btn btn-bulk btn-sm']) ?>
+    <?= $this->Form->postLink(__('Reset registration') . ' !', ['action' => 'resetRegistration', $resetValidation], ['class' => 'btn btn-bulk btn-sm']) ?>
 </div>

@@ -22,7 +22,7 @@
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($fieldTypes as $fieldType): ?>
+      <?php foreach ($fieldTypes as $fieldType) : ?>
         <tr>
           <td><?= $this->Number->format($fieldType->sort) ?></td>
           <td><?= h($fieldType->label) ?></td>

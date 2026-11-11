@@ -2,8 +2,8 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Bill[]|\Cake\Collection\CollectionInterface $bills
- * 
- *     
+ *
+ *
  */
 ?>
 <div class="row">
@@ -16,8 +16,8 @@
       <?= $this->Html->link(__('Paid'), ['action' => 'index', $billStatus == 3 ? 0 : 3, $memberStatus], ['class' => 'btn btn-filter btn-sm' . ($billStatus == 3 ? ' pressed' : '')]) ?>
       <?= $this->Html->link(__('Draft'), ['action' => 'index', $billStatus == 4 ? 0 : 4, $memberStatus], ['class' => 'btn btn-filter btn-sm' . ($billStatus == 4 ? ' pressed' : '')]) ?>
       |
-      <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'index', $billStatus, $memberStatus, $teamId == $key ? 0 : $key], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+      <?php foreach ($teams as $key => $team) : ?>
+            <?= $this->Html->link(h($team), ['action' => 'index', $billStatus, $memberStatus, $teamId == $key ? 0 : $key], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>
@@ -51,8 +51,8 @@
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($bills as $bill): ?>
-        <?php //debug($bill); break; ?>
+      <?php foreach ($bills as $bill) : ?>
+            <?php //debug($bill); break; ?>
         <tr>
           <td><?= $this->Html->link(h($bill->Reference), ['controller' => 'Bills', 'action' => 'view', $bill->id]) ?></td>
           <td><?= $bill->has('member') ? $this->Html->link($bill->member->FullName, ['controller' => 'Members', 'action' => 'view', $bill->member->id]) : '' ?></td>

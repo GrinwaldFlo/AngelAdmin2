@@ -11,7 +11,7 @@ Vous pouvez consulter le détail de vos factures via le lien suivant :
 Si vous avez égaré une facture, le PDF est disponible en téléchargement à la même adresse.
 
 Factures en attente de paiement :
-<?php foreach ($lateBills as $bill): ?>
+<?php foreach ($lateBills as $bill) : ?>
     - <?= h($bill->label) ?> — <?= h($bill->amount) ?> CHF
 <?php endforeach; ?>
 

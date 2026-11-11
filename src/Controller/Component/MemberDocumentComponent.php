@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
@@ -6,7 +7,7 @@ use App\Utility\ImageHelper;
 
 /**
  * Member Document Component
- * 
+ *
  * Handles document and photo uploads for members
  */
 class MemberDocumentComponent extends Component
@@ -17,12 +18,12 @@ class MemberDocumentComponent extends Component
     private function isValidImageFile($fileobject): array
     {
         $controller = $this->getController();
-        
+
         // Load Image component for validation
         if (!isset($controller->Image)) {
             $controller->loadComponent('Image');
         }
-        
+
         // Use Image component's validation
         return $controller->Image->validateUploadedImage($fileobject);
     }
@@ -34,21 +35,21 @@ class MemberDocumentComponent extends Component
     {
         $controller = $this->getController();
         $validation = $this->isValidImageFile($fileobject);
-        
+
         if (!$validation['valid']) {
             $controller->Flash->error($validation['errorMessage']);
             return false;
         }
-        
+
         if ($validation['isHeic']) {
             if (!ImageHelper::isHeicSupported()) {
                 $controller->Flash->error(__("HEIC format is not supported"));
                 return false;
             }
-            
+
             // Create temporary file for HEIC
             $tempHeicPath = tempnam(sys_get_temp_dir(), 'heic_upload_');
-            
+
             // Handle file stream that might have been consumed during validation
             try {
                 $fileobject->moveTo($tempHeicPath);
@@ -67,17 +68,16 @@ class MemberDocumentComponent extends Component
                     return false;
                 }
             }
-            
+
             // Convert HEIC to JPEG
             if (!ImageHelper::convertHeicToJpeg($tempHeicPath, $targetPath)) {
                 unlink($tempHeicPath);
                 $controller->Flash->error(__("Failed to process image"));
                 return false;
             }
-            
+
             // Clean up temp file
             unlink($tempHeicPath);
-            
         } else {
             // Direct JPEG upload
             try {
@@ -95,7 +95,7 @@ class MemberDocumentComponent extends Component
                 }
             }
         }
-        
+
         return true;
     }
 
@@ -107,8 +107,7 @@ class MemberDocumentComponent extends Component
         $controller = $this->getController();
         $member = $controller->Members->get($id);
 
-        if (!$isAllowed)
-        {
+        if (!$isAllowed) {
             $controller->Authorization->authorize($member, 'Edit');
         }
 
@@ -122,23 +121,23 @@ class MemberDocumentComponent extends Component
             $controller->Flash->error(__("Failed to send picture"));
             return false;
         }
-        
+
         $member->CheckFolder();
         $imgOri = $member->GetImgPath(2000);
-        
+
         // Process image file (JPEG or HEIC)
         if (!$this->processImageFile($fileobject, $imgOri)) {
             return false;
         }
-        
+
         $controller->Image->rotateFromExif($imgOri);
-        
+
         $ar = array(100, 200, 300, 500, 1000, 2000);
         foreach ($ar as $value) {
             $url = $member->GetImgPath($value);
             $controller->Image->resize($imgOri, $url, 0, $value, 90);
         }
-        
+
         $controller->Flash->success(__('The picture has been saved.'));
         return true;
     }
@@ -165,23 +164,23 @@ class MemberDocumentComponent extends Component
             $controller->Flash->error(__("Failed to send picture"));
             return false;
         }
-        
+
         $member->CheckFolder();
         $imgOri = $member->GetImgIdPath(2000);
-        
+
         // Process image file (JPEG or HEIC)
         if (!$this->processImageFile($fileobject, $imgOri)) {
             return false;
         }
-        
+
         $controller->Image->rotateFromExif($imgOri);
-        
+
         $ar = array(100, 200, 300, 500, 1000, 2000);
         foreach ($ar as $value) {
             $url = $member->GetImgIdPath($value);
             $controller->Image->resize($imgOri, $url, 0, $value, 90);
         }
-        
+
         $controller->Flash->success(__('The picture has been saved.'));
         return true;
     }
@@ -193,7 +192,7 @@ class MemberDocumentComponent extends Component
     {
         $controller = $this->getController();
         $member = $controller->Members->get($memberId, contain: ['Teams']);
-        
+
         if (empty($fileData)) {
             return false;
         }
@@ -204,7 +203,7 @@ class MemberDocumentComponent extends Component
             $controller->Flash->error(__("Failed to send document"));
             return false;
         }
-        
+
         if ($fileobject1->getClientMediaType() != "application/pdf") {
             $controller->Flash->error(__("PDF only"));
             return false;
@@ -241,7 +240,7 @@ class MemberDocumentComponent extends Component
                 $files[$value->name]['title'] = $value->title;
             }
         }
-        
+
         return $files;
     }
 }

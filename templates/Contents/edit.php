@@ -12,12 +12,12 @@
     <div class="side-nav">
       <h4 class="heading"><?= __('Actions') ?></h4>
       <?=
-      $this->Form->postLink(
-        __('Delete'),
-        ['action' => 'delete', $content->id],
-        ['confirm' => __('Are you sure you want to delete # {0}?', $content->id), 'class' => 'side-nav-item']
-      )
-      ?>
+        $this->Form->postLink(
+            __('Delete'),
+            ['action' => 'delete', $content->id],
+            ['confirm' => __('Are you sure you want to delete # {0}?', $content->id), 'class' => 'side-nav-item']
+        )
+        ?>
       <?= $this->Html->link(__('List'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
     </div>
   </aside>

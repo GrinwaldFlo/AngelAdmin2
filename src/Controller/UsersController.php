@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Controller;
+
 use App\Model\Table\UsersTable;
 use App\Utility\RateLimiter;
 use Cake\Log\Log;
@@ -182,7 +185,7 @@ class UsersController extends AppController
 
             if (!$passwordMatch) {
                 $this->Flash->error(__('Please enter twice the same passowrd'));
-            } else if ($this->Users->save($user)) {
+            } elseif ($this->Users->save($user)) {
                 $this->Flash->success(__('You have been successfully registered, now you can login'));
                 return $this->redirect('/');
             } else {
@@ -207,7 +210,8 @@ class UsersController extends AppController
                 return;
             }
 
-            $user = $this->Users->find('all',
+            $user = $this->Users->find(
+                'all',
                 conditions: [
                     'OR' => [
                         'Members.email' => $emailOrUsername,
@@ -268,7 +272,12 @@ class UsersController extends AppController
             return $this->redirect('/');
         }
 
-        $user = $this->Users->findByTokenhash($token)->Contain('Members')->firstOrFail();
+        $user = $this->Users->findByTokenhash($token)->contain('Members')->first();
+        // Link already used, or replaced by a newer reset request
+        if ($user === null) {
+            $this->Flash->error(__('This link has expired or has already been used. Ask for a new one.'));
+            return $this->redirect(['action' => 'forgotPassword']);
+        }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             // Only the password, the link can be used once

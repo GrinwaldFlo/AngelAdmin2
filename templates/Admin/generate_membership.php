@@ -8,8 +8,8 @@
 <div class="row">
   <div class="col">
     <div class="members view content">
-      <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'generateMembership', $teamId == $key ? 0 : $key], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+      <?php foreach ($teams as $key => $team) : ?>
+            <?= $this->Html->link(h($team), ['action' => 'generateMembership', $teamId == $key ? 0 : $key], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>
@@ -31,7 +31,7 @@
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($members as $member): ?>
+      <?php foreach ($members as $member) : ?>
         <tr>
           <td><?= $this->Html->link($member->fullName, ['controller' => 'Members', 'action' => 'view', $member->id]) ?></td>
           <td><?= $member->date_birth ? h($member->Age) : '' ?></td>
@@ -40,13 +40,10 @@
           <td><?= h($member->MembershipFee($site->feeMax)) ?></td>
           <td>
             <?php
-            if ($member->HasMembershipFee($config))
-            {
-              echo $member->MembershipFeePaid($config);
-            }
-            else
-            {
-              echo $this->Form->control('MemberId.' . $member->id, ['type' => 'checkbox', 'label' => __("Create")]);
+            if ($member->HasMembershipFee($config)) {
+                echo $member->MembershipFeePaid($config);
+            } else {
+                echo $this->Form->control('MemberId.' . $member->id, ['type' => 'checkbox', 'label' => __("Create")]);
             }
             ?>
           </td>

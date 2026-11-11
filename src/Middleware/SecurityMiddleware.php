@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Middleware;
@@ -12,7 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Security Middleware
- * 
+ *
  * Provides additional security features including:
  * - Rate limiting
  * - Security headers
@@ -27,16 +28,16 @@ class SecurityMiddleware implements MiddlewareInterface
     {
         // Add security headers to response
         $response = $handler->handle($request);
-        
+
         // Add security headers if not already set
         $response = $this->addSecurityHeaders($response, $request);
-        
+
         // Log suspicious requests
         $this->logSuspiciousActivity($request);
-        
+
         return $response;
     }
-    
+
     /**
      * Add security headers to the response
      */
@@ -49,12 +50,12 @@ class SecurityMiddleware implements MiddlewareInterface
             'X-XSS-Protection' => '1; mode=block',
             'Referrer-Policy' => 'strict-origin-when-cross-origin',
         ];
-        
+
         // Add HSTS for HTTPS requests
         if ($request->getUri()->getScheme() === 'https') {
             $headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains';
         }
-        
+
         // Add CSP header (Google Fonts for the Material icons, jsDelivr for signature_pad)
         $csp = "default-src 'self'; " .
                "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; " .
@@ -63,20 +64,20 @@ class SecurityMiddleware implements MiddlewareInterface
                "font-src 'self' data: https://fonts.gstatic.com; " .
                "connect-src 'self'";
         $headers['Content-Security-Policy'] = $csp;
-        
+
         foreach ($headers as $header => $value) {
             if (!$response->hasHeader($header)) {
                 $response = $response->withHeader($header, $value);
             }
         }
-        
+
         // Remove server identification headers
         $response = $response->withoutHeader('Server');
         $response = $response->withoutHeader('X-Powered-By');
-        
+
         return $response;
     }
-    
+
     /**
      * Log suspicious activity
      */
@@ -86,41 +87,43 @@ class SecurityMiddleware implements MiddlewareInterface
         $method = $request->getMethod();
         $userAgent = $request->getHeaderLine('User-Agent');
         $clientIp = $this->getClientIp($request);
-        
+
         // Log requests to sensitive paths
         $sensitivePaths = [
-            '/config', '/.env', '/backup', 
+            '/config', '/.env', '/backup',
             '/phpinfo', '/wp-admin', '/wp-login',
             '/phpmyadmin', '/.git', '/.svn'
         ];
-        
+
         foreach ($sensitivePaths as $path) {
             if (strpos($uri, $path) !== false) {
-                \Cake\Log\Log::write('warning', 
+                \Cake\Log\Log::write(
+                    'warning',
                     "Suspicious request to sensitive path: {$uri} from IP: {$clientIp}, User-Agent: {$userAgent}",
                     ['scope' => ['security']]
                 );
                 break;
             }
         }
-        
+
         // Log requests with suspicious user agents
         $suspiciousUserAgents = [
             'nikto', 'sqlmap', 'nmap', 'masscan', 'zap',
             'burp', 'w3af', 'acunetix', 'nessus'
         ];
-        
+
         $lowerUserAgent = strtolower($userAgent);
         foreach ($suspiciousUserAgents as $suspicious) {
             if (strpos($lowerUserAgent, $suspicious) !== false) {
-                \Cake\Log\Log::write('warning',
+                \Cake\Log\Log::write(
+                    'warning',
                     "Suspicious User-Agent detected: {$userAgent} from IP: {$clientIp} requesting: {$uri}",
                     ['scope' => ['security']]
                 );
                 break;
             }
         }
-        
+
         // Log requests with suspicious parameters
         // Array parameters (ids[]=1) are checked value by value
         $queryParams = [];
@@ -134,7 +137,8 @@ class SecurityMiddleware implements MiddlewareInterface
             $lowerValue = strtolower($value);
             foreach ($suspiciousParams as $suspicious) {
                 if (strpos($lowerValue, $suspicious) !== false) {
-                    \Cake\Log\Log::write('warning',
+                    \Cake\Log\Log::write(
+                        'warning',
                         "Suspicious query parameter detected: {$param}={$value} from IP: {$clientIp}",
                         ['scope' => ['security']]
                     );
@@ -143,14 +147,14 @@ class SecurityMiddleware implements MiddlewareInterface
             }
         }
     }
-    
+
     /**
      * Get client IP address
      */
     private function getClientIp(ServerRequestInterface $request): string
     {
         $serverParams = $request->getServerParams();
-        
+
         // Check for IP from shared internet
         if (!empty($serverParams['HTTP_CLIENT_IP'])) {
             return $serverParams['HTTP_CLIENT_IP'];
@@ -163,7 +167,7 @@ class SecurityMiddleware implements MiddlewareInterface
         elseif (!empty($serverParams['REMOTE_ADDR'])) {
             return $serverParams['REMOTE_ADDR'];
         }
-        
+
         return 'unknown';
     }
 }

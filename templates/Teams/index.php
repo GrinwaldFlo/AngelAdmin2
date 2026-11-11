@@ -20,7 +20,7 @@
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($teams as $team): ?>
+      <?php foreach ($teams as $team) : ?>
         <tr>
           <td><?= $this->Number->format($team->id) ?></td>
           <td><?= $this->Html->link($team->name, ['action' => 'view', $team->id]) ?></td>

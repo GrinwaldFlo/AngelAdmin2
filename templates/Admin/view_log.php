@@ -20,13 +20,18 @@ $this->assign('title', ucfirst($type) . ' Log');
     .log-line-number { color: #888; margin-right: 0.5em; }
 </style>
 <div class="log-lines">
-<?php foreach ($lines as $i => $line): 
+<?php foreach ($lines as $i => $line) :
     $level = '';
-    if (stripos($line, 'error') !== false) $level = 'level-error';
-    elseif (stripos($line, 'warning') !== false) $level = 'level-warning';
-    elseif (stripos($line, 'info') !== false) $level = 'level-info';
-    elseif (stripos($line, 'debug') !== false) $level = 'level-debug';
-?>
+    if (stripos($line, 'error') !== false) {
+        $level = 'level-error';
+    } elseif (stripos($line, 'warning') !== false) {
+        $level = 'level-warning';
+    } elseif (stripos($line, 'info') !== false) {
+        $level = 'level-info';
+    } elseif (stripos($line, 'debug') !== false) {
+        $level = 'level-debug';
+    }
+    ?>
     <div class="log-line">
        <span class="<?= $level ?>"><?= h($line) ?></span>
     </div>

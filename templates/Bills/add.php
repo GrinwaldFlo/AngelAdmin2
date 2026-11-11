@@ -15,7 +15,7 @@ $dateBill->add($interval);
         <legend><?= h(__('Add invoice to {0}', $curMember->full_name)) ?></legend>
         <?php
         echo $this->Form->control('member_id', ['type' => 'hidden', 'value' => $curMember->id]);
-        echo $this->Form->control('label', ['label' => __x('Label on the invoice','Denomination'), 'id' => 'label']);
+        echo $this->Form->control('label', ['label' => __x('Label on the invoice', 'Denomination'), 'id' => 'label']);
         echo $this->Form->control('amount', ['label' => __('Amount'), 'id' => 'amount']);
         echo $this->Form->control('printed', ['value' => 0, 'label' => __('Printed'), 'type' => 'hidden']);
         echo $this->Form->control('paid', ['value' => 0, 'label' => __('Paid'), 'type' => 'hidden']);
@@ -71,9 +71,8 @@ $dateBill->add($interval);
     $("#membership_fee").prop('checked', true);
   });
 <?php
-foreach ($billTemplates as $value)
-{
-  echo <<<EOL
+foreach ($billTemplates as $value) {
+    echo <<<EOL
   $("#$value->id").click(function () {
     $("#label").val("$value->label");
     $("#amount").val("$value->amount");

@@ -1,6 +1,8 @@
 <!-- in /templates/Users/login.php -->
 <?php
+
 use Cake\Core\Configure;
+
 ?>
 
 <div class="login-page">
@@ -68,7 +70,7 @@ use Cake\Core\Configure;
                                 <i><?= __('We will send you a secure link to access your account') ?></i>
 
                                 <?= $this->Form->control('full_name', [
-                                    'required' => true, 
+                                    'required' => true,
                                     'label' => "",
                                     'placeholder' => __('Full name (First name Last name) or email'),
                                     'autocomplete' => 'on',
@@ -91,14 +93,14 @@ use Cake\Core\Configure;
                                 <i><?= __('You need one account per athlete') ?></i>
 
                                 <?= $this->Form->control('username', [
-                                    'required' => true, 
+                                    'required' => true,
                                     'label' => __('Username'),
                                     'autocomplete' => 'username',
                                     'id' => 'username-input',
                                     'name' => 'username'
                                 ]) ?>
                                 <?= $this->Form->control('password', [
-                                    'required' => true, 
+                                    'required' => true,
                                     'label' => __('Password'),
                                     'autocomplete' => 'current-password',
                                     'id' => 'password-input',

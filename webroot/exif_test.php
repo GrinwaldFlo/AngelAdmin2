@@ -1,7 +1,8 @@
 <?php
+
 /**
  * EXIF Test Script
- * 
+ *
  * Place this file in your webroot and access it via browser to test EXIF functionality
  * Usage: http://yoursite.com/exif_test.php
  */
@@ -38,23 +39,23 @@ foreach ($testImages as $imagePath) {
         echo "<p>?? Image not found: $imagePath</p>";
         continue;
     }
-    
+
     echo "<h3>Testing: $imagePath</h3>";
-    
+
     $exif = @exif_read_data($imagePath);
-    
+
     if ($exif === false) {
         echo "<p style='color: orange;'>?? No EXIF data or failed to read</p>";
         continue;
     }
-    
+
     if (empty($exif)) {
         echo "<p style='color: orange;'>?? EXIF data is empty</p>";
         continue;
     }
-    
+
     echo "<p style='color: green;'>? EXIF data found</p>";
-    
+
     // Check for orientation
     $orientation = null;
     if (isset($exif['Orientation'])) {
@@ -66,7 +67,7 @@ foreach ($testImages as $imagePath) {
     } else {
         echo "<p style='color: orange;'>?? No orientation data</p>";
     }
-    
+
     // Show key EXIF data
     $keyFields = ['Make', 'Model', 'DateTime', 'Software'];
     echo "<ul>";
@@ -81,18 +82,18 @@ foreach ($testImages as $imagePath) {
 echo "<h2>Upload Test Image</h2>";
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['test_image'])) {
     $uploadedFile = $_FILES['test_image'];
-    
+
     if ($uploadedFile['error'] === UPLOAD_ERR_OK) {
         $tempPath = $uploadedFile['tmp_name'];
         echo "<h3>Testing uploaded image: " . htmlspecialchars($uploadedFile['name']) . "</h3>";
-        
+
         $exif = @exif_read_data($tempPath);
-        
+
         if ($exif === false) {
             echo "<p style='color: orange;'>?? No EXIF data found in uploaded image</p>";
         } else {
             echo "<p style='color: green;'>? EXIF data found in uploaded image</p>";
-            
+
             if (isset($exif['Orientation'])) {
                 echo "<p style='color: green;'>? Orientation: " . $exif['Orientation'] . "</p>";
             } elseif (isset($exif['IFD0']['Orientation'])) {
@@ -100,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['test_image'])) {
             } else {
                 echo "<p style='color: orange;'>?? No orientation data in uploaded image</p>";
             }
-            
+
             // Show all EXIF sections
             echo "<h4>EXIF Sections Found:</h4>";
             echo "<ul>";

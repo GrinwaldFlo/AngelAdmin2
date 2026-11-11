@@ -1,12 +1,15 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Controller;
+
 use Cake\Utility\Text;
 use Cake\Routing\Router;
 use Cake\Mailer\Mailer;
 use Cake\I18n\I18n;
 use Cake\ORM\TableRegistry;
-use \Exception;
+use Exception;
 
 /**
  * Bills Controller
@@ -95,14 +98,12 @@ class BillsController extends AppController
             // $result[$value->member->id]['Name'] = $value->member->FullName;
             // $result[$value->member->id][$value->label] = ['Status' => $value->StatusHtml, 'Amount' => $value->amount]; //['Status']
 
-            if (!$value->paid || ($value->due_date < $twoYearsFromNow && substr($value->label, 0, 10) !== "Cotisation")) //
-            {
+            if (!$value->paid || ($value->due_date < $twoYearsFromNow && substr($value->label, 0, 10) !== "Cotisation")) { //
                 $result[$value->member->FullName][$value->label] = ['Status' => $value->StatusHtml, 'Amount' => $value->amount];
             }
         }
         ksort($result);
         $this->set(compact('bills', 'memberStatus', 'billStatus', 'result'));
-
     }
 
     /**
@@ -710,5 +711,4 @@ class BillsController extends AppController
             //$bill->DeleteBillPdf();
         }
     }
-
 }

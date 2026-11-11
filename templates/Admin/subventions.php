@@ -1,7 +1,7 @@
-<?php 
-if ($grid): 
-?>
-  <?php $this->layout = "empty"; ?>
+<?php
+if ($grid) :
+    ?>
+    <?php $this->layout = "empty"; ?>
 
   <table class="table table-striped table-hover table-sm">
     <thead>
@@ -13,19 +13,19 @@ if ($grid):
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($membersCityList as $city): ?>
-        <?php foreach ($membersCity[$city] as $member): ?>
+      <?php foreach ($membersCityList as $city) : ?>
+            <?php foreach ($membersCity[$city] as $member) : ?>
           <tr>
             <td><?= $city ?></td>
             <td><?= $this->Html->link($member->fullName, ['controller' => 'Members', 'action' => 'view', $member->id]) ?></td>
             <td><?= h($member->date_birth) ?></td>
             <td><?= $member->Age ?></td>
           </tr>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
       <?php endforeach; ?>
     </tbody>
   </table>
-  <?php return; ?>
+    <?php return; ?>
 <?php endif ?>
 
 <div class="row">
@@ -43,7 +43,7 @@ if ($grid):
   </div>
 </div>
 
-<?php foreach ($membersCityList as $city): ?>
+<?php foreach ($membersCityList as $city) : ?>
   <div class="row">
     <div class="col">
       <div class="members view content">
@@ -57,7 +57,7 @@ if ($grid):
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($membersCity[$city] as $member): ?>
+            <?php foreach ($membersCity[$city] as $member) : ?>
               <tr>
                 <td><?= $this->Html->link($member->fullName, ['controller' => 'Members', 'action' => 'view', $member->id]) ?></td>
                 <td><?= h($member->date_birth) ?></td>

@@ -9,8 +9,8 @@
     <div class="members view content">
       <?= $this->my->memberFilterLinks(['action' => 'listEmail', $teamId], $memberFilter, [1, 2, 3]) ?>
       |
-      <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'listEmail', $teamId == $key ? 0 : $key, $memberFilter], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+      <?php foreach ($teams as $key => $team) : ?>
+            <?= $this->Html->link(h($team), ['action' => 'listEmail', $teamId == $key ? 0 : $key, $memberFilter], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>
@@ -18,11 +18,11 @@
 <div class="members index content">
   <h3><?= __('Email list') ?></h3>
 
-  <?php foreach ($members as $member): ?>
-            <?php foreach ($member->GetAllMails() as $email): ?>
-            <?= h($email) ?><br>
+  <?php foreach ($members as $member) : ?>
+            <?php foreach ($member->GetAllMails() as $email) : ?>
+                <?= h($email) ?><br>
             <?php endforeach; ?>
-     <?php endforeach; ?>
+  <?php endforeach; ?>
 
   <table class="table table-striped table-hover table-sm">
     <thead>
@@ -36,12 +36,12 @@
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($members as $member): ?>
+      <?php foreach ($members as $member) : ?>
         <tr> 
           <td><?= $this->Html->link($member->first_name, ['action' => 'view', $member->id]) ?></td>
           <td><?= $this->Html->link($member->last_name, ['action' => 'view', $member->id]) ?></td>
           <td><?= h($member->TeamString) ?></td>
-            <?php foreach ($member->GetAllMails() as $email): ?>
+            <?php foreach ($member->GetAllMails() as $email) : ?>
             <td><?= h($email) ?></td>
             <?php endforeach; ?>
         </tr>

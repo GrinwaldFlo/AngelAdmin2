@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Paginator of the shop lists
  * @var \App\View\AppView $this

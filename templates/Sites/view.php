@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Site $site
@@ -67,7 +68,7 @@
           <td><?= $this->Number->format($site->reminder_penalty) ?></td>
         </tr>
         <tr>
-          <th><?= __x('Reference like "invoice number"','Add to invoice reference') ?></th>
+          <th><?= __x('Reference like "invoice number"', 'Add to invoice reference') ?></th>
           <td><?= $this->Number->format($site->add_invoice_num) ?></td>
         </tr>
       </table>

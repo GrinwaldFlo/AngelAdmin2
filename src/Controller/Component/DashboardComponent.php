@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller\Component;
 
 use App\Model\Entity\Member;

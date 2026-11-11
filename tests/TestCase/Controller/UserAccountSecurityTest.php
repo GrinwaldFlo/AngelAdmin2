@@ -284,7 +284,17 @@ class UserAccountSecurityTest extends TestCase
         $this->assertSame('', $user->tokenhash);
         // The link does not work a second time
         $this->get('/users/reset/' . $token);
-        $this->assertResponseCode(404);
+        $this->assertRedirect(['controller' => 'Users', 'action' => 'forgotPassword']);
+        $this->assertFlashElement('flash/error');
+    }
+
+    public function testResetWithUnknownTokenAsksForANewLink(): void
+    {
+        $this->get('/users/reset/' . str_repeat('b', 40));
+
+        $this->assertRedirect(['controller' => 'Users', 'action' => 'forgotPassword']);
+        // The flash is translated (test locale is fr): check the element, not the text
+        $this->assertFlashElement('flash/error');
     }
 
     public function testResetNeedsAPassword(): void

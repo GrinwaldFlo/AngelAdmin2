@@ -8,11 +8,11 @@
         <?= $this->Form->create() ?>
         <fieldset>
           <?php
-          $hasData = true;
-          echo $this->my->ImageFromBlob($value->signature_member);
-          echo $this->my->ImageFromBlob($value->signature_parent);
-          echo $this->Form->control('member_id', ['value' => $value->member->id, 'type' => 'hidden']);
-          ?>
+            $hasData = true;
+            echo $this->my->ImageFromBlob($value->signature_member);
+            echo $this->my->ImageFromBlob($value->signature_parent);
+            echo $this->Form->control('member_id', ['value' => $value->member->id, 'type' => 'hidden']);
+            ?>
         </fieldset>
         <?= $this->Form->button(__('Validate'), ['class' => 'btn btn-save']) ?>
         <?= $this->Form->button(__('Delete'), ['name' => 'Delete', 'value' => 'Delete', 'class' => 'btn btn-delete']) ?>
@@ -24,8 +24,7 @@
 <?php endforeach; ?>
 
 <?php
-if (!isset( $hasData))
-{
-  echo __('Nothing to validate');
+if (!isset($hasData)) {
+    echo __('Nothing to validate');
 }
 ?>

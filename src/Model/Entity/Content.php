@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Model\Entity;
+
 use Cake\ORM\Entity;
 
 /**
@@ -17,8 +20,8 @@ use Cake\ORM\Entity;
  */
 class Content extends Entity
 {
-  public const SUBVENTIONS = 11;
-  public const EMAIL_SUBVENTIONS = 12;
+    public const SUBVENTIONS = 11;
+    public const EMAIL_SUBVENTIONS = 12;
 
   /**
    * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -29,29 +32,29 @@ class Content extends Entity
    *
    * @var array
    */
-  protected array $_accessible = [
+    protected array $_accessible = [
       'text' => true,
       'location' => true,
       'url' => true,
       'team_id' => true,
       'team' => true,
       'sort' => true,
-  ];
+    ];
   /**
    * Text saved with TinyMCE is HTML, it may contain only entities (&eacute;) without tags
    */
-  public static function isHtml(string $text): bool
-  {
-    return (bool)preg_match('/<[a-z][^>]*>|&#?[a-z0-9]+;/i', $text);
-  }
+    public static function isHtml(string $text): bool
+    {
+        return (bool)preg_match('/<[a-z][^>]*>|&#?[a-z0-9]+;/i', $text);
+    }
 
-  public function getLocationList()
-  {
-    return [
-        0 => 'No location', 
-        1 => 'Top menu', 
-        2 => 'Home message', 
-        3 => 'Info page', 
+    public function getLocationList()
+    {
+        return [
+        0 => 'No location',
+        1 => 'Top menu',
+        2 => 'Home message',
+        3 => 'Info page',
         4 => 'Home page',
         5 => 'Title event',
         6 => 'Title big event',
@@ -62,11 +65,10 @@ class Content extends Entity
         self::SUBVENTIONS => 'Subventions',
         self::EMAIL_SUBVENTIONS => 'Email subventions',
         ];
-  }
+    }
 
-  protected function _getLocationStr()
-  {
-    return $this->getLocationList()[$this->location] ?? '';
-  }
-
+    protected function _getLocationStr()
+    {
+        return $this->getLocationList()[$this->location] ?? '';
+    }
 }

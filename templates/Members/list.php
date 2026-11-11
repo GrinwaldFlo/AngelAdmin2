@@ -9,15 +9,15 @@
     <div class="members view content">
       <?= $this->my->memberFilterLinks(['action' => 'list', $teamId], $memberFilter, [1, 2, 3]) ?>
       |
-      <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'list', $teamId == $key ? 0 : $key, $memberFilter], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+      <?php foreach ($teams as $key => $team) : ?>
+            <?= $this->Html->link(h($team), ['action' => 'list', $teamId == $key ? 0 : $key, $memberFilter], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>
 </div>
 <div class="members index content">
   <?php if ($curRole->MemberEditAll) : ?>
-    <?= $this->Html->link('', ['action' => 'add'], ['class' => 'float-end gg-add-r']) ?>
+        <?= $this->Html->link('', ['action' => 'add'], ['class' => 'float-end gg-add-r']) ?>
   <?php endif; ?>
   <h3><?= __('List') ?></h3>
   <table class="table table-striped table-hover table-sm">
@@ -37,7 +37,7 @@
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($members as $member): ?>
+      <?php foreach ($members as $member) : ?>
         <tr> 
           <td><?= $this->Html->link($member->first_name, ['action' => 'view', $member->id]) ?></td>
           <td><?= $this->Html->link($member->last_name, ['action' => 'view', $member->id]) ?></td>

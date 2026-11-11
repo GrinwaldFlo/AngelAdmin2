@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Member[]|\Cake\Collection\CollectionInterface $members
@@ -6,6 +7,7 @@
 
 use App\Controller\PrefResult;
 use Symfony\Component\String\Inflector\SpanishInflector;
+
 $teamId = $pref->teamId;
 $memberFilter = $pref->memberFilter;
 $teams = $pref->teams;
@@ -25,7 +27,7 @@ $teams = $pref->teams;
 <div class="row p-0 m-0">
     <div class="col p-0 m-0">
         <div class="members view content">
-            <?php if ($curRole->MemberEditAll): ?>
+            <?php if ($curRole->MemberEditAll) : ?>
                 <?= $this->Html->link('', ['action' => 'add'], ['class' => 'float-end gg-add-r']) ?>
             <?php endif; ?>
             <h3 class="d-inline"><?= __('Members') ?></h3>
@@ -54,7 +56,7 @@ $teams = $pref->teams;
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($members as $member): ?>
+                    <?php foreach ($members as $member) : ?>
                         <tr>
                             <td>
                                 <?php

@@ -4,8 +4,8 @@
       <?= $this->Html->link(__('Active'), ['action' => 'generate_reminder', $memberStatus == 1 ? 0 : 1], ['class' => 'btn btn-filter btn-sm' . ($memberStatus == 1 ? ' pressed' : '')]) ?>
       <?= $this->Html->link(__('Alumni'), ['action' => 'generate_reminder', $memberStatus == 2 ? 0 : 2], ['class' => 'btn btn-filter btn-sm' . ($memberStatus == 2 ? ' pressed' : '')]) ?>
       |
-      <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'generate_reminder', $memberStatus, $teamId == $key ? 0 : $key], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+      <?php foreach ($teams as $key => $team) : ?>
+          <?= $this->Html->link(h($team), ['action' => 'generate_reminder', $memberStatus, $teamId == $key ? 0 : $key], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>
@@ -18,7 +18,7 @@
   <?= $this->Form->create() ?>
   <table class="table table-striped table-hover table-sm">
     <tbody>
-      <?php foreach ($bills as $bill): ?>
+      <?php foreach ($bills as $bill) : ?>
         <tr>
           <td><?= $this->Form->control('BillId.' . $bill->id, ['type' => 'checkbox', 'label' => false, 'checked' => true]); ?></td>
           <td><?= $bill->has('member') ? $this->Html->link($bill->member->FullName, ['controller' => 'Members', 'action' => 'view', $bill->member->id], ['target' => '_blank']) : '' ?></td>

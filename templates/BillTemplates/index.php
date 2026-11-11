@@ -19,7 +19,7 @@
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($billTemplates as $billTemplate): ?>
+      <?php foreach ($billTemplates as $billTemplate) : ?>
         <tr>
           <td><?= $this->Number->format($billTemplate->id) ?></td>
           <td><?= h($billTemplate->label) ?></td>

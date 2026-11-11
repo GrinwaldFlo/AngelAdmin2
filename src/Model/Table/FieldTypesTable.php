@@ -1,6 +1,9 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Model\Table;
+
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -33,18 +36,18 @@ class FieldTypesTable extends Table
    * @param array $config The configuration for the Table.
    * @return void
    */
-  public function initialize(array $config): void
-  {
-    parent::initialize($config);
+    public function initialize(array $config): void
+    {
+        parent::initialize($config);
 
-    $this->setTable('field_types');
-    $this->setDisplayField('id');
-    $this->setPrimaryKey('id');
+        $this->setTable('field_types');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
-    $this->hasMany('Fields', [
+        $this->hasMany('Fields', [
         'foreignKey' => 'field_type_id',
-    ]);
-  }
+        ]);
+    }
 
   /**
    * Default validation rules.
@@ -52,35 +55,34 @@ class FieldTypesTable extends Table
    * @param \Cake\Validation\Validator $validator Validator instance.
    * @return \Cake\Validation\Validator
    */
-  public function validationDefault(Validator $validator): Validator
-  {
-    $validator
-      ->integer('id')
-      ->allowEmptyString('id', null, 'create');
+    public function validationDefault(Validator $validator): Validator
+    {
+        $validator
+        ->integer('id')
+        ->allowEmptyString('id', null, 'create');
 
-    $validator
-      ->scalar('label')
-      ->maxLength('label', 100)
-      ->requirePresence('label', 'create')
-      ->notEmptyString('label');
+        $validator
+        ->scalar('label')
+        ->maxLength('label', 100)
+        ->requirePresence('label', 'create')
+        ->notEmptyString('label');
 
-    $validator
-      ->integer('style')
-      ->notEmptyString('style');
+        $validator
+        ->integer('style')
+        ->notEmptyString('style');
 
-    $validator
-      ->integer('member_edit')
-      ->notEmptyString('member_edit');
+        $validator
+        ->integer('member_edit')
+        ->notEmptyString('member_edit');
 
-    $validator
-      ->integer('hidden')
-      ->notEmptyString('hidden');
+        $validator
+        ->integer('hidden')
+        ->notEmptyString('hidden');
 
-    $validator
-      ->integer('mandatory')
-      ->notEmptyString('mandatory');
+        $validator
+        ->integer('mandatory')
+        ->notEmptyString('mandatory');
 
-    return $validator;
-  }
-
+        return $validator;
+    }
 }

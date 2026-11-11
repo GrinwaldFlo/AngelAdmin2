@@ -1,4 +1,5 @@
 <?php
+
 /**
  * One line with the coaches then the help-coaches of a team, nothing if the team has none
  *

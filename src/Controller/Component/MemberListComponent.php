@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
@@ -6,7 +7,7 @@ use Cake\ORM\TableRegistry;
 
 /**
  * Member List Component
- * 
+ *
  * Handles various member list views and filtering operations
  */
 class MemberListComponent extends Component
@@ -17,7 +18,7 @@ class MemberListComponent extends Component
     public function getMembersList($pref, $finder = 'Members', $contain = ['Teams'])
     {
         $controller = $this->getController();
-        
+
         return $controller->paginate($controller->scopeMembers($controller->Members->find(
             $finder,
             teamId: $pref->teamId,
@@ -32,7 +33,7 @@ class MemberListComponent extends Component
     public function getBirthdaysList($teamId, $memberFilter)
     {
         $controller = $this->getController();
-        
+
         return $controller->scopeMembers($controller->Members->find(
             'Members',
             teamId: $teamId,
@@ -56,7 +57,7 @@ class MemberListComponent extends Component
     public function getEmailList($teamId, $memberFilter)
     {
         $controller = $this->getController();
-        
+
         return $controller->paginate($controller->scopeMembers($controller->Members->find(
             'Members',
             teamId: $teamId,
@@ -90,7 +91,7 @@ class MemberListComponent extends Component
     public function getPicturesList($teamId, $memberFilter)
     {
         $controller = $this->getController();
-        
+
         return $controller->paginate($controller->scopeMembers($controller->Members->find(
             'Members',
             teamId: $teamId,
@@ -116,7 +117,7 @@ class MemberListComponent extends Component
 
     /**
      * Clean address by removing punctuation and common road prefixes
-     * 
+     *
      * @param string $address The address to clean
      * @return string The cleaned address
      */
@@ -124,22 +125,21 @@ class MemberListComponent extends Component
     {
         // Remove dots and commas
         $cleaned = str_replace(['.', ',', '-'], ' ', (string)$address);
-        
+
         // Convert to lowercase
         $cleaned = strtolower($cleaned);
-        
+
         // Remove common road prefixes (as whole words)
         $wordsToRemove = ['rte', 'de', 'route', 'ch', 'chemin', 'av', 'la', 'du', 'l\'', 'des', 'rue'];
         $pattern = '/\b(' . implode('|', $wordsToRemove) . ')\b/';
         $cleaned = preg_replace($pattern, '', $cleaned);
-        
+
         // Remove extra spaces
         $cleaned = preg_replace('/\s+/', ' ', $cleaned);
-        
+
         // Trim leading/trailing spaces
         $cleaned = trim($cleaned);
-        
+
         return $cleaned;
     }
-
 }

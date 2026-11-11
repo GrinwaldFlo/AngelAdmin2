@@ -11,8 +11,8 @@ $monthStr = [0 => '', 1 => __('January'), 2 => __('February'), 3 => __('March'),
     <div class="members view content">
       <?= $this->my->memberFilterLinks(['action' => 'birthdays', $teamId], $memberFilter, [1, 2]) ?>
       |
-      <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'birthdays', $teamId == $key ? 0 : $key, $memberFilter], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+      <?php foreach ($teams as $key => $team) : ?>
+            <?= $this->Html->link(h($team), ['action' => 'birthdays', $teamId == $key ? 0 : $key, $memberFilter], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>
@@ -34,23 +34,23 @@ $monthStr = [0 => '', 1 => __('January'), 2 => __('February'), 3 => __('March'),
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($members as $member): ?>
-        <?php if (!empty($member->date_birth) && $curMonth != $member->date_birth->month) : ?>
-          <?php $curMonth = $member->date_birth->month; ?>
+      <?php foreach ($members as $member) : ?>
+            <?php if (!empty($member->date_birth) && $curMonth != $member->date_birth->month) : ?>
+                <?php $curMonth = $member->date_birth->month; ?>
           <tr>
             <td><b><?= $monthStr[$curMonth] ?></b></td>
           </tr>
-        <?php endif; ?>
+            <?php endif; ?>
         <tr>
           <td><?= $this->Html->link($member->fullName, ['action' => 'view', $member->id]) ?></td>
           <td><?= h($member->date_birth) ?></td>
           <td><?= $member->date_birth ? h($member->Age) : '' ?></td>
           <td><?= h($member->TeamString) ?></td>
-          <?php if (false && $curRole->MemberEditAll) : ?>
+            <?php if (false && $curRole->MemberEditAll) : ?>
             <td class="actions">
-              <?= $this->Html->link(__('Edit'), ['action' => 'edit', $member->id]) ?>
+                <?= $this->Html->link(__('Edit'), ['action' => 'edit', $member->id]) ?>
             </td>
-          <?php endif; ?>
+            <?php endif; ?>
         </tr>
       <?php endforeach; ?>
     </tbody>

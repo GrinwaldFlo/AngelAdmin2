@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Example view helper usage for HEIC-aware file uploads
  * Place this in your view file where photo uploads are handled
@@ -28,12 +29,12 @@ $imageSupport = $this->ImageSupport->getSupportedFormats();
         ]) ?>
         
         <small class="form-text text-muted">
-            <?php if ($imageSupport['heic']): ?>
+            <?php if ($imageSupport['heic']) : ?>
                 <i class="fas fa-check-circle text-success"></i>
                 <?= __('Accepts: JPEG and HEIC images (up to 10MB)') ?>
                 <br>
                 <em><?= __('HEIC images from iOS devices will be automatically converted to JPEG') ?></em>
-            <?php else: ?>
+            <?php else : ?>
                 <i class="fas fa-info-circle text-info"></i>
                 <?= __('Accepts: JPEG images only (up to 10MB)') ?>
                 <br>
@@ -76,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log(`Selected: ${fileName} (${fileSize}MB, ${fileType})`);
         
         // Show HEIC conversion notice
-        <?php if ($imageSupport['heic']): ?>
+        <?php if ($imageSupport['heic']) : ?>
         if (fileType.includes('heic') || fileType.includes('heif')) {
             const notice = document.createElement('div');
             notice.className = 'alert alert-info mt-2';

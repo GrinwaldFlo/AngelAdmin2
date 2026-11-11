@@ -10,8 +10,8 @@ $dateBill->add($interval);
       <?= $this->Html->link(__('Active'), ['action' => 'batchAdd', $teamId, $memberFilter == 1 ? 0 : 1], ['class' => 'btn btn-filter btn-sm' . ($memberFilter == 1 ? ' pressed' : '')]) ?>
       <?= $this->Html->link(__('Alumni'), ['action' => 'batchAdd', $teamId, $memberFilter == 2 ? 0 : 2], ['class' => 'btn btn-filter btn-sm' . ($memberFilter == 2 ? ' pressed' : '')]) ?>
       |
-      <?php foreach ($teams as $key => $team): ?>
-        <?= $this->Html->link(h($team), ['action' => 'batchAdd', $teamId == $key ? 0 : $key, $memberFilter], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+      <?php foreach ($teams as $key => $team) : ?>
+            <?= $this->Html->link(h($team), ['action' => 'batchAdd', $teamId == $key ? 0 : $key, $memberFilter], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>
@@ -49,10 +49,10 @@ $dateBill->add($interval);
       <input type="text" id="memberFilter" class="form-control" placeholder="<?= __('Search members...') ?>">
     </div>
     <div id="membersList" style="display: flex; flex-wrap: wrap; gap: 10px;">
-      <?php foreach ($members as $member): ?>
+      <?php foreach ($members as $member) : ?>
         <div class="member-item" data-fullname="<?= strtolower(h($member->FullName)) ?>" style="display: flex; align-items: center; border: 1px solid #ddd; padding: 6px 8px 5px 30px; border-radius: 4px; background-color: #f8f9fa;">
-          <?= $this->Form->control('MemberId.' . $member->id, ['type' => 'checkbox', 'label' => false, 'class' => 'checkable', 'style' => 'margin-right: 5px;', 'templates' => ['formGroup' => '{{input}}']]); ?>
-          <?= $this->Html->link($member->FullName, ['controller' => 'Members', 'action' => 'view', $member->id], ['target' => '_blank']) ?>
+            <?= $this->Form->control('MemberId.' . $member->id, ['type' => 'checkbox', 'label' => false, 'class' => 'checkable', 'style' => 'margin-right: 5px;', 'templates' => ['formGroup' => '{{input}}']]); ?>
+            <?= $this->Html->link($member->FullName, ['controller' => 'Members', 'action' => 'view', $member->id], ['target' => '_blank']) ?>
         </div>
       <?php endforeach; ?>
     </div>
@@ -96,9 +96,8 @@ $dateBill->add($interval);
   });
 
 <?php
-foreach ($billTemplates as $value)
-{
-  echo <<<EOL
+foreach ($billTemplates as $value) {
+    echo <<<EOL
   $("#$value->id").click(function () {
     $("#label").val("$value->label");
     $("#amount").val("$value->amount");
