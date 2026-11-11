@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Core\Configure;
 use Cake\Event\EventInterface;
 use App\Model\Table\MembersTable;
 use App\Policy\TeamScope;
@@ -60,6 +61,12 @@ class AppController extends Controller
     public function initialize(): void
     {
         parent::initialize();
+
+        // Behind a reverse proxy, clientIp() reads X-Forwarded-For (only when the request comes from a trusted proxy)
+        $proxies = (array)Configure::read('App.trustedProxies');
+        if ($proxies !== []) {
+            $this->request->setTrustedProxies($proxies);
+        }
 
         $this->loadComponent('Flash');
         $this->loadComponent('Authentication.Authentication');

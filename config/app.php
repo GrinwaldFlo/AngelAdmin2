@@ -77,6 +77,8 @@ return [
         'isBeta' => $isBeta,
         'maintenance' => filter_var(env('APP_MAINTENANCE', false), FILTER_VALIDATE_BOOLEAN),
         'devIp' => env('APP_DEV_IP', '127.0.0.1'),
+        // IPs of the reverse proxies: the client IP is then read from X-Forwarded-For (only for requests coming from them)
+        'trustedProxies' => array_values(array_filter(array_map('trim', explode(',', (string)env('APP_TRUSTED_PROXIES', ''))))),
         //'baseUrl' => env('SCRIPT_NAME'),
         'fullBaseUrl' => false,
         'imageBaseUrl' => 'img/',
@@ -123,6 +125,17 @@ return [
             'className' => FileEngine::class,
             'path' => CACHE,
             'url' => env('CACHE_DEFAULT_URL', null),
+        ],
+
+        /*
+         * Counters of App\Utility\RateLimiter (e.g. login links sent by email per IP and per member)
+         */
+        'rate_limit' => [
+            'className' => FileEngine::class,
+            'prefix' => 'rate_limit_',
+            'path' => CACHE . 'rate_limit' . DS,
+            'serialize' => true,
+            'duration' => '+1 day',
         ],
 
         /*

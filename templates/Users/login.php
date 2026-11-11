@@ -64,14 +64,14 @@ use Cake\Core\Configure;
                                 'autocomplete' => 'on'
                             ]) ?>
                             <fieldset>
-                                <legend><?= __('Enter your full name to receive a login link by email') ?></legend>
+                                <legend><?= __('Enter your full name or your email to receive a login link by email') ?></legend>
                                 <i><?= __('We will send you a secure link to access your account') ?></i>
 
                                 <?= $this->Form->control('full_name', [
                                     'required' => true, 
                                     'label' => "",
-                                    'placeholder' => __('Full Name (First Name Last Name)'),
-                                    'autocomplete' => 'name',
+                                    'placeholder' => __('Full name (First name Last name) or email'),
+                                    'autocomplete' => 'on',
                                     'id' => 'full-name-input',
                                     'name' => 'full_name'
                                 ]) ?>

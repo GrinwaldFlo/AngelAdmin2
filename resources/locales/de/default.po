@@ -2879,3 +2879,15 @@ msgstr "Dieses Team hat Mitglieder eines anderen Standorts: Entfernen Sie sie zu
 #: src/Controller/TeamsController.php
 msgid "This member is in another location than the team."
 msgstr "Dieses Mitglied ist an einem anderen Standort als das Team."
+
+msgid "Please enter your full name or your email"
+msgstr "Bitte gib deinen vollständigen Namen oder deine E-Mail ein"
+
+msgid "Enter your full name or your email to receive a login link by email"
+msgstr "Gib deinen vollständigen Namen oder deine E-Mail ein, um einen Anmeldelink per E-Mail zu erhalten"
+
+msgid "Full name (First name Last name) or email"
+msgstr "Vollständiger Name (Vorname Nachname) oder E-Mail"
+
+msgid "Too many requests, please try again later"
+msgstr "Zu viele Anfragen, bitte versuche es später erneut"

@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace App\Controller;
 use App\Model\Table\UsersTable;
+use App\Utility\RateLimiter;
+use Cake\Log\Log;
 use Cake\Routing\Router;
 use Cake\Mailer\Mailer;
 use Cake\Core\Configure;
@@ -13,6 +15,23 @@ class UsersController extends AppController
      */
     private const OWN_FIELDS = ['username', 'password'];
     private const ADMIN_FIELDS = ['username', 'password', 'role_id', 'member_id'];
+
+    /**
+     * Requests sending an email (login link, password reset) from one IP: [seconds => maximum],
+     * stops a bot mass mailing
+     */
+    private const IP_EMAIL_LIMITS = [900 => 5, 86400 => 20];
+
+    /**
+     * Emails sent to one member (login link) or one account (password reset): [seconds => maximum],
+     * somebody knowing the email of another person can't flood it
+     */
+    private const RECIPIENT_EMAIL_LIMITS = [600 => 1, 86400 => 5];
+
+    /**
+     * Notifications sent to the club for the wrong passwords / names entered from one IP: [seconds => maximum]
+     */
+    private const IP_NOTIF_LIMITS = [3600 => 5];
 
     public array $paginate = [
         'limit' => 500,
@@ -64,7 +83,7 @@ class UsersController extends AppController
         // display error if user submitted and authentication failed
         if ($this->request->is('post') && !$result->isValid()) {
             $this->Flash->error(__('Invalid username or password'));
-            $this->Mail->mailNotif(__('Wrong password entered for {0}', $this->request->getData()['username']), '', null, 0);
+            $this->notifyClub(__('Wrong password entered for {0}', (string)$this->request->getData('username')));
         }
 
         // If coming from external source and not authenticated, show helpful message
@@ -178,7 +197,15 @@ class UsersController extends AppController
         $this->Authorization->skipAuthorization();
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $emailOrUsername = $this->request->getData('email_or_username');
+            $emailOrUsername = trim((string)$this->request->getData('email_or_username'));
+            // An empty value would match the accounts whose member has no email
+            if ($emailOrUsername === '') {
+                $this->Flash->error(__('Please enter your email or username'));
+                return;
+            }
+            if (!$this->allowEmailRequest()) {
+                return;
+            }
 
             $user = $this->Users->find('all',
                 conditions: [
@@ -191,32 +218,45 @@ class UsersController extends AppController
             )->first();
 
             if (!empty($user)) {
-                $user->tokenhash = UsersTable::newResetToken();
-                $this->Users->save($user);
-
-                $url = Router::url(array('controller' => 'users', 'action' => 'reset', $user->tokenhash), true);
-
-                $mailer = new Mailer();
-
-                $title = __('Reset your password');
-                $mailer->setViewVars(['url' => $url]);
-                $mailer->setViewVars(['title' => $title]);
-                $mailer->setViewVars(['name' => $user->member->FullName]);
-
-                $mailer
-                    ->setEmailFormat('both')
-                    ->setTo($user->member->email, $user->member->FullName)
-                    ->setFrom($this->config['email'], $this->config['emailName'])
-                    ->setSubject($title)
-                    ->viewBuilder()
-                    ->setTemplate('resetpsw')
-                    ->setLayout('default');
-
-                $mailer->deliver();
+                // Cooldown reached: same message, nobody learns if the account exists
+                if ($this->allowEmailTo('user:' . $user->id)) {
+                    $this->sendResetEmail($user);
+                }
+            } else {
+                // No account: a member with this email can still use the login link of its personal page
+                $this->sendLoginLinks($emailOrUsername, false);
             }
             $this->Flash->success(__('If this email or username exists, a reset link has been sent to the associated email'));
         }
-        return;
+    }
+
+    /**
+     * Send the link to choose a new password, with a new token
+     */
+    private function sendResetEmail(\App\Model\Entity\User $user): void
+    {
+        $user->tokenhash = UsersTable::newResetToken();
+        $this->Users->save($user);
+
+        $url = Router::url(array('controller' => 'users', 'action' => 'reset', $user->tokenhash), true);
+
+        $mailer = new Mailer();
+
+        $title = __('Reset your password');
+        $mailer->setViewVars(['url' => $url]);
+        $mailer->setViewVars(['title' => $title]);
+        $mailer->setViewVars(['name' => $user->member->FullName]);
+
+        $mailer
+            ->setEmailFormat('both')
+            ->setTo($user->member->email, $user->member->FullName)
+            ->setFrom($this->config['email'], $this->config['emailName'])
+            ->setSubject($title)
+            ->viewBuilder()
+            ->setTemplate('resetpsw')
+            ->setLayout('default');
+
+        $mailer->deliver();
     }
 
     function reset($token = null)
@@ -302,32 +342,90 @@ class UsersController extends AppController
         $this->request->allowMethod(['post']);
 
         if ($this->request->is('post')) {
-            $fullName = trim($this->request->getData('full_name'));
+            // The field accepts the full name or the email of the member
+            $emailOrName = trim((string)$this->request->getData('full_name'));
 
-            if (empty($fullName)) {
-                $this->Flash->error(__('Please enter your full name'));
+            if (empty($emailOrName)) {
+                $this->Flash->error(__('Please enter your full name or your email'));
+                return $this->redirect(['action' => 'login']);
+            }
+            if (!$this->allowEmailRequest()) {
                 return $this->redirect(['action' => 'login']);
             }
 
-            // Find member by concatenating first_name and last_name (case insensitive)
-            $member = $this->Users->Members->find('all')
-                ->where([
-                    'LOWER(CONCAT(first_name, " ", last_name)) =' => strtolower($fullName)
-                ])
-                ->first();
-
-            if ($member) {
-                // Load the MemberRegistration component and send login link
-                $this->loadComponent('MemberRegistration');
-                $this->MemberRegistration->sendMyPageToMember($member);
+            if (!$this->sendLoginLinks($emailOrName, true)) {
+                $this->notifyClub(__('Wrong name entered for {0}', $emailOrName));
             }
-            else
-            {
-                $this->Mail->mailNotif(__('Wrong name entered for {0}', $fullName), '', null, 0);
-            }
-            $this->Flash->success(__('If the member exists, a login link has been sent to the member {0}', $fullName));
+            $this->Flash->success(
+                __('If the member exists, a login link has been sent to the member {0}', $emailOrName)
+            );
         }
 
         return $this->redirect(['action' => 'login']);
+    }
+
+    /**
+     * Send the login link (personal page) to every member found, e.g. each child sharing the email of a parent
+     * @param string $emailOrName email of the members, or full name when $withName
+     * @return bool true if at least one member has been found
+     */
+    private function sendLoginLinks(string $emailOrName, bool $withName): bool
+    {
+        $members = $this->fetchTable('Members')->findForLoginLink($emailOrName, $withName);
+        if ($members === []) {
+            return false;
+        }
+
+        $this->loadComponent('MemberRegistration');
+        foreach ($members as $member) {
+            if ($this->allowEmailTo('member:' . $member->id)) {
+                $this->MemberRegistration->sendMyPageToMember($member);
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Limit the requests sending an email from the IP of the request, shows an error when reached
+     */
+    private function allowEmailRequest(): bool
+    {
+        $ip = (string)$this->request->clientIp();
+        if ((new RateLimiter('email-ip', self::IP_EMAIL_LIMITS))->attempt($ip)) {
+            return true;
+        }
+
+        $message = sprintf('Too many email requests (%s) from IP: %s', $this->request->getParam('action'), $ip);
+        Log::write('warning', $message, ['scope' => ['security']]);
+        $this->Flash->error(__('Too many requests, please try again later'));
+
+        return false;
+    }
+
+    /**
+     * Cooldown of the emails sent to one recipient, the request is silently ignored when reached
+     * @param string $recipient e.g. "member:12" or "user:3"
+     */
+    private function allowEmailTo(string $recipient): bool
+    {
+        if ((new RateLimiter('email-to', self::RECIPIENT_EMAIL_LIMITS))->attempt($recipient)) {
+            return true;
+        }
+
+        $message = sprintf('Email to %s skipped (cooldown), IP: %s', $recipient, $this->request->clientIp());
+        Log::write('warning', $message, ['scope' => ['security']]);
+
+        return false;
+    }
+
+    /**
+     * Notify the club of a wrong login, limited by IP: a bot trying many passwords doesn't flood the club
+     */
+    private function notifyClub(string $title): void
+    {
+        if ((new RateLimiter('notif-ip', self::IP_NOTIF_LIMITS))->attempt((string)$this->request->clientIp())) {
+            $this->Mail->mailNotif($title, '', null, 0);
+        }
     }
 }

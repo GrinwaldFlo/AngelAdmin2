@@ -195,9 +195,9 @@ class MemberRegistrationComponentTest extends TestCase
         $registration = $this->registration();
         $members = $this->getTableLocator()->get('Members');
 
-        $registration->sendMyPageToMember($members->newEntity(['first_name' => 'A', 'last_name' => 'B', 'email' => 'a@example.com', 'hash' => 'x', 'registered' => true, 'active' => true], ['validate' => false]));
-        $registration->sendMyPageToMember($members->newEntity(['first_name' => 'A', 'last_name' => 'B', 'email' => 'b@example.com', 'hash' => 'x', 'registered' => false, 'active' => true], ['validate' => false]));
-        $registration->sendMyPageToMember($members->newEntity(['first_name' => 'A', 'last_name' => 'B', 'email' => 'c@example.com', 'hash' => 'x', 'registered' => false, 'active' => false], ['validate' => false]));
+        $registration->sendMyPageToMember($members->newEntity(['first_name' => 'A', 'last_name' => 'B', 'email' => 'a@example.com', 'hash' => str_repeat('a', 40), 'registered' => true, 'active' => true], ['validate' => false]));
+        $registration->sendMyPageToMember($members->newEntity(['first_name' => 'A', 'last_name' => 'B', 'email' => 'b@example.com', 'hash' => str_repeat('a', 40), 'registered' => false, 'active' => true], ['validate' => false]));
+        $registration->sendMyPageToMember($members->newEntity(['first_name' => 'A', 'last_name' => 'B', 'email' => 'c@example.com', 'hash' => str_repeat('a', 40), 'registered' => false, 'active' => false], ['validate' => false]));
 
         $this->assertMailSubjectContainsAt(0, 'Your personal page');
         $this->assertMailSubjectContainsAt(1, 'Action needed');
