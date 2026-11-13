@@ -426,6 +426,17 @@ return [
             'scopes' => ['security'],
             'levels' => ['warning', 'error', 'critical', 'alert', 'emergency'],
         ],
+        // Wrong passwords / names entered on the login page, see /admin/view-log/login
+        'login' => [
+            'className' => FileLog::class,
+            'path' => LOGS,
+            'file' => 'login',
+            'url' => env('LOG_LOGIN_URL', null),
+            'scopes' => ['login'],
+            'levels' => ['notice', 'info', 'warning'],
+            'size' => '2MB',
+            'rotate' => 3,
+        ],
     ],
 
     /*

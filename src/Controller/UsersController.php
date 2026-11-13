@@ -31,11 +31,6 @@ class UsersController extends AppController
      */
     private const RECIPIENT_EMAIL_LIMITS = [600 => 1, 86400 => 5];
 
-    /**
-     * Notifications sent to the club for the wrong passwords / names entered from one IP: [seconds => maximum]
-     */
-    private const IP_NOTIF_LIMITS = [3600 => 5];
-
     public array $paginate = [
         'limit' => 500,
         'maxLimit' => 1000,
@@ -86,7 +81,7 @@ class UsersController extends AppController
         // display error if user submitted and authentication failed
         if ($this->request->is('post') && !$result->isValid()) {
             $this->Flash->error(__('Invalid username or password'));
-            $this->notifyClub(__('Wrong password entered for {0}', (string)$this->request->getData('username')));
+            $this->logWrongLogin('Wrong password', (string)$this->request->getData('username'));
         }
 
         // If coming from external source and not authenticated, show helpful message
@@ -363,7 +358,7 @@ class UsersController extends AppController
             }
 
             if (!$this->sendLoginLinks($emailOrName, true)) {
-                $this->notifyClub(__('Wrong name entered for {0}', $emailOrName));
+                $this->logWrongLogin('Wrong name', $emailOrName);
             }
             $this->Flash->success(
                 __('If the member exists, a login link has been sent to the member {0}', $emailOrName)
@@ -429,12 +424,15 @@ class UsersController extends AppController
     }
 
     /**
-     * Notify the club of a wrong login, limited by IP: a bot trying many passwords doesn't flood the club
+     * Write a wrong login in the login log (logs/login.log), shown on /admin/view-log/login
+     * @param string $reason e.g. "Wrong password"
+     * @param string $entered user name, member name or email entered
      */
-    private function notifyClub(string $title): void
+    private function logWrongLogin(string $reason, string $entered): void
     {
-        if ((new RateLimiter('notif-ip', self::IP_NOTIF_LIMITS))->attempt((string)$this->request->clientIp())) {
-            $this->Mail->mailNotif($title, '', null, 0);
-        }
+        // No line break: the value can't forge another line of the log
+        $entered = mb_substr((string)preg_replace('/[\x00-\x1F\x7F]+/u', ' ', $entered), 0, 100);
+        $message = sprintf('%s for "%s", IP: %s', $reason, $entered, $this->request->clientIp());
+        Log::write('warning', $message, ['scope' => ['login']]);
     }
 }

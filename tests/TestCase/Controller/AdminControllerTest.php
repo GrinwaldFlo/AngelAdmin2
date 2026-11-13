@@ -264,6 +264,11 @@ class AdminControllerTest extends TestCase
         $this->get('/admin/view-log/error');
         $this->assertResponseOk();
 
+        $this->get('/admin/view-log/login');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Login Log');
+        $this->assertResponseContains('/admin/view-log/security');
+
         $this->get('/admin/view-log/..%2F..%2Fconfig%2Fapp');
         $this->assertResponseCode(404);
     }

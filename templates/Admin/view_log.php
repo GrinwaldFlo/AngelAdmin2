@@ -3,9 +3,10 @@ $this->assign('title', ucfirst($type) . ' Log');
 ?>
 <h1><?= h(ucfirst($type)) ?> Log</h1>
 <nav>
-    <a href="<?= $this->Url->build(['action' => 'view_log', 'debug']) ?>">Debug Log</a> |
-    <a href="<?= $this->Url->build(['action' => 'view_log', 'error']) ?>">Error Log</a> |
-    <a href="<?= $this->Url->build(['action' => 'view_log', 'security']) ?>">Security Log</a>
+    <?= implode(' | ', array_map(
+        fn(string $logType) => $this->Html->link(ucfirst($logType) . ' Log', ['action' => 'view_log', $logType]),
+        $logTypes
+    )) ?>
     <?= $this->Form->create(null, ['style' => 'display:inline;']) ?>
         <button type="submit" class="btn btn-delete">Delete Logs</button>
     <?= $this->Form->end() ?>

@@ -171,35 +171,39 @@ class AdminController extends AppController
         $this->set(compact('members', 'teamId', 'teams', 'site'));
     }
 
+    /**
+     * Log files shown on the log page: type => file in LOGS
+     */
+    private const LOG_FILES = [
+        'debug' => 'debug.log',
+        'error' => 'error.log',
+        'security' => 'security.log',
+        'login' => 'login.log',
+    ];
+
     public function viewLog(string $type = 'debug')
     {
         if ($this->request->is('post')) {
-            $logFiles = [
-                LOGS . 'debug.log',
-                LOGS . 'error.log',
-                LOGS . 'security.log'
-            ];
-            foreach ($logFiles as $file) {
-                if (file_exists($file)) {
-                    @unlink($file);
+            foreach (self::LOG_FILES as $file) {
+                if (file_exists(LOGS . $file)) {
+                    @unlink(LOGS . $file);
                 }
             }
             $this->Flash->success(__('Both log files have been deleted.'));
             return $this->redirect(['action' => 'viewLog', $type]);
         }
 
-        $logFile = match ($type) {
-            'debug' => LOGS . 'debug.log',
-            'error' => LOGS . 'error.log',
-            'security' => LOGS . 'security.log',
-            default => throw new NotFoundException('Invalid log type'),
-        };
+        if (!isset(self::LOG_FILES[$type])) {
+            throw new NotFoundException('Invalid log type');
+        }
+        $logFile = LOGS . self::LOG_FILES[$type];
 
         $lines = file_exists($logFile)
             ? file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)
             : ["Log file not found"];
+        $logTypes = array_keys(self::LOG_FILES);
 
-        $this->set(compact('lines', 'type'));
+        $this->set(compact('lines', 'type', 'logTypes'));
     }
 
     public function subventions(int $ageFilter = 0, int $grid = 0)
