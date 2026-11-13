@@ -189,7 +189,7 @@ class AdminController extends AppController
                     @unlink(LOGS . $file);
                 }
             }
-            $this->Flash->success(__('Both log files have been deleted.'));
+            $this->Flash->success(__('All log files have been deleted.'));
             return $this->redirect(['action' => 'viewLog', $type]);
         }
 

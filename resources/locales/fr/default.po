@@ -64,10 +64,6 @@ msgstr "Les inscriptions ont été réinitialisées"
 msgid "Membership fee created for "
 msgstr "Cotisations créées pour "
 
-#: src/Controller/AdminController.php:158
-msgid "Both log files have been deleted."
-msgstr "Les fichiers de log ont été supprimés."
-
 #: src/Controller/AdminController.php:63
 msgctxt "Some values were put back to default settings"
 msgid "Memberships have been reset"
@@ -591,10 +587,6 @@ msgstr "L'équipe n'a pas pu être enregistrée."
 msgid "Invalid username or password"
 msgstr "Nom d'utilisateur ou mot de passe invalide"
 
-#: src/Controller/UsersController.php:62
-msgid "Wrong password entered for {0}"
-msgstr "Mauvais mot de passe saisi pour {0}"
-
 #: src/Controller/UsersController.php:67
 msgid "You were redirected from an external service. Please login to continue."
 msgstr ""
@@ -643,10 +635,6 @@ msgstr "Ton mot de passe a été mis à jour"
 #: src/Controller/UsersController.php:301
 msgid "Please enter your full name or your email"
 msgstr "Entre ton nom complet ou ton email"
-
-#: src/Controller/UsersController.php:319
-msgid "Wrong name entered for {0}"
-msgstr "Mauvais nom entré pour {0}"
 
 #: src/Controller/UsersController.php:321
 msgid "If the member exists, a login link has been sent to the member {0}"
@@ -4079,3 +4067,15 @@ msgstr "La page est restée ouverte trop longtemps ou ton navigateur a bloqué u
 
 msgid "Go back, reload the page and try again"
 msgstr "Reviens en arrière, recharge la page et réessaie"
+
+#: ./src/Controller/AdminController.php:192
+msgid "All log files have been deleted."
+msgstr "Tous les fichiers de log ont été supprimés."
+
+#: ./templates/Admin/view_log.php:10
+msgid "Delete Logs"
+msgstr "Supprimer les logs"
+
+#: ./templates/Admin/view_log.php:10
+msgid "Delete all log files?"
+msgstr "Supprimer tous les fichiers de log ?"

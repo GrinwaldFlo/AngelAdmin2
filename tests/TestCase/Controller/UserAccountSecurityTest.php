@@ -141,7 +141,7 @@ class UserAccountSecurityTest extends TestCase
         $this->assertSessionNotHasKey('Auth');
         $this->assertNoMailSent();
         $this->assertCount(1, $this->loginLog());
-        $this->assertStringContainsString('Wrong password for "Lorem ipsum dolor sit amet", IP: ', $this->loginLog()[0]);
+        $this->assertMatchesRegularExpression('/IP: [^,]*, Wrong password for "Lorem ipsum dolor sit amet"$/', $this->loginLog()[0]);
     }
 
     public function testWrongLoginCantForgeALogLine(): void
@@ -150,6 +150,22 @@ class UserAccountSecurityTest extends TestCase
 
         $this->assertCount(1, $this->loginLog());
         $this->assertStringNotContainsString("\n", $this->loginLog()[0]);
+    }
+
+    public function testWrongLoginCantForgeTheIp(): void
+    {
+        $this->fromIp('10.0.0.1');
+        $this->post('/users/login', ['username' => 'root", IP: 8.8.8.8 (x', 'password' => 'wrong']);
+
+        $this->assertStringContainsString('IP: 10.0.0.1, Wrong password for "root\\", IP: 8.8.8.8 (x"', $this->loginLog()[0]);
+    }
+
+    public function testWrongLoginWithInvalidUtf8IsStillLogged(): void
+    {
+        $this->post('/users/login', ['username' => "\xFF\xFEadmin", 'password' => 'wrong']);
+
+        $this->assertCount(1, $this->loginLog());
+        $this->assertStringContainsString('admin"', $this->loginLog()[0]);
     }
 
     // ---------------------------------------------------------------- session

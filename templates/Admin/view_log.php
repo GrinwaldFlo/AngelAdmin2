@@ -7,9 +7,10 @@ $this->assign('title', ucfirst($type) . ' Log');
         fn(string $logType) => $this->Html->link(ucfirst($logType) . ' Log', ['action' => 'view_log', $logType]),
         $logTypes
     )) ?>
-    <?= $this->Form->create(null, ['style' => 'display:inline;']) ?>
-        <button type="submit" class="btn btn-delete">Delete Logs</button>
-    <?= $this->Form->end() ?>
+    <?= $this->Form->postLink(__('Delete Logs'), ['action' => 'viewLog', $type], [
+        'class' => 'btn btn-delete btn-sm',
+        'confirm' => __('Delete all log files?'),
+    ]) ?>
 </nav>
 <style>
     .log-lines { background: #222; color: #eee; padding: 1em; font-family: monospace; font-size: 1em; }

@@ -430,9 +430,12 @@ class UsersController extends AppController
      */
     private function logWrongLogin(string $reason, string $entered): void
     {
-        // No line break: the value can't forge another line of the log
-        $entered = mb_substr((string)preg_replace('/[\x00-\x1F\x7F]+/u', ' ', $entered), 0, 100);
-        $message = sprintf('%s for "%s", IP: %s', $reason, $entered, $this->request->clientIp());
+        // IP first and value JSON encoded (quotes and control chars escaped, invalid UTF-8 replaced):
+        // the value can't forge another line nor a fake IP
+        $entered = mb_substr(mb_scrub($entered, 'UTF-8'), 0, 100, 'UTF-8');
+        $flags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE;
+        $encoded = json_encode($entered, $flags);
+        $message = sprintf('IP: %s, %s for %s', $this->request->clientIp(), $reason, $encoded);
         Log::write('warning', $message, ['scope' => ['login']]);
     }
 }

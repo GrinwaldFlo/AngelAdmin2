@@ -32,10 +32,6 @@ msgstr ""
 msgid "Membership fee created for "
 msgstr ""
 
-#: ./src/Controller/AdminController.php:175
-msgid "Both log files have been deleted."
-msgstr ""
-
 #: ./src/Controller/AdminController.php:239
 msgid "The emails have been saved."
 msgstr ""
@@ -854,10 +850,6 @@ msgstr ""
 msgid "Invalid username or password"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:67
-msgid "Wrong password entered for {0}"
-msgstr ""
-
 #: ./src/Controller/UsersController.php:72
 msgid "You were redirected from an external service. Please login to continue."
 msgstr ""
@@ -904,10 +896,6 @@ msgstr ""
 
 #: ./src/Controller/UsersController.php:308
 msgid "Please enter your full name or your email"
-msgstr ""
-
-#: ./src/Controller/UsersController.php:326
-msgid "Wrong name entered for {0}"
 msgstr ""
 
 #: ./src/Controller/UsersController.php:328
@@ -4546,4 +4534,16 @@ msgid "This member is in another location than the team."
 msgstr ""
 
 msgid "Too many requests, please try again later"
+msgstr ""
+
+#: ./src/Controller/AdminController.php:192
+msgid "All log files have been deleted."
+msgstr ""
+
+#: ./templates/Admin/view_log.php:10
+msgid "Delete Logs"
+msgstr ""
+
+#: ./templates/Admin/view_log.php:10
+msgid "Delete all log files?"
 msgstr ""
