@@ -64,8 +64,9 @@ class ApplicationTest extends TestCase
             ->onlyMethods(['addPlugin'])
             ->getMock();
 
-        $app->method('addPlugin')
-            ->will($this->throwException(new InvalidArgumentException('test exception.')));
+        $app->expects($this->once())
+            ->method('addPlugin')
+            ->willThrowException(new InvalidArgumentException('test exception.'));
 
         $app->bootstrap();
     }

@@ -4,7 +4,8 @@
  * @var \App\Model\Entity\Member $member
  */
 
-if (isset($curUser)) {
+// No $member on the error page of an unknown link
+if (isset($curUser, $member)) {
     $allowEdit = $curRole->MemberEditAll || ($curRole->MemberEditOwn && $member->id == $curUser->member_id);
     $allowQuit = $curRole->MemberEditAll || ($curRole->MemberEditOwn && $member->id == $curUser->member_id && $config['allowResiliation']);
     $allowViewBills = $curRole->BillViewAll || $member->id == $curUser->member_id;
