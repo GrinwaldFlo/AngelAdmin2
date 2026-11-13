@@ -173,7 +173,7 @@ class ImageComponent extends Component
         }
 
         // Clean up
-        imagedestroy($imageResource);
+        unset($imageResource);
 
         Log::debug('JPEG validation successful for {file} ({width}x{height})', [
             'file' => $filePath,
@@ -384,7 +384,6 @@ class ImageComponent extends Component
         // Check if EXIF extension is loaded
         if (!extension_loaded('exif') || !function_exists('exif_read_data')) {
             Log::error('EXIF extension not available', ['scope' => 'image']);
-            imagedestroy($image);
             return false;
         }
 
@@ -395,7 +394,6 @@ class ImageComponent extends Component
 
         if ($exif === false || empty($exif)) {
             Log::info('No EXIF data found in image: {filename}', ['filename' => $filename, 'scope' => 'image']);
-            imagedestroy($image);
             return false;
         }
 
@@ -412,7 +410,6 @@ class ImageComponent extends Component
             Log::info('Orientation found in EXIF: {orientation}', ['orientation' => $ort, 'scope' => 'image']);
         } else {
             Log::info('Orientation not found - image is likely already correctly oriented or doesn\'t need rotation', ['scope' => 'image']);
-            imagedestroy($image);
             return true; // Not an error - just no rotation needed
         }
 
@@ -422,7 +419,7 @@ class ImageComponent extends Component
         if ($rotatedImage) {
             // Save the rotated image
             $result = imagejpeg($rotatedImage, $filename);
-            imagedestroy($rotatedImage);
+            unset($rotatedImage);
 
             if ($result) {
                 Log::info('Image successfully rotated and saved: {filename}', ['filename' => $filename, 'scope' => 'image']);
@@ -433,7 +430,6 @@ class ImageComponent extends Component
             }
         }
 
-        imagedestroy($image);
         return false;
     }
 
@@ -659,7 +655,7 @@ class ImageComponent extends Component
             $error = true;
         }
 
-        imagedestroy($tmp);
+        unset($tmp);
 
         if (false == $error) {
             return $new_image;
@@ -692,7 +688,7 @@ class ImageComponent extends Component
             $error = true;
         }
 
-        imagedestroy($tmp);
+        unset($tmp);
 
         if (false == $error) {
             return $new_image;
@@ -742,7 +738,7 @@ class ImageComponent extends Component
             $error = true;
         }
 
-        imagedestroy($tmp);
+        unset($tmp);
 
         if (false == $error) {
             return $new_image;
