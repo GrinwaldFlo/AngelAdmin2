@@ -259,6 +259,8 @@ class AdminControllerTest extends TestCase
 
     public function testViewLog(): void
     {
+        // English UI to check the texts (member 1 is French in the fixture)
+        $this->getTableLocator()->get('Members')->updateAll(['language' => 'en'], ['id' => 1]);
         $this->sessionAs(1);
 
         $this->get('/admin/view-log/error');
@@ -279,6 +281,8 @@ class AdminControllerTest extends TestCase
 
     public function testViewLogDeletesAllLogFiles(): void
     {
+        // English UI to check the texts (member 1 is French in the fixture)
+        $this->getTableLocator()->get('Members')->updateAll(['language' => 'en'], ['id' => 1]);
         $this->sessionAs(1);
         $this->enableCsrfToken();
         // The action deletes the real log files: keep them to restore them after

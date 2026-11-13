@@ -32,5 +32,15 @@ jobs:
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist --no-progress --no-suggest
 
+      # --no-progress: no line of dots, the log only shows the failures and the summary
       - name: Run PHPUnit suite
-        run: composer test
+        run: vendor/bin/phpunit --colors=always --no-progress --log-junit build/junit.xml
+
+      # Lists only the failed tests in the run summary and as annotations on the test lines
+      - name: Report failed tests
+        if: ${{ !cancelled() }}
+        uses: mikepenz/action-junit-report@v5
+        with:
+          report_paths: build/junit.xml
+          annotate_only: true
+          detailed_summary: true
