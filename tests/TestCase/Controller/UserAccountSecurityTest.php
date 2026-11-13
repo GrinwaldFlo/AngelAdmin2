@@ -9,6 +9,7 @@ use App\Test\TestSuite\TestDataTrait;
 use App\Utility\RateLimiter;
 use Cake\Core\Configure;
 use Cake\I18n\DateTime;
+use Cake\Log\Log;
 use Cake\TestSuite\EmailTrait;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
@@ -48,6 +49,24 @@ class UserAccountSecurityTest extends TestCase
             ->execute();
         $this->getTableLocator()->get('Members')->updateAll(['language' => 'en', 'email' => 'm1@example.com'], []);
         $this->setPassword(1, 'good password');
+        // The wrong logins are kept in memory instead of logs/login.log
+        $this->loginLogConfig = Log::getConfig('login');
+        Log::drop('login');
+        Log::setConfig('login', ['className' => 'Array', 'scopes' => ['login'], 'levels' => ['warning']]);
+    }
+
+    /**
+     * Configuration of the login log, restored after the test
+     */
+    private ?array $loginLogConfig = null;
+
+    /**
+     * Lines written in the login log
+     * @return list<string>
+     */
+    private function loginLog(): array
+    {
+        return Log::engine('login')->read();
     }
 
     protected function tearDown(): void
@@ -55,6 +74,10 @@ class UserAccountSecurityTest extends TestCase
         PrefResult::$sites = null;
         RateLimiter::clear();
         DateTime::setTestNow(null);
+        Log::drop('login');
+        if ($this->loginLogConfig !== null) {
+            Log::setConfig('login', $this->loginLogConfig);
+        }
         parent::tearDown();
     }
 
@@ -116,6 +139,33 @@ class UserAccountSecurityTest extends TestCase
         $this->assertResponseOk();
         $this->assertFlashElement('flash/error');
         $this->assertSessionNotHasKey('Auth');
+        $this->assertNoMailSent();
+        $this->assertCount(1, $this->loginLog());
+        $this->assertMatchesRegularExpression('/IP: [^,]*, Wrong password for "Lorem ipsum dolor sit amet"$/', $this->loginLog()[0]);
+    }
+
+    public function testWrongLoginCantForgeALogLine(): void
+    {
+        $this->post('/users/login', ['username' => "x\nwarning: Fake line", 'password' => 'wrong']);
+
+        $this->assertCount(1, $this->loginLog());
+        $this->assertStringNotContainsString("\n", $this->loginLog()[0]);
+    }
+
+    public function testWrongLoginCantForgeTheIp(): void
+    {
+        $this->fromIp('10.0.0.1');
+        $this->post('/users/login', ['username' => 'root", IP: 8.8.8.8 (x', 'password' => 'wrong']);
+
+        $this->assertStringContainsString('IP: 10.0.0.1, Wrong password for "root\\", IP: 8.8.8.8 (x"', $this->loginLog()[0]);
+    }
+
+    public function testWrongLoginWithInvalidUtf8IsStillLogged(): void
+    {
+        $this->post('/users/login', ['username' => "\xFF\xFEadmin", 'password' => 'wrong']);
+
+        $this->assertCount(1, $this->loginLog());
+        $this->assertStringContainsString('admin"', $this->loginLog()[0]);
     }
 
     // ---------------------------------------------------------------- session
@@ -338,14 +388,15 @@ class UserAccountSecurityTest extends TestCase
         $this->assertMailContains('/members/my-page/');
     }
 
-    public function testEmailLoginOfUnknownNameOnlyWarnsTheClub(): void
+    public function testEmailLoginOfUnknownNameIsOnlyLogged(): void
     {
         $this->post('/users/email-login', ['full_name' => 'Nobody <b>Here</b>']);
 
         // Same message: nobody learns if the member exists
         $this->assertFlashElement('flash/success');
-        $this->assertMailCount(1);
-        $this->assertMailSentTo('club@example.com');
+        $this->assertNoMailSent();
+        $this->assertCount(1, $this->loginLog());
+        $this->assertStringContainsString('Wrong name for "Nobody <b>Here</b>"', $this->loginLog()[0]);
     }
 
     public function testEmailLoginWithTheEmailOfTheMember(): void
@@ -556,14 +607,16 @@ class UserAccountSecurityTest extends TestCase
         $this->assertFlashElement('flash/error');
     }
 
-    public function testWrongLoginNotificationsLimitedPerIp(): void
+    public function testEveryWrongLoginIsLoggedWithoutEmail(): void
     {
+        $this->fromIp('10.0.0.1');
         for ($i = 0; $i < 7; $i++) {
             $this->post('/users/login', ['username' => 'Lorem ipsum dolor sit amet', 'password' => 'wrong ' . $i]);
         }
 
-        $this->assertMailCount(5);
-        $this->assertMailSentTo('club@example.com');
+        $this->assertNoMailSent();
+        $this->assertCount(7, $this->loginLog());
+        $this->assertStringContainsString('IP: 10.0.0.1', $this->loginLog()[6]);
     }
 
     public function testEmailLoginNeedsAPost(): void

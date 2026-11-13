@@ -370,10 +370,6 @@ msgstr "Die Website konnte nicht gelöscht werden."
 msgid "Invalid username or password"
 msgstr "Benutzername oder Passwort ungültig"
 
-#: Controller/UsersController.php:39
-msgid "Wrong password entered for {0}"
-msgstr "Falsches Passwort für {0} eingegeben"
-
 #: Controller/UsersController.php:87 Controller/UsersController.php:110
 msgid "The user has been saved."
 msgstr "Der Benutzer wurde gespeichert."
@@ -2921,3 +2917,15 @@ msgstr "Die Seite war zu lange geöffnet oder dein Browser hat ein Cookie blocki
 
 msgid "Go back, reload the page and try again"
 msgstr "Geh zurück, lade die Seite neu und versuche es erneut"
+
+#: ./src/Controller/AdminController.php:192
+msgid "All log files have been deleted."
+msgstr "Alle Logdateien wurden gelöscht."
+
+#: ./templates/Admin/view_log.php:10
+msgid "Delete Logs"
+msgstr "Logs löschen"
+
+#: ./templates/Admin/view_log.php:10
+msgid "Delete all log files?"
+msgstr "Alle Logdateien löschen?"

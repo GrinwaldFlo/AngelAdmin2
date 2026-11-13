@@ -354,10 +354,6 @@ msgstr "El sitio no podía ser eliminado."
 msgid "Invalid username or password"
 msgstr "Usuario o contraseña incorrectos"
 
-#: Controller/UsersController.php:39
-msgid "Wrong password entered for {0}"
-msgstr "Contraseña incorrecta introducida para {0}"
-
 #: Controller/UsersController.php:87 Controller/UsersController.php:110
 msgid "The user has been saved."
 msgstr "El usuario ha sido salvado."
@@ -2878,3 +2874,15 @@ msgstr "La página estuvo abierta demasiado tiempo o tu navegador bloqueó una c
 
 msgid "Go back, reload the page and try again"
 msgstr "Vuelve atrás, recarga la página e inténtalo de nuevo"
+
+#: ./src/Controller/AdminController.php:192
+msgid "All log files have been deleted."
+msgstr "Se han eliminado todos los archivos de registro."
+
+#: ./templates/Admin/view_log.php:10
+msgid "Delete Logs"
+msgstr "Eliminar registros"
+
+#: ./templates/Admin/view_log.php:10
+msgid "Delete all log files?"
+msgstr "¿Eliminar todos los archivos de registro?"

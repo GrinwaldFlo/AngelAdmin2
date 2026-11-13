@@ -76,7 +76,6 @@ function getImageDimensionsFromBase64($base64Data)
 
     $width = imagesx($img);
     $height = imagesy($img);
-    imagedestroy($img);
 
     return ['width' => $width, 'height' => $height];
 }

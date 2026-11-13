@@ -259,13 +259,53 @@ class AdminControllerTest extends TestCase
 
     public function testViewLog(): void
     {
+        // English UI to check the texts (member 1 is French in the fixture)
+        $this->getTableLocator()->get('Members')->updateAll(['language' => 'en'], ['id' => 1]);
         $this->sessionAs(1);
 
         $this->get('/admin/view-log/error');
         $this->assertResponseOk();
 
+        $this->get('/admin/view-log/login');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Login Log');
+        $this->assertResponseContains('/admin/view-log/security');
+        // Delete button: post link with a confirm, no inline style
+        $this->assertResponseContains('class="btn btn-delete btn-sm"');
+        $this->assertResponseContains('Delete all log files?');
+        $this->assertResponseNotContains('style=');
+
         $this->get('/admin/view-log/..%2F..%2Fconfig%2Fapp');
         $this->assertResponseCode(404);
+    }
+
+    public function testViewLogDeletesAllLogFiles(): void
+    {
+        // English UI to check the texts (member 1 is French in the fixture)
+        $this->getTableLocator()->get('Members')->updateAll(['language' => 'en'], ['id' => 1]);
+        $this->sessionAs(1);
+        $this->enableCsrfToken();
+        // The action deletes the real log files: keep them to restore them after
+        $backups = [];
+        foreach (['debug', 'error', 'security', 'login'] as $name) {
+            $file = LOGS . $name . '.log';
+            if (file_exists($file)) {
+                $backups[$file] = file_get_contents($file);
+            }
+        }
+        file_put_contents(LOGS . 'login.log', "line\n");
+
+        try {
+            $this->post('/admin/view-log/login');
+
+            $this->assertRedirect('/admin/view-log/login');
+            $this->assertFlashMessage('All log files have been deleted.');
+            $this->assertFileDoesNotExist(LOGS . 'login.log');
+        } finally {
+            foreach ($backups as $file => $content) {
+                file_put_contents($file, $content);
+            }
+        }
     }
 
     public function testTypographyRequiresLogin(): void

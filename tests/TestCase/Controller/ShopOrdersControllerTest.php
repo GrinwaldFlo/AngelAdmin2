@@ -173,7 +173,8 @@ class ShopOrdersControllerTest extends TestCase
         $this->assertFlashElement('flash/success');
         $this->assertNull($this->order(1));
         $this->assertSame(0, $this->shopStock($this->tshirt, 'M'));
-        $bill = $this->getTableLocator()->get('Bills')->get(10);
+        // With its site: the reference adds the site invoice number
+        $bill = $this->getTableLocator()->get('Bills')->get(10, contain: ['Sites']);
         $this->assertEquals(50, $bill->amount);
         $this->assertFalse($bill->canceled);
         $this->assertMailCount(1);

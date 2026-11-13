@@ -54,6 +54,11 @@ class FieldType extends Entity
 
     protected function _getStyleStr()
     {
+        // Not set on a new empty entity (e.g. dumped by the debugger on an error page)
+        if (!$this->has('style')) {
+            return '';
+        }
+
         return $this->_getStyleList()[$this->style] ?? '';
     }
 }
