@@ -444,9 +444,26 @@ class CoachAccessTest extends TestCase
         $this->get('/bills/overview/1/2/1/0');
         $this->assertResponseCode(403);
 
+        // Archived page: refused to everybody
         $this->getTableLocator()->get('Roles')->updateAll(['TeamScoped' => 0], ['id' => 1]);
         $this->get('/bills/overview/1/2/1/0');
+        $this->assertResponseCode(403);
+    }
+
+    public function testBillsSearchOnlyShowsCoachedTeams(): void
+    {
+        $this->addBill(200, 101, ['label' => 'Seniors fee']);
+        $this->loginCoach();
+
+        $this->get('/bills/search/0/0');
+
         $this->assertResponseOk();
+        $this->assertResponseContains('First100 Last100');
+        $this->assertResponseContains('First102 Last102');
+        $this->assertResponseNotContains('First101 Last101');
+        $this->assertResponseNotContains('Seniors fee');
+        // No Active / Alumni filter for the coaches
+        $this->assertResponseNotContains('/bills/search/0/0/2');
     }
 
     public function testBillsIndexHidesActiveFilterForCoaches(): void

@@ -327,6 +327,20 @@ class AppController extends Controller
         $this->set('config', $this->config);
     }
 
+    /**
+     * First day of the season containing the date, not using the configured year
+     * @param string $firstDaySeason day.month, e.g. '1.7' (configuration firstDaySeason)
+     * @param \DateTimeInterface|null $date null = today
+     */
+    public static function seasonStart(string $firstDaySeason, ?\DateTimeInterface $date = null): \DateTimeImmutable
+    {
+        $date = \DateTimeImmutable::createFromInterface($date ?? new \DateTimeImmutable('today'))->setTime(0, 0);
+        [$day, $month] = array_map('intval', explode('.', $firstDaySeason) + [1 => 1]);
+        $start = $date->setDate((int)$date->format('Y'), $month, $day);
+
+        return $start > $date ? $start->modify('-1 year') : $start;
+    }
+
     public function beforeFilter(\Cake\Event\EventInterface $event)
     {
         $this->set('refer', $this->referer());

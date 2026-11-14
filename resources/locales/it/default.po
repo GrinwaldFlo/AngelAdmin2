@@ -3026,3 +3026,12 @@ msgstr "Elimina log"
 #: ./templates/Admin/view_log.php:10
 msgid "Delete all log files?"
 msgstr "Eliminare tutti i file di log?"
+
+msgid "Invoice search"
+msgstr "Ricerca fatture"
+
+msgid "Invoice label"
+msgstr "Descrizione della fattura"
+
+msgid "No invoice"
+msgstr "Nessuna fattura"

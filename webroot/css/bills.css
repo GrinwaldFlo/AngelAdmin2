@@ -1,0 +1,97 @@
+/* Invoice search page (Bills/search), colors from the theme.css tokens */
+
+.bills-search-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.bills-search-form input[name="label"] {
+  flex: 1 1 14rem;
+  max-width: 24rem;
+}
+
+.bills-search-table .bills-search-missing .bills-search-label {
+  color: var(--aa-muted);
+}
+
+.bills-search-empty {
+  color: var(--aa-muted);
+}
+
+/* Below the navbar breakpoint (see mobile-nav.css), each row becomes a card */
+@media (max-width: 991.98px) {
+  .bills-search-form input[name="label"] {
+    max-width: none;
+    min-height: var(--aa-touch-sm);
+  }
+
+  /* The header stays as a bar of sort buttons above the cards */
+  .bills-search-table,
+  .bills-search-table thead,
+  .bills-search-table tbody {
+    display: block;
+  }
+
+  .bills-search-table thead tr {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .bills-search-table thead th {
+    display: block;
+    padding: 0;
+    border: 0;
+  }
+
+  .bills-search-table thead .table-sort-btn {
+    min-height: var(--aa-touch-sm);
+    padding: 0 0.75rem;
+    border: 1px solid var(--aa-border);
+    border-radius: 0.375rem;
+  }
+
+  .bills-search-table tbody tr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.75rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--aa-border);
+    border-radius: 0.5rem;
+  }
+
+  .bills-search-table tbody td {
+    display: block;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .bills-search-table .bills-search-member {
+    flex: 1 1 auto;
+    font-weight: bold;
+  }
+
+  .bills-search-table .bills-search-label {
+    flex-basis: 100%;
+    order: 3;
+  }
+
+  .bills-search-table .bills-search-date {
+    order: 4;
+    color: var(--aa-muted);
+    font-size: 0.875rem;
+  }
+
+  .bills-search-table .bills-search-missing .bills-search-label,
+  .bills-search-table .bills-search-date:empty {
+    display: none;
+  }
+}

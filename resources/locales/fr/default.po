@@ -4079,3 +4079,12 @@ msgstr "Supprimer les logs"
 #: ./templates/Admin/view_log.php:10
 msgid "Delete all log files?"
 msgstr "Supprimer tous les fichiers de log ?"
+
+msgid "Invoice search"
+msgstr "Recherche de factures"
+
+msgid "Invoice label"
+msgstr "Libellé de la facture"
+
+msgid "No invoice"
+msgstr "Pas de facture"

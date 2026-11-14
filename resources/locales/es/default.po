@@ -2886,3 +2886,12 @@ msgstr "Eliminar registros"
 #: ./templates/Admin/view_log.php:10
 msgid "Delete all log files?"
 msgstr "¿Eliminar todos los archivos de registro?"
+
+msgid "Invoice search"
+msgstr "Búsqueda de facturas"
+
+msgid "Invoice label"
+msgstr "Concepto de la factura"
+
+msgid "No invoice"
+msgstr "Sin factura"

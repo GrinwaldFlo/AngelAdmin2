@@ -596,6 +596,76 @@ class BillsController extends AppController
         $this->set(compact('bills', 'memberStatus'));
     }
 
+    /**
+     * Seasons shown by the search page: number of seasons back from the current one, 0 = all
+     */
+    public const SEARCH_SEASONS = [1, 2, 3, 0];
+
+    /**
+     * Invoices list: one row per bill, filtered by member status, seasons, team and a text in the label (?label=)
+     *
+     * @param int|null $teamId 0 = all, null = last used
+     * @param int $seasons Current season and the previous ones (1 = this season), 0 = all
+     * @param int|null $memberStatus 0 = all, 1 = active, 2 = alumni, null = last used
+     */
+    public function search(int|null $teamId = null, int $seasons = 1, int|null $memberStatus = null)
+    {
+        $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'viewall');
+
+        $memberStatus = $this->getPrefSession('memberStatus', $memberStatus, 1);
+        $pref = $this->getPref($teamId);
+        if (!in_array($seasons, self::SEARCH_SEASONS, true)) {
+            $seasons = 1;
+        }
+        $label = trim((string)$this->request->getQuery('label', ''));
+
+        $bills = $this->getBills(0, $memberStatus, $pref->teamId, $pref->siteId);
+        if ($seasons > 0) {
+            // From today: the configured year can be ahead (season being prepared)
+            $startDate = self::seasonStart((string)$this->config['firstDaySeason'])->sub(new \DateInterval('P' . ($seasons - 1) . 'Y'));
+            $bills->where(['Bills.created >=' => $startDate]);
+        }
+        // Each word anywhere in the label, in any order (case insensitive: the column collation and SQLite LIKE)
+        foreach (preg_split('/\s+/', $label, -1, PREG_SPLIT_NO_EMPTY) as $word) {
+            $bills->where(['Bills.label LIKE' => '%' . $word . '%']);
+        }
+        $bills->orderBy(['Bills.created' => 'DESC', 'Bills.id' => 'DESC']);
+        $members = $this->getMembers($pref->teamId, $memberStatus, $pref->siteId);
+
+        $rows = $this->searchRows($members, $bills);
+        $this->set(compact('rows', 'memberStatus', 'seasons', 'label'));
+    }
+
+    /**
+     * One row per bill, and one row without bill for the members who have none (so we see who did not get it)
+     *
+     * @param iterable<\App\Model\Entity\Member> $members Members of the filters
+     * @param iterable<\App\Model\Entity\Bill> $bills Bills of the filters, with their member
+     * @return array<array{member: \App\Model\Entity\Member, bill: \App\Model\Entity\Bill|null}> sorted by member name
+     */
+    private function searchRows(iterable $members, iterable $bills): array
+    {
+        $byMember = [];
+        foreach ($members as $member) {
+            $byMember[$member->id] = ['member' => $member, 'bills' => []];
+        }
+        // A bill can belong to a member not listed anymore (moved to another city)
+        foreach ($bills as $bill) {
+            $byMember[$bill->member_id] ??= ['member' => $bill->member, 'bills' => []];
+            $byMember[$bill->member_id]['bills'][] = $bill;
+        }
+        uasort($byMember, fn($a, $b) => strcasecmp($a['member']->FullName, $b['member']->FullName));
+
+        $rows = [];
+        foreach ($byMember as $item) {
+            foreach ($item['bills'] ?: [null] as $bill) {
+                $rows[] = ['member' => $item['member'], 'bill' => $bill];
+            }
+        }
+
+        return $rows;
+    }
+
     public function overview(int|null $memberStatus = null, int|null $teamId = null, int $year = 0, int $billTemplateId = 0)
     {
         $this->Authorization->authorize($this->Bills->newEmptyEntity(), 'overview');

@@ -79,6 +79,36 @@ class AppControllerTest extends TestCase
         $this->assertEquals(new \DateTime('01.09.' . date('Y')), $config['dateSeasonStart']);
     }
 
+    /**
+     * @return array<array{string, string, string}>
+     */
+    public static function seasonStarts(): array
+    {
+        return [
+            'after the first day' => ['1.7', '2026-11-14', '2026-07-01'],
+            'before the first day' => ['1.7', '2026-03-10', '2025-07-01'],
+            'on the first day' => ['01.09', '2026-09-01', '2026-09-01'],
+            'the day before' => ['01.09', '2026-08-31', '2025-09-01'],
+            'leading zeros, 1st January' => ['01.01', '2026-01-01', '2026-01-01'],
+        ];
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('seasonStarts')]
+    public function testSeasonStart(string $firstDay, string $date, string $expected): void
+    {
+        $start = AppController::seasonStart($firstDay, new \DateTimeImmutable($date . ' 15:30'));
+
+        $this->assertSame($expected . ' 00:00:00', $start->format('Y-m-d H:i:s'));
+    }
+
+    public function testSeasonStartDefaultsToToday(): void
+    {
+        $start = AppController::seasonStart('1.7');
+
+        $this->assertLessThanOrEqual(new \DateTimeImmutable('today'), $start);
+        $this->assertGreaterThan(new \DateTimeImmutable('-1 year'), $start);
+    }
+
     public function testConfigFromTable(): void
     {
         $this->setConfig(['year' => '2025', 'firstDaySeason' => '15.08', 'clubName' => 'My club', 'de' => '0']);
