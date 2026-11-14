@@ -322,9 +322,36 @@ class AppController extends Controller
         }
 
         $this->config[$this->config['lng']] ??= 1;
-        $this->config['dateSeasonStart'] = new \DateTime($this->config['firstDaySeason'] . '.' . $this->config['year']);
+        $this->config['dateSeasonStart'] = \DateTime::createFromImmutable(
+            self::seasonFirstDay((string)$this->config['firstDaySeason'], (int)$this->config['year'])
+        );
 
         $this->set('config', $this->config);
+    }
+
+    /**
+     * First day of the season containing the date, not using the configured year
+     * @param string $firstDaySeason day.month, e.g. '1.7' (configuration firstDaySeason)
+     * @param \DateTimeInterface|null $date null = today
+     */
+    public static function seasonStart(string $firstDaySeason, ?\DateTimeInterface $date = null): \DateTimeImmutable
+    {
+        $date = \DateTimeImmutable::createFromInterface($date ?? new \DateTimeImmutable('today'))->setTime(0, 0);
+        $start = self::seasonFirstDay($firstDaySeason, (int)$date->format('Y'));
+
+        return $start > $date ? $start->modify('-1 year') : $start;
+    }
+
+    /**
+     * First day of the season starting in the year
+     * @param string $firstDaySeason day.month, e.g. '1.7' (configuration firstDaySeason)
+     * @param int $year e.g. the configured year
+     */
+    public static function seasonFirstDay(string $firstDaySeason, int $year): \DateTimeImmutable
+    {
+        [$day, $month] = array_map('intval', explode('.', $firstDaySeason) + [1 => 1]);
+
+        return (new \DateTimeImmutable('today'))->setDate($year, $month, $day);
     }
 
     public function beforeFilter(\Cake\Event\EventInterface $event)

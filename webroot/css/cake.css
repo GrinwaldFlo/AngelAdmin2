@@ -545,3 +545,37 @@ li {
 select.team-select {
   height: 300px;
 }
+
+/* Sortable table headers (webroot/js/table-sort.js): the header text is a button, an arrow shows the sorted column */
+.js-sortable .table-sort-btn {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: bold;
+  text-align: left;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.js-sortable .table-sort-btn::after {
+  content: "\2195";
+  margin-left: 0.25rem;
+  color: var(--aa-muted);
+}
+
+.js-sortable th[aria-sort="ascending"] .table-sort-btn::after {
+  content: "\25B2";
+  color: var(--aa-brand);
+}
+
+.js-sortable th[aria-sort="descending"] .table-sort-btn::after {
+  content: "\25BC";
+  color: var(--aa-brand);
+}
+
+.js-sortable .table-sort-btn:hover,
+.js-sortable .table-sort-btn:focus-visible {
+  color: var(--aa-brand);
+}

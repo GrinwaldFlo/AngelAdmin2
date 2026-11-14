@@ -2929,3 +2929,23 @@ msgstr "Logs löschen"
 #: ./templates/Admin/view_log.php:10
 msgid "Delete all log files?"
 msgstr "Alle Logdateien löschen?"
+
+#: ./templates/Bills/search.php:37
+msgid "Invoice search"
+msgstr "Rechnungssuche"
+
+#: ./templates/Bills/search.php:61
+msgid "Invoice label"
+msgstr "Rechnungsbezeichnung"
+
+#: ./templates/Bills/search.php:100
+msgid "No invoice"
+msgstr "Keine Rechnung"
+
+#: ./templates/Bills/search.php:24
+msgid "Two seasons"
+msgstr "Zwei Saisons"
+
+#: ./templates/Bills/search.php:24
+msgid "Three seasons"
+msgstr "Drei Saisons"

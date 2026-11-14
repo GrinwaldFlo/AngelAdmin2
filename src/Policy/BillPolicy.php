@@ -17,10 +17,12 @@ class BillPolicy
         return $user->Role->BillViewAll;
     }
 
-  // Coaches do not see the overview of all the bills
+    /**
+     * Archived page (Bills/overview), replaced by Bills/search: refused to everybody
+     */
     public function canOverview(IdentityInterface $user, Bill $bill)
     {
-        return TeamScope::canUnscoped($user, 'BillViewAll');
+        return false;
     }
 
     public function canEdit(IdentityInterface $user, Bill $bill)

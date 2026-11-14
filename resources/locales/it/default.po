@@ -3026,3 +3026,23 @@ msgstr "Elimina log"
 #: ./templates/Admin/view_log.php:10
 msgid "Delete all log files?"
 msgstr "Eliminare tutti i file di log?"
+
+#: ./templates/Bills/search.php:37
+msgid "Invoice search"
+msgstr "Ricerca fatture"
+
+#: ./templates/Bills/search.php:61
+msgid "Invoice label"
+msgstr "Descrizione della fattura"
+
+#: ./templates/Bills/search.php:100
+msgid "No invoice"
+msgstr "Nessuna fattura"
+
+#: ./templates/Bills/search.php:24
+msgid "Two seasons"
+msgstr "Due stagioni"
+
+#: ./templates/Bills/search.php:24
+msgid "Three seasons"
+msgstr "Tre stagioni"

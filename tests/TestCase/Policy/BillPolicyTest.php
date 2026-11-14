@@ -43,9 +43,14 @@ class BillPolicyTest extends TestCase
         $user = $this->identity(['BillViewAll']);
 
         $this->assertTrue($user->can('viewAll', $this->bill(1)));
-        $this->assertTrue($user->can('overview', $this->bill(1)));
         $this->assertTrue($user->can('view', $this->bill(101)));
         $this->assertFalse($this->identity(['MemberViewAll'])->can('viewAll', $this->bill(1)));
+    }
+
+    public function testOverviewIsArchivedForEverybody(): void
+    {
+        $this->assertFalse($this->identity(['BillViewAll'])->can('overview', $this->bill(1)));
+        $this->assertFalse($this->identity(['Admin', 'BillViewAll', 'BillEditAll', 'BillValidate'])->can('overview', $this->bill(1)));
     }
 
     public function testCoachSeesOnlyBillsOfItsMembersAndNoOverview(): void
