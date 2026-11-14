@@ -16,27 +16,45 @@ $this->Html->script('table-sort', ['block' => true]);
 
 $query = $label !== '' ? ['?' => ['label' => $label]] : [];
 $url = fn(int $team, int $season, int $status): array => ['action' => 'search', $team, $season, $status] + $query;
-$seasonLabels = [1 => __('This year'), 2 => __('Two years'), 3 => __('Three years'), 0 => __('All')];
+$filterLink = fn(string $title, array $link, bool $pressed): string => $this->Html->link(
+    $title,
+    $link,
+    ['class' => 'btn btn-filter btn-sm' . ($pressed ? ' pressed' : '')],
+);
+$seasonLabels = [1 => __('This season'), 2 => __('Two seasons'), 3 => __('Three seasons'), 0 => __('All')];
 // Status order of the sort: problems first
 $statusRank = ['danger' => 1, 'missing' => 2, 'warning' => 3, 'info' => 4, 'success' => 5, 'dark' => 6];
 $sortHeader = fn(string $title, string $type, bool $sorted = false): string => '<th data-sort-type="' . $type . '"'
-    . ($sorted ? ' aria-sort="ascending"' : '') . '><button type="button" class="table-sort-btn">' . h($title) . '</button></th>';
-$memberFilters = $this->my->memberFilterLinks(['action' => 'search', $teamId, $seasons] + $query, $memberStatus, [1, 2]);
+    . ($sorted ? ' aria-sort="ascending"' : '') . '>'
+    . '<button type="button" class="table-sort-btn">' . h($title) . '</button></th>';
+$memberFilters = $this->my->memberFilterLinks(
+    ['action' => 'search', $teamId, $seasons] + $query,
+    $memberStatus,
+    [1, 2],
+);
 ?>
 <div class="bills index content">
     <h3><?= __('Invoice search') ?></h3>
     <div class="btn-bar">
         <?= $memberFilters ?>
         <?php foreach (BillsController::SEARCH_SEASONS as $season) : ?>
-            <?= $this->Html->link($seasonLabels[$season], $url($teamId, $season, $memberStatus), ['class' => 'btn btn-filter btn-sm' . ($season === $seasons ? ' pressed' : '')]) ?>
+            <?= $filterLink($seasonLabels[$season], $url($teamId, $season, $memberStatus), $season === $seasons) ?>
         <?php endforeach; ?>
     </div>
     <div class="btn-bar">
         <?php foreach ($teams as $key => $team) : ?>
-            <?= $this->Html->link(h($team), $url($teamId == $key ? 0 : $key, $seasons, $memberStatus), ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>
+            <?= $filterLink(
+                (string)$team,
+                $url($teamId == $key ? 0 : $key, $seasons, $memberStatus),
+                $key == $teamId,
+            ) ?>
         <?php endforeach; ?>
     </div>
-    <?= $this->Form->create(null, ['type' => 'get', 'url' => $url($teamId, $seasons, $memberStatus), 'class' => 'bills-search-form']) ?>
+    <?= $this->Form->create(null, [
+        'type' => 'get',
+        'url' => $url($teamId, $seasons, $memberStatus),
+        'class' => 'bills-search-form',
+    ]) ?>
     <?= $this->Form->control('label', [
         'label' => false,
         'value' => $label,
@@ -45,7 +63,11 @@ $memberFilters = $this->my->memberFilterLinks(['action' => 'search', $teamId, $s
     ]) ?>
     <?= $this->Form->button(__('Search'), ['class' => 'btn btn-save']) ?>
     <?php if ($label !== '') : ?>
-        <?= $this->Html->link(__('Clear'), ['action' => 'search', $teamId, $seasons, $memberStatus], ['class' => 'btn btn-nav']) ?>
+        <?= $this->Html->link(
+            __('Clear'),
+            ['action' => 'search', $teamId, $seasons, $memberStatus],
+            ['class' => 'btn btn-nav'],
+        ) ?>
     <?php endif; ?>
     <?= $this->Form->end() ?>
 
@@ -62,17 +84,36 @@ $memberFilters = $this->my->memberFilterLinks(['action' => 'search', $teamId, $s
             <tbody>
                 <?php foreach ($rows as $row) :
                     $member = $row['member'];
-                    $bill = $row['bill']; ?>
+                    $bill = $row['bill'];
+                    $rank = $bill === null ? $statusRank['missing'] : $statusRank[$bill->statusHtml] ?? 9; ?>
                     <tr<?= $bill === null ? ' class="bills-search-missing"' : '' ?>>
-                        <td class="bills-search-member"><?= $this->Html->link(h($member->FullName), ['controller' => 'Members', 'action' => 'view', $member->id]) ?></td>
+                        <td class="bills-search-member">
+                            <?= $this->Html->link(
+                                (string)$member->FullName,
+                                ['controller' => 'Members', 'action' => 'view', $member->id],
+                            ) ?>
+                        </td>
                         <?php if ($bill === null) : ?>
                             <td class="bills-search-label" data-sort-value="">&mdash;</td>
                             <td class="bills-search-date"></td>
-                            <td class="bills-search-status" data-sort-value="<?= $statusRank['missing'] ?>"><span class="badge bg-danger"><?= __('No invoice') ?></span></td>
+                            <td class="bills-search-status" data-sort-value="<?= $rank ?>">
+                                <span class="badge bg-danger"><?= __('No invoice') ?></span>
+                            </td>
                         <?php else : ?>
-                            <td class="bills-search-label"><?= $this->Html->link(h($bill->label), ['action' => 'view', $bill->id]) ?></td>
-                            <td class="bills-search-date" data-sort-value="<?= $bill->created ? h($bill->created->format('Y-m-d H:i:s')) : '' ?>"><?= $bill->created ? h($bill->created->i18nFormat('dd.MM.yyyy')) : '' ?></td>
-                            <td class="bills-search-status" data-sort-value="<?= $statusRank[$bill->statusHtml] ?? 9 ?>"><span class="badge bg-<?= h($bill->statusHtml) ?>"><?= h($bill->statusString) ?></span></td>
+                            <td class="bills-search-label">
+                                <?= $this->Html->link((string)$bill->label, ['action' => 'view', $bill->id]) ?>
+                            </td>
+                            <?php if ($bill->created) : ?>
+                                <td class="bills-search-date"
+                                    data-sort-value="<?= h($bill->created->format('Y-m-d H:i:s')) ?>">
+                                    <?= h($bill->created->i18nFormat('dd.MM.yyyy')) ?>
+                                </td>
+                            <?php else : ?>
+                                <td class="bills-search-date"></td>
+                            <?php endif; ?>
+                            <td class="bills-search-status" data-sort-value="<?= $rank ?>">
+                                <span class="badge bg-<?= h($bill->statusHtml) ?>"><?= h($bill->statusString) ?></span>
+                            </td>
                         <?php endif; ?>
                     </tr>
                 <?php endforeach; ?>

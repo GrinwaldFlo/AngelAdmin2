@@ -626,8 +626,10 @@ class BillsController extends AppController
             $bills->where(['Bills.created >=' => $startDate]);
         }
         // Each word anywhere in the label, in any order (case insensitive: the column collation and SQLite LIKE)
-        foreach (preg_split('/\s+/', $label, -1, PREG_SPLIT_NO_EMPTY) as $word) {
-            $bills->where(['Bills.label LIKE' => '%' . $word . '%']);
+        // '!' escapes the LIKE wildcards typed by the user (same ESCAPE syntax in MySQL and SQLite)
+        foreach (preg_split('/\s+/', $label, -1, PREG_SPLIT_NO_EMPTY) as $i => $word) {
+            $bills->where("Bills.label LIKE :labelWord$i ESCAPE '!'")
+                ->bind(":labelWord$i", '%' . str_replace(['!', '%', '_'], ['!!', '!%', '!_'], $word) . '%', 'string');
         }
         $bills->orderBy(['Bills.created' => 'DESC', 'Bills.id' => 'DESC']);
         $members = $this->getMembers($pref->teamId, $memberStatus, $pref->siteId);

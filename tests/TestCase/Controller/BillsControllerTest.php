@@ -281,6 +281,55 @@ class BillsControllerTest extends TestCase
         $this->assertResponseContains('First100 Last100');
     }
 
+    /**
+     * Bill 10: '50% off size_xl', bill 11: 'Shirt off! sizeAxl'
+     * Not escaped, '_' and '%' would match any character(s), '!' would escape the next one
+     *
+     * @return array<array{string, bool, bool}> search, bill 10 found, bill 11 found
+     */
+    public static function wildcardSearches(): array
+    {
+        return [
+            'percent' => ['%', true, false],
+            'underscore' => ['_', true, false],
+            'exclamation' => ['!', false, true],
+            'percent after a number' => ['50%', true, false],
+            'underscore is not any character' => ['size_xl', true, false],
+            'exclamation in a word' => ['off!', false, true],
+            'percent is not any characters' => ['f%x', false, false],
+        ];
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('wildcardSearches')]
+    public function testSearchLabelWildcardsAreLiteral(string $search, bool $found10, bool $found11): void
+    {
+        $this->prepareSearch();
+        $bills = $this->getTableLocator()->get('Bills');
+        $bills->updateAll(['label' => '50% off size_xl'], ['id' => 10]);
+        $bills->updateAll(['label' => 'Shirt off! sizeAxl'], ['id' => 11]);
+
+        $this->get('/bills/search/0/1/1?' . http_build_query(['label' => $search]));
+
+        $this->assertResponseOk();
+        $body = (string)$this->_response->getBody();
+        $this->assertSame($found10, str_contains($body, '/bills/view/10"'));
+        $this->assertSame($found11, str_contains($body, '/bills/view/11"'));
+    }
+
+    public function testSearchEscapesOnce(): void
+    {
+        $this->prepareSearch();
+        $this->getTableLocator()->get('Bills')->updateAll(['label' => 'Shirt & <Co>'], ['id' => 11]);
+        $this->getTableLocator()->get('Members')->updateAll(['last_name' => "O'Neil"], ['id' => 101]);
+
+        $this->get('/bills/search/0/1/1');
+
+        $this->assertResponseContains('Shirt &amp; &lt;Co&gt;');
+        $this->assertResponseContains('First101 O&#039;Neil');
+        $this->assertResponseNotContains('&amp;amp;');
+        $this->assertResponseNotContains('&amp;#039;');
+    }
+
     public function testSearchColumnsAreSortable(): void
     {
         $this->prepareSearch();
@@ -302,9 +351,6 @@ class BillsControllerTest extends TestCase
 
         $this->get('/bills/search/0/1/1');
         $this->assertResponseContains('Own fee');
-        $this->assertResponseNotContains('Last season fee');
-
-        $this->get('/bills/search/0/1/1');
         $this->assertResponseNotContains('Last season fee');
 
         $this->get('/bills/search/0/2/1');

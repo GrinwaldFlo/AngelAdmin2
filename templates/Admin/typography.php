@@ -7,6 +7,7 @@
  * @var \App\View\AppView $this
  */
 $this->Html->css('typography', ['block' => true]);
+$this->Html->script('table-sort', ['block' => true]);
 
 $sections = [
     'principles' => __('Principles'),
@@ -322,6 +323,37 @@ PHP) ?></code></pre>
       <li><?= __('Always .table .table-striped .table-hover .table-sm, inside .table-responsive.') ?></li>
       <li><?= __('Wide tables on mobile: hide secondary columns (d-none d-md-table-cell) or switch to stacked cards.') ?></li>
       <li><?= __('The first column links to the view page, the last column "actions" holds the icon links.') ?></li>
+    </ul>
+
+    <h4><?= __('Sortable columns (webroot/js/table-sort.js)') ?></h4>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-sm js-sortable">
+        <thead>
+          <tr>
+            <th data-sort-type="text" aria-sort="ascending"><button type="button" class="table-sort-btn"><?= __('Name') ?></button></th>
+            <th data-sort-type="date"><button type="button" class="table-sort-btn"><?= __('Date') ?></button></th>
+            <th data-sort-type="number"><button type="button" class="table-sort-btn"><?= __('Status') ?></button></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Junior</td>
+            <td data-sort-value="2026-09-01">01.09.2026</td>
+            <td data-sort-value="5"><span class="badge bg-success"><?= __('Paid') ?></span></td>
+          </tr>
+          <tr>
+            <td>Senior</td>
+            <td data-sort-value="2026-08-15">15.08.2026</td>
+            <td data-sort-value="1"><span class="badge bg-danger"><?= __('Late') ?></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <pre><code><?= h('<table class="... js-sortable">' . "\n" . '  <th data-sort-type="text|number|date"><button type="button" class="table-sort-btn">Name</button></th>' . "\n" . '  <td data-sort-value="2026-09-01">01.09.2026</td>') ?></code></pre>
+    <ul class="tg-rules">
+      <li><?= __('Sorted in the browser: add .js-sortable to the table, a .table-sort-btn button in each sortable header, and load table-sort.js.') ?></li>
+      <li><?= __('Use data-sort-value when the shown text does not sort well (ISO date, status rank). Empty values always go last.') ?></li>
+      <li><?= __('Mark the column the server already sorted with aria-sort="ascending".') ?></li>
     </ul>
   </section>
 

@@ -11,7 +11,7 @@ $dateBill->add($interval);
       <?= $this->Html->link(__('Alumni'), ['action' => 'batchAdd', $teamId, $memberFilter == 2 ? 0 : 2], ['class' => 'btn btn-filter btn-sm' . ($memberFilter == 2 ? ' pressed' : '')]) ?>
       |
       <?php foreach ($teams as $key => $team) : ?>
-            <?= $this->Html->link(h($team), ['action' => 'batchAdd', $teamId == $key ? 0 : $key, $memberFilter], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
+            <?= $this->Html->link((string)$team, ['action' => 'batchAdd', $teamId == $key ? 0 : $key, $memberFilter], ['class' => 'btn btn-filter btn-sm' . ($key == $teamId ? ' pressed' : '')]) ?>      
       <?php endforeach; ?>
     </div>
   </div>

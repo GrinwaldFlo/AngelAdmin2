@@ -4080,11 +4080,22 @@ msgstr "Supprimer les logs"
 msgid "Delete all log files?"
 msgstr "Supprimer tous les fichiers de log ?"
 
+#: ./templates/Bills/search.php:37
 msgid "Invoice search"
 msgstr "Recherche de factures"
 
+#: ./templates/Bills/search.php:61
 msgid "Invoice label"
 msgstr "Libellé de la facture"
 
+#: ./templates/Bills/search.php:100
 msgid "No invoice"
 msgstr "Pas de facture"
+
+#: ./templates/Bills/search.php:24
+msgid "Two seasons"
+msgstr "Deux saisons"
+
+#: ./templates/Bills/search.php:24
+msgid "Three seasons"
+msgstr "Trois saisons"

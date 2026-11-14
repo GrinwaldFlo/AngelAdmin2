@@ -101,6 +101,12 @@ class AppControllerTest extends TestCase
         $this->assertSame($expected . ' 00:00:00', $start->format('Y-m-d H:i:s'));
     }
 
+    public function testSeasonFirstDay(): void
+    {
+        $this->assertSame('2027-07-01 00:00:00', AppController::seasonFirstDay('1.7', 2027)->format('Y-m-d H:i:s'));
+        $this->assertSame('2025-09-15 00:00:00', AppController::seasonFirstDay('15.09', 2025)->format('Y-m-d H:i:s'));
+    }
+
     public function testSeasonStartDefaultsToToday(): void
     {
         $start = AppController::seasonStart('1.7');
