@@ -183,20 +183,21 @@ class MemberManagementComponent extends Component
     }
 
     /**
-     * Delete a member
+     * Delete completely a member: its presences, teams, user account, fields, ... are deleted with it
+     * Refused when the member has invoices (rule noBills of MembersTable)
      */
-    public function deleteMember($id)
+    public function deleteMember(\App\Model\Entity\Member $member): bool
     {
         $controller = $this->getController();
-        $member = $controller->Members->get($id);
 
         if ($controller->Members->delete($member)) {
-            $controller->Flash->success(__('The member has been deleted.'));
+            $controller->Flash->success(__('The member {0} has been deleted.', $member->FullName));
             return true;
-        } else {
-            $controller->Flash->error(__('The member could not be deleted.'));
-            return false;
         }
+
+        $errors = $member->getError('bills');
+        $controller->Flash->error($errors ? implode(' ', $errors) : __('The member could not be deleted.'));
+        return false;
     }
 
     /**

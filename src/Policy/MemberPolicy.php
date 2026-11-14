@@ -49,6 +49,12 @@ class MemberPolicy
         return $user !== null && (bool)$user->Role->Admin;
     }
 
+    // Complete delete of a member (with its presences and teams): only the admins
+    public function canDelete(?IdentityInterface $user, Member $member)
+    {
+        return $user !== null && (bool)$user->Role->Admin;
+    }
+
     public function canAdmin(?IdentityInterface $user, Member $member)
     {
         return $user !== null && $user->Role->Admin;

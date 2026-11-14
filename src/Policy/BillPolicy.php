@@ -30,6 +30,12 @@ class BillPolicy
         return $user->Role->BillEditAll;
     }
 
+    // Complete delete of an invoice: only the admins
+    public function canDelete(IdentityInterface $user, Bill $bill)
+    {
+        return (bool)$user->Role->Admin;
+    }
+
     public function canAdmin(IdentityInterface $user, Bill $bill)
     {
         return $user->Role->Admin;

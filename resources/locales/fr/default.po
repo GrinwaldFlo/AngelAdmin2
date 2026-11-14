@@ -4099,3 +4099,39 @@ msgstr "Deux saisons"
 #: ./templates/Bills/search.php:24
 msgid "Three seasons"
 msgstr "Trois saisons"
+
+#: ./src/Model/Table/MembersTable.php
+msgid "A member with invoices cannot be deleted."
+msgstr "Un membre avec des factures ne peut pas être supprimé."
+
+#: ./src/Controller/Component/MemberManagementComponent.php
+msgid "The member {0} has been deleted."
+msgstr "Le membre {0} a été supprimé."
+
+#: ./src/Controller/MembersController.php
+msgid "You can't delete your own member."
+msgstr "Tu ne peux pas supprimer ton propre membre."
+
+#: ./templates/element/Members/details.php
+msgid "Delete member"
+msgstr "Supprimer le membre"
+
+#: ./templates/element/Members/details.php
+msgid "Delete completely {0}? Their presences, teams, user account and documents are deleted too. This cannot be undone."
+msgstr "Supprimer complètement {0} ? Ses présences, équipes, compte utilisateur et documents seront aussi supprimés. Cette action est irréversible."
+
+#: ./src/Controller/BillsController.php
+msgid "The invoice {0} has been deleted."
+msgstr "La facture {0} a été supprimée."
+
+#: ./src/Controller/BillsController.php
+msgid "The invoice could not be deleted."
+msgstr "La facture n'a pas pu être supprimée."
+
+#: ./templates/Bills/view.php
+msgid "Delete invoice"
+msgstr "Supprimer la facture"
+
+#: ./templates/Bills/view.php
+msgid "Delete completely the invoice {0}? This cannot be undone."
+msgstr "Supprimer complètement la facture {0} ? Cette action est irréversible."

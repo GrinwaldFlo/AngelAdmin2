@@ -3,6 +3,7 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Bill $bill
+ * @var \App\Model\Entity\Role $curRole
  */
 ?>
 <div class="row">
@@ -71,6 +72,14 @@
           <td><?= $bill->canceled ? __('Yes') : __('No'); ?></td>
         </tr>
       </table>
+      <?php if ($curRole->Admin) : ?>
+        <div class="btn-bar">
+            <?= $this->Form->postLink(__('Delete invoice'), ['action' => 'delete', $bill->id], [
+                'class' => 'btn btn-delete btn-sm',
+                'confirm' => __('Delete completely the invoice {0}? This cannot be undone.', $bill->Reference),
+            ]) ?>
+        </div>
+      <?php endif; ?>
     </div>
   </div>
 </div>

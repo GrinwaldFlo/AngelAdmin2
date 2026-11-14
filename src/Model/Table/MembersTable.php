@@ -79,17 +79,22 @@ class MembersTable extends Table
         $this->addBehavior('Timestamp');
         $this->addBehavior('Tools');
 
+        // Not dependent: a member with invoices can't be deleted (rule noBills)
         $this->hasMany('Bills', [
             'foreignKey' => 'member_id',
         ]);
+        // Dependent: deleted with the member (admin delete)
         $this->hasMany('Presences', [
             'foreignKey' => 'member_id',
+            'dependent' => true,
         ]);
         $this->hasMany('MemberOrders', [
             'foreignKey' => 'member_id',
+            'dependent' => true,
         ]);
         $this->hasOne('Users', [
             'foreignKey' => 'member_id',
+            'dependent' => true,
         ]);
         // City of the member: only one, its teams are all in this city
         $this->belongsTo('Sites', [
@@ -102,18 +107,23 @@ class MembersTable extends Table
         ]);
         $this->hasMany('Fields', [
             'foreignKey' => 'member_id',
+            'dependent' => true,
         ]);
         $this->hasOne('MemberField1s', [
             'foreignKey' => 'member_id',
+            'dependent' => true,
         ]);
         $this->hasMany('MembersSpecialFields', [
             'foreignKey' => 'member_id',
+            'dependent' => true,
         ]);
         $this->hasMany('MailingItems', [
             'foreignKey' => 'member_id',
+            'dependent' => true,
         ]);
         $this->hasMany('Registrations', [
             'foreignKey' => 'member_id',
+            'dependent' => true,
         ]);
         $this->hasMany('TeamsCoaches', [
             'foreignKey' => 'member_id',
@@ -352,8 +362,25 @@ class MembersTable extends Table
             'teamsInSite',
             ['errorField' => 'teams', 'message' => __('The teams must be in the location of the member.')],
         );
+        // The invoices are the accounting of the club: they are never deleted with the member
+        $rules->addDelete(
+            fn(Member $member) => !$this->Bills->exists(['member_id' => $member->id]),
+            'noBills',
+            ['errorField' => 'bills', 'message' => __('A member with invoices cannot be deleted.')],
+        );
 
         return $rules;
+    }
+
+    /**
+     * After a member is deleted: its folder (photos, documents) is removed too
+     * The links (teams, presences, user, fields, ...) are deleted by the dependent associations
+     */
+    public function afterDeleteCommit(EventInterface $event, EntityInterface $entity, ArrayObject $options): void
+    {
+        if ($entity instanceof Member) {
+            $entity->deleteFolder();
+        }
     }
 
     /**

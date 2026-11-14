@@ -8,6 +8,7 @@ use Cake\ORM\Entity;
 use Cake\Collection\Collection;
 use Cake\ORM\TableRegistry;
 use Cake\Core\Configure;
+use Cake\Utility\Filesystem;
 
 /**
  * Member Entity
@@ -254,6 +255,17 @@ class Member extends Entity
     protected function _getMemberPath()
     {
         return WWW_ROOT . 'img/members/' . $this->hash . '/';
+    }
+
+    /**
+     * Delete the folder of the member (photos, documents, invoices PDF)
+     * Only with a valid hash: an empty one would point to the folder of all the members
+     */
+    public function deleteFolder(): void
+    {
+        if (is_string($this->hash) && preg_match('/^[0-9a-f]{40}$/i', $this->hash) && is_dir($this->memberPath)) {
+            (new Filesystem())->deleteDir($this->memberPath);
+        }
     }
 
     protected function _getMemberUrl()

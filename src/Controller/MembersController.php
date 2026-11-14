@@ -408,6 +408,31 @@ class MembersController extends AppController
     }
 
     /**
+     * Delete completely a member (admin only), with its presences and teams
+     * Refused for a member with invoices and for the member of the logged user
+     *
+     * @param int|null $id Member id.
+     */
+    public function delete(int|null $id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $member = $this->Members->get($id);
+        $this->Authorization->authorize($member, 'delete');
+
+        if ($member->id === (int)$this->curUser?->member_id) {
+            $this->Flash->error(__("You can't delete your own member."));
+
+            return $this->redirect(['action' => 'view', $member->id]);
+        }
+
+        if ($this->MemberManagement->deleteMember($member)) {
+            return $this->redirect(['action' => 'index']);
+        }
+
+        return $this->redirect(['action' => 'view', $member->id]);
+    }
+
+    /**
      * Edit method
      *
      * @param string|null $id Member id.
