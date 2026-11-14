@@ -73,9 +73,10 @@ class ShopOrderComponent extends Component
      * Everything is checked before the bill is created: nothing is saved if a line is not valid
      *
      * @param array|mixed $orderData
+     * @param bool $forMember true if a merchandising manager orders for the member
      * @return bool true if the order is placed (the messages are flashed)
      */
-    public function placeOrder(Member $member, $orderData): bool
+    public function placeOrder(Member $member, $orderData, bool $forMember = false): bool
     {
         $controller = $this->getController();
         $lines = $this->checkOrder($member, (array)$orderData);
@@ -136,7 +137,10 @@ class ShopOrderComponent extends Component
         }
 
         $this->generateBillPdf($bills->get($bill->id, contain: ['Members', 'Sites']));
-        $controller->Flash->success(__('Your order has been placed successfully! Total amount: {0}', 'CHF ' . number_format((float)$bill->amount, 2)));
+        $amount = 'CHF ' . number_format((float)$bill->amount, 2);
+        $controller->Flash->success($forMember
+            ? __('The order for {0} has been placed successfully! Total amount: {1}', $member->fullName, $amount)
+            : __('Your order has been placed successfully! Total amount: {0}', $amount));
 
         return true;
     }

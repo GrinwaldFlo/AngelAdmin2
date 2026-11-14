@@ -110,6 +110,80 @@ class ShopOrderTest extends TestCase
         $this->assertSame(0, $this->bills());
     }
 
+    public function testNoCartForAnotherMember(): void
+    {
+        $this->loginWith(['MemberViewAll', 'MemberEditAll']);
+
+        $this->get('/members/view/100');
+
+        $this->assertResponseOk();
+        $this->assertResponseNotContains('shop-order-form');
+    }
+
+    public function testShopManagerSeesTheCartOfAnotherMember(): void
+    {
+        $this->loginWith(['MemberViewAll', 'ShopManager']);
+
+        $this->get('/members/view/100');
+
+        $this->assertResponseOk();
+        $this->assertResponseContains('shop-order-form');
+    }
+
+    /**
+     * The order and its bill belong to the member, not to the shop manager
+     */
+    public function testShopManagerOrdersForAnotherMember(): void
+    {
+        $this->loginWith(['MemberViewAll', 'ShopManager']);
+
+        $this->post('/members/view/100', ['shop_order' => [$this->shirt => '3']]);
+
+        $this->assertRedirect(['controller' => 'Members', 'action' => 'view', 100]);
+        $name = $this->getTableLocator()->get('Members')->get(100)->fullName;
+        $this->assertFlashMessageAt(0, "The order for {$name} has been placed successfully! Total amount: CHF 60.00");
+        $bill = $this->getTableLocator()->get('Bills')->find()->firstOrFail();
+        $this->assertSame(100, $bill->member_id);
+        $this->assertEquals(60, $bill->amount);
+        $order = $this->getTableLocator()->get('MemberOrders')->find()->firstOrFail();
+        $this->assertSame(100, $order->member_id);
+        $this->assertSame(3, $order->quantity);
+    }
+
+    /**
+     * Unlike the member itself, the shop manager orders for a member not registered
+     */
+    public function testShopManagerOrdersForMemberNotRegistered(): void
+    {
+        $this->getTableLocator()->get('Members')->updateAll(['registered' => 0], ['id' => 100]);
+        $this->loginWith(['MemberViewAll', 'ShopManager']);
+
+        $this->get('/members/view/100');
+        $this->assertResponseContains('shop-order-form');
+
+        $this->post('/members/view/100', ['shop_order' => [$this->shirt => '1']]);
+
+        $this->assertRedirect(['controller' => 'Members', 'action' => 'view', 100]);
+        $this->assertSame(1, $this->orders());
+    }
+
+    /**
+     * Overdue bills above CHF 150 hide the cart of the member, not the one of the shop manager
+     */
+    public function testShopManagerOrdersForMemberWithOverdueBills(): void
+    {
+        $this->addBill(10, 100, ['amount' => 200, 'due_date' => '2020-01-01']);
+        $this->addBill(11, 1, ['amount' => 200, 'due_date' => '2020-01-01']);
+
+        $this->loginWith(['MemberViewAll', 'MemberEditOwn', 'ShopManager']);
+        $this->get('/members/view/100');
+        $this->assertResponseContains('shop-order-form');
+
+        $this->get('/members/view/1');
+        $this->assertResponseNotContains('shop-order-form');
+        $this->assertResponseContains('You have too many overdue bills to place a new order.');
+    }
+
     public function testNoOrderWhenNotRegistered(): void
     {
         $this->getTableLocator()->get('Members')->updateAll(['registered' => 0], ['id' => 1]);

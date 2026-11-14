@@ -4135,3 +4135,11 @@ msgstr "Supprimer la facture"
 #: ./templates/Bills/view.php
 msgid "Delete completely the invoice {0}? This cannot be undone."
 msgstr "Supprimer complètement la facture {0} ? Cette action est irréversible."
+
+#: ./src/Controller/Component/ShopOrderComponent.php
+msgid "The order for {0} has been placed successfully! Total amount: {1}"
+msgstr "La commande pour {0} a été passée avec succès ! Montant total : {1}"
+
+#: ./templates/element/Members/shop.php
+msgid "Do you want to place this order for {0}?"
+msgstr "Veux-tu passer cette commande pour {0} ?"

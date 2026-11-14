@@ -5,18 +5,21 @@
  * @var \App\Model\Entity\Member $member
  * @var array $shopOffer items the member can order with their available attributes (see ShopOrderComponent::offer())
  * @var bool $isOwn
+ * @var bool|null $shopForMember a merchandising manager orders for this member
+ *   (see MemberOrderPolicy::canOrderFor()), even not registered or with overdue bills
  */
 
-if (empty($shopOffer) || !$isOwn) {
+$shopForMember = !$isOwn && !empty($shopForMember);
+if (empty($shopOffer) || (!$isOwn && !$shopForMember)) {
     return;
 }
 
-if (!$member->registered) {
+if (!$shopForMember && !$member->registered) {
     echo __('You must be registered to place an order.');
     return;
 }
 
-if ($member->late_bills_sum > 150) {
+if (!$shopForMember && $member->late_bills_sum > 150) {
     echo __('You have too many overdue bills to place a new order.');
     return;
 }
@@ -30,7 +33,9 @@ $texts = [
     'empty' => __('Please select at least one item to order.'),
     'confirm' => __('Please confirm your order:'),
     'total' => __('Total amount: CHF {0}', ''),
-    'question' => __('Do you want to place this order?'),
+    'question' => $shopForMember
+        ? __('Do you want to place this order for {0}?', $member->fullName)
+        : __('Do you want to place this order?'),
 ];
 ?>
 <div class="row px-0 mx-0">
