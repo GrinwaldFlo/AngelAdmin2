@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use ArrayObject;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\EventInterface;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
@@ -62,6 +66,17 @@ class MemberOrdersTable extends Table
             'foreignKey' => 'bill_id',
             'joinType' => 'LEFT',
         ]);
+    }
+
+    /**
+     * Order deleted before it was given (by the shop or with its member): its items go back to the stock
+     * Runs in the transaction of the delete
+     */
+    public function afterDelete(EventInterface $event, EntityInterface $entity, ArrayObject $options): void
+    {
+        if (!$entity->delivered) {
+            TableRegistry::getTableLocator()->get('ShopStocks')->release($entity->shop_item_id, $entity->attribute, $entity->quantity);
+        }
     }
 
     /**

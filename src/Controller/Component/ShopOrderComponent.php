@@ -149,14 +149,9 @@ class ShopOrderComponent extends Component
      */
     public function deleteOrder(MemberOrder $order): string
     {
+        // The stock is released by MemberOrdersTable::afterDelete
         $orders = $this->fetchTable('MemberOrders');
-        $deleted = $this->transaction(function () use ($order, $orders) {
-            if (!$order->delivered) {
-                $this->fetchTable('ShopStocks')->release($order->shop_item_id, $order->attribute, $order->quantity);
-            }
-
-            return $orders->delete($order);
-        });
+        $deleted = $this->transaction(fn() => $orders->delete($order));
         if (!$deleted) {
             return self::DELETE_FAILED;
         }

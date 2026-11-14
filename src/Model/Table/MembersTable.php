@@ -88,9 +88,11 @@ class MembersTable extends Table
             'foreignKey' => 'member_id',
             'dependent' => true,
         ]);
+        // With the callbacks: the items of the orders not given yet go back to the stock
         $this->hasMany('MemberOrders', [
             'foreignKey' => 'member_id',
             'dependent' => true,
+            'cascadeCallbacks' => true,
         ]);
         $this->hasOne('Users', [
             'foreignKey' => 'member_id',
@@ -109,13 +111,13 @@ class MembersTable extends Table
             'foreignKey' => 'member_id',
             'dependent' => true,
         ]);
+        // Legacy tables, missing in the databases created with config/schema/base.sql: not dependent,
+        // the delete of a member would fail on them (their foreign keys cascade where they exist)
         $this->hasOne('MemberField1s', [
             'foreignKey' => 'member_id',
-            'dependent' => true,
         ]);
         $this->hasMany('MembersSpecialFields', [
             'foreignKey' => 'member_id',
-            'dependent' => true,
         ]);
         $this->hasMany('MailingItems', [
             'foreignKey' => 'member_id',

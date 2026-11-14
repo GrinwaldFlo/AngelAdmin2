@@ -3,6 +3,7 @@
 namespace App\Controller\Component;
 
 use App\Controller\PrefResult;
+use App\Model\Entity\Member;
 use Cake\Controller\Component;
 use App\Model\Table\MembersTable;
 use App\Policy\TeamScope;
@@ -186,7 +187,7 @@ class MemberManagementComponent extends Component
      * Delete completely a member: its presences, teams, user account, fields, ... are deleted with it
      * Refused when the member has invoices (rule noBills of MembersTable)
      */
-    public function deleteMember(\App\Model\Entity\Member $member): bool
+    public function deleteMember(Member $member): bool
     {
         $controller = $this->getController();
 

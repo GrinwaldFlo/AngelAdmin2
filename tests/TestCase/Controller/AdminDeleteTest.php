@@ -69,9 +69,11 @@ class AdminDeleteTest extends TestCase
     }
 
     /**
-     * Member 100 with a presence, a user account, a coach link, a field, a shop order and a folder
+     * Member 100 with a presence, a user account, a coach link, a field, a shop order not given yet and a folder
+     *
+     * @return int id of the ordered shop item (5 in stock after the order)
      */
-    private function addMemberLinks(): void
+    private function addMemberLinks(): int
     {
         $this->getTableLocator()->get('Presences')->insertQuery()
             ->insert(['meeting_id', 'member_id', 'state'])
@@ -83,17 +85,21 @@ class AdminDeleteTest extends TestCase
             ->insert(['member_id', 'field_type_id', 'value'])
             ->values(['member_id' => 100, 'field_type_id' => 1, 'value' => 'x'])
             ->execute();
+        $itemId = $this->addShopItem('Shirt');
+        $this->setShopStock($itemId, '', 5);
         $this->getTableLocator()->get('MemberOrders')->insertQuery()
             ->insert(['shop_item_id', 'member_id', 'quantity', 'delivered'])
-            ->values(['shop_item_id' => $this->addShopItem('Shirt'), 'member_id' => 100, 'quantity' => 1, 'delivered' => false])
+            ->values(['shop_item_id' => $itemId, 'member_id' => 100, 'quantity' => 2, 'delivered' => false])
             ->execute();
         mkdir($this->folder, 0755, true);
         file_put_contents($this->folder . '100_portrait_300.jpg', 'x');
+
+        return $itemId;
     }
 
     public function testAdminDeletesMemberWithItsLinks(): void
     {
-        $this->addMemberLinks();
+        $itemId = $this->addMemberLinks();
         $this->loginWith(['Admin', 'MemberViewAll', 'MemberEditAll']);
 
         $this->post('/members/delete/100');
@@ -105,8 +111,22 @@ class AdminDeleteTest extends TestCase
             $this->assertSame(0, $this->countRows($table, ['member_id' => 100]), $table);
         }
         $this->assertDirectoryDoesNotExist($this->folder);
+        // The items of the order not given yet are back in the stock
+        $this->assertSame(7, $this->shopStock($itemId));
         // The other members keep their teams
         $this->assertSame(1, $this->countRows('TeamsMembers', ['member_id' => 101]));
+    }
+
+    /**
+     * The legacy tables are missing in the databases created with config/schema/base.sql:
+     * a dependent association would make the delete of a member fail on them
+     */
+    public function testLegacyTablesAreNotDependent(): void
+    {
+        $members = $this->getTableLocator()->get('Members');
+        foreach (['MemberField1s', 'MembersSpecialFields'] as $association) {
+            $this->assertFalse($members->getAssociation($association)->getDependent(), $association);
+        }
     }
 
     public function testMemberWithInvoicesIsNotDeleted(): void
