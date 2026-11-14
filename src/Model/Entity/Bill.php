@@ -131,6 +131,17 @@ class Bill extends Entity
         }
     }
 
+    /**
+     * Delete the PDF and the QR code of the invoice, the member must be loaded
+     */
+    public function deleteFiles(): void
+    {
+        $this->DeleteBillPdf();
+        if (file_exists($this->QRPath)) {
+            unlink($this->QRPath);
+        }
+    }
+
     protected function _getStateList()
     {
         return [0 => __('Draft'), 1 => __('Sent'), 2 => __x('In the way, it has been read', 'Read')];

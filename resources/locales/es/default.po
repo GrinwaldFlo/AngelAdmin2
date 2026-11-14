@@ -2906,3 +2906,39 @@ msgstr "Dos temporadas"
 #: ./templates/Bills/search.php:24
 msgid "Three seasons"
 msgstr "Tres temporadas"
+
+#: ./src/Model/Table/MembersTable.php
+msgid "A member with invoices cannot be deleted."
+msgstr "No se puede eliminar un miembro con facturas."
+
+#: ./src/Controller/Component/MemberManagementComponent.php
+msgid "The member {0} has been deleted."
+msgstr "El miembro {0} ha sido eliminado."
+
+#: ./src/Controller/MembersController.php
+msgid "You can't delete your own member."
+msgstr "No puedes eliminar tu propio miembro."
+
+#: ./templates/element/Members/details.php
+msgid "Delete member"
+msgstr "Eliminar miembro"
+
+#: ./templates/element/Members/details.php
+msgid "Delete completely {0}? Their presences, teams, user account and documents are deleted too. This cannot be undone."
+msgstr "¿Eliminar completamente a {0}? Sus asistencias, equipos, cuenta de usuario y documentos también se eliminarán. Esta acción no se puede deshacer."
+
+#: ./src/Controller/BillsController.php
+msgid "The invoice {0} has been deleted."
+msgstr "La factura {0} ha sido eliminada."
+
+#: ./src/Controller/BillsController.php
+msgid "The invoice could not be deleted."
+msgstr "No se pudo eliminar la factura."
+
+#: ./templates/Bills/view.php
+msgid "Delete invoice"
+msgstr "Eliminar factura"
+
+#: ./templates/Bills/view.php
+msgid "Delete completely the invoice {0}? This cannot be undone."
+msgstr "¿Eliminar completamente la factura {0}? Esta acción no se puede deshacer."

@@ -10,6 +10,8 @@ if (isset($curUser, $member)) {
     $allowQuit = $curRole->MemberEditAll || ($curRole->MemberEditOwn && $member->id == $curUser->member_id && $config['allowResiliation']);
     $allowViewBills = $curRole->BillViewAll || $member->id == $curUser->member_id;
     $isOwn = ($curRole->MemberEditOwn && $member->id == $curUser->member_id);
+    // Complete delete: admins only, not for a member with invoices nor for their own member
+    $allowDelete = $curRole->Admin && empty($member->bills) && $member->id != $curUser->member_id;
 
     $imgUrl = $member->ImgExists ? $member->GetImgUrl(500) . '?' . rand() : '/img/cheerPlaceholder.jpg';
     $imgIdUrl = $member->ImgIdExists ? $member->GetImgIdUrl(500) . '?' . rand() : '/img/carteId.jpg';
@@ -18,6 +20,7 @@ if (isset($curUser, $member)) {
     $allowQuit = false;
     $allowViewBills = false;
     $isOwn = false;
+    $allowDelete = false;
 }
 
 $contactEmail = $config['email'];
@@ -35,7 +38,7 @@ $contactEmail = $config['email'];
 
                 <div class="row px-0 mx-0">
                     <?= $this->element('Members/profile_card', compact('member', 'allowEdit', 'imgUrl', 'imgIdUrl')) ?>
-                    <?= $this->element('Members/details', compact('member', 'allowEdit', 'allowQuit', 'curRole', 'config')) ?>
+                    <?= $this->element('Members/details', compact('member', 'allowEdit', 'allowQuit', 'allowDelete', 'curRole', 'config')) ?>
                 </div>
             </div>
         <hr />        

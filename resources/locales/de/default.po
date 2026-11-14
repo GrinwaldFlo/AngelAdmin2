@@ -2949,3 +2949,39 @@ msgstr "Zwei Saisons"
 #: ./templates/Bills/search.php:24
 msgid "Three seasons"
 msgstr "Drei Saisons"
+
+#: ./src/Model/Table/MembersTable.php
+msgid "A member with invoices cannot be deleted."
+msgstr "Ein Mitglied mit Rechnungen kann nicht gelöscht werden."
+
+#: ./src/Controller/Component/MemberManagementComponent.php
+msgid "The member {0} has been deleted."
+msgstr "Das Mitglied {0} wurde gelöscht."
+
+#: ./src/Controller/MembersController.php
+msgid "You can't delete your own member."
+msgstr "Du kannst dein eigenes Mitglied nicht löschen."
+
+#: ./templates/element/Members/details.php
+msgid "Delete member"
+msgstr "Mitglied löschen"
+
+#: ./templates/element/Members/details.php
+msgid "Delete completely {0}? Their presences, teams, user account and documents are deleted too. This cannot be undone."
+msgstr "{0} vollständig löschen? Anwesenheiten, Teams, Benutzerkonto und Dokumente werden ebenfalls gelöscht. Dies kann nicht rückgängig gemacht werden."
+
+#: ./src/Controller/BillsController.php
+msgid "The invoice {0} has been deleted."
+msgstr "Die Rechnung {0} wurde gelöscht."
+
+#: ./src/Controller/BillsController.php
+msgid "The invoice could not be deleted."
+msgstr "Die Rechnung konnte nicht gelöscht werden."
+
+#: ./templates/Bills/view.php
+msgid "Delete invoice"
+msgstr "Rechnung löschen"
+
+#: ./templates/Bills/view.php
+msgid "Delete completely the invoice {0}? This cannot be undone."
+msgstr "Die Rechnung {0} vollständig löschen? Dies kann nicht rückgängig gemacht werden."

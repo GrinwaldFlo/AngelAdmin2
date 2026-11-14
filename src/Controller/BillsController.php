@@ -122,6 +122,27 @@ class BillsController extends AppController
     }
 
     /**
+     * Delete completely an invoice (admin only), its shop orders are kept without invoice
+     *
+     * @param int|null $id Bill id.
+     */
+    public function delete(int|null $id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $bill = $this->Bills->get($id, contain: ['Members', 'Sites']);
+        $this->Authorization->authorize($bill, 'delete');
+
+        if ($this->Bills->delete($bill)) {
+            $this->Flash->success(__('The invoice {0} has been deleted.', $bill->Reference));
+
+            return $this->redirect(['controller' => 'Members', 'action' => 'view', $bill->member_id]);
+        }
+        $this->Flash->error(__('The invoice could not be deleted.'));
+
+        return $this->redirect(['action' => 'view', $bill->id]);
+    }
+
+    /**
      * Add method
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.

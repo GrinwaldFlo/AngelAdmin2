@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\Bill;
+use ArrayObject;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\EventInterface;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Cake\Utility\Text;
 use Cake\Datasource\ResultSetInterface;
@@ -151,6 +156,34 @@ class BillsTable extends Table
         $rules->add($rules->existsIn(['site_id'], 'Sites'));
 
         return $rules;
+    }
+
+    /**
+     * The shop orders of a deleted invoice are kept, without invoice
+     */
+    public function afterDelete(EventInterface $event, EntityInterface $entity, ArrayObject $options): void
+    {
+        TableRegistry::getTableLocator()->get('MemberOrders')->updateAll(['bill_id' => null], ['bill_id' => $entity->id]);
+    }
+
+    /**
+     * The PDF and QR code of a deleted invoice are removed (in the folder of its member)
+     */
+    public function afterDeleteCommit(EventInterface $event, EntityInterface $entity, ArrayObject $options): void
+    {
+        if (!$entity instanceof Bill) {
+            return;
+        }
+        // The bill row is gone: its member and site (reference) are loaded by their id
+        if (!$entity->has('member')) {
+            $entity->member = $this->Members->find()->where(['Members.id' => $entity->member_id])->first();
+        }
+        if (!$entity->has('site')) {
+            $entity->site = $this->Sites->find()->where(['Sites.id' => $entity->site_id])->first();
+        }
+        if ($entity->member !== null && $entity->site !== null) {
+            $entity->deleteFiles();
+        }
     }
   // Just kept for sample, use App GetBills()
     public function findBills(Query $query, array $options)

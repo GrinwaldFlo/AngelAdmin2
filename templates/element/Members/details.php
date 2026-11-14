@@ -5,6 +5,7 @@
  * @var \App\Model\Entity\Member $member
  * @var bool $allowEdit
  * @var bool $allowQuit
+ * @var bool $allowDelete
  * @var object $curRole
  * @var array $config
  */
@@ -59,4 +60,8 @@
     <?= $allowEdit && !$member->checked ? $this->Form->postLink(__('The information is correct'), ['action' => 'checked', $member->id], ['class' => 'btn btn-save btn-sm']) : '' ?>
     <?= $allowQuit && $member->active ? $this->Html->link(__('Quit membership'), ['action' => 'cancelRegistration', $member->id], ['class' => 'btn btn-delete btn-sm']) : '' ?>
     <?= $allowEdit ? $this->Html->link(__('Edit'), ['action' => 'edit', $member->id], ['class' => 'btn btn-edit btn-sm']) : '' ?>
+    <?= $allowDelete ? $this->Form->postLink(__('Delete member'), ['action' => 'delete', $member->id], [
+        'class' => 'btn btn-delete btn-sm',
+        'confirm' => __('Delete completely {0}? Their presences, teams, user account and documents are deleted too. This cannot be undone.', $member->FullName),
+    ]) : '' ?>
 </div>

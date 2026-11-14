@@ -168,9 +168,17 @@ class MemberManagementComponentTest extends TestCase
 
     public function testDeleteMember(): void
     {
-        $this->assertTrue($this->management(['Admin'])->deleteMember(100));
+        $management = $this->management(['Admin']);
+        $members = $this->getTableLocator()->get('Members');
 
-        $this->assertFalse($this->getTableLocator()->get('Members')->exists(['id' => 100]));
+        // Member 100 with an invoice: refused
+        $this->addBill(10, 100);
+        $this->assertFalse($management->deleteMember($members->get(100)));
+        $this->assertTrue($members->exists(['id' => 100]));
+
+        $this->getTableLocator()->get('Bills')->deleteAll(['member_id' => 100]);
+        $this->assertTrue($management->deleteMember($members->get(100)));
+        $this->assertFalse($members->exists(['id' => 100]));
     }
 
     public function testSetMemberLanguage(): void

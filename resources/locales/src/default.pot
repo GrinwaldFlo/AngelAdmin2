@@ -5242,3 +5242,39 @@ msgstr ""
 msgid "contact our support"
 msgstr ""
 
+
+#: ./src/Model/Table/MembersTable.php
+msgid "A member with invoices cannot be deleted."
+msgstr ""
+
+#: ./src/Controller/Component/MemberManagementComponent.php
+msgid "The member {0} has been deleted."
+msgstr ""
+
+#: ./src/Controller/MembersController.php
+msgid "You can't delete your own member."
+msgstr ""
+
+#: ./templates/element/Members/details.php
+msgid "Delete member"
+msgstr ""
+
+#: ./templates/element/Members/details.php
+msgid "Delete completely {0}? Their presences, teams, user account and documents are deleted too. This cannot be undone."
+msgstr ""
+
+#: ./src/Controller/BillsController.php
+msgid "The invoice {0} has been deleted."
+msgstr ""
+
+#: ./src/Controller/BillsController.php
+msgid "The invoice could not be deleted."
+msgstr ""
+
+#: ./templates/Bills/view.php
+msgid "Delete invoice"
+msgstr ""
+
+#: ./templates/Bills/view.php
+msgid "Delete completely the invoice {0}? This cannot be undone."
+msgstr ""
