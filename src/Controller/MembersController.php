@@ -199,6 +199,8 @@ class MembersController extends AppController
 
     /**
      * Handle shop order functionality for any member
+     * A registered member orders for itself, a merchandising manager can also order for another member,
+     * even not registered or with overdue bills
      *
      * @param \App\Model\Entity\Member $member The member entity
      * @param string $redirectAction The action to redirect to after successful order
@@ -206,11 +208,13 @@ class MembersController extends AppController
      */
     private function handleShopOrder($member, string $redirectAction = 'view')
     {
-        // Handle shop order submission: as on the page, only a registered member orders for itself
         $isOwn = $redirectAction === 'myPage' || ($this->curUser !== null && $this->curUser->member_id == $member->id);
-        if ($this->request->is('post') && $isOwn && $member->registered) {
+        $shopForMember = !$isOwn && $this->canOrderForMember();
+        $this->set('shopForMember', $shopForMember);
+
+        if ($this->request->is('post') && (($isOwn && $member->registered) || $shopForMember)) {
             $orderData = $this->request->getData('shop_order');
-            if (!empty($orderData) && $this->ShopOrder->placeOrder($member, $orderData)) {
+            if (!empty($orderData) && $this->ShopOrder->placeOrder($member, $orderData, $shopForMember)) {
                 return $redirectAction === 'myPage'
                     ? $this->redirect(['action' => 'myPage'])
                     : $this->redirect(['action' => 'view', $member->id]);
@@ -219,6 +223,15 @@ class MembersController extends AppController
         }
 
         return $this->ShopOrder->offer($member);
+    }
+
+    /**
+     * True if the logged user can order for another member (see MemberOrderPolicy::canOrderFor())
+     */
+    private function canOrderForMember(): bool
+    {
+        return $this->curUser !== null
+            && $this->Authorization->can($this->fetchTable('MemberOrders')->newEmptyEntity(), 'orderFor');
     }
 
     public function myPage($hash = null)

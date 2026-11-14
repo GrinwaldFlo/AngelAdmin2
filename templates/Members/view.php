@@ -46,8 +46,8 @@ $contactEmail = $config['email'];
             <?= $this->element('Members/files', compact('member', 'files', 'config')) ?>
         <?php endif; ?>
 
-        <?php if (!empty($shopOffer) && $isOwn && $member->registered) : ?>
-            <?= $this->element('Members/shop', compact('member', 'shopOffer', 'isOwn')) ?>
+        <?php if (!empty($shopOffer) && (($isOwn && $member->registered) || !empty($shopForMember))) : ?>
+            <?= $this->element('Members/shop', compact('member', 'shopOffer', 'isOwn', 'shopForMember')) ?>
             <hr />
         <?php endif; ?>
 

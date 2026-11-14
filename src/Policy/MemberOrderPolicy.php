@@ -40,4 +40,12 @@ class MemberOrderPolicy
     {
         return TeamScope::canManageShop($user);
     }
+
+    /**
+     * Place an order for another member, from its member page: only the merchandising managers
+     */
+    public function canOrderFor(IdentityInterface $user): bool
+    {
+        return (bool)$user->Role->ShopManager;
+    }
 }
