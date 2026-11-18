@@ -25,9 +25,9 @@ Builds on the coach rework (`docs/implementationCoachRework.md`): coaches of a t
 | 10 | Payment | "Mark as paid" creates one payment covering **all** due open presences of the coach for that site (decision 4), at the moment of the click. The QR code amount is that total. Balance goes back to 0.- |
 | 11 | Lock | A paid presence is read-only for everyone (also on the attendance page). To correct a mistake, the admin deletes the payment: its presences become open again |
 | 12 | Admin access | Settings and reporting pages: `Admin` only. No new role flag. Always one site: with "all sites" (`0`) selected, the pages ask to choose a site |
-| 13 | IBAN | Stored **per coach and per site** (a coach in two sites may get paid on two accounts). Entered by the admin only, on the settings page. Write-only: the form never shows it back, lists show `•••• 1234` (last 4 digits). Only CH/LI IBANs (Swiss QR bill limitation), validated with `sprain/swiss-qr-bill`. The full IBAN is only in the generated QR code, on an admin-only page |
+| 13 | IBAN | Stored **per coach and per site** (a coach in two sites may get paid on two accounts). Set by the admin (settings page) **or by the coach themselves** (My account, decision 15). Write-only for everyone: the form never shows it back, pages show `•••• 1234` (last 4 digits), a new IBAN replaces the old one. Only CH/LI IBANs (Swiss QR bill limitation), validated with `sprain/swiss-qr-bill`. The full IBAN is only in the generated QR code, on an admin-only page |
 | 14 | Deleting a type | A type used by at least one presence can't be deleted, only deactivated (hidden from the attendance page, kept in reports) |
-| 15 | Coach's own view | On "My account" (`Members/view` of their own member), a coach sees, per site, their due open balance, planned presences and payment history. Read-only, only for themselves (not shown when someone else opens the member page), IBAN shown masked |
+| 15 | Coach's own view | On "My account" (`Members/view` of their own member), a coach sees, per site, their due open balance, planned presences and payment history (read-only), and their masked IBAN with a form to set a new one. A warning "No IBAN set" is shown when they have none for that site. Only for themselves: not shown when someone else opens the member page |
 | 16 | Statistics | Count per presence type, per team, for the current season (`dateSeasonStart` → today) |
 
 ## Database
@@ -71,9 +71,18 @@ A "Coaches" block just above the presence filters (`.mt-filters`), rendered by a
 - The "Mark the rest as present" bulk button does not touch coaches. Meeting counters (`present`, `absent`...) don't count coaches.
 - Hash-access members never see this block (it needs a logged user).
 
-## Coach's own balance (My account)
+## Coach's own balance and IBAN (My account)
 
-`CoachBalanceCell` rendered on `Members/view`, only when the viewed member is the current user's member (`curUser->member_id`) and they have coach presences or a coach account. One card per site: due open balance, planned presences, last payments, masked IBAN (or "No IBAN registered, contact the administrator").
+`CoachBalanceCell` rendered on `Members/view`, only when the viewed member is the current user's member (`curUser->member_id`) and they are a coach (a `teams_coaches` row), have coach presences or a coach account. One card per site (sites of their coached teams, plus sites where they have presences or an account):
+
+- Due open balance, planned presences, last payments (read-only).
+- **IBAN:**
+  - When set: `•••• 1234` (last 4 digits) and a `btn-edit` "Change IBAN". The full IBAN is never sent to the browser.
+  - When not set: `alert alert-warning` "No IBAN set: you can't be paid until you set one." and a `btn-add` "Set IBAN".
+  - The form (collapsed under the button) has one empty IBAN field, never pre-filled, and a `btn-save`. A new IBAN replaces the old one. Validation errors (not CH/LI, invalid checksum) shown as a flash message, back to My account.
+  - The coach can't remove their IBAN (only replace it); the admin can remove it from the settings page.
+
+Action `CoachAccountsController::setIban($siteId)` (POST, logged users only, no hash access): always saves for `curUser->member_id`, never for a member id from the request. Policy `CoachAccountPolicy::canSetOwnIban`: the user's member is a coach of a team of that site, or already has presences or an account in that site. Redirects to `Members/view` of their member.
 
 ## Administration (Admin only)
 
@@ -116,6 +125,7 @@ Meeting deletion: `MeetingsController::delete` must show the listener's error as
 - `CoachPresencesTable`: set/clear type, refused for a paid row, a non-coach member, an inactive type or a type of another site; future presence allowed but not due; open balance follows a type amount change; paid amount does not.
 - `CoachPaymentsTable`: `payOpen` total only includes due presences and the given site, refused at 0, delete reopens presences.
 - `CoachAccountsTable`: one IBAN per site, CH/LI validation, IBAN never serialised.
+- `CoachAccountsController::setIban`: the coach sets/replaces their own IBAN for a site they coach in; refused for a site they don't coach in, for hash-access users and anonymous; a `member_id` in the POST data is ignored (can't change someone else's IBAN); the full IBAN never appears in the My account HTML; "No IBAN set" warning shown when missing.
 - Listener: meeting delete refused with paid coach presences, allowed (and cascades) with only open ones.
 - `QrBillBuilder`: same output as before for bills (existing bill PDF tests still pass).
 - Controllers: access (admin only for `CoachPayments`, `CoachPresences::set` follows `canSetPresence` incl. team scope), site isolation (data of another site never shown), IBAN never in the HTML except inside the QR image.
