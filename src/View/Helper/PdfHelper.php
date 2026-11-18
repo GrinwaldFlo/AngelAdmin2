@@ -6,7 +6,7 @@ namespace App\View\Helper;
 use App\Model\Entity\Content;
 use Cake\View\Helper;
 use Cake\Core\Configure;
-use Sprain\SwissQrBill as QrBill;
+use App\Service\QrBillBuilder;
 
 class PdfHelper extends Helper
 {
@@ -499,75 +499,23 @@ class PdfHelper extends Helper
         if ($bill->amount < 1) {
             return;
         }
-        // Create a new instance of QrBill, containing default headers with fixed values
-        $qrBill = QrBill\QrBill::create();
-
-        // Add creditor information
-// Who will receive the payment and to which bank account?
-        $qrBill->setCreditor(
-            QrBill\DataGroup\Element\CombinedAddress::create(
-                $bill->site->account_designation,
-                $bill->site->address,
-                $bill->site->postcode . ' ' . $bill->site->city,
-                'CH'
-            )
-        );
-
-        $qrBill->setCreditorInformation(
-            QrBill\DataGroup\Element\CreditorInformation::create(
-                $bill->site->iban // This is a special QR-IBAN. Classic IBANs will not be valid here.
-            )
-        );
-
-        // Add debtor information
-// Who has to pay the invoice? This part is optional.
-//
-// Notice how you can use two different styles of addresses: CombinedAddress or StructuredAddress.
-// They are interchangeable for creditor as well as debtor.
+        // Debtor (who has to pay) only with a complete address
+        $debtor = null;
         if (!empty($bill->member->FullName) && !empty($bill->member->postcode) && !empty($bill->member->city)) {
-            $qrBill->setUltimateDebtor(
-                QrBill\DataGroup\Element\StructuredAddress::createWithStreet(
-                    $bill->member->FullName,
-                    $bill->member->address,
-                    '',
-                    $bill->member->postcode,
-                    $bill->member->city,
-                    'CH'
-                )
-            );
+            $debtor = QrBillBuilder::structuredAddress($bill->member->FullName, $bill->member->address, (string)$bill->member->postcode, $bill->member->city);
         }
 
-        // Add payment amount information
-// What amount is to be paid?
-        $qrBill->setPaymentAmountInformation(
-            QrBill\DataGroup\Element\PaymentAmountInformation::create(
-                'CHF',
-                $bill->amount
-            )
-        );
-
-        $qrBill->setPaymentReference(
-            QrBill\DataGroup\Element\PaymentReference::create(
-                QrBill\DataGroup\Element\PaymentReference::TYPE_NON
-            )
-        );
-
-        // Optionally, add some human-readable information about what the bill is for.
-        $qrBill->setAdditionalInformation(
-            QrBill\DataGroup\Element\AdditionalInformation::create(
-                $bill->Reference . ' - ' . $bill->label
-            )
-        );
-
-        // Now get the QR code image and save it as a file.
         try {
-            $qrBill->getQrCode()->writeFile($bill->QRPath);
-        } catch (\Exception $e) {
-            $messages = [];
-            foreach ($qrBill->getViolations() as $violation) {
-                $messages[] = $violation->getMessage();
-            }
-            throw new \RuntimeException(__('The QR code of the invoice {0} could not be created: {1}', $bill->Reference, implode(' ', $messages) ?: $e->getMessage()), 0, $e);
+            $qrCode = QrBillBuilder::build(
+                QrBillBuilder::combinedAddress((string)$bill->site->account_designation, $bill->site->address, $bill->site->postcode . ' ' . $bill->site->city),
+                (string)$bill->site->iban,
+                (float)$bill->amount,
+                $debtor,
+                $bill->Reference . ' - ' . $bill->label
+            );
+            $qrCode->writeFile($bill->QRPath);
+        } catch (\Throwable $e) {
+            throw new \RuntimeException(__('The QR code of the invoice {0} could not be created: {1}', $bill->Reference, $e->getMessage()), 0, $e);
         }
     }
 }

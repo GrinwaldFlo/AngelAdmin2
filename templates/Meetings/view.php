@@ -55,6 +55,8 @@ $separatorShown = false;
     <?php endforeach; ?>
   </nav>
 
+  <?= $this->cell('CoachPresences', [$meeting]) ?>
+
   <div class="mt-toolbar">
     <div class="mt-filters">
       <?php foreach ($m->filters() as $filter => $info) : ?>

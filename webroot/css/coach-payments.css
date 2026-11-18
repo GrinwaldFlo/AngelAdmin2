@@ -1,0 +1,192 @@
+/* Coach payment module: coaches on the attendance page, coach balance (My account), admin pages */
+
+.cp-coaches,
+.cp-balance-card,
+.cp-coach-section {
+  --cp-card: var(--aa-card);
+  --cp-border: var(--aa-border);
+  --cp-text: var(--aa-text);
+  --cp-muted: var(--aa-muted);
+  --cp-selected: var(--aa-brand-hover);
+  --cp-paid: var(--aa-success);
+  --cp-radius: var(--aa-radius-card);
+}
+
+/* Attendance page */
+
+.cp-coaches {
+  margin-bottom: 16px;
+}
+
+.cp-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.cp-coach-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cp-coach {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px 6px 12px;
+  margin-bottom: 6px;
+  background: var(--cp-card);
+  border: 1px solid var(--cp-border);
+  border-left: 4px solid var(--cp-border);
+  border-radius: 10px;
+}
+
+.cp-coach:not([data-type=""]) {
+  border-left-color: var(--cp-selected);
+}
+
+.cp-coach-name {
+  flex: 1 1 160px;
+  min-width: 0;
+  font-weight: 600;
+}
+
+.cp-coach-name .mt-muted {
+  display: block;
+  font-weight: 400;
+}
+
+.cp-types {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.cp-type {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: var(--aa-touch);
+  padding: 4px 12px;
+  border: 1px solid var(--cp-border);
+  border-radius: 10px;
+  background: var(--cp-card);
+  color: var(--cp-text);
+  font-weight: 600;
+  touch-action: manipulation;
+  transition: background-color 0.1s, color 0.1s;
+}
+
+.cp-type[aria-pressed="true"] {
+  background: var(--cp-selected);
+  border-color: var(--cp-selected);
+  color: #ffffff;
+}
+
+.cp-hint {
+  margin: 4px 0 0;
+}
+
+.cp-error {
+  margin-top: 8px;
+}
+
+@media (min-width: 992px) {
+  .cp-type {
+    min-height: 36px;
+  }
+}
+
+/* Coach balance (My account) */
+
+.cp-balance-card {
+  margin-bottom: 16px;
+}
+
+.cp-balance-grid {
+  display: grid;
+  grid-template-columns: minmax(120px, max-content) 1fr;
+  gap: 4px 16px;
+  margin-bottom: 8px;
+}
+
+.cp-balance-grid dd {
+  margin: 0;
+}
+
+.cp-amount {
+  font-weight: 600;
+}
+
+.cp-iban {
+  font-family: monospace;
+  margin-right: 8px;
+}
+
+.cp-iban-missing {
+  margin-bottom: 8px;
+}
+
+.cp-iban-form {
+  max-width: 420px;
+  margin-bottom: 12px;
+}
+
+/* Admin pages */
+
+.cp-section-title {
+  margin-top: 24px;
+}
+
+.cp-type-form {
+  margin-bottom: 16px;
+}
+
+.cp-iban-inline {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+
+.cp-iban-inline .mb-3 {
+  margin-bottom: 0 !important;
+}
+
+.cp-coach-section {
+  padding-top: 16px;
+  margin-bottom: 24px;
+  border-top: 1px solid var(--cp-border);
+}
+
+.cp-balance {
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.cp-planned td {
+  color: var(--cp-muted);
+}
+
+.cp-pay {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.cp-qr {
+  width: 200px;
+  max-width: 100%;
+  height: auto;
+  background: #ffffff;
+}
+
+.cp-inactive {
+  margin-top: 16px;
+}

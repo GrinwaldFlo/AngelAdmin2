@@ -24,7 +24,7 @@ Builds on the coach rework (`docs/implementationCoachRework.md`): coaches of a t
 | 9 | Balance scope | Per coach **and per site**: each site pays its coaches from its own account (`sites.iban`, `account_designation`, address). A coach of teams in two sites has two separate balances, accounts and payment histories |
 | 10 | Payment | "Mark as paid" creates one payment covering **all** due open presences of the coach for that site (decision 4), at the moment of the click. The QR code amount is that total. Balance goes back to 0.- |
 | 11 | Lock | A paid presence is read-only for everyone (also on the attendance page). To correct a mistake, the admin deletes the payment: its presences become open again |
-| 12 | Admin access | Settings and reporting pages: `Admin` only. No new role flag. Always one site: with "all sites" (`0`) selected, the pages ask to choose a site |
+| 12 | Admin access | Settings and reporting pages: `Admin` only (`CoachPaymentPolicy::canAdmin`). No new role flag. Always one site: with "all sites" (`0`) selected in the menu, the pages use the first site (`getSiteId(true)`), the menu shows which one |
 | 13 | IBAN | Stored **per coach and per site** (a coach in two sites may get paid on two accounts). Set by the admin (settings page) **or by the coach themselves** (My account, decision 15). Write-only for everyone: the form never shows it back, pages show `•••• 1234` (last 4 digits), a new IBAN replaces the old one. Only CH/LI IBANs (Swiss QR bill limitation), validated with `sprain/swiss-qr-bill`. The full IBAN is only in the generated QR code, on an admin-only page |
 | 14 | Deleting a type | A type used by at least one presence can't be deleted, only deactivated (hidden from the attendance page, kept in reports) |
 | 15 | Coach's own view | On "My account" (`Members/view` of their own member), a coach sees, per site, their due open balance, planned presences and payment history (read-only), and their masked IBAN with a form to set a new one. A warning "No IBAN set" is shown when they have none for that site. Only for themselves: not shown when someone else opens the member page |
@@ -66,8 +66,10 @@ Associations are declared only on the module tables (`belongsTo` existing tables
 A "Coaches" block just above the presence filters (`.mt-filters`), rendered by a `CoachPresencesCell`, shown only when the team has coaches or declared coach presences.
 
 - One row per coach, same layout as the member rows (`mt-member`): name, coach/help-coach label, then one button per active presence type of the site (same look as the member state buttons), plus a way to clear (not declared).
-- Paid rows show the selected type disabled with a "Paid" badge.
-- Saving uses AJAX like the members, in its own `webroot/js/coach-presences.js`: new controller action `CoachPresencesController::set($meetingId)`, POST `member_id`, `type_id` (empty = clear), authorised with `canSetPresence` on the meeting, JSON answer `{saved, error}`.
+- Paid rows show the selected type (not a button) with a "Paid" badge.
+- Tapping the selected type again clears it (not declared).
+- The block uses its own classes (`cp-*` in `webroot/css/coach-payments.css`), not `mt-member`, so `meetings.js` counters and filters ignore the coaches.
+- Saving uses AJAX like the members, in its own `webroot/js/coach-presences.js`: controller action `CoachPresencesController::setType($meetingId)` (`set` is reserved by `Controller::set()`), POST `member_id`, `type_id` (empty = clear), authorised with `canSetPresence` on the meeting, JSON answer `{saved, error}` (422 with the message when refused).
 - The "Mark the rest as present" bulk button does not touch coaches. Meeting counters (`present`, `absent`...) don't count coaches.
 - Hash-access members never see this block (it needs a logged user).
 
@@ -102,6 +104,7 @@ One long page for the selected site, one section (h4) per coach who has presence
 - Statistics (decision 16).
 - Open presences: table (date, meeting, team, type, amount), due total and planned total.
 - When the due total > 0: the Swiss QR code (creditor = coach name/address/IBAN of this site, debtor = site `account_designation`/address, amount = due total, CHF, reference type NON, additional info "Coach {season} - {coach name}") and a `btn-add` "Mark as paid" (`postLink` with confirm, shows the amount). The QR is generated in memory (data URI), not stored on disk.
+- "Mark as paid" posts the amount shown: the payment is refused if the due balance changed since the page was opened (e.g. a coach declared a presence meanwhile).
 - When the coach has no IBAN for this site or no address: no QR code, an `alert alert-warning` with a link to the settings.
 - Payment history: date, amount, number of presences, delete (`icon-btn-delete`, confirm: "the presences become open again").
 
@@ -111,14 +114,26 @@ The only changes to existing code:
 
 | File | Change |
 |------|--------|
-| `src/Application.php` | `bootstrap()`: register `App\Event\CoachPaymentListener` on the global event manager |
-| `src/Event/CoachPaymentListener.php` (new) | Listens to `Model.beforeDelete` of `Meetings`: stops the delete with an error when the meeting has paid coach presences |
+| `src/Application.php` | `bootstrap()`: `CoachPaymentListener::register()` (attaches once to the global event manager) |
 | `templates/Meetings/view.php` | One line: `$this->cell('CoachPresences', [$meeting])` above `.mt-toolbar` |
-| `templates/Members/view.php` | One line: `$this->cell('CoachBalance', [$member])` |
-| `templates/layout/default.php` | Admin menu link "Coach payments" |
-| `src/View/Helper/PdfHelper.php` | `CreateQR()` uses the shared `src/Service/QrBillBuilder.php` (extracted from it) instead of its own code, so bills and coach payments build the QR code the same way |
+| `templates/Members/view.php` | One line: `$this->cell('CoachBalance', [$member])` before the attendance |
+| `templates/layout/default.php` | Admin menu link "Coach payments" (admins only) |
+| `src/View/Helper/PdfHelper.php` | `CreateQR()` uses the shared `src/Service/QrBillBuilder.php` (extracted from it), so bills and coach payments build the QR code the same way |
 
-Meeting deletion: `MeetingsController::delete` must show the listener's error as a flash message (check that the existing "could not be deleted" message is enough).
+`MeetingsController::delete` already shows "The meeting could not be deleted." when the listener stops the delete.
+
+## Files of the module
+
+| Layer | Files |
+|-------|-------|
+| Migration | `config/Migrations/20261118000000_CreateCoachPayments.php` |
+| Model | `src/Model/Table/Coach{PresenceTypes,Accounts,Presences,Payments}Table.php`, entities `Coach{PresenceType,Account,Presence,Payment}` |
+| Hooks | `src/Event/CoachPaymentListener.php` (refuses deleting a meeting with paid coach presences) |
+| Service | `src/Service/QrBillBuilder.php` (QR bill, IBAN validation) |
+| Controllers | `CoachPresencesController` (attendance page), `CoachAccountsController` (own IBAN), `CoachPaymentsController` (admin), `EntityFlashTrait` (flash with the first validation error) |
+| Policies | `CoachPaymentPolicy` (admin), `CoachAccountPolicy` (own IBAN) |
+| Views | cells `CoachPresencesCell`, `CoachBalanceCell` (`templates/cell/...`), `templates/CoachPayments/{index,settings,edit_type}.php`, `webroot/css/coach-payments.css`, `webroot/js/coach-presences.js` |
+| Tests | `tests/TestSuite/CoachPaymentDataTrait.php`, fixtures `Coach*Fixture`, tests of the tables, service, listener, policies and controllers |
 
 ## Tests
 
