@@ -20,10 +20,11 @@ class CoachAccountsController extends AppController
     {
         $this->request->allowMethod(['post']);
         $memberId = (int)$this->curUser?->member_id;
-        $account = $this->CoachAccounts->accountOf($memberId, (int)$siteId) ?? $this->CoachAccounts->newEmptyEntity();
-        $account->member_id = $memberId;
-        $account->site_id = (int)$siteId;
-        $this->Authorization->authorize($account, 'setOwnIban');
+        // The policy only checks the member and the site: the account itself is loaded by setIban()
+        $this->Authorization->authorize(
+            $this->CoachAccounts->newEntity(['member_id' => $memberId, 'site_id' => (int)$siteId], ['accessibleFields' => ['member_id' => true, 'site_id' => true], 'validate' => false]),
+            'setOwnIban',
+        );
 
         $account = $this->CoachAccounts->setIban($memberId, (int)$siteId, (string)$this->request->getData('iban'));
         $this->flashSaved($account, __('Your IBAN has been saved.'), __('The IBAN could not be saved.'));

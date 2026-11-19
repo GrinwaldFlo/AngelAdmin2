@@ -12,6 +12,7 @@ use App\Service\QrBillBuilder;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\I18n\Date;
+use Cake\I18n\DateTime;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -65,14 +66,17 @@ class CoachPaymentsTable extends Table
      */
     public function payOpen(int $memberId, int $siteId, ?float $expected = null): CoachPayment|string
     {
-        return $this->getConnection()->transactional(function () use ($memberId, $siteId, $expected) {
+        $error = __('The balance has changed since the page was opened, check the new amount.');
+        $result = $this->getConnection()->transactional(function () use ($memberId, $siteId, $expected, &$error) {
             $presences = $this->CoachPresences->find('open', siteId: $siteId, memberId: $memberId, due: true)->all()->toList();
             $total = round(array_sum(array_map(fn ($presence) => $presence->value(), $presences)), 2);
             if ($total <= 0) {
-                return __('There is nothing to pay.');
+                $error = __('There is nothing to pay.');
+
+                return false;
             }
             if ($expected !== null && abs($total - $expected) > 0.001) {
-                return __('The balance has changed since the page was opened, check the new amount.');
+                return false;
             }
 
             $payment = $this->newEmptyEntity();
@@ -81,16 +85,26 @@ class CoachPaymentsTable extends Table
             $payment->amount = $total;
             $payment->paid_date = Date::today();
             if (!$this->save($payment)) {
-                return __('The payment could not be saved.');
+                $error = __('The payment could not be saved.');
+
+                return false;
             }
+            // Each presence is taken only if it is still open with the type read above: the row lock of the
+            // update makes a concurrent payment or type change wait, then miss it (rollback, nothing paid twice)
             foreach ($presences as $presence) {
-                $presence->amount = $presence->value();
-                $presence->coach_payment_id = $payment->id;
-                $this->CoachPresences->saveOrFail($presence);
+                $taken = $this->CoachPresences->updateAll(
+                    ['coach_payment_id' => $payment->id, 'amount' => $presence->value(), 'modified' => DateTime::now()],
+                    ['id' => $presence->id, 'coach_payment_id IS' => null, 'coach_presence_type_id' => $presence->coach_presence_type_id],
+                );
+                if ($taken !== 1) {
+                    return false;
+                }
             }
 
             return $payment;
         });
+
+        return $result === false ? $error : $result;
     }
 
     /**

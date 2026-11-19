@@ -67,8 +67,10 @@ class CreateCoachPayments extends BaseMigration
             ->addIndex(['member_id'])
             ->addIndex(['coach_presence_type_id'])
             ->addIndex(['coach_payment_id'])
-            ->addForeignKey('meeting_id', 'meetings', 'id', ['delete' => 'CASCADE', 'update' => 'NO_ACTION'])
-            ->addForeignKey('member_id', 'members', 'id', ['delete' => 'CASCADE', 'update' => 'NO_ACTION'])
+            // RESTRICT: a paid presence is never lost by a cascade (bulk delete, SQL);
+            // the app deletes the open presences with their meeting or member (CoachPaymentListener)
+            ->addForeignKey('meeting_id', 'meetings', 'id', ['delete' => 'RESTRICT', 'update' => 'NO_ACTION'])
+            ->addForeignKey('member_id', 'members', 'id', ['delete' => 'RESTRICT', 'update' => 'NO_ACTION'])
             ->addForeignKey('coach_presence_type_id', 'coach_presence_types', 'id', ['delete' => 'RESTRICT', 'update' => 'NO_ACTION'])
             ->addForeignKey('coach_payment_id', 'coach_payments', 'id', ['delete' => 'SET_NULL', 'update' => 'NO_ACTION'])
             ->create();

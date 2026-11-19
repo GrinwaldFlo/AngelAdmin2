@@ -4412,3 +4412,19 @@ msgid "{0} meeting"
 msgid_plural "{0} meetings"
 msgstr[0] "{0} séance"
 msgstr[1] "{0} séances"
+
+#: coach payment module
+msgid "This meeting has coach presences, it can't move to a team of another location."
+msgstr "Cette séance a des présences de coach, elle ne peut pas passer à une équipe d'un autre lieu."
+
+#: coach payment module
+msgid "A coach with payments cannot be deleted."
+msgstr "Un coach avec des paiements ne peut pas être supprimé."
+
+#: coach payment module
+msgid "This location has coach presences or payments, it can't be deleted."
+msgstr "Ce lieu a des présences ou des paiements de coach, il ne peut pas être supprimé."
+
+#: coach payment module
+msgid "The meetings of this team have coach presences, it can't move to another location."
+msgstr "Les séances de cette équipe ont des présences de coach, elle ne peut pas changer de lieu."

@@ -148,6 +148,47 @@ class CoachPresencesTableTest extends TestCase
         $this->assertSame($this->main, $this->typeOf($meeting->id, 1));
     }
 
+    /**
+     * A payment takes the presence after setType() read it (simulated when the coaches of the team are read, after the presences)
+     */
+    private function paidAfterRead(int $presenceId): void
+    {
+        $paid = false;
+        $this->getTableLocator()->get('TeamsCoaches')->getEventManager()->on('Model.beforeFind', function () use ($presenceId, &$paid) {
+            if (!$paid) {
+                $paid = true;
+                $this->CoachPresences->updateAll(['coach_payment_id' => $this->addCoachPayment(1, 1), 'amount' => 10], ['id' => $presenceId]);
+            }
+        });
+    }
+
+    public function testSetTypeRefusedWhenPaidMeanwhile(): void
+    {
+        $meeting = $this->meeting();
+        $this->paidAfterRead($this->addCoachPresence($meeting->id, 1, $this->main));
+
+        $this->assertNotNull($this->CoachPresences->setType($meeting, 1, $this->secondary));
+        $this->assertSame($this->main, $this->typeOf($meeting->id, 1));
+    }
+
+    public function testClearRefusedWhenPaidMeanwhile(): void
+    {
+        $meeting = $this->meeting();
+        $this->paidAfterRead($this->addCoachPresence($meeting->id, 1, $this->main));
+
+        $this->assertNotNull($this->CoachPresences->setType($meeting, 1, null));
+        $this->assertSame($this->main, $this->typeOf($meeting->id, 1));
+    }
+
+    public function testSetTheSameTypeAgain(): void
+    {
+        $meeting = $this->meeting();
+        $this->addCoachPresence($meeting->id, 1, $this->main);
+
+        $this->assertNull($this->CoachPresences->setType($meeting, 1, $this->main));
+        $this->assertSame($this->main, $this->typeOf($meeting->id, 1));
+    }
+
     public function testBalancesSeparateDueAndPlanned(): void
     {
         $this->addCoachPresence($this->addMeeting(1, '-3 days'), 1, $this->main);

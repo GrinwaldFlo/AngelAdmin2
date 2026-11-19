@@ -36,14 +36,14 @@ Migration `CreateCoachPayments` (new tables only):
 
 - `coach_presence_types`: `id`, `site_id` (FK sites, cascade), `label` (string 50), `amount` (decimal 8,2, default 0), `sort` (int), `active` (bool, default true), `created`, `modified`.
 - `coach_accounts`: `id`, `member_id` (FK members, cascade), `site_id` (FK sites, cascade), `iban` (string 34), `created`, `modified`. Unique index (`member_id`, `site_id`).
-- `coach_presences`: `id`, `meeting_id` (FK meetings, cascade), `member_id` (FK members, cascade), `coach_presence_type_id` (FK coach_presence_types, restrict), `coach_payment_id` (nullable FK coach_payments, set null), `amount` (decimal 8,2, nullable: filled only when paid), `created`, `modified`. Unique index (`meeting_id`, `member_id`).
+- `coach_presences`: `id`, `meeting_id` (FK meetings, restrict), `member_id` (FK members, restrict), `coach_presence_type_id` (FK coach_presence_types, restrict), `coach_payment_id` (nullable FK coach_payments, set null), `amount` (decimal 8,2, nullable: filled only when paid), `created`, `modified`. Unique index (`meeting_id`, `member_id`).
 - `coach_payments`: `id`, `member_id` (FK members, restrict), `site_id` (FK sites, restrict), `amount` (decimal 8,2), `paid_date` (date), `created`, `modified`.
 
-The site of a coach presence is the site of its meeting's team; no `site_id` is duplicated on `coach_presences`. The type of a presence must belong to that same site.
+The site of a coach presence is the site of its meeting's team; no `site_id` is duplicated on `coach_presences`. The type of a presence must belong to that same site. To keep it stable, a meeting with coach presences can't move to a team of another site, and a team whose meetings have coach presences can't change site (listener rules).
 
 A coach presence is **open** when `coach_payment_id IS NULL`, **due** when its meeting date is reached (decision 4).
 
-Deleting a meeting deletes its open coach presences (FK cascade). Deleting a meeting that has **paid** coach presences must be refused, otherwise paid history is lost: done by the module listener (see [Integration points](#integration-points)), not in `MeetingsTable`.
+Deleting a meeting or a member deletes its open coach presences (done by the module listener: the foreign keys restrict, so a bulk or SQL delete can never cascade over paid presences). Deleting a meeting that has **paid** coach presences, a member with coach payments, or a site with coach presences or payments is refused, otherwise paid history is lost: done by the module listener (see [Integration points](#integration-points)), not in the existing tables.
 
 Fixtures: `CoachPresenceTypesFixture`, `CoachAccountsFixture`, `CoachPresencesFixture`, `CoachPaymentsFixture`. Existing fixtures are unchanged.
 
@@ -54,11 +54,11 @@ Associations are declared only on the module tables (`belongsTo` existing tables
 - `CoachPresenceTypesTable`: `belongsTo Sites`, `hasMany CoachPresences`. Finder `activeOfSite(int $siteId)`. Rule: can't delete when used.
 - `CoachAccountsTable`: `belongsTo Members, Sites`. `ibanOf(int $memberId, int $siteId): ?string`, `setIban(...)` / `removeIban(...)`. Entity `CoachAccount`: `iban` in `$_hidden`, virtual `MaskedIban` (`•••• 1234`).
 - `CoachPresencesTable`: `belongsTo Meetings, Members, CoachPresenceTypes, CoachPayments`.
-  - `setType(Meeting $meeting, int $memberId, ?int $typeId)`: create/update/delete (`null` = not declared). Refuses when the row is paid, when the member is not a listed coach of the meeting (decision 2) or the type is not an active type of the meeting's site.
+  - `setType(Meeting $meeting, int $memberId, ?int $typeId)`: create/update/delete (`null` = not declared). Refuses when the row is paid, when the member is not a listed coach of the meeting (decision 2) or the type is not an active type of the meeting's site. The update / delete has the condition `coach_payment_id IS NULL` on the row, so a payment running at the same time wins.
   - `ofMeeting(Meeting $meeting)`: the coach rows for the attendance page (decision 2).
   - `balances(int $siteId, ?int $memberId = null)`: per coach `['due' => total, 'planned' => total, 'count' => [type_id => n]]` of the open presences.
 - `CoachPaymentsTable`: `belongsTo Members, Sites`, `hasMany CoachPresences`.
-  - `payOpen(int $memberId, int $siteId)`: in a transaction, copy the type amount into each due open presence, create the payment with the sum, link the presences. Refuses when the total is 0.
+  - `payOpen(int $memberId, int $siteId)`: in a transaction, copy the type amount into each due open presence, create the payment with the sum, link the presences. Refuses when the total is 0. Each presence is linked with an `UPDATE ... WHERE coach_payment_id IS NULL AND coach_presence_type_id = <read type>`: the row lock makes a concurrent payment or type change wait, and if one row is missed the whole payment is rolled back (never paid twice).
   - `beforeDelete`: unlink its presences and clear their `amount` (they become open again).
 
 ## Presence declaration (`meetings/view`)
@@ -120,7 +120,7 @@ The only changes to existing code:
 | `templates/layout/default.php` | Admin menu link "Coach payments" (admins only) |
 | `src/View/Helper/PdfHelper.php` | `CreateQR()` uses the shared `src/Service/QrBillBuilder.php` (extracted from it), so bills and coach payments build the QR code the same way |
 
-`MeetingsController::delete` already shows "The meeting could not be deleted." when the listener stops the delete.
+`MeetingsController::delete`, `SitesController::delete` and `MemberManagementComponent::deleteMember` show the rule message of the listener when the delete is refused.
 
 ## Files of the module
 
@@ -128,7 +128,7 @@ The only changes to existing code:
 |-------|-------|
 | Migration | `config/Migrations/20261118000000_CreateCoachPayments.php` |
 | Model | `src/Model/Table/Coach{PresenceTypes,Accounts,Presences,Payments}Table.php`, entities `Coach{PresenceType,Account,Presence,Payment}` |
-| Hooks | `src/Event/CoachPaymentListener.php` (refuses deleting a meeting with paid coach presences) |
+| Hooks | `src/Event/CoachPaymentListener.php` (`Model.beforeRules`: delete and site change guards; `Model.beforeDelete`: deletes the open presences of a meeting or member) |
 | Service | `src/Service/QrBillBuilder.php` (QR bill, IBAN validation) |
 | Controllers | `CoachPresencesController` (attendance page), `CoachAccountsController` (own IBAN), `CoachPaymentsController` (admin), `EntityFlashTrait` (flash with the first validation error) |
 | Policies | `CoachPaymentPolicy` (admin), `CoachAccountPolicy` (own IBAN) |
@@ -138,10 +138,10 @@ The only changes to existing code:
 ## Tests
 
 - `CoachPresencesTable`: set/clear type, refused for a paid row, a non-coach member, an inactive type or a type of another site; future presence allowed but not due; open balance follows a type amount change; paid amount does not.
-- `CoachPaymentsTable`: `payOpen` total only includes due presences and the given site, refused at 0, delete reopens presences.
+- `CoachPaymentsTable`: `payOpen` total only includes due presences and the given site, refused at 0, delete reopens presences, refused (rolled back) when a presence is paid or changed meanwhile.
 - `CoachAccountsTable`: one IBAN per site, CH/LI validation, IBAN never serialised.
 - `CoachAccountsController::setIban`: the coach sets/replaces their own IBAN for a site they coach in; refused for a site they don't coach in, for hash-access users and anonymous; a `member_id` in the POST data is ignored (can't change someone else's IBAN); the full IBAN never appears in the My account HTML; "No IBAN set" warning shown when missing.
-- Listener: meeting delete refused with paid coach presences, allowed (and cascades) with only open ones.
+- Listener: meeting delete refused with paid coach presences, allowed (open ones deleted) otherwise; member with payments and site with coach history not deleted; meeting / team site change refused with coach presences.
 - `QrBillBuilder`: same output as before for bills (existing bill PDF tests still pass).
 - Controllers: access (admin only for `CoachPayments`, `CoachPresences::set` follows `canSetPresence` incl. team scope), site isolation (data of another site never shown), IBAN never in the HTML except inside the QR image.
 - `meetings/view` renders the coach block, paid rows disabled; `Members/view` shows the balance only to the member themselves.

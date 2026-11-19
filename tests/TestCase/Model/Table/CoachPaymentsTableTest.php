@@ -93,6 +93,53 @@ class CoachPaymentsTableTest extends TestCase
         $this->assertInstanceOf(CoachPayment::class, $this->CoachPayments->payOpen(1, 1, 20.0));
     }
 
+    /**
+     * A concurrent request changes the presences between the read and the update of payOpen()
+     * (simulated after the payment row is saved): nothing is paid, the payment is rolled back
+     */
+    private function payOpenWhile(callable $concurrent): CoachPayment|string
+    {
+        $this->CoachPayments->getEventManager()->on('Model.afterSave', function () use ($concurrent): void {
+            $concurrent();
+        });
+
+        return $this->CoachPayments->payOpen(1, 1);
+    }
+
+    public function testPayOpenRefusedWhenAPresenceIsPaidMeanwhile(): void
+    {
+        $first = $this->addCoachPresence($this->addMeeting(1, '-2 days'), 1, $this->main);
+        $this->addCoachPresence($this->addMeeting(1, '-1 days'), 1, $this->main);
+        $presences = $this->getTableLocator()->get('CoachPresences');
+
+        $result = $this->payOpenWhile(fn () => $presences->updateAll(['coach_payment_id' => $this->addCoachPayment(1, 1), 'amount' => 10], ['id' => $first]));
+
+        // The concurrent payment is rolled back with the refused one in this simulation (same connection)
+        $this->assertIsString($result);
+        $this->assertSame(0, $this->CoachPayments->find()->where(['amount' => 20])->count());
+    }
+
+    public function testPayOpenRefusedWhenATypeChangesMeanwhile(): void
+    {
+        $presenceId = $this->addCoachPresence($this->addMeeting(1, '-2 days'), 1, $this->main);
+        $presences = $this->getTableLocator()->get('CoachPresences');
+
+        $result = $this->payOpenWhile(fn () => $presences->updateAll(['coach_presence_type_id' => $this->absent], ['id' => $presenceId]));
+
+        $this->assertIsString($result);
+        $this->assertSame(0, $this->CoachPayments->find()->count());
+        $this->assertSame(1, $this->openCount(1));
+    }
+
+    public function testPayOpenTwiceDoesNotPayTwice(): void
+    {
+        $this->addCoachPresence($this->addMeeting(1, '-2 days'), 1, $this->main);
+
+        $this->assertInstanceOf(CoachPayment::class, $this->CoachPayments->payOpen(1, 1, 10.0));
+        $this->assertIsString($this->CoachPayments->payOpen(1, 1, 10.0));
+        $this->assertSame(1, $this->CoachPayments->find()->count());
+    }
+
     public function testDeletePaymentReopensItsPresences(): void
     {
         $this->addCoachPresence($this->addMeeting(1, '-2 days'), 1, $this->main);

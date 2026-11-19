@@ -29,4 +29,21 @@ trait EntityFlashTrait
 
         return false;
     }
+
+    /**
+     * Flash message after deleting an entity: the errors of the delete rules (they tell why), or $failure
+     * @return bool $deleted
+     */
+    protected function flashDeleted(bool $deleted, EntityInterface $entity, string $success, string $failure): bool
+    {
+        if ($deleted) {
+            $this->Flash->success($success);
+
+            return true;
+        }
+        $errors = Hash::flatten($entity->getErrors());
+        $this->Flash->error($errors ? implode(' ', $errors) : $failure);
+
+        return false;
+    }
 }

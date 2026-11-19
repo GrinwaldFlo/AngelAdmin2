@@ -12,6 +12,8 @@ namespace App\Controller;
  */
 class SitesController extends AppController
 {
+    use EntityFlashTrait;
+
   /**
    * Index method
    *
@@ -96,12 +98,7 @@ class SitesController extends AppController
         $this->Authorization->authorize($this->Sites->newEmptyEntity(), 'admin');
         $this->request->allowMethod(['post', 'delete']);
         $site = $this->Sites->get($id);
-        if ($this->Sites->delete($site)) {
-            $this->Flash->success(__('The site has been deleted.'));
-        } else {
-            $errors = $site->getError('id');
-            $this->Flash->error($errors ? implode(' ', $errors) : __('The site could not be deleted.'));
-        }
+        $this->flashDeleted($this->Sites->delete($site), $site, __('The site has been deleted.'), __('The site could not be deleted.'));
 
         return $this->redirect(['action' => 'index']);
     }

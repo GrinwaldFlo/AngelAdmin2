@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2026-11-18 19:28+0100\n"
+"POT-Creation-Date: 2026-11-18 20:44+0100\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -161,11 +161,11 @@ msgstr ""
 msgid "There were some error while sending mail. Try again"
 msgstr ""
 
-#: ./src/Controller/CoachAccountsController.php:29
+#: ./src/Controller/CoachAccountsController.php:30
 msgid "Your IBAN has been saved."
 msgstr ""
 
-#: ./src/Controller/CoachAccountsController.php:29
+#: ./src/Controller/CoachAccountsController.php:30
 #: ./src/Controller/CoachPaymentsController.php:149
 msgid "The IBAN could not be saved."
 msgstr ""
@@ -346,49 +346,49 @@ msgstr ""
 msgid "Failed to register member"
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:35
+#: ./src/Controller/Component/MemberManagementComponent.php:36
 msgid "You do not have permission to create new members."
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:55
+#: ./src/Controller/Component/MemberManagementComponent.php:56
 msgid "The member already exists"
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:58
-#: ./src/Controller/Component/MemberManagementComponent.php:99
-#: ./src/Controller/Component/MemberManagementComponent.php:123
-#: ./src/Controller/Component/MemberManagementComponent.php:146
-#: ./src/Controller/Component/MemberManagementComponent.php:176
+#: ./src/Controller/Component/MemberManagementComponent.php:59
+#: ./src/Controller/Component/MemberManagementComponent.php:100
+#: ./src/Controller/Component/MemberManagementComponent.php:124
+#: ./src/Controller/Component/MemberManagementComponent.php:147
+#: ./src/Controller/Component/MemberManagementComponent.php:177
 msgid "The member has been saved."
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:61
+#: ./src/Controller/Component/MemberManagementComponent.php:62
 msgid "This member is in none of your teams: you will not see them until you add them to one of your teams from the Teams page."
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:66
-#: ./src/Controller/Component/MemberManagementComponent.php:102
-#: ./src/Controller/Component/MemberManagementComponent.php:126
-#: ./src/Controller/Component/MemberManagementComponent.php:149
-#: ./src/Controller/Component/MemberManagementComponent.php:179
+#: ./src/Controller/Component/MemberManagementComponent.php:67
+#: ./src/Controller/Component/MemberManagementComponent.php:103
+#: ./src/Controller/Component/MemberManagementComponent.php:127
+#: ./src/Controller/Component/MemberManagementComponent.php:150
+#: ./src/Controller/Component/MemberManagementComponent.php:180
 #: ./src/Controller/Component/MemberRegistrationComponent.php:144
 msgid "The member could not be saved."
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:195
+#: ./src/Controller/Component/MemberManagementComponent.php:196
 msgid "The member {0} has been deleted."
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:200
+#: ./src/Controller/Component/MemberManagementComponent.php:201
 msgid "The member could not be deleted."
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:213
+#: ./src/Controller/Component/MemberManagementComponent.php:214
 #: ./src/Controller/UsersController.php:335
 msgid "This language doesn't exists"
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:234
+#: ./src/Controller/Component/MemberManagementComponent.php:235
 msgid "This location doesn't exists"
 msgstr ""
 
@@ -654,36 +654,36 @@ msgstr ""
 msgid "The mailing could not be deleted."
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:108
+#: ./src/Controller/MeetingsController.php:110
 msgid "Choose at least one date and a time."
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:110
-#: ./src/Controller/MeetingsController.php:151
+#: ./src/Controller/MeetingsController.php:112
+#: ./src/Controller/MeetingsController.php:153
 msgid "The meeting could not be saved."
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:118
+#: ./src/Controller/MeetingsController.php:120
 msgid "No meeting has been saved."
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:147
+#: ./src/Controller/MeetingsController.php:149
 msgid "The meeting has been saved."
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:167
+#: ./src/Controller/MeetingsController.php:168
 msgid "The meeting has been deleted."
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:169
+#: ./src/Controller/MeetingsController.php:168
 msgid "The meeting could not be deleted."
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:182
+#: ./src/Controller/MeetingsController.php:180
 msgid "You are now registered"
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:115
+#: ./src/Controller/MeetingsController.php:117
 msgid "{0} meeting has been saved."
 msgid_plural "{0} meetings have been saved."
 msgstr[0] ""
@@ -892,21 +892,21 @@ msgstr ""
 msgid "This item belongs to another location."
 msgstr ""
 
-#: ./src/Controller/SitesController.php:55
-#: ./src/Controller/SitesController.php:78
+#: ./src/Controller/SitesController.php:57
+#: ./src/Controller/SitesController.php:80
 msgid "The site has been saved."
 msgstr ""
 
-#: ./src/Controller/SitesController.php:59
-#: ./src/Controller/SitesController.php:82
+#: ./src/Controller/SitesController.php:61
+#: ./src/Controller/SitesController.php:84
 msgid "The site could not be saved."
 msgstr ""
 
-#: ./src/Controller/SitesController.php:100
+#: ./src/Controller/SitesController.php:101
 msgid "The site has been deleted."
 msgstr ""
 
-#: ./src/Controller/SitesController.php:103
+#: ./src/Controller/SitesController.php:101
 msgid "The site could not be deleted."
 msgstr ""
 
@@ -1014,8 +1014,24 @@ msgstr ""
 msgid "Too many requests, please try again later"
 msgstr ""
 
-#: ./src/Event/CoachPaymentListener.php:50
+#: ./src/Event/CoachPaymentListener.php:82
 msgid "This meeting has paid coach presences, it can't be deleted."
+msgstr ""
+
+#: ./src/Event/CoachPaymentListener.php:86
+msgid "This meeting has coach presences, it can't move to a team of another location."
+msgstr ""
+
+#: ./src/Event/CoachPaymentListener.php:90
+msgid "A coach with payments cannot be deleted."
+msgstr ""
+
+#: ./src/Event/CoachPaymentListener.php:94
+msgid "This location has coach presences or payments, it can't be deleted."
+msgstr ""
+
+#: ./src/Event/CoachPaymentListener.php:98
+msgid "The meetings of this team have coach presences, it can't move to another location."
 msgstr ""
 
 #: ./src/Model/Entity/Bill.php:74
@@ -1272,25 +1288,25 @@ msgstr ""
 msgid "The IBAN is not valid: only Swiss (CH) and Liechtenstein (LI) IBANs can be used."
 msgstr ""
 
-#: ./src/Model/Table/CoachPaymentsTable.php:72
-msgid "There is nothing to pay."
-msgstr ""
-
-#: ./src/Model/Table/CoachPaymentsTable.php:75
+#: ./src/Model/Table/CoachPaymentsTable.php:69
 msgid "The balance has changed since the page was opened, check the new amount."
 msgstr ""
 
-#: ./src/Model/Table/CoachPaymentsTable.php:84
+#: ./src/Model/Table/CoachPaymentsTable.php:74
+msgid "There is nothing to pay."
+msgstr ""
+
+#: ./src/Model/Table/CoachPaymentsTable.php:88
 msgid "The payment could not be saved."
 msgstr ""
 
-#: ./src/Model/Table/CoachPaymentsTable.php:136
+#: ./src/Model/Table/CoachPaymentsTable.php:150
 #: ./templates/CoachPayments/index.php:47
 #: ./templates/CoachPayments/settings.php:91
 msgid "No IBAN set"
 msgstr ""
 
-#: ./src/Model/Table/CoachPaymentsTable.php:139
+#: ./src/Model/Table/CoachPaymentsTable.php:153
 msgid "The address of the coach is incomplete"
 msgstr ""
 
@@ -1302,17 +1318,16 @@ msgstr ""
 msgid "This member is not a coach of the team."
 msgstr ""
 
-#: ./src/Model/Table/CoachPresencesTable.php:104
-msgid "This presence is already paid, it can't be changed."
+#: ./src/Model/Table/CoachPresencesTable.php:120
+msgid "This presence type can't be used for this meeting."
 msgstr ""
 
-#: ./src/Model/Table/CoachPresencesTable.php:108
-#: ./src/Model/Table/CoachPresencesTable.php:122
+#: ./src/Model/Table/CoachPresencesTable.php:129
 msgid "The presence could not be saved."
 msgstr ""
 
-#: ./src/Model/Table/CoachPresencesTable.php:114
-msgid "This presence type can't be used for this meeting."
+#: ./src/Model/Table/CoachPresencesTable.php:149
+msgid "This presence is already paid, it can't be changed."
 msgstr ""
 
 #: ./src/Model/Table/MailingsTable.php:95

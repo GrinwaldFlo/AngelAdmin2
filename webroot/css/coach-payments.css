@@ -8,6 +8,7 @@
   --cp-text: var(--aa-text);
   --cp-muted: var(--aa-muted);
   --cp-selected: var(--aa-brand-hover);
+  --cp-on-selected: var(--aa-card);
   --cp-paid: var(--aa-success);
   --cp-radius: var(--aa-radius-card);
 }
@@ -84,7 +85,7 @@
 .cp-type[aria-pressed="true"] {
   background: var(--cp-selected);
   border-color: var(--cp-selected);
-  color: #ffffff;
+  color: var(--cp-on-selected);
 }
 
 .cp-hint {
@@ -184,7 +185,7 @@
   width: 200px;
   max-width: 100%;
   height: auto;
-  background: #ffffff;
+  background: var(--aa-card);
 }
 
 .cp-inactive {

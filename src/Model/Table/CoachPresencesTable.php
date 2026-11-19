@@ -101,11 +101,17 @@ class CoachPresencesTable extends Table
         }
         $presence = $rows[$memberId]['presence'];
         if ($presence?->isPaid()) {
-            return __('This presence is already paid, it can\'t be changed.');
+            return $this->paidError();
         }
 
+        // An existing presence is changed only while it is still open (conditions on the row, not on the
+        // entity read above): a payment taking it at the same time wins, the change is then refused
         if ($typeId === null) {
-            return $presence === null || $this->delete($presence) ? null : __('The presence could not be saved.');
+            if ($presence === null || $this->deleteAll(['id' => $presence->id, 'coach_payment_id IS' => null]) > 0) {
+                return null;
+            }
+
+            return $this->isPaidNow($presence->id) ? $this->paidError() : null;
         }
 
         $siteId = (int)$this->Meetings->Teams->get($meeting->team_id)->site_id;
@@ -114,12 +120,33 @@ class CoachPresencesTable extends Table
             return __('This presence type can\'t be used for this meeting.');
         }
 
-        $presence ??= $this->newEmptyEntity();
-        $presence->meeting_id = $meeting->id;
-        $presence->member_id = $memberId;
-        $presence->coach_presence_type_id = $typeId;
+        if ($presence === null) {
+            $presence = $this->newEmptyEntity();
+            $presence->meeting_id = $meeting->id;
+            $presence->member_id = $memberId;
+            $presence->coach_presence_type_id = $typeId;
 
-        return $this->save($presence) ? null : __('The presence could not be saved.');
+            return $this->save($presence) ? null : __('The presence could not be saved.');
+        }
+        if ((int)$presence->coach_presence_type_id === $typeId) {
+            return null;
+        }
+        $changed = $this->updateAll(
+            ['coach_presence_type_id' => $typeId, 'modified' => DateTime::now()],
+            ['id' => $presence->id, 'coach_payment_id IS' => null],
+        );
+
+        return $changed > 0 || !$this->isPaidNow($presence->id) ? null : $this->paidError();
+    }
+
+    private function isPaidNow(int $presenceId): bool
+    {
+        return $this->exists(['id' => $presenceId, 'coach_payment_id IS NOT' => null]);
+    }
+
+    private function paidError(): string
+    {
+        return __('This presence is already paid, it can\'t be changed.');
     }
 
     /**

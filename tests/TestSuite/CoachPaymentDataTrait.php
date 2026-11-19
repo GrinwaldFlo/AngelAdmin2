@@ -63,6 +63,21 @@ trait CoachPaymentDataTrait
         return $presences->saveOrFail($presence)->id;
     }
 
+    /**
+     * Payment row without presences and without the events (e.g. a concurrent payment inside a callback)
+     * @return int id of the payment
+     */
+    protected function addCoachPayment(int $memberId, int $siteId, float $amount = 10): int
+    {
+        $payments = $this->getTableLocator()->get('CoachPayments');
+        $payments->insertQuery()
+            ->insert(['member_id', 'site_id', 'amount', 'paid_date'])
+            ->values(['member_id' => $memberId, 'site_id' => $siteId, 'amount' => $amount, 'paid_date' => date('Y-m-d')])
+            ->execute();
+
+        return (int)$payments->find()->select(['id'])->orderBy(['id' => 'DESC'])->firstOrFail()->id;
+    }
+
     protected function addCoachAccount(int $memberId, int $siteId, string $iban = self::IBAN): void
     {
         $this->getTableLocator()->get('CoachAccounts')->setIban($memberId, $siteId, $iban);

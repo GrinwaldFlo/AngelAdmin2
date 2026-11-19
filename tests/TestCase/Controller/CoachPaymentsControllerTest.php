@@ -267,6 +267,7 @@ class CoachPaymentsControllerTest extends TestCase
         $this->post('/meetings/delete/' . $meetingId);
 
         $this->assertFlashElement('flash/error');
+        $this->assertFlashMessage('This meeting has paid coach presences, it can\'t be deleted.');
         $this->assertTrue($this->getTableLocator()->get('Meetings')->exists(['id' => $meetingId]));
     }
 
