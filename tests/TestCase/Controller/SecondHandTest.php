@@ -394,6 +394,17 @@ class SecondHandTest extends TestCase
         $this->assertSame(SecondHandLog::FOR_SALE, $log->status);
     }
 
+    public function testAddFormIsSentOnce(): void
+    {
+        $this->addProfile(3, 100);
+        $this->asMember100();
+
+        $this->get('/second-hand/add');
+        $this->assertResponseOk();
+        $this->assertResponseContains('data-submit-once="Sending..."');
+        $this->assertResponseContains('submit-once.js');
+    }
+
     public function testAddItemKeepsNoPictureWhenTheItemCannotBeSaved(): void
     {
         if (!extension_loaded('gd')) {

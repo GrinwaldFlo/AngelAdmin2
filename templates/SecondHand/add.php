@@ -10,12 +10,13 @@
  * @var bool $isHashUser
  */
 $this->Html->css('second-hand', ['block' => true]);
+$this->Html->script('submit-once', ['block' => true]);
 ?>
 <div class="content">
     <?= $this->element('SecondHand/nav', ['active' => 'myItems', 'isHashUser' => $isHashUser]) ?>
     <h3><?= __('Add an item') ?></h3>
     <p><?= __('All fields are required.') ?></p>
-    <?= $this->Form->create($item, ['type' => 'file']) ?>
+    <?= $this->Form->create($item, ['type' => 'file', 'data-submit-once' => __('Sending...')]) ?>
     <?= $this->Form->control('category_id', ['label' => __('Category'), 'options' => $categories, 'empty' => __('Choose a category'), 'required' => true]) ?>
     <?= $this->Form->control('description', ['label' => __('Description'), 'type' => 'textarea', 'rows' => 4, 'required' => true]) ?>
     <?= $this->Form->control('size', ['label' => __('Size'), 'required' => true]) ?>
