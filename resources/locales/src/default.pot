@@ -4306,6 +4306,10 @@ msgstr ""
 msgid "Put up for sale"
 msgstr ""
 
+#: ./templates/SecondHand/add.php:19
+msgid "Sending..."
+msgstr ""
+
 #: ./templates/SecondHand/index.php:13
 #: ./templates/SecondHand/profile.php:12
 #: ./templates/SecondHand/terms.php:10

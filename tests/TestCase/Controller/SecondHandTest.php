@@ -394,6 +394,68 @@ class SecondHandTest extends TestCase
         $this->assertSame(SecondHandLog::FOR_SALE, $log->status);
     }
 
+    public function testAddFormHasASubmitTokenAndIsSentOnce(): void
+    {
+        $this->addProfile(3, 100);
+        $this->asMember100();
+
+        $this->get('/second-hand/add');
+        $this->assertResponseOk();
+        $this->assertResponseContains('data-submit-once="Sending..."');
+        $this->assertResponseContains('submit-once.js');
+        $this->assertMatchesRegularExpression('/name="submit_token" [^>]*value="[0-9a-f-]{36}"/', (string)$this->_response->getBody());
+    }
+
+    public function testSameFormSentTwiceAddsOneItem(): void
+    {
+        if (!extension_loaded('gd')) {
+            $this->markTestSkipped('The GD extension is needed to process the pictures');
+        }
+        $this->addProfile(3, 100);
+        $this->asMember100();
+        $token = Text::uuid();
+        $folders = glob(WWW_ROOT . 'img' . DS . 'secondhand' . DS . '*') ?: [];
+        $post = function () use (&$token): void {
+            file_put_contents($this->upload, file_get_contents(WWW_ROOT . 'img' . DS . 'cheerPlaceholder.jpg'));
+            $picture = new UploadedFile($this->upload, filesize($this->upload), UPLOAD_ERR_OK, 'picture.jpg', 'image/jpeg');
+            $this->post('/second-hand/add', [
+                'submit_token' => $token, 'category_id' => 2, 'description' => 'Shoes', 'size' => '38', 'price' => '25', 'picture' => $picture,
+            ]);
+        };
+
+        $post();
+        $this->assertRedirect(['controller' => 'SecondHand', 'action' => 'myItems']);
+        // Second tap or browser retry: same answer, no copy of the item, its log or its picture
+        $post();
+        $this->assertRedirect(['controller' => 'SecondHand', 'action' => 'myItems']);
+        $this->assertFlashMessage('Your item is now for sale.');
+
+        $items = $this->getTableLocator()->get('SecondHandItems');
+        $this->assertSame(1, $items->find()->count());
+        $this->assertSame($token, $items->find()->firstOrFail()->submit_token);
+        $this->assertSame(1, $this->getTableLocator()->get('SecondHandLogs')->find()->count());
+        $this->assertCount(count($folders) + 1, glob(WWW_ROOT . 'img' . DS . 'secondhand' . DS . '*') ?: []);
+
+        // A new form (new token) adds another item
+        $token = Text::uuid();
+        $post();
+        $this->assertSame(2, $items->find()->count());
+    }
+
+    public function testSameTokenOfAnotherSellerIsNotADuplicate(): void
+    {
+        $this->addProfile(3, 100);
+        $this->addProfile(4, 101);
+        $token = Text::uuid();
+        $this->addItem(1, 4, ['submit_token' => $token]);
+        $items = $this->getTableLocator()->get('SecondHandItems');
+
+        $this->assertNull($items->findSubmitted(3, $token));
+        $this->assertSame(1, $items->findSubmitted(4, $token)?->id);
+        $this->assertNull($items->findSubmitted(4, null));
+        $this->assertNull($items->findSubmitted(4, 'not-a-uuid'));
+    }
+
     public function testAddItemKeepsNoPictureWhenTheItemCannotBeSaved(): void
     {
         if (!extension_loaded('gd')) {

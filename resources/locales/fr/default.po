@@ -3606,6 +3606,9 @@ msgstr "Prix (CHF)"
 msgid "Put up for sale"
 msgstr "Mettre en vente"
 
+msgid "Sending..."
+msgstr "Envoi en cours..."
+
 msgid "Remove this item for good?"
 msgstr "Retirer définitivement cet article ?"
 

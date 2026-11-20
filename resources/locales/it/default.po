@@ -2589,6 +2589,9 @@ msgstr "Prezzo (CHF)"
 msgid "Put up for sale"
 msgstr "Metti in vendita"
 
+msgid "Sending..."
+msgstr "Invio in corso..."
+
 msgid "Remove this item for good?"
 msgstr "Rimuovere definitivamente questo articolo?"
 

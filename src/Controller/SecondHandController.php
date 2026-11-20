@@ -7,10 +7,14 @@ namespace App\Controller;
 use App\Policy\TeamScope;
 use App\Model\Entity\SecondHandItem;
 use App\Model\Entity\SecondHandLog;
+use Cake\Database\Exception\QueryException;
 use Cake\Event\EventInterface;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
+use Cake\Http\Response;
 use Cake\I18n\DateTime;
+use Cake\Utility\Text;
+use Cake\Validation\Validation;
 
 /**
  * Second-hand items between members (and past members), logged in or with their member link (hash)
@@ -189,13 +193,21 @@ class SecondHandController extends AppController
         $categories = $this->fetchTable('SecondHandCategories')->listByName();
 
         if ($this->request->is('post')) {
+            // The same form sent twice (double tap, browser retry after a slow upload) creates one item
+            $token = $this->request->getData('submit_token');
+            $token = is_string($token) && Validation::uuid($token) ? $token : null;
+            if ($this->SecondHandItems->findSubmitted($this->profile->id, $token) !== null) {
+                return $this->alreadySubmitted();
+            }
+
             $item = $this->SecondHandItems->newEntity($this->request->getData());
             $item->profile_id = $this->profile->id;
+            $item->submit_token = $token ?? Text::uuid();
             if ($item->hasErrors()) {
                 $this->Flash->error(__('The item could not be saved. Please check the form.'));
             } elseif ($this->SecondHand->savePicture($item, $this->request->getData('picture'))) {
                 // The picture first: no item without its picture
-                if ($this->SecondHandItems->save($item)) {
+                if ($this->saveSubmitted($item)) {
                     $item->profile = $this->profile;
                     $item->category = $this->SecondHandItems->Categories->get($item->category_id);
                     $this->fetchTable('SecondHandLogs')->record($item);
@@ -204,14 +216,46 @@ class SecondHandController extends AppController
                     return $this->redirect(['action' => 'myItems']);
                 }
                 $item->deleteFolder();
+                if ($item->getError('submit_token')) {
+                    return $this->alreadySubmitted();
+                }
                 $this->Flash->error(__('The item could not be saved. Please check the form.'));
             }
+        } else {
+            $item->submit_token = Text::uuid();
         }
 
         $accept = $this->SecondHand->Image->getAcceptedMimeTypes();
         $formats = $this->SecondHand->Image->getSupportedFormatsMessage();
 
         $this->set(compact('item', 'categories', 'accept', 'formats'));
+    }
+
+    /**
+     * Saves a new item, a parallel request of the same form can pass the unique rule at the same time: the database index refuses it
+     */
+    private function saveSubmitted(SecondHandItem $item): bool
+    {
+        try {
+            return (bool)$this->SecondHandItems->save($item);
+        } catch (QueryException $e) {
+            if ($this->SecondHandItems->findSubmitted($item->profile_id, $item->submit_token) === null) {
+                throw $e;
+            }
+            $item->setError('submit_token', ['unique' => 'The form was already sent']);
+
+            return false;
+        }
+    }
+
+    /**
+     * The form was already sent: its item exists, the seller goes to the list instead of getting a copy
+     */
+    private function alreadySubmitted(): Response
+    {
+        $this->Flash->success(__('Your item is now for sale.'));
+
+        return $this->redirect(['action' => 'myItems']);
     }
 
     /**
