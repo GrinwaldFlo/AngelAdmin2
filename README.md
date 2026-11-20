@@ -4,373 +4,122 @@
 [![PHP](https://img.shields.io/badge/PHP-8.4+-blue.svg?style=flat-square)](https://php.net)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
 
-A comprehensive membership and team management system built with CakePHP 5.4, designed for sports clubs and organizations. AngelAdmin2 provides a complete solution for managing members, teams, meetings, billing, and administrative tasks.
+AngelAdmin2 is a web application for running a sports club: members, teams, cities, training attendance, membership fees with Swiss QR bills, a club shop, second-hand sales and coach payments, all in one place. It is made for clubs with volunteer staff: members and parents do their own registration and updates, and the committee keeps an overview of every site.
+
+Installation and development: see [INSTALL.md](INSTALL.md).
 
 ## ✨ Features
 
-### 👥 Member Management
-- **Complete member profiles** with personal information, contact details, and photos
-- **Team assignments** and multi-team support
-- **Registration workflow** with digital signatures
-- **Age-based categorization** (adults/children)
-- **Member status tracking** (active, inactive, registered)
-- **Hash-based authentication** for secure member access without passwords
-
-### ⚽ Team & Site Management
-- **Multi-site support** for organizations with multiple locations
-- **Team organization** with coaches and member assignments
-- **Hierarchical structure** with sites containing multiple teams
-
-### 💰 Billing & Finance
-- **Automated billing system** with customizable templates
-- **Swiss QR-bill support** for seamless payments
-- **Multi-payment options** and installment plans
-- **Late payment tracking** and reminder system
-- **Family discounts** and special pricing
-- **Payment status monitoring**
-
-### 📅 Meeting & Event Management
-- **Meeting scheduling** with different types (small, big, doodle)
-- **Attendance tracking** and presence management
-- **Event notifications** and reminders
-
-### 🔒 Security & Authentication
-- **Role-based access control** with granular permissions
-- **Dual authentication system**: traditional login and hash-based access
-- **Secure hash cookies** for member self-service
-- **Session management** with configurable timeouts
-
-### 🛠️ Administrative Tools
-- **Comprehensive dashboards** with statistics
-- **Member data export** and reporting
-- **Configuration management** for system settings
-- **Content management** for announcements and information
-- **Email integration** for communications
-
-### 🌍 Internationalization
-- **Multi-language support** (English/French)
-- **Localized date and currency formatting**
-- **Configurable default locale**
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- **PHP 8.4+** with required extensions
-- **MySQL/MariaDB** database
-- **Composer** for dependency management
-- **Web server** (Apache/Nginx) with URL rewriting support
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/GrinwaldFlo/AngelAdmin2.git
-   cd AngelAdmin2
-   ```
-
-2. **Install dependencies**
-   ```bash
-   composer install
-   ```
-
-3. **Configure the environment and database**
-   - Copy `.env.example` to `.env` and adjust the values (see [Environment Variables](#environment-variables))
-   - Set the database connection with `DATABASE_HOST`, `DATABASE_NAME`, `DATABASE_USER` and `DATABASE_PASSWORD` (or a single `DATABASE_URL`)
-   - `config/app.php` reads every environment specific value from these variables. An optional, git-ignored `config/app_local.php` can still override any key on one machine.
-
-4. **Set up the database**
-   ```bash
-   # Run migrations to create database tables
-   bin/cake migrations migrate
-   ```
-
-5. **Configure security**
-   - Generate a security salt and set `SECURITY_SALT` in `.env` or in the environment. The application does not start without it.
-   ```bash
-   # Generate a random salt
-   openssl rand -hex 32
-   ```
-
-6. **Set file permissions**
-   ```bash
-   # Make writable directories
-   chmod -R 755 tmp/
-   chmod -R 755 logs/
-   chmod -R 755 webroot/
-   ```
-
-7. **Start the development server**
-   ```bash
-   bin/cake server -p 8765
-   ```
-
-   Visit `http://localhost:8765` to access the application.
-
-## ⚙️ Configuration
-
-### Environment Variables
-
-Copy `.env.example` to `.env` in the root directory (it lists every supported variable), or set these environment variables:
-
-```bash
-# Security
-SECURITY_SALT=your_32_character_random_string
-
-# Database
-DATABASE_URL=mysql://username:password@localhost/angeladmin2
+### 👥 Members
 
-# Email
-EMAIL_TRANSPORT_DEFAULT_URL=smtp://username:password@mail.example.com:587
+- **Member profiles** with contact details, photo, ID photo, documents and custom fields defined by the club
+- **Online registration** for the new season, with a digital signature of the agreement (PDF generated), and batch registration by the staff
+- **Access without an account**: each member gets a personal link to their page, and can ask for a login link by email
+- **Optional user account** created by the member from their link
+- **Member lists** by team and status (active, registered, past), photo gallery, birthdays, new members, email lists
+- **Family discount** list for families with several members
+- **Registration invitations** sent by email to the members of a team, and cancellation of a registration
 
-# Debug (disable in production)
-DEBUG=false
-```
+### 🏙️ Sites (cities) and teams
 
-### Email Configuration
+- **Several sites** run almost as separate clubs: each member, team, bill and payment belongs to one city
+- **Teams** with several **coaches and help-coaches**; coaches only see and manage their own teams
+- Admins pick the site from the menu, or see all sites at once
 
-Configure the SMTP server in `.env`:
+### 📅 Meetings and attendance
 
-```bash
-EMAIL_HOST=your-smtp-server.com
-EMAIL_PORT=587
-EMAIL_USER=your-email@example.com
-EMAIL_PASSWORD=your-password
-EMAIL_TLS=true
-```
+- **Trainings and events** per team, one by one or as a weekly series
+- **Big events**, and open events where members sign up themselves from the home page
+- **Attendance tracking** by the coaches, with attendance rates on the dashboard
 
-### Application Settings
+### 💰 Billing
 
-The application uses a configuration system accessible through the admin panel:
-- Site settings and contact information
-- Season dates and membership rules
-- Language preferences
-- Logo and branding customization
+- **Bills from templates**, created one by one or in batch for a whole team or season (membership fees)
+- **Swiss QR bills** in PDF, sent by email or printed by post
+- **Drafts and validation** before sending, reminders for late bills
+- **Overview and search** of bills by season, team, status and label, with the list of members who did not get a bill yet
+- Members see and download their own bills from their page
 
-## 📁 Project Structure
+### 🧑‍🏫 Coach payments
 
-```
-AngelAdmin2/
-├── config/              # Configuration files
-│   └── Migrations/      # Database migrations
-├── docs/                # Additional documentation
-├── plugins/             # Local CakePHP plugins
-├── resources/           # Translations and other resources
-├── src/
-│   ├── Command/         # CLI commands (bin/cake ...)
-│   ├── Console/         # Composer installer hooks
-│   ├── Controller/      # Application controllers and components
-│   ├── Error/           # Custom error logging
-│   ├── Middleware/      # Security and maintenance middleware
-│   ├── Model/           # Tables, entities and behaviors
-│   ├── Policy/          # Authorization policies
-│   ├── Utility/         # Shared helper classes
-│   └── View/            # View helpers and custom view classes
-├── templates/           # View templates
-├── webroot/             # Public web files (CSS, JS, images)
-├── tests/
-│   ├── Fixture/         # Test fixtures (table schemas and sample rows)
-│   └── TestCase/        # Unit and integration tests
-├── logs/                # Application logs
-├── tmp/                 # Temporary files, cache and test database
-└── vendor/              # Composer dependencies
-```
+- **Coach presence** declared per meeting (coach, help-coach, absent, ...), with an amount per presence type and per site
+- **Balance per coach and per site**, payment with a QR code to the coach's IBAN, payment history
+- Coaches see their balance and planned presences, and set their own IBAN (stored masked)
+- Season statistics per presence type and per team
 
-## 🔧 Key Components
+### 🛍️ Shop
 
-### Authentication Methods
+- **Club shop** (uniforms, merchandising) with sizes or attributes and stock management
+- **Orders turned into bills** automatically
+- Merchandising managers can order for other members, follow delivery and see an order summary
 
-1. **Traditional Login**: Username/password authentication for administrators and coaches
-2. **Hash Authentication**: Secure hash-based access for members to view their own data
+### ♻️ Second-hand
 
-### Database Schema
+- Members and past members **sell and buy used items** (uniforms, shoes) between themselves
+- Categories, photos, seller profile with email confirmation, terms accepted once
+- The club only connects buyers and sellers; the module can be turned off
 
-Main entities:
-- **Members**: Core member information and relationships
-- **Teams**: Team organization and site assignment
-- **Sites**: Multi-location support
-- **Bills**: Billing and payment tracking
-- **Meetings**: Event and meeting management
-- **Users**: System user accounts with role-based permissions
+### ✉️ Communication
 
-### API Endpoints
-
-The system provides various endpoints for:
-- Member data retrieval
-- Bill generation and management
-- Meeting scheduling
-- Administrative functions
-
-## 🧪 Testing
-
-The test suite uses [PHPUnit](https://phpunit.de/) with CakePHP's test framework. Tests live in `tests/TestCase/` and their sample data in `tests/Fixture/`.
-
-### Requirements
-
-- Development dependencies installed (`composer install`, without `--no-dev`)
-- PHP extensions `pdo_sqlite`, `mbstring`, `intl` and `zip`
-- No `.env` is needed: `phpunit.xml.dist` provides a test `SECURITY_SALT`
-
-No MySQL server is needed: by default the `test` datasource uses a SQLite file at `tmp/tests.sqlite`. `tests/bootstrap.php` builds its tables by running the migrations in `config/Migrations`, then each test fills them with rows from its fixtures. If you add a table, add a migration for it, or the tests will not see it. To use another database, set `DATABASE_TEST_URL`:
-
-```bash
-DATABASE_TEST_URL="mysql://user:password@localhost/angeladmin2_test" composer test
-```
-
-The tests never touch the `default` database: `tests/bootstrap.php` aliases it to the `test` connection.
-
-### Running tests
+- **Mailings** to the members of some teams, or to the members having a given bill
+- Emails are queued and sent in small chunks, so a mailing stopped by the SMTP limit can be resumed
+- **Contents** managed by the staff: home page messages, links and information per team
+- Optional **Slack** messages on the home page
 
-```bash
-# Run all tests
-composer test
-
-# Run one directory
-./vendor/bin/phpunit tests/TestCase/Controller/
-./vendor/bin/phpunit tests/TestCase/Model/
+### 🏛️ Subsidies
 
-# Run one test file
-./vendor/bin/phpunit tests/TestCase/Controller/MembersControllerTest.php
-
-# Run tests whose name matches a pattern
-./vendor/bin/phpunit --filter testIndex
-
-# Run the tests and the code style check
-composer check
-```
-
-Some generated tests are still marked as incomplete or skipped; they show up as `I` and `S` in the output and do not fail the run.
+- **Subsidy requests to the municipalities**: list of young members by city of residence, letter per city in PDF
+- Ready-to-send emails (`.eml`) for every city, downloaded as one zip pack
 
-### Continuous integration
+### 📊 Administration
 
-GitHub Actions (`.github/workflows/phpunit.yml`) runs `composer test` on PHP 8.4 for every pull request and every push to `master`.
+- **Dashboard**: members by gender and age, finances, attendance, teams and upcoming birthdays
+- **New season** tools: new year, reset of memberships and registrations, generation of the membership fees
+- **Roles** with fine-grained rights (view/edit all members, own members, bills, shop, ...)
+- **Settings** for the club name, season, languages and texts
+- Log viewer, maintenance mode and a style guide page for the interface
 
-### Code style
+### 🌍 Languages and devices
 
-```bash
-# Check code style
-composer cs-check
+- Interface in **French, German, English, Spanish and Italian**; each member chooses their language
+- **Mobile friendly** everywhere, including iPhone photos (HEIC)
 
-# Fix code style issues
-composer cs-fix
-```
+### 🔒 Security
 
-## 📦 Dependencies
+- Role-based permissions checked on every page
+- Rate limiting on logins and login links, security headers, CSRF protection
+- Logs of suspicious requests and failed logins
 
-### Core Dependencies
-- **CakePHP 5.4**: Web framework
-- **Authentication & Authorization**: User management
-- **Migrations**: Database schema management
-- **Bootstrap UI**: Frontend framework integration
-- **Intervention Image**: Image processing
-- **Mobile Detect**: Device detection
-- **Swiss QR-Bill**: Payment slip generation
-- **Symfony String & Emoji**: String handling
-- **TinyMCE**: Rich text editor
-- **TCPDF**: PDF generation
+See [docs/security.md](docs/security.md) for details.
 
-### Development Dependencies
-- **PHPUnit**: Testing framework
-- **CakePHP Bake**: Code generation
-- **Debug Kit**: Development debugging
-- **Code Sniffer**: Code quality
-- **PHP Dotenv**: Loads the `.env` file
+## 🧰 Built with
 
-## 🚢 Deployment
+[CakePHP 5.4](https://cakephp.org/) · PHP 8.4 · MySQL/MariaDB · [Bootstrap](https://getbootstrap.com/) with BootstrapUI · jQuery · [Swiss QR Bill](https://github.com/sprain/php-swiss-qr-bill) · TCPDF · Intervention Image · TinyMCE
 
-### Production Deployment
+## 📚 Documentation
 
-1. **Server Requirements**
-   - PHP 8.4+ with extensions: mbstring, intl, simplexml, PDO
-   - MySQL/MariaDB 5.7+
-   - Web server with URL rewriting
-
-2. **Environment Setup**
-   ```bash
-   # Install dependencies (production only)
-   composer install --no-dev --optimize-autoloader
-   
-   # Set production environment
-   export CAKE_ENV=production
-   
-   # Clear and warm up cache
-   bin/cake cache clear_all
-   ```
-
-3. **Security Checklist**
-   - Set `DEBUG=false` in production
-   - Configure proper file permissions
-   - Use HTTPS for secure communication
-   - Implement proper backup procedures
-   - Monitor logs for security issues
-
-### Docker Support
-
-A Docker configuration can be added for containerized deployment:
-
-```dockerfile
-# Example Dockerfile structure
-FROM php:8.4-apache
-# Install PHP extensions and configure Apache
-# Copy application files
-# Set proper permissions
-```
-
-## 🤝 Contributing
-
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for details, and please follow these guidelines:
-
-1. **Fork the repository** and create your feature branch
-2. **Follow coding standards**: Use CakePHP conventions and PSR-12
-3. **Write tests** for new functionality
-4. **Update documentation** as needed
-5. **Submit a pull request** with a clear description
-
-### Development Setup
-
-```bash
-# Clone your fork
-git clone https://github.com/your-username/AngelAdmin2.git
-
-# Install development dependencies
-composer install
-
-# Set up pre-commit hooks (optional)
-# This ensures code quality before commits
-```
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 💬 Support
-
-- **Documentation**: Check the [docs](docs/) directory for detailed guides (installation, security, HEIC support, favicons)
-- **Issues**: Report bugs via [GitHub Issues](https://github.com/GrinwaldFlo/AngelAdmin2/issues)
-- **Community**: Join our discussions for questions and support
+- [INSTALL.md](INSTALL.md): installation, configuration, update, tests
+- [CONTRIBUTING.md](CONTRIBUTING.md): how to contribute
+- [docs/security.md](docs/security.md): security guide
+- [docs/HEIC_SUPPORT.md](docs/HEIC_SUPPORT.md): iPhone photo support
+- [docs/favicon-management.md](docs/favicon-management.md): favicons
 
 ## 🗺️ Roadmap
 
-Future enhancements planned:
 - [ ] Mobile application companion
 - [ ] Advanced reporting and analytics
 - [ ] Integration with external payment systems
 - [ ] Enhanced notification system
 - [ ] API documentation and external integrations
 
+## 💬 Support
+
+Report bugs and ask for features via [GitHub Issues](https://github.com/GrinwaldFlo/AngelAdmin2/issues).
+
 ## 👨‍💻 Authors
 
 - **Florian Grinwald** - *Initial work* - [@GrinwaldFlo](https://github.com/GrinwaldFlo)
 
-## 🙏 Acknowledgments
+## 📄 License
 
-- Built with [CakePHP](https://cakephp.org/) framework
-- UI components from [Bootstrap](https://getbootstrap.com/)
-- Icons and fonts from various open-source projects
-- Community contributors and testers
-
----
-
-**AngelAdmin2** - Streamlining sports club management with modern web technology.
-
-
+MIT License, see [LICENSE](LICENSE).

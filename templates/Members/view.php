@@ -53,6 +53,8 @@ $contactEmail = $config['email'];
 
         <?= $this->element('Members/bills', compact('member', 'allowViewBills', 'curRole')) ?>
         
+        <?= $this->cell('CoachBalance', [$member]) ?>
+
         <?= $this->element('Members/attendance', compact('member', 'attendance')) ?>
     </div>
 <?php endif; ?>

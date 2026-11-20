@@ -15,6 +15,8 @@ use Cake\I18n\DateTime;
  */
 class MeetingsController extends AppController
 {
+    use EntityFlashTrait;
+
     private const FORM_FIELDS = ['meeting_date', 'team_id', 'name', 'big_event', 'url', 'doodle'];
 
   /** Number of meetings shown before "show more" */
@@ -163,11 +165,7 @@ class MeetingsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $meeting = $this->Meetings->get($id);
         $this->Authorization->authorize($meeting, 'edit');
-        if ($this->Meetings->delete($meeting)) {
-            $this->Flash->success(__('The meeting has been deleted.'));
-        } else {
-            $this->Flash->error(__('The meeting could not be deleted.'));
-        }
+        $this->flashDeleted($this->Meetings->delete($meeting), $meeting, __('The meeting has been deleted.'), __('The meeting could not be deleted.'));
 
         return $this->redirect(['action' => 'index', $meeting->team_id]);
     }
