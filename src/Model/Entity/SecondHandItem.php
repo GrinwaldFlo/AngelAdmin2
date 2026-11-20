@@ -18,7 +18,6 @@ use Cake\Utility\Filesystem;
  * @property string $size
  * @property string $price
  * @property string $hash
- * @property string|null $submit_token token of the form that created the item
  * @property \Cake\I18n\DateTime|null $sold
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified

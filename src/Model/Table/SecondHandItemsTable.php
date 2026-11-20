@@ -9,7 +9,6 @@ use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
-use Cake\Validation\Validation;
 use Cake\Validation\Validator;
 
 /**
@@ -76,7 +75,6 @@ class SecondHandItemsTable extends Table
     public function buildRules(\Cake\ORM\RulesChecker $rules): \Cake\ORM\RulesChecker
     {
         $rules->add($rules->existsIn(['category_id'], 'Categories'), ['errorField' => 'category_id']);
-        $rules->add($rules->isUnique(['profile_id', 'submit_token'], ['allowMultipleNulls' => true]), ['errorField' => 'submit_token']);
 
         return $rules;
     }
@@ -99,19 +97,6 @@ class SecondHandItemsTable extends Table
     {
         /** @var \App\Model\Entity\SecondHandItem $entity */
         $entity->deleteFolder();
-    }
-
-    /**
-     * The item created by a form of the seller, the same form sent twice must not create a second item
-     */
-    public function findSubmitted(int $profileId, ?string $token): ?SecondHandItem
-    {
-        if ($token === null || !Validation::uuid($token)) {
-            return null;
-        }
-
-        /** @var \App\Model\Entity\SecondHandItem|null */
-        return $this->find()->where(['profile_id' => $profileId, 'submit_token' => $token])->first();
     }
 
     /**

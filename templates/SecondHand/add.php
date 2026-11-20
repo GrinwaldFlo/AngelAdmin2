@@ -17,7 +17,6 @@ $this->Html->script('submit-once', ['block' => true]);
     <h3><?= __('Add an item') ?></h3>
     <p><?= __('All fields are required.') ?></p>
     <?= $this->Form->create($item, ['type' => 'file', 'data-submit-once' => __('Sending...')]) ?>
-    <?= $this->Form->hidden('submit_token') ?>
     <?= $this->Form->control('category_id', ['label' => __('Category'), 'options' => $categories, 'empty' => __('Choose a category'), 'required' => true]) ?>
     <?= $this->Form->control('description', ['label' => __('Description'), 'type' => 'textarea', 'rows' => 4, 'required' => true]) ?>
     <?= $this->Form->control('size', ['label' => __('Size'), 'required' => true]) ?>
