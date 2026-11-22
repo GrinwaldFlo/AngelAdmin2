@@ -18,7 +18,8 @@ class CoachPresencesCell extends Cell
         $rows = $this->fetchTable('CoachPresences')->rowsOfMeeting($meeting);
         $siteId = (int)$this->fetchTable('Teams')->get($meeting->team_id)->site_id;
         $types = $this->fetchTable('CoachPresenceTypes')->find('ofSite', siteId: $siteId, activeOnly: false)->all()->indexBy('id')->toArray();
+        $limits = $this->fetchTable('CoachPresenceLimits')->limitsOfTeam($meeting->team_id);
 
-        $this->set(compact('meeting', 'rows', 'types'));
+        $this->set(compact('meeting', 'rows', 'types', 'limits'));
     }
 }

@@ -3227,3 +3227,41 @@ msgstr "Este lugar tiene asistencias o pagos de entrenador, no se puede eliminar
 #: coach payment module
 msgid "The meetings of this team have coach presences, it can't move to another location."
 msgstr "Las sesiones de este equipo tienen asistencias de entrenador, no puede cambiar de lugar."
+
+#: coach payment module
+msgid "Limits per team"
+msgstr "Límites por equipo"
+
+#: coach payment module
+msgid "No active team in this city."
+msgstr "No hay ningún equipo activo en esta ciudad."
+
+#: coach payment module
+msgid "Add an active presence type first."
+msgstr "Añade primero un tipo de asistencia activo."
+
+#: coach payment module
+msgid "Maximum number of coaches with each presence type at one meeting of the team. Empty = no limit, 0 = type not allowed."
+msgstr "Número máximo de entrenadores con cada tipo de asistencia en una sesión del equipo. Vacío = sin límite, 0 = tipo no permitido."
+
+#: coach payment module
+msgid "Maximum of {0} for {1}"
+msgstr "Máximo de {0} para {1}"
+
+#: coach payment module
+msgid "The limits have been saved."
+msgstr "Los límites se han guardado."
+
+#: coach payment module
+msgid "The limits could not be saved: each limit must be a number from 0 to {0}."
+msgstr "No se han podido guardar los límites: cada límite debe ser un número de 0 a {0}."
+
+#: coach payment module
+msgid "The maximum number of coaches with this presence type is reached for this meeting."
+msgstr "Se ha alcanzado el número máximo de entrenadores con este tipo de asistencia para esta sesión."
+
+#: coach payment module
+msgid "max {0} coach per meeting"
+msgid_plural "max {0} coaches per meeting"
+msgstr[0] "máx. {0} entrenador por sesión"
+msgstr[1] "máx. {0} entrenadores por sesión"

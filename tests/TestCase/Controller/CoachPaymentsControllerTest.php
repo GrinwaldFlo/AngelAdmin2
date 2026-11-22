@@ -97,6 +97,49 @@ class CoachPaymentsControllerTest extends TestCase
         $this->assertResponseNotContains('762011623852');
     }
 
+    public function testSettingsListTheLimitsOfTheTeamsOfTheSite(): void
+    {
+        $this->addPresenceType(1, 'Inactive type', 3, false);
+        $this->addPresenceLimit(1, $this->main, 2);
+        $this->loginAdmin();
+
+        $this->get('/coach-payments/settings');
+
+        $this->assertResponseOk();
+        $this->assertResponseContains('Limits per team');
+        $this->assertResponseContains('name="limits[1][' . $this->main . ']"');
+        $this->assertResponseContains('value="2"');
+        $this->assertResponseNotContains('name="limits[5]');
+        $this->assertResponseNotContains('>Inactive type</th>');
+    }
+
+    public function testSaveLimits(): void
+    {
+        $other = $this->addPresenceType(2, 'Type of site 2', 3);
+        $this->loginAdmin();
+
+        $this->post('/coach-payments/save-limits', ['limits' => [1 => [$this->main => '1'], 5 => [$other => '4']]]);
+
+        $this->assertRedirectContains('/coach-payments/settings');
+        $this->assertFlashElement('flash/success');
+        $limits = $this->getTableLocator()->get('CoachPresenceLimits');
+        $this->assertSame([1 => [$this->main => 1]], $limits->limitsOfTeams([1, 5]));
+
+        $this->post('/coach-payments/save-limits', ['limits' => [1 => [$this->main => '-3']]]);
+        $this->assertFlashElement('flash/error');
+        $this->assertSame([$this->main => 1], $limits->limitsOfTeam(1));
+    }
+
+    public function testSaveLimitsIsForAdminsOnly(): void
+    {
+        $this->loginWith(['MemberViewAll', 'MemberEditAll']);
+
+        $this->post('/coach-payments/save-limits', ['limits' => [1 => [$this->main => '1']]]);
+
+        $this->assertResponseCode(403);
+        $this->assertSame(0, $this->getTableLocator()->get('CoachPresenceLimits')->find()->count());
+    }
+
     public function testAddEditAndDeleteType(): void
     {
         $this->loginAdmin();

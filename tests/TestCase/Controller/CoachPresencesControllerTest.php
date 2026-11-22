@@ -78,6 +78,34 @@ class CoachPresencesControllerTest extends TestCase
         $this->assertResponseContains('coach-presences.js');
     }
 
+    public function testAttendancePageShowsTheLimitsOfTheTeam(): void
+    {
+        $this->addPresenceLimit(1, $this->main, 1);
+        $this->addPresenceLimit(2, $this->main, 3);
+        $this->loginCoach();
+
+        $this->get('/meetings/view/' . $this->meetingId);
+
+        $this->assertResponseOk();
+        $this->assertResponseContains('data-max="1"');
+        $this->assertResponseNotContains('data-max="3"');
+        $this->assertResponseContains('max 1 coach per meeting');
+    }
+
+    public function testRefusedWhenTheLimitIsReached(): void
+    {
+        $this->addPresenceLimit(1, $this->main, 1);
+        $this->addCoachPresence($this->meetingId, 1, $this->main);
+        $this->loginCoach();
+
+        $this->post('/coach-presences/set-type/' . $this->meetingId, ['member_id' => 100, 'type_id' => $this->main]);
+
+        $this->assertResponseCode(422);
+        $json = json_decode((string)$this->_response->getBody(), true);
+        $this->assertStringContainsString('maximum', $json['error']);
+        $this->assertNull($this->typeOf($this->meetingId, 100));
+    }
+
     public function testAttendancePageWithoutCoachHasNoBlock(): void
     {
         $this->loginWith();

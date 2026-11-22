@@ -6,11 +6,26 @@
   function initCoaches(block) {
     var error = block.querySelector('.cp-error');
 
+    // A type whose limit is reached by the other coaches can't be chosen (the selected one stays clickable to clear it)
+    function refreshLimits() {
+      var counts = {};
+      block.querySelectorAll('.cp-coach').forEach(function (row) {
+        if (row.dataset.type !== '') {
+          counts[row.dataset.type] = (counts[row.dataset.type] || 0) + 1;
+        }
+      });
+      block.querySelectorAll('button.cp-type[data-max]').forEach(function (button) {
+        var selected = button.closest('.cp-coach').dataset.type === button.dataset.type;
+        button.disabled = !selected && (counts[button.dataset.type] || 0) >= parseInt(button.dataset.max, 10);
+      });
+    }
+
     function setRowType(row, type) {
       row.dataset.type = type;
       row.querySelectorAll('button.cp-type').forEach(function (button) {
         button.setAttribute('aria-pressed', button.dataset.type === type ? 'true' : 'false');
       });
+      refreshLimits();
     }
 
     function showError(message) {
@@ -59,6 +74,8 @@
       // The selected type again = not declared
       save(row, row.dataset.type === button.dataset.type ? '' : button.dataset.type);
     });
+
+    refreshLimits();
   }
 
   document.querySelectorAll('.cp-coaches').forEach(initCoaches);

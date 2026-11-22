@@ -10,7 +10,12 @@
  * @var array<int, \App\Model\Entity\Member> $coaches by member id
  * @var array<int, \App\Model\Entity\CoachAccount> $accounts by member id
  * @var array<int, string[]> $teamNames coached teams by member id
+ * @var \App\Model\Entity\CoachPresenceType[] $activeTypes active types of the site, columns of the limits
+ * @var array<int, string> $teams active teams of the site, names by id
+ * @var array<int, array<int, int>> $limits [team id => [type id => max coaches per meeting]]
  */
+use App\Model\Table\CoachPresenceLimitsTable;
+
 $this->Html->css('coach-payments', ['block' => true]);
 ?>
 <div class="content">
@@ -58,6 +63,50 @@ $this->Html->css('coach-payments', ['block' => true]);
     <div class="col-12 col-md-3 cp-type-submit"><?= $this->Form->button(__('Add'), ['class' => 'btn btn-add']) ?></div>
   </div>
   <?= $this->Form->end() ?>
+
+  <h4 class="cp-section-title" id="limits"><?= __('Limits per team') ?></h4>
+  <?php if (empty($teams) || empty($activeTypes)) : ?>
+    <p class="text-muted"><?= empty($teams) ? __('No active team in this city.') : __('Add an active presence type first.') ?></p>
+  <?php else : ?>
+    <p class="text-muted"><?= __('Maximum number of coaches with each presence type at one meeting of the team. Empty = no limit, 0 = type not allowed.') ?></p>
+    <?= $this->Form->create(null, ['url' => ['action' => 'saveLimits']]) ?>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-sm cp-limits">
+        <thead>
+          <tr>
+            <th><?= __('Team') ?></th>
+            <?php foreach ($activeTypes as $type) : ?>
+              <th class="text-end"><?= h($type->label) ?></th>
+            <?php endforeach; ?>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($teams as $teamId => $teamName) : ?>
+            <tr>
+              <td><?= h($teamName) ?></td>
+              <?php foreach ($activeTypes as $type) : ?>
+                <td class="text-end">
+                  <?= $this->Form->control("limits.{$teamId}.{$type->id}", [
+                      'label' => false,
+                      'type' => 'number',
+                      'min' => 0,
+                      'max' => CoachPresenceLimitsTable::MAX,
+                      'step' => 1,
+                      'value' => $limits[$teamId][$type->id] ?? '',
+                      'required' => false,
+                      'class' => 'cp-limit-input',
+                      'aria-label' => __('Maximum of {0} for {1}', $type->label, $teamName),
+                  ]) ?>
+                </td>
+              <?php endforeach; ?>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+    <?= $this->Form->button(__('Save'), ['class' => 'btn btn-save']) ?>
+    <?= $this->Form->end() ?>
+  <?php endif; ?>
 
   <h4 class="cp-section-title"><?= __('Coaches') ?></h4>
   <?php if (empty($coaches)) : ?>

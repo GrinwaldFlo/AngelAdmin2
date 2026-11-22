@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Model\Table\CoachPresenceLimitsTable;
 use Cake\I18n\Number;
 use RuntimeException;
 
@@ -66,7 +67,7 @@ class CoachPaymentsController extends AppController
     }
 
     /**
-     * Settings: presence types and IBAN of the coaches of the site
+     * Settings: presence types, limits of the types per team and IBAN of the coaches of the site
      */
     public function settings()
     {
@@ -79,8 +80,32 @@ class CoachPaymentsController extends AppController
         $coaches = $accountsTable->coachesOfSite($siteId);
         $accounts = $accountsTable->accountsOfSite($siteId);
         $teamNames = $accountsTable->coachedTeamNames($siteId);
+        $teams = $this->getTeamsActiv($siteId, false);
+        $limits = $this->fetchTable('CoachPresenceLimits')->limitsOfTeams(array_keys($teams));
+        $activeTypes = $types->filter(fn ($type) => $type->active)->toList();
 
-        $this->set(compact('site', 'types', 'newType', 'coaches', 'accounts', 'teamNames'));
+        $this->set(compact('site', 'types', 'activeTypes', 'newType', 'coaches', 'accounts', 'teamNames', 'teams', 'limits'));
+    }
+
+    /**
+     * Save the maximum number of coaches per presence type at one meeting, for the active teams of the site
+     * POST data: limits[team id][type id] = max, empty = no limit
+     */
+    public function saveLimits()
+    {
+        $this->request->allowMethod(['post']);
+        $siteId = $this->adminSiteId();
+        $teamIds = array_keys($this->getTeamsActiv($siteId, false));
+        $typeIds = $this->fetchTable('CoachPresenceTypes')->find('ofSite', siteId: $siteId)->all()->extract('id')->toList();
+        $data = $this->request->getData('limits');
+
+        if ($this->fetchTable('CoachPresenceLimits')->saveLimits(is_array($data) ? $data : [], $teamIds, $typeIds)) {
+            $this->Flash->success(__('The limits have been saved.'));
+        } else {
+            $this->Flash->error(__('The limits could not be saved: each limit must be a number from 0 to {0}.', CoachPresenceLimitsTable::MAX));
+        }
+
+        return $this->redirect(['action' => 'settings', '#' => 'limits']);
     }
 
     public function addType()

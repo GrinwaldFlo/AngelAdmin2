@@ -148,6 +148,75 @@ class CoachPresencesTableTest extends TestCase
         $this->assertSame($this->main, $this->typeOf($meeting->id, 1));
     }
 
+    public function testSetTypeRefusedWhenTheLimitIsReached(): void
+    {
+        $meeting = $this->meeting();
+        $this->addPresenceLimit(1, $this->main, 1);
+
+        $this->assertNull($this->CoachPresences->setType($meeting, 1, $this->main));
+        $this->assertNotNull($this->CoachPresences->setType($meeting, 100, $this->main));
+        $this->assertNull($this->typeOf($meeting->id, 100));
+        // The other types have no limit
+        $this->assertNull($this->CoachPresences->setType($meeting, 100, $this->secondary));
+        // Changing the type of a coach to a full type is refused too
+        $this->assertNotNull($this->CoachPresences->setType($meeting, 100, $this->main));
+        $this->assertSame($this->secondary, $this->typeOf($meeting->id, 100));
+    }
+
+    public function testLimitFreedWhenACoachIsCleared(): void
+    {
+        $meeting = $this->meeting();
+        $this->addPresenceLimit(1, $this->main, 1);
+        $this->CoachPresences->setType($meeting, 1, $this->main);
+
+        $this->assertNull($this->CoachPresences->setType($meeting, 1, null));
+        $this->assertNull($this->CoachPresences->setType($meeting, 100, $this->main));
+        $this->assertSame($this->main, $this->typeOf($meeting->id, 100));
+    }
+
+    public function testLimitCountsOnlyTheMeeting(): void
+    {
+        $this->addPresenceLimit(1, $this->main, 1);
+        $first = $this->meeting('-2 days');
+        $second = $this->meeting('-1 day');
+        $this->CoachPresences->setType($first, 1, $this->main);
+
+        $this->assertNull($this->CoachPresences->setType($second, 100, $this->main));
+    }
+
+    public function testLimitCountsThePaidPresences(): void
+    {
+        $meeting = $this->meeting();
+        $this->addPresenceLimit(1, $this->main, 1);
+        $this->addCoachPresence($meeting->id, 1, $this->main);
+        $this->getTableLocator()->get('CoachPayments')->payOpen(1, 1);
+
+        $this->assertNotNull($this->CoachPresences->setType($meeting, 100, $this->main));
+    }
+
+    public function testLimitZeroForbidsTheType(): void
+    {
+        $meeting = $this->meeting();
+        $this->addPresenceLimit(1, $this->main, 0);
+
+        $this->assertNotNull($this->CoachPresences->setType($meeting, 1, $this->main));
+        $this->assertNull($this->typeOf($meeting->id, 1));
+    }
+
+    public function testLimitLoweredKeepsTheExistingPresences(): void
+    {
+        $meeting = $this->meeting();
+        $this->addCoachPresence($meeting->id, 1, $this->main);
+        $this->addCoachPresence($meeting->id, 100, $this->main);
+        $this->addPresenceLimit(1, $this->main, 1);
+
+        // Setting the same type again is not a new presence
+        $this->assertNull($this->CoachPresences->setType($meeting, 100, $this->main));
+        $this->assertSame($this->main, $this->typeOf($meeting->id, 100));
+        $this->assertSame([$this->main => 2], $this->CoachPresences->typeCounts($meeting->id));
+        $this->assertSame([$this->main => 1], $this->CoachPresences->typeCounts($meeting->id, 100));
+    }
+
     /**
      * A payment takes the presence after setType() read it (simulated when the coaches of the team are read, after the presences)
      */

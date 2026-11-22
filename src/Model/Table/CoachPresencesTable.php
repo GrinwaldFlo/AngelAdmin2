@@ -120,6 +120,11 @@ class CoachPresencesTable extends Table
             return __('This presence type can\'t be used for this meeting.');
         }
 
+        $sameType = $presence !== null && (int)$presence->coach_presence_type_id === $typeId;
+        if (!$sameType && $this->isTypeFull($meeting, $memberId, $typeId)) {
+            return __('The maximum number of coaches with this presence type is reached for this meeting.');
+        }
+
         if ($presence === null) {
             $presence = $this->newEmptyEntity();
             $presence->meeting_id = $meeting->id;
@@ -128,7 +133,7 @@ class CoachPresencesTable extends Table
 
             return $this->save($presence) ? null : __('The presence could not be saved.');
         }
-        if ((int)$presence->coach_presence_type_id === $typeId) {
+        if ($sameType) {
             return null;
         }
         $changed = $this->updateAll(
@@ -137,6 +142,34 @@ class CoachPresencesTable extends Table
         );
 
         return $changed > 0 || !$this->isPaidNow($presence->id) ? null : $this->paidError();
+    }
+
+    /**
+     * The limit of the type for the team of the meeting is reached by the other coaches (paid or not)
+     */
+    private function isTypeFull(Meeting $meeting, int $memberId, int $typeId): bool
+    {
+        $max = TableRegistry::getTableLocator()->get('CoachPresenceLimits')->limitsOfTeam($meeting->team_id)[$typeId] ?? null;
+        if ($max === null) {
+            return false;
+        }
+
+        return ($this->typeCounts($meeting->id, $memberId)[$typeId] ?? 0) >= $max;
+    }
+
+    /**
+     * Number of coaches by presence type at a meeting
+     * @param int|null $exceptMemberId coach not counted (the one being changed)
+     * @return array<int, int> [type id => count]
+     */
+    public function typeCounts(int $meetingId, ?int $exceptMemberId = null): array
+    {
+        $query = $this->find()->select(['coach_presence_type_id'])->where(['meeting_id' => $meetingId]);
+        if ($exceptMemberId !== null) {
+            $query->where(['member_id !=' => $exceptMemberId]);
+        }
+
+        return $query->all()->countBy(fn ($presence) => $presence->coach_presence_type_id)->toArray();
     }
 
     private function isPaidNow(int $presenceId): bool

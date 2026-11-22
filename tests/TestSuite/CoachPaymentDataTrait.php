@@ -19,7 +19,8 @@ trait CoachPaymentDataTrait
 
     /** Fixtures of the coach payment tests */
     protected const COACH_FIXTURES = [
-        'app.CoachPresenceTypes', 'app.CoachAccounts', 'app.CoachPresences', 'app.CoachPayments',
+        'app.CoachPresenceTypes', 'app.CoachPresenceLimits', 'app.CoachAccounts', 'app.CoachPresences',
+        'app.CoachPayments',
         'app.Members', 'app.Users', 'app.Roles', 'app.Sites', 'app.Teams', 'app.TeamsMembers', 'app.TeamsCoaches',
         'app.Meetings', 'app.Presences', 'app.Configurations', 'app.Bills', 'app.Fields', 'app.FieldTypes',
         'app.Registrations', 'app.Contents', 'app.MemberDocs',
@@ -34,6 +35,18 @@ trait CoachPaymentDataTrait
         $type = $types->newForSite($siteId, ['label' => $label, 'amount' => $amount, 'active' => $active, 'sort' => $sort]);
 
         return $types->saveOrFail($type)->id;
+    }
+
+    /**
+     * Maximum number of coaches with a type at one meeting of a team
+     */
+    protected function addPresenceLimit(int $teamId, int $typeId, int $max): void
+    {
+        $limits = $this->getTableLocator()->get('CoachPresenceLimits');
+        $limit = $limits->newEntity(['max_count' => $max]);
+        $limit->team_id = $teamId;
+        $limit->coach_presence_type_id = $typeId;
+        $limits->saveOrFail($limit);
     }
 
     /**

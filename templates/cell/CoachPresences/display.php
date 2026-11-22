@@ -7,6 +7,7 @@
  * @var \App\Model\Entity\Meeting $meeting
  * @var array<int, array{member: \App\Model\Entity\Member, coachType: int|null, presence: \App\Model\Entity\CoachPresence|null}> $rows
  * @var array<int, \App\Model\Entity\CoachPresenceType> $types all the types of the site, by id
+ * @var array<int, int> $limits max coaches per type at one meeting of the team, by type id (none = no limit)
  */
 use App\Model\Entity\TeamsCoach;
 use Cake\Routing\Router;
@@ -45,9 +46,17 @@ $coachTypes = TeamsCoach::types();
           <?php else : ?>
                 <?php foreach ($types as $typeId => $type) : ?>
                     <?php if ($type->active || $typeId === $current) : ?>
+                        <?php
+                        $max = $limits[$typeId] ?? null;
+                        $title = $this->Number->currency((float)$type->amount, 'CHF');
+                        if ($max !== null) {
+                            $title .= ' - ' . __n('max {0} coach per meeting', 'max {0} coaches per meeting', $max, $max);
+                        }
+                        ?>
               <button type="button" class="cp-type" data-type="<?= (int)$typeId ?>"
+                      <?= $max === null ? '' : 'data-max="' . (int)$max . '"' ?>
                       aria-pressed="<?= $typeId === $current ? 'true' : 'false' ?>"
-                      title="<?= h($this->Number->currency((float)$type->amount, 'CHF')) ?>"><?= h($type->label) ?></button>
+                      title="<?= h($title) ?>"><?= h($type->label) ?></button>
                     <?php endif; ?>
                 <?php endforeach; ?>
           <?php endif; ?>
