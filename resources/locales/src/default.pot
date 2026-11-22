@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2026-11-14 09:53+0100\n"
+"POT-Creation-Date: 2026-11-18 20:44+0100\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -29,7 +29,7 @@ msgid "Select a site to create membership fees"
 msgstr ""
 
 #: ./src/Controller/AdminController.php:143
-#: ./src/Controller/BillsController.php:459
+#: ./src/Controller/BillsController.php:480
 msgid "{0} is not in {1}, no invoice created."
 msgstr ""
 
@@ -78,83 +78,159 @@ msgstr ""
 msgid "The invoice template could not be deleted."
 msgstr ""
 
-#: ./src/Controller/BillsController.php:157
-#: ./src/Controller/BillsController.php:191
+#: ./src/Controller/BillsController.php:136
+msgid "The invoice {0} has been deleted."
+msgstr ""
+
+#: ./src/Controller/BillsController.php:140
+msgid "The invoice could not be deleted."
+msgstr ""
+
+#: ./src/Controller/BillsController.php:178
+#: ./src/Controller/BillsController.php:212
 msgid "The invoice has been saved."
 msgstr ""
 
-#: ./src/Controller/BillsController.php:162
-#: ./src/Controller/BillsController.php:196
-#: ./src/Controller/BillsController.php:484
+#: ./src/Controller/BillsController.php:183
+#: ./src/Controller/BillsController.php:217
+#: ./src/Controller/BillsController.php:505
 msgid "The invoice could not be saved."
 msgstr ""
 
-#: ./src/Controller/BillsController.php:183
+#: ./src/Controller/BillsController.php:204
 msgid "The invoice is already paid and can't be edited anymore"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:242
-#: ./src/Controller/BillsController.php:346
+#: ./src/Controller/BillsController.php:263
+#: ./src/Controller/BillsController.php:367
 msgid "Invoices have been updated"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:268
-#: ./src/Controller/BillsController.php:364
-#: ./src/Controller/BillsController.php:443
+#: ./src/Controller/BillsController.php:289
+#: ./src/Controller/BillsController.php:385
+#: ./src/Controller/BillsController.php:464
 msgid "A location needs to be selected"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:309
+#: ./src/Controller/BillsController.php:330
 msgid "Invoices has been validated"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:399
+#: ./src/Controller/BillsController.php:420
 msgid "Late bills Reminder"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:429
+#: ./src/Controller/BillsController.php:450
 msgid "Remiders have been sent"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:482
-#: ./src/Controller/BillsController.php:724
+#: ./src/Controller/BillsController.php:503
+#: ./src/Controller/BillsController.php:745
 msgid "Invoices has been created"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:506
+#: ./src/Controller/BillsController.php:527
 msgid "Send checkbox has not been checked"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:515
+#: ./src/Controller/BillsController.php:536
 msgid "The PDF file doesn't exist"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:517
+#: ./src/Controller/BillsController.php:538
 msgid "No token for the member"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:519
+#: ./src/Controller/BillsController.php:540
 msgid "No email for the member"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:528
+#: ./src/Controller/BillsController.php:549
 msgid "New Invoice"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:530
+#: ./src/Controller/BillsController.php:551
 msgid "Invoice Reminder"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:550
+#: ./src/Controller/BillsController.php:571
 msgid "Invoices have been sent"
 msgstr ""
 
-#: ./src/Controller/BillsController.php:555
+#: ./src/Controller/BillsController.php:576
 msgid "There were some error while sending mail. Try again"
 msgstr ""
 
+#: ./src/Controller/CoachAccountsController.php:30
+msgid "Your IBAN has been saved."
+msgstr ""
+
+#: ./src/Controller/CoachAccountsController.php:30
+#: ./src/Controller/CoachPaymentsController.php:149
+msgid "The IBAN could not be saved."
+msgstr ""
+
+#: ./src/Controller/CoachPaymentsController.php:57
+msgid "Coach {0} - {1}"
+msgstr ""
+
+#: ./src/Controller/CoachPaymentsController.php:93
+#: ./src/Controller/CoachPaymentsController.php:111
+msgid "The presence type has been saved."
+msgstr ""
+
+#: ./src/Controller/CoachPaymentsController.php:93
+#: ./src/Controller/CoachPaymentsController.php:111
+msgid "The presence type could not be saved."
+msgstr ""
+
+#: ./src/Controller/CoachPaymentsController.php:104
+msgid "This presence type belongs to another site."
+msgstr ""
+
+#: ./src/Controller/CoachPaymentsController.php:126
+msgid "The presence type has been deleted."
+msgstr ""
+
+#: ./src/Controller/CoachPaymentsController.php:129
+msgid "The presence type could not be deleted."
+msgstr ""
+
+#: ./src/Controller/CoachPaymentsController.php:144
+msgid "This member is not a coach of this site."
+msgstr ""
+
+#: ./src/Controller/CoachPaymentsController.php:149
+msgid "The IBAN has been saved."
+msgstr ""
+
+#: ./src/Controller/CoachPaymentsController.php:159
+msgid "The IBAN has been removed."
+msgstr ""
+
+#: ./src/Controller/CoachPaymentsController.php:161
+msgid "The IBAN could not be removed."
+msgstr ""
+
+#: ./src/Controller/CoachPaymentsController.php:180
+msgid "The payment of {0} has been saved."
+msgstr ""
+
+#: ./src/Controller/CoachPaymentsController.php:195
+msgid "The payment has been deleted, its presences are open again."
+msgstr ""
+
+#: ./src/Controller/CoachPaymentsController.php:197
+msgid "The payment could not be deleted."
+msgstr ""
+
+#: ./src/Controller/CoachPresencesController.php:31
+#: ./src/Controller/PresencesController.php:33
+msgid "Invalid presence"
+msgstr ""
+
 #: ./src/Controller/Component/DashboardComponent.php:193
-#: ./src/Model/Entity/Member.php:356
+#: ./src/Model/Entity/Member.php:368
 #: ./src/Model/Table/ShopItemsTable.php:168
 msgid "Unknown"
 msgstr ""
@@ -270,49 +346,49 @@ msgstr ""
 msgid "Failed to register member"
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:34
+#: ./src/Controller/Component/MemberManagementComponent.php:36
 msgid "You do not have permission to create new members."
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:54
+#: ./src/Controller/Component/MemberManagementComponent.php:56
 msgid "The member already exists"
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:57
-#: ./src/Controller/Component/MemberManagementComponent.php:98
-#: ./src/Controller/Component/MemberManagementComponent.php:122
-#: ./src/Controller/Component/MemberManagementComponent.php:145
-#: ./src/Controller/Component/MemberManagementComponent.php:175
+#: ./src/Controller/Component/MemberManagementComponent.php:59
+#: ./src/Controller/Component/MemberManagementComponent.php:100
+#: ./src/Controller/Component/MemberManagementComponent.php:124
+#: ./src/Controller/Component/MemberManagementComponent.php:147
+#: ./src/Controller/Component/MemberManagementComponent.php:177
 msgid "The member has been saved."
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:60
+#: ./src/Controller/Component/MemberManagementComponent.php:62
 msgid "This member is in none of your teams: you will not see them until you add them to one of your teams from the Teams page."
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:65
-#: ./src/Controller/Component/MemberManagementComponent.php:101
-#: ./src/Controller/Component/MemberManagementComponent.php:125
-#: ./src/Controller/Component/MemberManagementComponent.php:148
-#: ./src/Controller/Component/MemberManagementComponent.php:178
+#: ./src/Controller/Component/MemberManagementComponent.php:67
+#: ./src/Controller/Component/MemberManagementComponent.php:103
+#: ./src/Controller/Component/MemberManagementComponent.php:127
+#: ./src/Controller/Component/MemberManagementComponent.php:150
+#: ./src/Controller/Component/MemberManagementComponent.php:180
 #: ./src/Controller/Component/MemberRegistrationComponent.php:144
 msgid "The member could not be saved."
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:194
-msgid "The member has been deleted."
+#: ./src/Controller/Component/MemberManagementComponent.php:196
+msgid "The member {0} has been deleted."
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:197
+#: ./src/Controller/Component/MemberManagementComponent.php:201
 msgid "The member could not be deleted."
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:211
+#: ./src/Controller/Component/MemberManagementComponent.php:214
 #: ./src/Controller/UsersController.php:335
 msgid "This language doesn't exists"
 msgstr ""
 
-#: ./src/Controller/Component/MemberManagementComponent.php:232
+#: ./src/Controller/Component/MemberManagementComponent.php:235
 msgid "This location doesn't exists"
 msgstr ""
 
@@ -419,74 +495,78 @@ msgstr ""
 msgid "The email could not be sent: {0}"
 msgstr ""
 
-#: ./src/Controller/Component/ShopOrderComponent.php:88
+#: ./src/Controller/Component/ShopOrderComponent.php:89
 msgid "No items were selected for the order."
 msgstr ""
 
-#: ./src/Controller/Component/ShopOrderComponent.php:94
+#: ./src/Controller/Component/ShopOrderComponent.php:95
 msgid "There was an error processing your order. Please try again."
 msgstr ""
 
-#: ./src/Controller/Component/ShopOrderComponent.php:139
+#: ./src/Controller/Component/ShopOrderComponent.php:142
+msgid "The order for {0} has been placed successfully! Total amount: {1}"
+msgstr ""
+
+#: ./src/Controller/Component/ShopOrderComponent.php:143
 msgid "Your order has been placed successfully! Total amount: {0}"
 msgstr ""
 
-#: ./src/Controller/Component/ShopOrderComponent.php:176
+#: ./src/Controller/Component/ShopOrderComponent.php:175
 msgid "This order has already been given to the member."
 msgstr ""
 
-#: ./src/Controller/Component/ShopOrderComponent.php:179
+#: ./src/Controller/Component/ShopOrderComponent.php:178
 #: ./src/Controller/ShopOrdersController.php:177
 msgid "This attribute is not offered for this item."
 msgstr ""
 
-#: ./src/Controller/Component/ShopOrderComponent.php:186
+#: ./src/Controller/Component/ShopOrderComponent.php:185
 #: ./src/Controller/MemberOrdersController.php:117
 msgid "The order could not be updated. Please, try again."
 msgstr ""
 
-#: ./src/Controller/Component/ShopOrderComponent.php:224
+#: ./src/Controller/Component/ShopOrderComponent.php:223
 msgid "There is not enough stock for {0}."
 msgstr ""
 
-#: ./src/Controller/Component/ShopOrderComponent.php:234
+#: ./src/Controller/Component/ShopOrderComponent.php:233
 #: ./src/Controller/ShopOrdersController.php:196
 msgid "The order is not valid. Please try again."
 msgstr ""
 
-#: ./src/Controller/Component/ShopOrderComponent.php:262
+#: ./src/Controller/Component/ShopOrderComponent.php:261
 msgid "A choice of {0} is not offered anymore, please check your order."
 msgstr ""
 
-#: ./src/Controller/Component/ShopOrderComponent.php:290
+#: ./src/Controller/Component/ShopOrderComponent.php:289
 msgid "A shop order has been deleted, its bill has not been changed: please correct it by hand."
 msgstr ""
 
-#: ./src/Controller/Component/ShopOrderComponent.php:291
+#: ./src/Controller/Component/ShopOrderComponent.php:290
 msgid "Member: {0}"
 msgstr ""
 
-#: ./src/Controller/Component/ShopOrderComponent.php:292
+#: ./src/Controller/Component/ShopOrderComponent.php:291
 msgid "Item: {0}"
 msgstr ""
 
-#: ./src/Controller/Component/ShopOrderComponent.php:293
+#: ./src/Controller/Component/ShopOrderComponent.php:292
 msgid "Quantity: {0}"
 msgstr ""
 
-#: ./src/Controller/Component/ShopOrderComponent.php:294
+#: ./src/Controller/Component/ShopOrderComponent.php:293
 msgid "Bill: {0} ({1})"
 msgstr ""
 
-#: ./src/Controller/Component/ShopOrderComponent.php:295
+#: ./src/Controller/Component/ShopOrderComponent.php:294
 msgid "Amount of the bill: {0}"
 msgstr ""
 
-#: ./src/Controller/Component/ShopOrderComponent.php:296
+#: ./src/Controller/Component/ShopOrderComponent.php:295
 msgid "Deleted by: {0}"
 msgstr ""
 
-#: ./src/Controller/Component/ShopOrderComponent.php:301
+#: ./src/Controller/Component/ShopOrderComponent.php:300
 msgid "Shop order deleted - bill {0}"
 msgstr ""
 
@@ -574,36 +654,36 @@ msgstr ""
 msgid "The mailing could not be deleted."
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:108
+#: ./src/Controller/MeetingsController.php:110
 msgid "Choose at least one date and a time."
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:110
-#: ./src/Controller/MeetingsController.php:151
+#: ./src/Controller/MeetingsController.php:112
+#: ./src/Controller/MeetingsController.php:153
 msgid "The meeting could not be saved."
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:118
+#: ./src/Controller/MeetingsController.php:120
 msgid "No meeting has been saved."
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:147
+#: ./src/Controller/MeetingsController.php:149
 msgid "The meeting has been saved."
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:167
+#: ./src/Controller/MeetingsController.php:168
 msgid "The meeting has been deleted."
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:169
+#: ./src/Controller/MeetingsController.php:168
 msgid "The meeting could not be deleted."
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:182
+#: ./src/Controller/MeetingsController.php:180
 msgid "You are now registered"
 msgstr ""
 
-#: ./src/Controller/MeetingsController.php:115
+#: ./src/Controller/MeetingsController.php:117
 msgid "{0} meeting has been saved."
 msgid_plural "{0} meetings have been saved."
 msgstr[0] ""
@@ -621,30 +701,30 @@ msgstr ""
 msgid "This link does not give access to this member."
 msgstr ""
 
-#: ./src/Controller/MembersController.php:243
-#: ./src/Controller/MembersController.php:253
+#: ./src/Controller/MembersController.php:256
+#: ./src/Controller/MembersController.php:266
 msgid "Invalid access link."
 msgstr ""
 
-#: ./src/Controller/MembersController.php:383
+#: ./src/Controller/MembersController.php:396
 msgid "You can only view your own information."
 msgstr ""
 
-#: ./src/Controller/MembersController.php:424
+#: ./src/Controller/MembersController.php:436
+msgid "You can't delete your own member."
+msgstr ""
+
+#: ./src/Controller/MembersController.php:462
 msgid "Please log in to access this member."
 msgstr ""
 
-#: ./src/Controller/MembersController.php:521
-#: ./src/Controller/MembersController.php:529
+#: ./src/Controller/MembersController.php:559
+#: ./src/Controller/MembersController.php:567
 msgid "There where an issue with the connection. Please try again or ask Florian. Cookies has to be allowed."
 msgstr ""
 
-#: ./src/Controller/MembersController.php:564
+#: ./src/Controller/MembersController.php:602
 msgid "The PDF cant't be created"
-msgstr ""
-
-#: ./src/Controller/PresencesController.php:33
-msgid "Invalid presence"
 msgstr ""
 
 #: ./src/Controller/RolesController.php:56
@@ -812,21 +892,21 @@ msgstr ""
 msgid "This item belongs to another location."
 msgstr ""
 
-#: ./src/Controller/SitesController.php:55
-#: ./src/Controller/SitesController.php:78
+#: ./src/Controller/SitesController.php:57
+#: ./src/Controller/SitesController.php:80
 msgid "The site has been saved."
 msgstr ""
 
-#: ./src/Controller/SitesController.php:59
-#: ./src/Controller/SitesController.php:82
+#: ./src/Controller/SitesController.php:61
+#: ./src/Controller/SitesController.php:84
 msgid "The site could not be saved."
 msgstr ""
 
-#: ./src/Controller/SitesController.php:100
+#: ./src/Controller/SitesController.php:101
 msgid "The site has been deleted."
 msgstr ""
 
-#: ./src/Controller/SitesController.php:103
+#: ./src/Controller/SitesController.php:101
 msgid "The site could not be deleted."
 msgstr ""
 
@@ -934,10 +1014,30 @@ msgstr ""
 msgid "Too many requests, please try again later"
 msgstr ""
 
+#: ./src/Event/CoachPaymentListener.php:82
+msgid "This meeting has paid coach presences, it can't be deleted."
+msgstr ""
+
+#: ./src/Event/CoachPaymentListener.php:86
+msgid "This meeting has coach presences, it can't move to a team of another location."
+msgstr ""
+
+#: ./src/Event/CoachPaymentListener.php:90
+msgid "A coach with payments cannot be deleted."
+msgstr ""
+
+#: ./src/Event/CoachPaymentListener.php:94
+msgid "This location has coach presences or payments, it can't be deleted."
+msgstr ""
+
+#: ./src/Event/CoachPaymentListener.php:98
+msgid "The meetings of this team have coach presences, it can't move to another location."
+msgstr ""
+
 #: ./src/Model/Entity/Bill.php:74
 #: ./templates/Admin/typography.php:79
 #: ./templates/Bills/edit.php:26
-#: ./templates/Bills/view.php:70
+#: ./templates/Bills/view.php:71
 msgid "Canceled"
 msgstr ""
 
@@ -951,8 +1051,9 @@ msgstr ""
 #: ./templates/Bills/add.php:21
 #: ./templates/Bills/edit.php:24
 #: ./templates/Bills/index.php:16
-#: ./templates/Bills/view.php:62
+#: ./templates/Bills/view.php:63
 #: ./templates/MemberOrders/index.php:23
+#: ./templates/cell/CoachPresences/display.php:44
 #: ./templates/element/Members/bills.php:29
 msgid "Paid"
 msgstr ""
@@ -968,7 +1069,7 @@ msgid "Late"
 msgstr ""
 
 #: ./src/Model/Entity/Bill.php:83
-#: ./src/Model/Entity/Bill.php:136
+#: ./src/Model/Entity/Bill.php:147
 #: ./src/Model/Entity/MailingItem.php:34
 #: ./templates/Mailings/index.php:25
 #: ./templates/Mailings/send.php:33
@@ -977,19 +1078,19 @@ msgid "Sent"
 msgstr ""
 
 #: ./src/Model/Entity/Bill.php:86
-#: ./src/Model/Entity/Bill.php:136
+#: ./src/Model/Entity/Bill.php:147
 #: ./templates/Admin/typography.php:75
 #: ./templates/Bills/index.php:17
 msgid "Draft"
 msgstr ""
 
-#: ./src/Model/Entity/Bill.php:136
+#: ./src/Model/Entity/Bill.php:147
 msgctxt "In the way, it has been read"
 msgid "Read"
 msgstr ""
 
 #: ./src/Model/Entity/FieldType.php:52
-#: ./src/Model/Entity/Member.php:366
+#: ./src/Model/Entity/Member.php:378
 #: ./templates/Admin/subvention_emails.php:28
 #: ./templates/Bills/mail_print.php:26
 #: ./templates/Bills/mail_send.php:26
@@ -1004,8 +1105,8 @@ msgstr ""
 #: ./templates/Members/list_email.php:35
 #: ./templates/Members/register.php:49
 #: ./templates/SecondHand/profile.php:20
-#: ./templates/element/Members/details.php:28
-#: ./templates/element/Members/details.php:30
+#: ./templates/element/Members/details.php:29
+#: ./templates/element/Members/details.php:31
 msgid "Email"
 msgstr ""
 
@@ -1025,6 +1126,7 @@ msgstr ""
 #: ./src/Model/Entity/FieldType.php:52
 #: ./templates/Admin/typography.php:334
 #: ./templates/Bills/search.php:80
+#: ./templates/CoachPayments/index.php:81
 #: ./templates/Mailings/index.php:22
 #: ./templates/Meetings/add_multiple.php:47
 #: ./templates/SecondHandAdmin/items_log.php:17
@@ -1101,25 +1203,25 @@ msgstr ""
 msgid "{0}/{1}/{2}/{3}"
 msgstr ""
 
-#: ./src/Model/Entity/Member.php:160
+#: ./src/Model/Entity/Member.php:161
 #: ./src/View/Helper/MyHelper.php:339
 #: ./templates/Admin/dashboard.php:78
 msgid "No team"
 msgstr ""
 
-#: ./src/Model/Entity/Member.php:356
+#: ./src/Model/Entity/Member.php:368
 msgid "Female"
 msgstr ""
 
-#: ./src/Model/Entity/Member.php:356
+#: ./src/Model/Entity/Member.php:368
 msgid "Male"
 msgstr ""
 
-#: ./src/Model/Entity/Member.php:366
+#: ./src/Model/Entity/Member.php:378
 msgid "-"
 msgstr ""
 
-#: ./src/Model/Entity/Member.php:366
+#: ./src/Model/Entity/Member.php:378
 msgid "Letter"
 msgstr ""
 
@@ -1162,6 +1264,7 @@ msgid "For sale"
 msgstr ""
 
 #: ./src/Model/Entity/TeamsCoach.php:39
+#: ./templates/CoachPayments/settings.php:70
 msgid "Coach"
 msgstr ""
 
@@ -1169,12 +1272,62 @@ msgstr ""
 msgid "Help coach"
 msgstr ""
 
-#: ./src/Model/Table/BillsTable.php:330
+#: ./src/Model/Table/BillsTable.php:363
 msgid "{0}-{1}"
 msgstr ""
 
-#: ./src/Model/Table/BillsTable.php:389
+#: ./src/Model/Table/BillsTable.php:422
 msgid "Shop Order: {0}"
+msgstr ""
+
+#: ./src/Model/Table/CoachAccountsTable.php:56
+msgid "Enter an IBAN."
+msgstr ""
+
+#: ./src/Model/Table/CoachAccountsTable.php:60
+msgid "The IBAN is not valid: only Swiss (CH) and Liechtenstein (LI) IBANs can be used."
+msgstr ""
+
+#: ./src/Model/Table/CoachPaymentsTable.php:69
+msgid "The balance has changed since the page was opened, check the new amount."
+msgstr ""
+
+#: ./src/Model/Table/CoachPaymentsTable.php:74
+msgid "There is nothing to pay."
+msgstr ""
+
+#: ./src/Model/Table/CoachPaymentsTable.php:88
+msgid "The payment could not be saved."
+msgstr ""
+
+#: ./src/Model/Table/CoachPaymentsTable.php:150
+#: ./templates/CoachPayments/index.php:47
+#: ./templates/CoachPayments/settings.php:91
+msgid "No IBAN set"
+msgstr ""
+
+#: ./src/Model/Table/CoachPaymentsTable.php:153
+msgid "The address of the coach is incomplete"
+msgstr ""
+
+#: ./src/Model/Table/CoachPresenceTypesTable.php:70
+msgid "This type is used by coach presences: deactivate it instead."
+msgstr ""
+
+#: ./src/Model/Table/CoachPresencesTable.php:100
+msgid "This member is not a coach of the team."
+msgstr ""
+
+#: ./src/Model/Table/CoachPresencesTable.php:120
+msgid "This presence type can't be used for this meeting."
+msgstr ""
+
+#: ./src/Model/Table/CoachPresencesTable.php:129
+msgid "The presence could not be saved."
+msgstr ""
+
+#: ./src/Model/Table/CoachPresencesTable.php:149
+msgid "This presence is already paid, it can't be changed."
 msgstr ""
 
 #: ./src/Model/Table/MailingsTable.php:95
@@ -1201,14 +1354,18 @@ msgstr ""
 msgid "The link must start with http:// or https://"
 msgstr ""
 
-#: ./src/Model/Table/MembersTable.php:144
-#: ./src/Model/Table/MembersTable.php:334
-#: ./src/Model/Table/MembersTable.php:348
+#: ./src/Model/Table/MembersTable.php:156
+#: ./src/Model/Table/MembersTable.php:346
+#: ./src/Model/Table/MembersTable.php:360
 msgid "Choose a location."
 msgstr ""
 
-#: ./src/Model/Table/MembersTable.php:353
+#: ./src/Model/Table/MembersTable.php:365
 msgid "The teams must be in the location of the member."
+msgstr ""
+
+#: ./src/Model/Table/MembersTable.php:371
+msgid "A member with invoices cannot be deleted."
 msgstr ""
 
 #: ./src/Model/Table/SecondHandProfilesTable.php:67
@@ -1370,6 +1527,8 @@ msgstr ""
 #: ./templates/Bills/mail_send.php:4
 #: ./templates/Bills/overview.php:7
 #: ./templates/Bills/send_reminder.php:15
+#: ./templates/CoachPayments/settings.php:30
+#: ./templates/CoachPayments/settings.php:40
 #: ./templates/Mailings/add_by_bill.php:59
 #: ./templates/Members/edit.php:40
 #: ./templates/ShopItems/index.php:35
@@ -1439,7 +1598,7 @@ msgstr ""
 #: ./templates/Members/edit.php:24
 #: ./templates/Members/list.php:29
 #: ./templates/Members/register.php:42
-#: ./templates/element/Members/details.php:46
+#: ./templates/element/Members/details.php:47
 msgid "Date of birth"
 msgstr ""
 
@@ -1462,7 +1621,10 @@ msgid "Address"
 msgstr ""
 
 #: ./src/View/Helper/PdfHelper.php:313
+#: ./templates/CoachPayments/index.php:47
+#: ./templates/CoachPayments/settings.php:72
 #: ./templates/Sites/view.php:39
+#: ./templates/cell/CoachBalance/display.php:34
 msgid "IBAN"
 msgstr ""
 
@@ -1501,8 +1663,12 @@ msgstr ""
 #: ./templates/Bills/mail_print.php:23
 #: ./templates/Bills/mail_send.php:23
 #: ./templates/Bills/send_reminder.php:28
-#: ./templates/Bills/view.php:30
+#: ./templates/Bills/view.php:31
+#: ./templates/CoachPayments/index.php:85
+#: ./templates/CoachPayments/index.php:143
+#: ./templates/CoachPayments/settings.php:28
 #: ./templates/Members/cancel_registration.php:33
+#: ./templates/cell/CoachBalance/display.php:62
 #: ./templates/element/Members/bills.php:46
 #: ./templates/element/Members/bills.php:134
 msgid "Amount"
@@ -1514,7 +1680,7 @@ msgstr ""
 #: ./templates/Bills/edit.php:18
 #: ./templates/Bills/mail_print.php:25
 #: ./templates/Bills/mail_send.php:25
-#: ./templates/Bills/view.php:38
+#: ./templates/Bills/view.php:39
 #: ./templates/Members/cancel_registration.php:36
 #: ./templates/element/Members/bills.php:49
 #: ./templates/element/Members/bills.php:138
@@ -1540,7 +1706,7 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: ./src/View/Helper/PdfHelper.php:570
+#: ./src/View/Helper/PdfHelper.php:518
 msgid "The QR code of the invoice {0} could not be created: {1}"
 msgstr ""
 
@@ -1628,7 +1794,7 @@ msgstr ""
 #: ./templates/Members/add.php:23
 #: ./templates/Members/edit.php:25
 #: ./templates/Members/register.php:43
-#: ./templates/element/Members/details.php:14
+#: ./templates/element/Members/details.php:15
 msgid "Gender"
 msgstr ""
 
@@ -1721,6 +1887,7 @@ msgid "No event"
 msgstr ""
 
 #: ./templates/Admin/dashboard.php:198
+#: ./templates/CoachPayments/settings.php:71
 #: ./templates/Contents/info.php:7
 #: ./templates/Mailings/add.php:21
 #: ./templates/Mailings/send.php:26
@@ -1738,6 +1905,8 @@ msgid "Generate membership fees for year {0}-{1}"
 msgstr ""
 
 #: ./templates/Admin/generate_membership.php:27
+#: ./templates/CoachPayments/index.php:55
+#: ./templates/CoachPayments/index.php:83
 #: ./templates/Contents/view.php:27
 #: ./templates/Meetings/index.php:28
 #: ./templates/Members/add.php:42
@@ -1824,7 +1993,7 @@ msgstr ""
 #: ./templates/Members/add.php:34
 #: ./templates/Members/edit.php:35
 #: ./templates/Members/register.php:54
-#: ./templates/element/Members/details.php:47
+#: ./templates/element/Members/details.php:48
 msgctxt "Payment splited in multiple installments"
 msgid "Split payment"
 msgstr ""
@@ -1853,6 +2022,9 @@ msgstr ""
 #: ./templates/BillTemplates/index.php:18
 #: ./templates/BillTemplates/view.php:11
 #: ./templates/Bills/index.php:50
+#: ./templates/CoachPayments/index.php:145
+#: ./templates/CoachPayments/settings.php:31
+#: ./templates/CoachPayments/settings.php:73
 #: ./templates/Configurations/add.php:10
 #: ./templates/Configurations/edit.php:10
 #: ./templates/Configurations/index.php:16
@@ -1942,15 +2114,19 @@ msgstr ""
 
 #: ./templates/Admin/subvention_emails.php:46
 #: ./templates/Admin/typography.php:52
+#: ./templates/CoachPayments/edit_type.php:17
+#: ./templates/CoachPayments/settings.php:97
 #: ./templates/Meetings/edit.php:23
 #: ./templates/SecondHand/profile.php:23
 #: ./templates/SecondHandAdmin/edit_category.php:13
 #: ./templates/SecondHandAdmin/index.php:27
+#: ./templates/cell/CoachBalance/display.php:55
 msgid "Save"
 msgstr ""
 
 #: ./templates/Admin/subvention_emails.php:47
 #: ./templates/Admin/typography.php:373
+#: ./templates/CoachPayments/edit_type.php:18
 msgid "Cancel"
 msgstr ""
 
@@ -1977,7 +2153,7 @@ msgstr ""
 
 #: ./templates/Admin/typography.php:15
 #: ./templates/Admin/typography.php:83
-#: ./templates/layout/default.php:255
+#: ./templates/layout/default.php:256
 msgid "Typography"
 msgstr ""
 
@@ -2111,6 +2287,7 @@ msgstr ""
 #: ./templates/Admin/typography.php:54
 #: ./templates/Admin/typography.php:228
 #: ./templates/BillTemplates/index.php:31
+#: ./templates/CoachPayments/settings.php:42
 #: ./templates/Configurations/index.php:27
 #: ./templates/Contents/index.php:31
 #: ./templates/FieldTypes/index.php:35
@@ -2122,7 +2299,7 @@ msgstr ""
 #: ./templates/ShopItems/index.php:44
 #: ./templates/Sites/index.php:32
 #: ./templates/Users/index.php:28
-#: ./templates/element/Members/details.php:61
+#: ./templates/element/Members/details.php:62
 msgid "Edit"
 msgstr ""
 
@@ -2138,6 +2315,8 @@ msgstr ""
 #: ./templates/Admin/typography.php:230
 #: ./templates/BillTemplates/edit.php:12
 #: ./templates/BillTemplates/index.php:32
+#: ./templates/CoachPayments/index.php:155
+#: ./templates/CoachPayments/settings.php:43
 #: ./templates/Contents/edit.php:16
 #: ./templates/Contents/index.php:32
 #: ./templates/FieldTypes/edit.php:13
@@ -2450,7 +2629,7 @@ msgstr ""
 
 #: ./templates/Admin/typography.php:266
 #: ./templates/Admin/typography.php:368
-#: ./templates/Bills/view.php:18
+#: ./templates/Bills/view.php:19
 #: ./templates/Contents/view.php:35
 #: ./templates/Members/list.php:35
 #: ./templates/Teams/index.php:18
@@ -2823,10 +3002,10 @@ msgid "Membership Fee"
 msgstr ""
 
 #: ./templates/BillTemplates/view.php:40
-#: ./templates/Bills/view.php:59
-#: ./templates/Bills/view.php:63
-#: ./templates/Bills/view.php:67
-#: ./templates/Bills/view.php:71
+#: ./templates/Bills/view.php:60
+#: ./templates/Bills/view.php:64
+#: ./templates/Bills/view.php:68
+#: ./templates/Bills/view.php:72
 #: ./templates/MemberOrders/view.php:52
 #: ./templates/Members/invite.php:46
 #: ./templates/Roles/view.php:26
@@ -2848,10 +3027,10 @@ msgid "Yes"
 msgstr ""
 
 #: ./templates/BillTemplates/view.php:40
-#: ./templates/Bills/view.php:59
-#: ./templates/Bills/view.php:63
-#: ./templates/Bills/view.php:67
-#: ./templates/Bills/view.php:71
+#: ./templates/Bills/view.php:60
+#: ./templates/Bills/view.php:64
+#: ./templates/Bills/view.php:68
+#: ./templates/Bills/view.php:72
 #: ./templates/MemberOrders/view.php:54
 #: ./templates/Roles/view.php:26
 #: ./templates/Roles/view.php:30
@@ -2879,7 +3058,7 @@ msgstr ""
 #: ./templates/Bills/mail_print.php:22
 #: ./templates/Bills/mail_send.php:22
 #: ./templates/Bills/search.php:79
-#: ./templates/Bills/view.php:22
+#: ./templates/Bills/view.php:23
 #: ./templates/Members/cancel_registration.php:32
 #: ./templates/element/Members/bills.php:45
 #: ./templates/element/Members/bills.php:128
@@ -2898,14 +3077,14 @@ msgstr ""
 
 #: ./templates/Bills/add.php:20
 #: ./templates/Bills/edit.php:23
-#: ./templates/Bills/view.php:58
+#: ./templates/Bills/view.php:59
 msgid "Printed"
 msgstr ""
 
 #: ./templates/Bills/add.php:25
 #: ./templates/Bills/batch_add.php:37
 #: ./templates/Bills/edit.php:20
-#: ./templates/Bills/view.php:66
+#: ./templates/Bills/view.php:67
 msgid "Linked to a membership"
 msgstr ""
 
@@ -2942,12 +3121,12 @@ msgstr ""
 #: ./templates/Bills/edit.php:25
 #: ./templates/Bills/mail_print.php:24
 #: ./templates/Bills/mail_send.php:24
-#: ./templates/Bills/view.php:34
+#: ./templates/Bills/view.php:35
 msgid "No. of reminders"
 msgstr ""
 
 #: ./templates/Bills/edit.php:27
-#: ./templates/Bills/view.php:26
+#: ./templates/Bills/view.php:27
 msgctxt "Status of the invoice (send, draft,...)"
 msgid "State"
 msgstr ""
@@ -2998,7 +3177,7 @@ msgstr ""
 #: ./templates/Bills/overview.php:41
 #: ./templates/Bills/search.php:78
 #: ./templates/Bills/send_reminder.php:27
-#: ./templates/Bills/view.php:14
+#: ./templates/Bills/view.php:15
 #: ./templates/Fields/view.php:23
 #: ./templates/Mailings/add_by_bill.php:42
 #: ./templates/Mailings/send.php:70
@@ -3014,7 +3193,7 @@ msgstr ""
 
 #: ./templates/Bills/mail_print.php:40
 #: ./templates/Bills/mail_send.php:40
-#: ./templates/element/Members/details.php:28
+#: ./templates/element/Members/details.php:29
 msgid "Valid"
 msgstr ""
 
@@ -3100,6 +3279,9 @@ msgid "Nothing to show."
 msgstr ""
 
 #: ./templates/Bills/send_reminder.php:30
+#: ./templates/CoachPayments/edit_type.php:12
+#: ./templates/CoachPayments/settings.php:27
+#: ./templates/CoachPayments/settings.php:55
 #: ./templates/ShopItems/view.php:24
 msgid "Label"
 msgstr ""
@@ -3133,11 +3315,11 @@ msgstr ""
 msgid "Total Amount"
 msgstr ""
 
-#: ./templates/Bills/view.php:42
+#: ./templates/Bills/view.php:43
 msgid "Original due date"
 msgstr ""
 
-#: ./templates/Bills/view.php:46
+#: ./templates/Bills/view.php:47
 #: ./templates/MemberOrders/view.php:65
 #: ./templates/ShopItems/view.php:48
 #: ./templates/ShopItems/view.php:66
@@ -3145,15 +3327,209 @@ msgstr ""
 msgid "Created"
 msgstr ""
 
-#: ./templates/Bills/view.php:50
+#: ./templates/Bills/view.php:51
 #: ./templates/MemberOrders/view.php:69
 #: ./templates/ShopItems/view.php:52
 #: ./templates/Users/view.php:39
 msgid "Modified"
 msgstr ""
 
-#: ./templates/Bills/view.php:54
+#: ./templates/Bills/view.php:55
 msgid "Confirmation"
+msgstr ""
+
+#: ./templates/Bills/view.php:77
+msgid "Delete invoice"
+msgstr ""
+
+#: ./templates/Bills/view.php:79
+msgid "Delete completely the invoice {0}? This cannot be undone."
+msgstr ""
+
+#: ./templates/CoachPayments/edit_type.php:9
+msgid "Edit presence type"
+msgstr ""
+
+#: ./templates/CoachPayments/edit_type.php:10
+msgid "A new amount applies to the presences not paid yet. Paid presences keep their amount."
+msgstr ""
+
+#: ./templates/CoachPayments/edit_type.php:13
+#: ./templates/CoachPayments/settings.php:56
+msgid "Amount (CHF)"
+msgstr ""
+
+#: ./templates/CoachPayments/edit_type.php:14
+#: ./templates/CoachPayments/settings.php:29
+#: ./templates/CoachPayments/settings.php:57
+msgid "Order"
+msgstr ""
+
+#: ./templates/FieldTypes/add.php:20
+#: ./templates/FieldTypes/edit.php:27
+#: ./templates/FieldTypes/view.php:27
+msgctxt "Like alphabetical order"
+msgid "Order"
+msgstr ""
+
+#: ./templates/CoachPayments/edit_type.php:15
+msgid "Active (shown on the attendance page)"
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:27
+#: ./templates/CoachPayments/index.php:31
+#: ./templates/CoachPayments/index.php:131
+#: ./templates/SecondHandAdmin/index.php:23
+msgid "Settings"
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:29
+#: ./templates/CoachPayments/settings.php:18
+#: ./templates/cell/CoachBalance/display.php:18
+#: ./templates/layout/default.php:250
+msgid "Coach payments"
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:31
+#: ./templates/cell/CoachPresences/display.php:27
+msgid "No presence type is defined for this city."
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:34
+msgid "No coach presence in this city."
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:50
+msgid "Season statistics"
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:76
+msgid "Open presences"
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:82
+#: ./templates/Meetings/add_multiple.php:30
+msgid "Meeting"
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:84
+#: ./templates/Teams/coaches.php:64
+msgid "Type"
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:97
+#: ./templates/cell/CoachBalance/display.php:31
+msgid "Planned"
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:106
+#: ./templates/cell/CoachBalance/display.php:29
+msgid "Balance to be paid"
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:108
+msgid "Planned (not due yet)"
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:118
+msgid "QR code to pay {0}"
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:120
+msgid "Scan the QR code with your banking app, then mark the balance as paid."
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:121
+msgid "Mark {0} as paid"
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:124
+msgid "Mark {0} paid to {1}?"
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:130
+msgid "The QR code can't be created:"
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:137
+msgid "Payments"
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:142
+#: ./templates/cell/CoachBalance/display.php:62
+msgid "Paid on"
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:144
+#: ./templates/Meetings/index.php:47
+#: ./templates/Teams/view.php:130
+#: ./templates/cell/CoachBalance/display.php:62
+msgid "Meetings"
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:156
+msgid "Delete this payment? Its presences become open again."
+msgstr ""
+
+#: ./templates/CoachPayments/index.php:171
+msgid "Coaches without presence ({0})"
+msgstr ""
+
+#: ./templates/CoachPayments/settings.php:20
+msgid "Coach payment settings"
+msgstr ""
+
+#: ./templates/CoachPayments/settings.php:22
+msgid "Presence types"
+msgstr ""
+
+#: ./templates/CoachPayments/settings.php:40
+#: ./templates/ShopItems/index.php:35
+msgid "Inactive"
+msgstr ""
+
+#: ./templates/CoachPayments/settings.php:44
+#: ./templates/Mailings/send.php:60
+#: ./templates/Meetings/view.php:38
+msgid "Are you sure you want to delete {0}?"
+msgstr ""
+
+#: ./templates/CoachPayments/settings.php:58
+#: ./templates/SecondHandAdmin/index.php:57
+#: ./templates/Teams/coaches.php:66
+msgid "Add"
+msgstr ""
+
+#: ./templates/CoachPayments/settings.php:62
+#: ./templates/Teams/coaches.php:17
+#: ./templates/Teams/index.php:9
+#: ./templates/cell/CoachPresences/display.php:25
+#: ./templates/layout/default.php:240
+msgid "Coaches"
+msgstr ""
+
+#: ./templates/CoachPayments/settings.php:64
+msgid "No coach in this city."
+msgstr ""
+
+#: ./templates/CoachPayments/settings.php:83
+msgid "Address incomplete"
+msgstr ""
+
+#: ./templates/CoachPayments/settings.php:96
+msgid "New IBAN"
+msgstr ""
+
+#: ./templates/CoachPayments/settings.php:96
+msgid "New IBAN of {0}"
+msgstr ""
+
+#: ./templates/CoachPayments/settings.php:100
+msgid "Remove IBAN"
+msgstr ""
+
+#: ./templates/CoachPayments/settings.php:101
+msgid "Remove the IBAN of {0}?"
 msgstr ""
 
 #: ./templates/Configurations/add.php:11
@@ -3187,7 +3563,7 @@ msgstr ""
 #: ./templates/Members/list.php:22
 #: ./templates/layout/default.php:186
 #: ./templates/layout/default.php:205
-#: ./templates/layout/default.php:250
+#: ./templates/layout/default.php:251
 msgid "List"
 msgstr ""
 
@@ -3405,13 +3781,6 @@ msgstr ""
 msgid "Mandatory"
 msgstr ""
 
-#: ./templates/FieldTypes/add.php:20
-#: ./templates/FieldTypes/edit.php:27
-#: ./templates/FieldTypes/view.php:27
-msgctxt "Like alphabetical order"
-msgid "Order"
-msgstr ""
-
 #: ./templates/FieldTypes/edit.php:25
 #: ./templates/FieldTypes/view.php:12
 #: ./templates/Fields/edit.php:23
@@ -3586,11 +3955,6 @@ msgstr ""
 msgid "Stop"
 msgstr ""
 
-#: ./templates/Mailings/send.php:60
-#: ./templates/Meetings/view.php:38
-msgid "Are you sure you want to delete {0}?"
-msgstr ""
-
 #: ./templates/Mailings/send.php:66
 msgid "Emails with an error"
 msgstr ""
@@ -3625,10 +3989,6 @@ msgstr ""
 
 #: ./templates/Meetings/add_multiple.php:23
 msgid "New meeting(s)"
-msgstr ""
-
-#: ./templates/Meetings/add_multiple.php:30
-msgid "Meeting"
 msgstr ""
 
 #: ./templates/Meetings/add_multiple.php:32
@@ -3695,11 +4055,6 @@ msgstr ""
 msgid "No active team"
 msgstr ""
 
-#: ./templates/Meetings/index.php:47
-#: ./templates/Teams/view.php:130
-msgid "Meetings"
-msgstr ""
-
 #: ./templates/Meetings/index.php:48
 msgid "Upcoming"
 msgstr ""
@@ -3745,15 +4100,15 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
-#: ./templates/Meetings/view.php:65
+#: ./templates/Meetings/view.php:67
 msgid "Mark the rest as present"
 msgstr ""
 
-#: ./templates/Meetings/view.php:72
+#: ./templates/Meetings/view.php:74
 msgid "No active member in this team"
 msgstr ""
 
-#: ./templates/Meetings/view.php:80
+#: ./templates/Meetings/view.php:82
 msgid "Not in the team anymore"
 msgstr ""
 
@@ -3867,7 +4222,7 @@ msgstr ""
 #: ./templates/MemberOrders/view.php:41
 #: ./templates/ShopItems/view.php:64
 #: ./templates/ShopOrders/summary.php:73
-#: ./templates/element/Members/shop.php:65
+#: ./templates/element/Members/shop.php:70
 msgid "Quantity"
 msgstr ""
 
@@ -3886,8 +4241,8 @@ msgstr ""
 #: ./templates/Members/edit.php:29
 #: ./templates/Members/list.php:34
 #: ./templates/Members/register.php:47
-#: ./templates/element/Members/details.php:22
-#: ./templates/element/Members/details.php:24
+#: ./templates/element/Members/details.php:23
+#: ./templates/element/Members/details.php:25
 msgid "Mobile"
 msgstr ""
 
@@ -3899,14 +4254,14 @@ msgstr ""
 #: ./templates/Members/add.php:31
 #: ./templates/Members/edit.php:32
 #: ./templates/Members/register.php:51
-#: ./templates/element/Members/details.php:33
+#: ./templates/element/Members/details.php:34
 msgid "Nationality"
 msgstr ""
 
 #: ./templates/Members/add.php:36
 #: ./templates/Members/edit.php:37
 #: ./templates/Members/register.php:56
-#: ./templates/element/Members/details.php:43
+#: ./templates/element/Members/details.php:44
 msgid "Family discount"
 msgstr ""
 
@@ -3919,7 +4274,7 @@ msgstr ""
 #: ./templates/Members/add.php:41
 #: ./templates/Members/edit.php:42
 #: ./templates/Members/register.php:61
-#: ./templates/element/Members/details.php:56
+#: ./templates/element/Members/details.php:57
 msgid "Payment slip"
 msgstr ""
 
@@ -4068,7 +4423,7 @@ msgstr ""
 
 #: ./templates/Members/cancel_registration.php:8
 #: ./templates/Pages/home.php:60
-#: ./templates/element/Members/details.php:60
+#: ./templates/element/Members/details.php:61
 #: ./templates/element/Members/registration_alert.php:52
 msgid "Quit membership"
 msgstr ""
@@ -4096,17 +4451,17 @@ msgid "Edit Member"
 msgstr ""
 
 #: ./templates/Members/edit.php:34
-#: ./templates/element/Members/details.php:48
+#: ./templates/element/Members/details.php:49
 msgid "Date of joining"
 msgstr ""
 
 #: ./templates/Members/edit.php:36
-#: ./templates/element/Members/details.php:40
+#: ./templates/element/Members/details.php:41
 msgid "Membership paid"
 msgstr ""
 
 #: ./templates/Members/edit.php:38
-#: ./templates/element/Members/details.php:50
+#: ./templates/element/Members/details.php:51
 msgid "Date of leaving"
 msgstr ""
 
@@ -4124,7 +4479,7 @@ msgstr ""
 #: ./templates/Roles/view.php:75
 #: ./templates/Users/login.php:97
 #: ./templates/Users/view.php:19
-#: ./templates/element/Members/details.php:54
+#: ./templates/element/Members/details.php:55
 msgid "Username"
 msgstr ""
 
@@ -4150,7 +4505,7 @@ msgid "Members to sort"
 msgstr ""
 
 #: ./templates/Members/pictures.php:20
-#: ./templates/layout/default.php:253
+#: ./templates/layout/default.php:254
 msgid "Pictures"
 msgstr ""
 
@@ -4183,7 +4538,7 @@ msgid "Please check your contact information"
 msgstr ""
 
 #: ./templates/Pages/home.php:34
-#: ./templates/element/Members/details.php:59
+#: ./templates/element/Members/details.php:60
 #: ./templates/element/Members/registration_alert.php:24
 msgid "The information is correct"
 msgstr ""
@@ -4488,10 +4843,6 @@ msgstr ""
 msgid "Open the second-hand page"
 msgstr ""
 
-#: ./templates/SecondHandAdmin/index.php:23
-msgid "Settings"
-msgstr ""
-
 #: ./templates/SecondHandAdmin/index.php:25
 msgid "Enable the second-hand page"
 msgstr ""
@@ -4514,11 +4865,6 @@ msgstr ""
 
 #: ./templates/SecondHandAdmin/index.php:56
 msgid "New category"
-msgstr ""
-
-#: ./templates/SecondHandAdmin/index.php:57
-#: ./templates/Teams/coaches.php:66
-msgid "Add"
 msgstr ""
 
 #: ./templates/SecondHandAdmin/items_log.php:13
@@ -4560,10 +4906,6 @@ msgstr ""
 
 #: ./templates/ShopItems/index.php:22
 msgid "Out of stock"
-msgstr ""
-
-#: ./templates/ShopItems/index.php:35
-msgid "Inactive"
 msgstr ""
 
 #: ./templates/ShopItems/index.php:39
@@ -4732,12 +5074,6 @@ msgstr ""
 msgid "Add Team"
 msgstr ""
 
-#: ./templates/Teams/coaches.php:17
-#: ./templates/Teams/index.php:9
-#: ./templates/layout/default.php:240
-msgid "Coaches"
-msgstr ""
-
 #: ./templates/Teams/coaches.php:18
 msgid "Only the members having a user account can be chosen. Coaches and help coaches have the same access to their teams."
 msgstr ""
@@ -4756,10 +5092,6 @@ msgstr ""
 
 #: ./templates/Teams/coaches.php:55
 msgid "Choose a member"
-msgstr ""
-
-#: ./templates/Teams/coaches.php:64
-msgid "Type"
 msgstr ""
 
 #: ./templates/Teams/index.php:8
@@ -4909,6 +5241,44 @@ msgstr ""
 msgid "Set new password"
 msgstr ""
 
+#: ./templates/cell/CoachBalance/display.php:38
+msgid "Change IBAN"
+msgstr ""
+
+#: ./templates/cell/CoachBalance/display.php:40
+msgid "No IBAN set: you can't be paid until you set one."
+msgstr ""
+
+#: ./templates/cell/CoachBalance/display.php:41
+msgid "Set IBAN"
+msgstr ""
+
+#: ./templates/cell/CoachBalance/display.php:48
+msgid "New IBAN (Swiss or Liechtenstein account)"
+msgstr ""
+
+#: ./templates/cell/CoachBalance/display.php:33
+msgid "{0} meeting"
+msgid_plural "{0} meetings"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ./templates/cell/CoachPresences/display.php:24
+msgid "The presence of the coach could not be saved."
+msgstr ""
+
+#: ./templates/cell/CoachPresences/display.php:39
+msgid "Not coach of the team anymore"
+msgstr ""
+
+#: ./templates/cell/CoachPresences/display.php:41
+msgid "Presence type"
+msgstr ""
+
+#: ./templates/cell/CoachPresences/display.php:58
+msgid "Tap the selected type again to clear it."
+msgstr ""
+
 #: ./templates/element/Mailings/compose.php:10
 msgid "HTML is allowed and line returns are kept. {0} is shown as a link with the text \"{1}\"."
 msgstr ""
@@ -4946,29 +5316,37 @@ msgstr ""
 msgid "No paid invoices found."
 msgstr ""
 
-#: ./templates/element/Members/details.php:16
-#: ./templates/element/Members/details.php:18
+#: ./templates/element/Members/details.php:17
+#: ./templates/element/Members/details.php:19
 msgid "Adress"
 msgstr ""
 
-#: ./templates/element/Members/details.php:37
+#: ./templates/element/Members/details.php:38
 msgid "Communication"
 msgstr ""
 
-#: ./templates/element/Members/details.php:45
+#: ./templates/element/Members/details.php:46
 msgid "Invoices (Open/Total)"
 msgstr ""
 
-#: ./templates/element/Members/details.php:45
+#: ./templates/element/Members/details.php:46
 msgid "{0}/{1}"
 msgstr ""
 
-#: ./templates/element/Members/details.php:51
+#: ./templates/element/Members/details.php:52
 msgid "Leaving comment"
 msgstr ""
 
-#: ./templates/element/Members/details.php:56
+#: ./templates/element/Members/details.php:57
 msgid ""
+msgstr ""
+
+#: ./templates/element/Members/details.php:63
+msgid "Delete member"
+msgstr ""
+
+#: ./templates/element/Members/details.php:65
+msgid "Delete completely {0}? Their presences, teams, user account and documents are deleted too. This cannot be undone."
 msgstr ""
 
 #: ./templates/element/Members/error.php:12
@@ -5055,35 +5433,39 @@ msgstr ""
 msgid "I register for the season"
 msgstr ""
 
-#: ./templates/element/Members/shop.php:15
+#: ./templates/element/Members/shop.php:18
 msgid "You must be registered to place an order."
 msgstr ""
 
-#: ./templates/element/Members/shop.php:20
+#: ./templates/element/Members/shop.php:23
 msgid "You have too many overdue bills to place a new order."
 msgstr ""
 
-#: ./templates/element/Members/shop.php:30
+#: ./templates/element/Members/shop.php:33
 msgid "Please select at least one item to order."
 msgstr ""
 
-#: ./templates/element/Members/shop.php:31
+#: ./templates/element/Members/shop.php:34
 msgid "Please confirm your order:"
 msgstr ""
 
-#: ./templates/element/Members/shop.php:32
+#: ./templates/element/Members/shop.php:35
 msgid "Total amount: CHF {0}"
 msgstr ""
 
-#: ./templates/element/Members/shop.php:33
+#: ./templates/element/Members/shop.php:37
+msgid "Do you want to place this order for {0}?"
+msgstr ""
+
+#: ./templates/element/Members/shop.php:38
 msgid "Do you want to place this order?"
 msgstr ""
 
-#: ./templates/element/Members/shop.php:89
+#: ./templates/element/Members/shop.php:94
 msgid "Total: {0}"
 msgstr ""
 
-#: ./templates/element/Members/shop.php:93
+#: ./templates/element/Members/shop.php:98
 msgid "Place Order"
 msgstr ""
 
@@ -5198,27 +5580,27 @@ msgstr ""
 msgid "Configuration"
 msgstr ""
 
-#: ./templates/layout/default.php:251
+#: ./templates/layout/default.php:252
 msgid "Familly discount"
 msgstr ""
 
-#: ./templates/layout/default.php:252
+#: ./templates/layout/default.php:253
 msgid "Birthdays"
 msgstr ""
 
-#: ./templates/layout/default.php:254
+#: ./templates/layout/default.php:255
 msgid "Log"
 msgstr ""
 
-#: ./templates/layout/default.php:262
+#: ./templates/layout/default.php:263
 msgid "External links"
 msgstr ""
 
-#: ./templates/layout/default.php:272
+#: ./templates/layout/default.php:273
 msgid "Info"
 msgstr ""
 
-#: ./templates/layout/default.php:288
+#: ./templates/layout/default.php:289
 msgid "Logout"
 msgstr ""
 
@@ -5246,39 +5628,3 @@ msgstr ""
 msgid "contact our support"
 msgstr ""
 
-
-#: ./src/Model/Table/MembersTable.php
-msgid "A member with invoices cannot be deleted."
-msgstr ""
-
-#: ./src/Controller/Component/MemberManagementComponent.php
-msgid "The member {0} has been deleted."
-msgstr ""
-
-#: ./src/Controller/MembersController.php
-msgid "You can't delete your own member."
-msgstr ""
-
-#: ./templates/element/Members/details.php
-msgid "Delete member"
-msgstr ""
-
-#: ./templates/element/Members/details.php
-msgid "Delete completely {0}? Their presences, teams, user account and documents are deleted too. This cannot be undone."
-msgstr ""
-
-#: ./src/Controller/BillsController.php
-msgid "The invoice {0} has been deleted."
-msgstr ""
-
-#: ./src/Controller/BillsController.php
-msgid "The invoice could not be deleted."
-msgstr ""
-
-#: ./templates/Bills/view.php
-msgid "Delete invoice"
-msgstr ""
-
-#: ./templates/Bills/view.php
-msgid "Delete completely the invoice {0}? This cannot be undone."
-msgstr ""

@@ -30,7 +30,7 @@ $contactEmail = $config['email'];
     <?= $this->element('Members/error', compact('contactEmail')) ?>
 <?php else : ?>
     <div class="row p-0 m-0 mb-1">
-        <div class="col p-0 m-0">
+        <div class="col p-0 m-0 member-page">
             <div class="members view content">
                 <?= $this->element('Members/header', compact('member', 'isLogged', 'curRole', 'isOwn')) ?>
 
@@ -53,6 +53,8 @@ $contactEmail = $config['email'];
 
         <?= $this->element('Members/bills', compact('member', 'allowViewBills', 'curRole')) ?>
         
+        <?= $this->cell('CoachBalance', [$member]) ?>
+
         <?= $this->element('Members/attendance', compact('member', 'attendance')) ?>
     </div>
 <?php endif; ?>

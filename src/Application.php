@@ -18,6 +18,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Event\CoachPaymentListener;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
 use Cake\Datasource\FactoryLocator;
@@ -70,6 +71,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
         $this->addPlugin('Authentication');
         $this->addPlugin('Authorization');
+
+        // Coach payment module: hooks in the existing tables
+        CoachPaymentListener::register();
 
         if (PHP_SAPI !== 'cli') {
             FactoryLocator::add(

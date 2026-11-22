@@ -5,6 +5,7 @@ namespace App\Controller\Component;
 use App\Controller\PrefResult;
 use App\Model\Entity\Member;
 use Cake\Controller\Component;
+use Cake\Utility\Hash;
 use App\Model\Table\MembersTable;
 use App\Policy\TeamScope;
 
@@ -185,7 +186,7 @@ class MemberManagementComponent extends Component
 
     /**
      * Delete completely a member: its presences, teams, user account, fields, ... are deleted with it
-     * Refused when the member has invoices (rule noBills of MembersTable)
+     * Refused when the member has invoices (rule noBills of MembersTable) or coach payments (CoachPaymentListener)
      */
     public function deleteMember(Member $member): bool
     {
@@ -196,7 +197,7 @@ class MemberManagementComponent extends Component
             return true;
         }
 
-        $errors = $member->getError('bills');
+        $errors = Hash::flatten($member->getErrors());
         $controller->Flash->error($errors ? implode(' ', $errors) : __('The member could not be deleted.'));
         return false;
     }

@@ -2945,3 +2945,323 @@ msgstr "Eliminar factura"
 #: ./templates/Bills/view.php
 msgid "Delete completely the invoice {0}? This cannot be undone."
 msgstr "¿Eliminar completamente la factura {0}? Esta acción no se puede deshacer."
+
+#: coach payment module
+msgid "A new amount applies to the presences not paid yet. Paid presences keep their amount."
+msgstr "Un nuevo importe se aplica a las asistencias aún no pagadas. Las asistencias pagadas conservan su importe."
+
+#: coach payment module
+msgid "Active (shown on the attendance page)"
+msgstr "Activo (mostrado en la página de asistencia)"
+
+#: coach payment module
+msgid "Address incomplete"
+msgstr "Dirección incompleta"
+
+#: coach payment module
+msgid "Amount (CHF)"
+msgstr "Importe (CHF)"
+
+#: coach payment module
+msgid "Balance to be paid"
+msgstr "Saldo a pagar"
+
+#: coach payment module
+msgid "Change IBAN"
+msgstr "Cambiar el IBAN"
+
+#: coach payment module
+msgid "Coach payment settings"
+msgstr "Configuración de los pagos de los entrenadores"
+
+#: coach payment module
+msgid "Coach payments"
+msgstr "Pagos de los entrenadores"
+
+#: coach payment module
+msgid "Coach {0} - {1}"
+msgstr "Entrenador {0} - {1}"
+
+#: coach payment module
+msgid "Coaches without presence ({0})"
+msgstr "Entrenadores sin asistencia ({0})"
+
+#: coach payment module
+msgid "Delete this payment? Its presences become open again."
+msgstr "¿Eliminar este pago? Sus asistencias vuelven a estar abiertas."
+
+#: coach payment module
+msgid "Edit presence type"
+msgstr "Editar el tipo de asistencia"
+
+#: coach payment module
+msgid "Enter an IBAN."
+msgstr "Introduce un IBAN."
+
+#: coach payment module
+msgid "Mark {0} as paid"
+msgstr "Marcar {0} como pagado"
+
+#: coach payment module
+msgid "Mark {0} paid to {1}?"
+msgstr "¿Marcar {0} pagado a {1}?"
+
+#: coach payment module
+msgid "New IBAN"
+msgstr "Nuevo IBAN"
+
+#: coach payment module
+msgid "New IBAN (Swiss or Liechtenstein account)"
+msgstr "Nuevo IBAN (cuenta suiza o de Liechtenstein)"
+
+#: coach payment module
+msgid "New IBAN of {0}"
+msgstr "Nuevo IBAN de {0}"
+
+#: coach payment module
+msgid "No IBAN set"
+msgstr "Ningún IBAN definido"
+
+#: coach payment module
+msgid "No IBAN set: you can't be paid until you set one."
+msgstr "Ningún IBAN definido: no se te puede pagar hasta que introduzcas uno."
+
+#: coach payment module
+msgid "No coach in this city."
+msgstr "Ningún entrenador en esta ciudad."
+
+#: coach payment module
+msgid "No coach presence in this city."
+msgstr "Ninguna asistencia de entrenador en esta ciudad."
+
+#: coach payment module
+msgid "No presence type is defined for this city."
+msgstr "No hay ningún tipo de asistencia definido para esta ciudad."
+
+#: coach payment module
+msgid "Not coach of the team anymore"
+msgstr "Ya no es entrenador del equipo"
+
+#: coach payment module
+msgid "Open presences"
+msgstr "Asistencias abiertas"
+
+#: coach payment module
+msgid "Paid on"
+msgstr "Pagado el"
+
+#: coach payment module
+msgid "Payments"
+msgstr "Pagos"
+
+#: coach payment module
+msgid "Planned"
+msgstr "Planificado"
+
+#: coach payment module
+msgid "Planned (not due yet)"
+msgstr "Planificado (aún no vencido)"
+
+#: coach payment module
+msgid "Presence type"
+msgstr "Tipo de asistencia"
+
+#: coach payment module
+msgid "Presence types"
+msgstr "Tipos de asistencia"
+
+#: coach payment module
+msgid "QR code to pay {0}"
+msgstr "Código QR para pagar a {0}"
+
+#: coach payment module
+msgid "Remove IBAN"
+msgstr "Eliminar el IBAN"
+
+#: coach payment module
+msgid "Remove the IBAN of {0}?"
+msgstr "¿Eliminar el IBAN de {0}?"
+
+#: coach payment module
+msgid "Scan the QR code with your banking app, then mark the balance as paid."
+msgstr "Escanea el código QR con tu aplicación bancaria y luego marca el saldo como pagado."
+
+#: coach payment module
+msgid "Season statistics"
+msgstr "Estadísticas de la temporada"
+
+#: coach payment module
+msgid "Set IBAN"
+msgstr "Introducir el IBAN"
+
+#: coach payment module
+msgid "Tap the selected type again to clear it."
+msgstr "Toca de nuevo el tipo seleccionado para borrarlo."
+
+#: coach payment module
+msgid "The IBAN could not be removed."
+msgstr "No se pudo eliminar el IBAN."
+
+#: coach payment module
+msgid "The IBAN could not be saved."
+msgstr "No se pudo guardar el IBAN."
+
+#: coach payment module
+msgid "The IBAN has been removed."
+msgstr "El IBAN ha sido eliminado."
+
+#: coach payment module
+msgid "The IBAN has been saved."
+msgstr "El IBAN ha sido guardado."
+
+#: coach payment module
+msgid "The IBAN is not valid: only Swiss (CH) and Liechtenstein (LI) IBANs can be used."
+msgstr "El IBAN no es válido: solo se pueden usar IBAN suizos (CH) y de Liechtenstein (LI)."
+
+#: coach payment module
+msgid "The QR code can't be created:"
+msgstr "No se puede crear el código QR:"
+
+#: coach payment module
+msgid "The address of the coach is incomplete"
+msgstr "La dirección del entrenador está incompleta"
+
+#: coach payment module
+msgid "The balance has changed since the page was opened, check the new amount."
+msgstr "El saldo ha cambiado desde que se abrió la página, comprueba el nuevo importe."
+
+#: coach payment module
+msgid "The payment could not be deleted."
+msgstr "No se pudo eliminar el pago."
+
+#: coach payment module
+msgid "The payment could not be saved."
+msgstr "No se pudo guardar el pago."
+
+#: coach payment module
+msgid "The payment has been deleted, its presences are open again."
+msgstr "El pago ha sido eliminado, sus asistencias vuelven a estar abiertas."
+
+#: coach payment module
+msgid "The payment of {0} has been saved."
+msgstr "El pago de {0} ha sido guardado."
+
+#: coach payment module
+msgid "The presence could not be saved."
+msgstr "No se pudo guardar la asistencia."
+
+#: coach payment module
+msgid "The presence of the coach could not be saved."
+msgstr "No se pudo guardar la asistencia del entrenador."
+
+#: coach payment module
+msgid "The presence type could not be deleted."
+msgstr "No se pudo eliminar el tipo de asistencia."
+
+#: coach payment module
+msgid "The presence type could not be saved."
+msgstr "No se pudo guardar el tipo de asistencia."
+
+#: coach payment module
+msgid "The presence type has been deleted."
+msgstr "El tipo de asistencia ha sido eliminado."
+
+#: coach payment module
+msgid "The presence type has been saved."
+msgstr "El tipo de asistencia ha sido guardado."
+
+#: coach payment module
+msgid "There is nothing to pay."
+msgstr "No hay nada que pagar."
+
+#: coach payment module
+msgid "This meeting has paid coach presences, it can't be deleted."
+msgstr "Esta sesión tiene asistencias de entrenador pagadas, no se puede eliminar."
+
+#: coach payment module
+msgid "This member is not a coach of the team."
+msgstr "Este miembro no es entrenador del equipo."
+
+#: coach payment module
+msgid "This member is not a coach of this site."
+msgstr "Este miembro no es entrenador en esta ciudad."
+
+#: coach payment module
+msgid "This presence is already paid, it can't be changed."
+msgstr "Esta asistencia ya está pagada, no se puede modificar."
+
+#: coach payment module
+msgid "This presence type belongs to another site."
+msgstr "Este tipo de asistencia pertenece a otra ciudad."
+
+#: coach payment module
+msgid "This presence type can't be used for this meeting."
+msgstr "Este tipo de asistencia no se puede usar para esta sesión."
+
+#: coach payment module
+msgid "This type is used by coach presences: deactivate it instead."
+msgstr "Este tipo lo usan asistencias de entrenadores: desactívalo en su lugar."
+
+#: coach payment module
+msgid "Your IBAN has been saved."
+msgstr "Tu IBAN ha sido guardado."
+
+#: coach payment module
+msgid "{0} meeting"
+msgid_plural "{0} meetings"
+msgstr[0] "{0} sesión"
+msgstr[1] "{0} sesiones"
+
+#: coach payment module
+msgid "This meeting has coach presences, it can't move to a team of another location."
+msgstr "Esta sesión tiene asistencias de entrenador, no puede pasar a un equipo de otro lugar."
+
+#: coach payment module
+msgid "A coach with payments cannot be deleted."
+msgstr "No se puede eliminar un entrenador con pagos."
+
+#: coach payment module
+msgid "This location has coach presences or payments, it can't be deleted."
+msgstr "Este lugar tiene asistencias o pagos de entrenador, no se puede eliminar."
+
+#: coach payment module
+msgid "The meetings of this team have coach presences, it can't move to another location."
+msgstr "Las sesiones de este equipo tienen asistencias de entrenador, no puede cambiar de lugar."
+
+#: coach payment module
+msgid "Limits per team"
+msgstr "Límites por equipo"
+
+#: coach payment module
+msgid "No active team in this city."
+msgstr "No hay ningún equipo activo en esta ciudad."
+
+#: coach payment module
+msgid "Add an active presence type first."
+msgstr "Añade primero un tipo de asistencia activo."
+
+#: coach payment module
+msgid "Maximum number of coaches with each presence type at one meeting of the team. Empty = no limit, 0 = type not allowed."
+msgstr "Número máximo de entrenadores con cada tipo de asistencia en una sesión del equipo. Vacío = sin límite, 0 = tipo no permitido."
+
+#: coach payment module
+msgid "Maximum of {0} for {1}"
+msgstr "Máximo de {0} para {1}"
+
+#: coach payment module
+msgid "The limits have been saved."
+msgstr "Los límites se han guardado."
+
+#: coach payment module
+msgid "The limits could not be saved: each limit must be a number from 0 to {0}."
+msgstr "No se han podido guardar los límites: cada límite debe ser un número de 0 a {0}."
+
+#: coach payment module
+msgid "The maximum number of coaches with this presence type is reached for this meeting."
+msgstr "Se ha alcanzado el número máximo de entrenadores con este tipo de asistencia para esta sesión."
+
+#: coach payment module
+msgid "max {0} coach per meeting"
+msgid_plural "max {0} coaches per meeting"
+msgstr[0] "máx. {0} entrenador por sesión"
+msgstr[1] "máx. {0} entrenadores por sesión"
