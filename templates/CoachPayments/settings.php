@@ -42,7 +42,7 @@ $this->Html->css('coach-payments', ['block' => true]);
             <td><?= h($type->label) ?></td>
             <td class="text-end"><?= $this->Number->currency((float)$type->amount, 'CHF') ?></td>
             <td class="text-end"><?= (int)$type->sort ?></td>
-            <td><span class="badge bg-<?= $type->active ? 'success' : 'dark' ?>"><?= $type->active ? __('Active') : __('Inactive') ?></span></td>
+            <td><span class="badge bg-<?= $type->status_html ?>"><?= h($type->status_string) ?></span></td>
             <td class="actions">
               <?= $this->my->iconLink('edit', ['action' => 'editType', $type->id], __('Edit')) ?>
               <?= $this->my->iconPostLink('delete', ['action' => 'deleteType', $type->id], __('Delete'), [

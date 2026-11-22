@@ -39,7 +39,7 @@ $coachTypes = TeamsCoach::types();
             <?= h($row['member']->full_name) ?>
           <span class="mt-muted"><?= h($row['coachType'] === null ? __('Not coach of the team anymore') : $coachTypes[$row['coachType']] ?? '') ?></span>
         </span>
-        <div class="cp-types" role="group" aria-label="<?= __('Presence type') ?>">
+        <div class="cp-types" role="group" aria-label="<?= h(__('Presence type')) ?>">
           <?php if ($paid) : ?>
             <span class="cp-type" aria-pressed="true"><?= h($types[$current]->label ?? '') ?></span>
             <span class="badge bg-success"><?= __('Paid') ?></span>

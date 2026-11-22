@@ -8,18 +8,19 @@ use Cake\Datasource\EntityInterface;
 use Cake\Utility\Hash;
 
 /**
- * Flash message after saving an entity, with the first validation error when it failed
+ * Flash message after saving or deleting an entity, with the errors of the entity when it failed
  *
  * @property \Cake\Controller\Component\FlashComponent $Flash
  */
 trait EntityFlashTrait
 {
     /**
-     * @return bool true if the entity was saved (no error)
+     * @param bool $saved result of the save
+     * @return bool $saved
      */
-    protected function flashSaved(EntityInterface $entity, string $success, string $failure): bool
+    protected function flashSaved(bool $saved, EntityInterface $entity, string $success, string $failure): bool
     {
-        if (!$entity->hasErrors()) {
+        if ($saved) {
             $this->Flash->success($success);
 
             return true;

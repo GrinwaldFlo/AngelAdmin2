@@ -90,12 +90,26 @@ class CoachAccountsTable extends Table
      * Set or replace the IBAN of a coach for a site
      * @return \App\Model\Entity\CoachAccount saved, or with errors
      */
-    public function setIban(int $memberId, int $siteId, string $iban): CoachAccount
+    /**
+     * Account of a coach in a site (existing or new) with a new IBAN, not saved
+     */
+    public function patchIban(int $memberId, int $siteId, string $iban): CoachAccount
     {
         $account = $this->accountOf($memberId, $siteId) ?? $this->newEmptyEntity();
         $account = $this->patchEntity($account, ['iban' => $iban]);
         $account->member_id = $memberId;
         $account->site_id = $siteId;
+
+        return $account;
+    }
+
+    /**
+     * Save a new IBAN for a coach in a site
+     * @return \App\Model\Entity\CoachAccount the account, with its errors if it was not saved
+     */
+    public function setIban(int $memberId, int $siteId, string $iban): CoachAccount
+    {
+        $account = $this->patchIban($memberId, $siteId, $iban);
         $this->save($account);
 
         return $account;

@@ -29,6 +29,14 @@ class CoachPresence extends Entity
 {
     protected array $_accessible = [];
 
+    /**
+     * Badge color of the due balance of a coach (sum of the due open presences)
+     */
+    public static function balanceStatusHtml(float $dueTotal): string
+    {
+        return $dueTotal > 0 ? 'warning' : 'success';
+    }
+
     public function isPaid(): bool
     {
         return $this->coach_payment_id !== null;

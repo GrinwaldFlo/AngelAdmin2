@@ -35,6 +35,25 @@ class CoachPresenceTypesTableTest extends TestCase
         $this->assertFalse($this->CoachPresenceTypes->newForSite(1, ['label' => 'Main', 'amount' => 10.5])->hasErrors());
     }
 
+    public function testEmptySortIsSavedAsZero(): void
+    {
+        $type = $this->CoachPresenceTypes->newForSite(1, ['label' => 'Main', 'amount' => 10, 'sort' => '']);
+        $this->assertNotFalse($this->CoachPresenceTypes->save($type));
+        $this->assertSame(0, $this->CoachPresenceTypes->get($type->id)->sort);
+
+        $type = $this->CoachPresenceTypes->patchEntity($this->CoachPresenceTypes->get($type->id), ['sort' => '']);
+        $this->assertNotFalse($this->CoachPresenceTypes->save($type));
+        $this->assertSame(0, $this->CoachPresenceTypes->get($type->id)->sort);
+    }
+
+    public function testStatus(): void
+    {
+        $type = $this->CoachPresenceTypes->newForSite(1, ['label' => 'Main', 'amount' => 10, 'active' => true]);
+        $this->assertSame('success', $type->status_html);
+        $type->active = false;
+        $this->assertSame('dark', $type->status_html);
+    }
+
     public function testSiteCanNotBeSetFromTheData(): void
     {
         $type = $this->CoachPresenceTypes->newForSite(1, ['label' => 'Main', 'amount' => 10, 'site_id' => 2]);

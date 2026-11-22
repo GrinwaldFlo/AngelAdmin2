@@ -26,8 +26,8 @@ class CoachAccountsController extends AppController
             'setOwnIban',
         );
 
-        $account = $this->CoachAccounts->setIban($memberId, (int)$siteId, (string)$this->request->getData('iban'));
-        $this->flashSaved($account, __('Your IBAN has been saved.'), __('The IBAN could not be saved.'));
+        $account = $this->CoachAccounts->patchIban($memberId, (int)$siteId, (string)$this->request->getData('iban'));
+        $this->flashSaved((bool)$this->CoachAccounts->save($account), $account, __('Your IBAN has been saved.'), __('The IBAN could not be saved.'));
 
         return $this->redirect(['controller' => 'Members', 'action' => 'view', $memberId, '#' => 'coach-balance']);
     }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Model\Entity\CoachPresence;
+
 /**
  * Coach payments of a site: one section per coach with statistics, open presences, QR code and payments
  *
@@ -41,7 +43,7 @@ $currency = fn ($amount) => $this->Number->currency((float)$amount, 'CHF');
     <section class="cp-coach-section" id="coach-<?= (int)$memberId ?>">
       <h4>
             <?= h($coach->full_name) ?>
-        <span class="cp-balance badge bg-<?= $balance['dueTotal'] > 0 ? 'warning' : 'success' ?>"><?= $currency($balance['dueTotal']) ?></span>
+        <span class="cp-balance badge bg-<?= CoachPresence::balanceStatusHtml((float)$balance['dueTotal']) ?>"><?= $currency($balance['dueTotal']) ?></span>
       </h4>
       <p class="text-muted"><?= h(implode(', ', $teamNames[$memberId] ?? [])) ?>
         · <?= __('IBAN') ?>: <?= isset($accounts[$memberId]) ? h($accounts[$memberId]->masked_iban) : __('No IBAN set') ?></p>

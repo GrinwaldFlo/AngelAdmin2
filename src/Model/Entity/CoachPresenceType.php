@@ -15,6 +15,8 @@ use Cake\ORM\Entity;
  * @property string|float $amount CHF paid to the coach
  * @property int $sort
  * @property bool $active false = hidden from the attendance page, kept in the reports
+ * @property-read string $status_string Active / Inactive
+ * @property-read string $status_html badge color of the status
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
  *
@@ -28,4 +30,14 @@ class CoachPresenceType extends Entity
         'sort' => true,
         'active' => true,
     ];
+
+    protected function _getStatusString(): string
+    {
+        return $this->active ? __('Active') : __('Inactive');
+    }
+
+    protected function _getStatusHtml(): string
+    {
+        return $this->active ? 'success' : 'dark';
+    }
 }

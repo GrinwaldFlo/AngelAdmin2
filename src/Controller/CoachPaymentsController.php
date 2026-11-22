@@ -114,8 +114,7 @@ class CoachPaymentsController extends AppController
         $siteId = $this->adminSiteId();
         $typesTable = $this->fetchTable('CoachPresenceTypes');
         $type = $typesTable->newForSite($siteId, $this->request->getData());
-        $typesTable->save($type);
-        $this->flashSaved($type, __('The presence type has been saved.'), __('The presence type could not be saved.'));
+        $this->flashSaved((bool)$typesTable->save($type), $type, __('The presence type has been saved.'), __('The presence type could not be saved.'));
 
         return $this->redirect(['action' => 'settings']);
     }
@@ -132,8 +131,7 @@ class CoachPaymentsController extends AppController
         }
         if ($this->request->is(['post', 'put', 'patch'])) {
             $type = $typesTable->patchEntity($type, $this->request->getData());
-            $typesTable->save($type);
-            if ($this->flashSaved($type, __('The presence type has been saved.'), __('The presence type could not be saved.'))) {
+            if ($this->flashSaved((bool)$typesTable->save($type), $type, __('The presence type has been saved.'), __('The presence type could not be saved.'))) {
                 return $this->redirect(['action' => 'settings']);
             }
         }
@@ -147,12 +145,12 @@ class CoachPaymentsController extends AppController
         $siteId = $this->adminSiteId();
         $typesTable = $this->fetchTable('CoachPresenceTypes');
         $type = $typesTable->get($id);
-        if ($type->site_id == $siteId && $typesTable->delete($type)) {
-            $this->Flash->success(__('The presence type has been deleted.'));
-        } else {
-            $errors = $type->getError('label');
-            $this->Flash->error(__('The presence type could not be deleted.') . ($errors ? ' ' . reset($errors) : ''));
-        }
+        $this->flashDeleted(
+            $type->site_id == $siteId && $typesTable->delete($type),
+            $type,
+            __('The presence type has been deleted.'),
+            __('The presence type could not be deleted.'),
+        );
 
         return $this->redirect(['action' => 'settings']);
     }
@@ -170,8 +168,8 @@ class CoachPaymentsController extends AppController
 
             return $this->redirect(['action' => 'settings']);
         }
-        $account = $accountsTable->setIban((int)$memberId, $siteId, (string)$this->request->getData('iban'));
-        $this->flashSaved($account, __('The IBAN has been saved.'), __('The IBAN could not be saved.'));
+        $account = $accountsTable->patchIban((int)$memberId, $siteId, (string)$this->request->getData('iban'));
+        $this->flashSaved((bool)$accountsTable->save($account), $account, __('The IBAN has been saved.'), __('The IBAN could not be saved.'));
 
         return $this->redirect(['action' => 'settings']);
     }

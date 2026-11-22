@@ -120,28 +120,41 @@ class CoachPresencesTable extends Table
             return __('This presence type can\'t be used for this meeting.');
         }
 
-        $sameType = $presence !== null && (int)$presence->coach_presence_type_id === $typeId;
-        if (!$sameType && $this->isTypeFull($meeting, $memberId, $typeId)) {
-            return __('The maximum number of coaches with this presence type is reached for this meeting.');
-        }
-
-        if ($presence === null) {
-            $presence = $this->newEmptyEntity();
-            $presence->meeting_id = $meeting->id;
-            $presence->member_id = $memberId;
-            $presence->coach_presence_type_id = $typeId;
-
-            return $this->save($presence) ? null : __('The presence could not be saved.');
-        }
-        if ($sameType) {
+        if ($presence !== null && (int)$presence->coach_presence_type_id === $typeId) {
             return null;
         }
-        $changed = $this->updateAll(
-            ['coach_presence_type_id' => $typeId, 'modified' => DateTime::now()],
-            ['id' => $presence->id, 'coach_payment_id IS' => null],
-        );
 
-        return $changed > 0 || !$this->isPaidNow($presence->id) ? null : $this->paidError();
+        // The meeting row is locked while the limit is checked and the presence written: two coaches
+        // choosing the same type at the same time are checked one after the other
+        return $this->getConnection()->transactional(function () use ($meeting, $memberId, $typeId, $presence): ?string {
+            $this->lockMeeting($meeting->id);
+            if ($this->isTypeFull($meeting, $memberId, $typeId)) {
+                return __('The maximum number of coaches with this presence type is reached for this meeting.');
+            }
+
+            if ($presence === null) {
+                $presence = $this->newEmptyEntity();
+                $presence->meeting_id = $meeting->id;
+                $presence->member_id = $memberId;
+                $presence->coach_presence_type_id = $typeId;
+
+                return $this->save($presence) ? null : __('The presence could not be saved.');
+            }
+            $changed = $this->updateAll(
+                ['coach_presence_type_id' => $typeId, 'modified' => DateTime::now()],
+                ['id' => $presence->id, 'coach_payment_id IS' => null],
+            );
+
+            return $changed > 0 || !$this->isPaidNow($presence->id) ? null : $this->paidError();
+        });
+    }
+
+    /**
+     * Write lock on the meeting row until the end of the transaction (no data changed), works with MySQL and SQLite
+     */
+    private function lockMeeting(int $meetingId): void
+    {
+        $this->Meetings->updateAll(['id' => $meetingId], ['id' => $meetingId]);
     }
 
     /**

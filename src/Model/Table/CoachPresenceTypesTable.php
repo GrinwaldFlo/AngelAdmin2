@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\CoachPresenceType;
+use ArrayObject;
+use Cake\Event\EventInterface;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -35,6 +37,16 @@ class CoachPresenceTypesTable extends Table
         $this->hasMany('CoachPresences', [
             'foreignKey' => 'coach_presence_type_id',
         ]);
+    }
+
+    /**
+     * An empty order is stored as 0 (the column is NOT NULL)
+     */
+    public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options): void
+    {
+        if (array_key_exists('sort', (array)$data) && ($data['sort'] === null || $data['sort'] === '')) {
+            $data['sort'] = 0;
+        }
     }
 
     public function validationDefault(Validator $validator): Validator
