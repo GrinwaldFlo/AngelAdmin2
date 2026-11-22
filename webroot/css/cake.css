@@ -151,6 +151,12 @@ hr {
   background-image: linear-gradient(to right, rgba(120, 120, 120, 0), rgba(120, 120, 120, 0.75), rgba(120, 120, 120, 0));
 }
 
+/* Member page: tighter separators between the sections */
+.member-page hr {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 
 .text-center {
   text-align: center;

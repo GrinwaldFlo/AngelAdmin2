@@ -78,3 +78,4 @@ $multiSite = count($cards) > 1;
     </div>
   </div>
 </div>
+<hr />
