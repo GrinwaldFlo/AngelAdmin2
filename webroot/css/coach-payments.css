@@ -191,3 +191,11 @@
 .cp-inactive {
   margin-top: 16px;
 }
+
+/* "Add" button of the type form: centered on the inputs (same height + bottom margin as a Bootstrap control) */
+.cp-type-submit {
+  display: flex;
+  align-items: center;
+  min-height: calc(1.5em + 0.75rem + 2px);
+  margin-bottom: 1rem;
+}

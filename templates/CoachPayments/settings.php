@@ -55,7 +55,7 @@ $this->Html->css('coach-payments', ['block' => true]);
     <div class="col-12 col-md-4"><?= $this->Form->control('label', ['label' => __('Label')]) ?></div>
     <div class="col-6 col-md-3"><?= $this->Form->control('amount', ['label' => __('Amount (CHF)'), 'type' => 'number', 'step' => '0.05', 'min' => 0]) ?></div>
     <div class="col-6 col-md-2"><?= $this->Form->control('sort', ['label' => __('Order'), 'type' => 'number']) ?></div>
-    <div class="col-12 col-md-3"><?= $this->Form->button(__('Add'), ['class' => 'btn btn-add']) ?></div>
+    <div class="col-12 col-md-3 cp-type-submit"><?= $this->Form->button(__('Add'), ['class' => 'btn btn-add']) ?></div>
   </div>
   <?= $this->Form->end() ?>
 
